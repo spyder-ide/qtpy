@@ -1,11 +1,14 @@
 import os
 
-from qtpy import QtCore, QtGui, QtWidgets, QtWebEngineWidgets
+from qtpy import (QtCore, QtGui, QtWidgets, QtWebEngineWidgets, is_pyside,
+                  is_pyqt4, is_pyqt5)
+
 
 def assert_pyside():
     """
     Make sure that we are using PySide
     """
+    assert is_pyside()
     import PySide
     assert QtCore.QEvent is PySide.QtCore.QEvent
     assert QtGui.QPainter is PySide.QtGui.QPainter
@@ -17,6 +20,7 @@ def assert_pyqt4():
     """
     Make sure that we are using PyQt4
     """
+    assert is_pyqt4()
     import PyQt4
     assert QtCore.QEvent is PyQt4.QtCore.QEvent
     assert QtGui.QPainter is PyQt4.QtGui.QPainter
@@ -28,6 +32,7 @@ def assert_pyqt5():
     """
     Make sure that we are using PyQt5
     """
+    assert is_pyqt5()
     import PyQt5
     assert QtCore.QEvent is PyQt5.QtCore.QEvent
     assert QtGui.QPainter is PyQt5.QtGui.QPainter
@@ -36,7 +41,6 @@ def assert_pyqt5():
         assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebEngineWidgets.QWebEnginePage
     else:
         assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebKitWidgets.QWebPage
-
 
 
 def test_qt_api():
