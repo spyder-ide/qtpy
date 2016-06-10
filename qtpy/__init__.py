@@ -127,3 +127,27 @@ if API in PYSIDE_API:
         PYSIDE = True
     except ImportError:
         raise PythonQtError('No Qt bindings could be found')
+
+
+def is_pyside():
+    """
+    Helper function that returns a boolean indicating whether we are using
+    PySide.
+    """
+    return API in PYSIDE_API
+
+
+def is_pyqt4():
+    """
+    Helper function that returns a boolean indicating whether we are using
+    PyQt4.
+    """
+    return API in PYQT4_API
+
+
+def is_pyqt5():
+    """
+    Helper function that returns a boolean indicating whether we are using
+    PyQt5.
+    """
+    return API in PYQT5_API
