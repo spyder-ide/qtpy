@@ -22,6 +22,7 @@ if PYQT5:
 elif PYQT4:
     from PyQt4.QtGui import *
     QStyleOptionViewItem = QStyleOptionViewItemV4
+    del QStyleOptionViewItemV4
 
     # These objects belong to QtGui
     del (QAbstractTextDocumentLayout, QActionEvent, QBitmap, QBrush, QClipboard,
@@ -67,6 +68,7 @@ elif PYQT4:
 elif PYSIDE:
     from PySide.QtGui import *
     QStyleOptionViewItem = QStyleOptionViewItemV4
+    del QStyleOptionViewItemV4
 
     # These objects belong to QtGui
     del (QAbstractTextDocumentLayout, QActionEvent, QBitmap, QBrush, QClipboard,
