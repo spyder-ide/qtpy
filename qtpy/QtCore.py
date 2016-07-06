@@ -24,6 +24,8 @@ if PYQT5:
     del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 elif PYQT4:
     from PyQt4.QtCore import *
+    # Those are things we inherited from Spyder that fix crazy crashes under
+    # some specific situations. (See #34)
     from PyQt4.QtCore import QCoreApplication
     from PyQt4.QtCore import Qt
     from PyQt4.QtCore import pyqtSignal as Signal
