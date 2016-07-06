@@ -19,6 +19,9 @@ if PYQT5:
     from PyQt5.QtCore import pyqtSlot as Slot
     from PyQt5.QtCore import pyqtProperty as Property
     from PyQt5.QtCore import QT_VERSION_STR as __version__
+
+    # Those are imported from `import *`
+    del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 elif PYQT4:
     from PyQt4.QtCore import *
     from PyQt4.QtCore import QCoreApplication
@@ -29,6 +32,9 @@ elif PYQT4:
     from PyQt4.QtGui import (QItemSelection, QItemSelectionModel,
                              QItemSelectionRange, QSortFilterProxyModel)
     from PyQt4.QtCore import QT_VERSION_STR as __version__
+
+    # Those are imported from `import *`
+    del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 elif PYSIDE:
     from PySide.QtCore import *
     from PySide.QtGui import (QItemSelection, QItemSelectionModel,
