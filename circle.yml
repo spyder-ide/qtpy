@@ -1,0 +1,33 @@
+# https://circleci.com/gh/spyder-ide/qtpy/
+
+machine:
+  environment:
+    # Used by test scripts
+    TEST_CI: "True"
+    PYTHON_TEST: "$HOME/miniconda/envs/test/bin/python"
+    PYTEST: "$HOME/miniconda/envs/test/bin/py.test"
+    PATH: "$HOME/miniconda/bin:$PATH"  # To avoid prepending this to the commands on circle-ci
+    # Python versions to test (Maximum of 4 different versions for now)
+    PY_VERSIONS: "2.7 3.4 3.5"
+    # Used by astropy-ci helpers
+    TRAVIS_OS_NAME: "linux"
+    CONDA_CHANNELS: "spyder-ide qttesting"
+    CONDA_DEPENDENCIES: "pyqt pytest pytest-cov qt qtpy"
+    PIP_DEPENDENCIES: "coveralls"
+
+dependencies:
+  override:
+    # First convert PY_VERSIONS to an array and then select the python version based on the CIRCLE_NODE_INDEX
+    - PY_VERSIONS=($PY_VERSIONS) &&
+      TRAVIS_PYTHON_VERSION=${PY_VERSIONS[$CIRCLE_NODE_INDEX]} && 
+      echo -e "PYTHON = $TRAVIS_PYTHON_VERSION \n============" &&
+      git clone git://github.com/astropy/ci-helpers.git &&
+      source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh &&
+      "$PYTHON_TEST" setup.py install;
+
+test:
+  override:
+    - conda info --json: # note the colon
+        parallel: true
+    - "$PYTEST tests/": # note the colon
+        parallel: true
