@@ -1,4 +1,20 @@
-## QtPy: Abtraction layer for PyQt5/PyQt4/PySide
+# QtPy: Abtraction layer for PyQt5/PyQt4/PySide
+
+Copyright © 2009- The Spyder Development Team.
+
+## Project details
+[![license](https://img.shields.io/pypi/l/qtpy.svg)](./LICENSE)
+[![pypi version](https://img.shields.io/pypi/v/qtpy.svg)](https://pypi.python.org/pypi/qtpy)
+[![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)
+
+## Build status
+[![Travis status](https://travis-ci.org/spyder-ide/qtpy.svg?branch=master)](https://travis-ci.org/spyder-ide/qtpy)
+[![AppVeyor status](https://ci.appveyor.com/api/projects/status/awb92if4tl555fuy/branch/master?svg=true)](https://ci.appveyor.com/project/ccordoba12/qtpy/branch/master)
+[![CircleCI](https://circleci.com/gh/spyder-ide/qtpy.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtpy)
+[![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/c769241c7d7f4463b1e6f67863dabace/badge.svg)](https://www.quantifiedcode.com/app/project/c769241c7d7f4463b1e6f67863dabace)
+
+## Description
 
 **QtPy** (pronounced *'cutie pie'*) is a small abstraction layer that lets you
 write applications using a single API call to either PyQt or PySide.
