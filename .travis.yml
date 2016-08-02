@@ -37,8 +37,9 @@ install:
   - source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh
   - python setup.py install
 
-before_script:
-  - cd tests
-
 script:
-  - py.test
+  - python qtpy/tests/runtests.py
+
+after_success:
+  - coveralls
+

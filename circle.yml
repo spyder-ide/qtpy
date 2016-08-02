@@ -29,5 +29,5 @@ test:
   override:
     - conda info --json: # note the colon
         parallel: true
-    - "$PYTEST tests/": # note the colon
+    - "$PYTHON_TEST qtpy/tests/runtests.py": # note the colon
         parallel: true
