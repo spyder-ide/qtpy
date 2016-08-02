@@ -1,26 +1,34 @@
-environment:
+# https://ci.appveyor.com/project/goanpeca/qtpy
 
+branches:
+  only:
+    - master
+
+environment:
   global:
       PYTHON: "C:\\conda"
       CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci-helpers\\appveyor\\windows_sdk.cmd"
       PYTHON_ARCH: "64" # needs to be set for CMD_IN_ENV to succeed. If a mix
                         # of 32 bit and 64 bit builds are needed, move this
                         # to the matrix section.
+      # Used by atropy ci-helpers
+      CONDA_CHANNELS: "spyder-ide qttesting"
 
   matrix:
-
-    # - PYTHON_VERSION: "2.7"
-    #   CONDA_CHANNELS: "msarahan"
-    #   CONDA_DEPENDENCIES: "pytest qt5 pyqt5"
+    # Qt4
     - PYTHON_VERSION: "2.7"
-      CONDA_DEPENDENCIES: "pytest qt pyqt"
+      CONDA_DEPENDENCIES: "pytest pytest-cov qt=4.* pyside"
     - PYTHON_VERSION: "2.7"
-      CONDA_DEPENDENCIES: "pytest qt pyside"
-    # - PYTHON_VERSION: "3.5"
-    #   CONDA_CHANNELS: "msarahan"
-    #   CONDA_DEPENDENCIES: "pytest qt5 pyqt5"
+      CONDA_DEPENDENCIES: "pytest pytest-cov qt=4.* pyqt=4.*"
+    - PYTHON_VERSION: "3.4"
+      CONDA_DEPENDENCIES: "pytest pytest-cov qt=4.* pyqt=4.*"
     - PYTHON_VERSION: "3.5"
-      CONDA_DEPENDENCIES: "pytest qt pyqt"
+      CONDA_DEPENDENCIES: "pytest pytest-cov qt=4.* pyqt=4.*"
+    # Qt5
+    - PYTHON_VERSION: "2.7"
+      CONDA_DEPENDENCIES: "pytest pytest-cov qt=5.* pyqt=5.*"
+    - PYTHON_VERSION: "3.5"
+      CONDA_DEPENDENCIES: "pytest pytest-cov qt=5.* pyqt=5.*"
 
 platform:
     -x64
@@ -30,6 +38,7 @@ install:
     - "powershell ci-helpers/appveyor/install-miniconda.ps1"
     - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - "activate test"
+    - "python setup.py install"
 
 # Not a .NET project, we build in the install step instead
 build: false
