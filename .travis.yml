@@ -1,3 +1,5 @@
+# https://travis-ci.org/spyder-ide/qtpy/
+
 # We set the language to c because python isn't supported on the MacOS X nodes
 # on Travis. However, the language ends up being irrelevant anyway, since we
 # install Python ourselves using conda.
@@ -16,7 +18,7 @@ os:
 env:
   global:
     - SETUP_XVFB=True
-    - CONDA_CHANNELS="spyder-ide qttesting"
+    - CONDA_CHANNELS="qttesting"
     - CONDA_DEPENDENCIES="pytest pytest-cov"
     - PIP_DEPENDENCIES="coveralls"
 
