@@ -9,10 +9,11 @@ Copyright © 2009- The Spyder Development Team.
 
 ## Build status
 [![Travis status](https://travis-ci.org/spyder-ide/qtpy.svg?branch=master)](https://travis-ci.org/spyder-ide/qtpy)
-[![AppVeyor status](https://ci.appveyor.com/api/projects/status/awb92if4tl555fuy/branch/master?svg=true)](https://ci.appveyor.com/project/ccordoba12/qtpy/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/ab01a09cbx3m0ao9?svg=true)](https://ci.appveyor.com/project/goanpeca/qtpy)
 [![CircleCI](https://circleci.com/gh/spyder-ide/qtpy.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtpy)
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
 [![Code Issues](https://www.quantifiedcode.com/api/v1/project/c769241c7d7f4463b1e6f67863dabace/badge.svg)](https://www.quantifiedcode.com/app/project/c769241c7d7f4463b1e6f67863dabace)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spyder-ide/qtpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spyder-ide/qtpy/?branch=master)
 
 ## Description
 
