@@ -1,5 +1,25 @@
 # History of changes
 
+## Version 1.1.2 (2016-08-08)
+
+### Bugfixes
+
+**Pull requests**
+
+* [PR 54](https://github.com/spyder-ide/qtpy/pull/54) - PR: Fix/ci
+* [PR 53](https://github.com/spyder-ide/qtpy/pull/53) - PR: Move tests to module so they can be run when installed
+* [PR 52](https://github.com/spyder-ide/qtpy/pull/52) - PR: Update readme
+* [PR 51](https://github.com/spyder-ide/qtpy/pull/51) - PR: Add circle ci
+* [PR 47](https://github.com/spyder-ide/qtpy/pull/47) - Remove PyQt variant symbols from QtCore
+* [PR 46](https://github.com/spyder-ide/qtpy/pull/46) - del QtWidgets.QStyleOptionViewItemV4
+* [PR 45](https://github.com/spyder-ide/qtpy/pull/45) - Allow QT_API values that are not completely in lower case
+
+In this release 7 pull requests were merged
+
+
+----
+
+
 ## Version 1.1.1 (2016-07-01)
 
 ### Bugfixes
