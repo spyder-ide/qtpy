@@ -1,0 +1,58 @@
+# -----------------------------------------------------------------------------
+# isort
+# https://github.com/timothycrosley/isort/wiki/isort-Settings
+# -----------------------------------------------------------------------------
+[settings]
+from_first = true
+import_heading_stdlib = Standard library imports
+import_heading_firstparty = Local imports
+import_heading_thirdparty = Third party imports
+indent = '    '
+known_third_party=six
+line_length = 79
+sections = FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER
+
+# -----------------------------------------------------------------------------
+# Flake 8
+# http://flake8.readthedocs.io/en/latest/config.html
+# -----------------------------------------------------------------------------
+[flake8]
+exclude = */tests/*
+ignore = E126, F401
+max-line-length = 79
+max-complexity = 64
+
+# -----------------------------------------------------------------------------
+# PEP257
+# https://pep257.readthedocs.io/en/latest/usage.html#example
+# -----------------------------------------------------------------------------
+[pep257]
+add-ignore = D203
+inherit = false
+
+# -----------------------------------------------------------------------------
+# Coverage RC to control coverage.py
+# http://coverage.readthedocs.io/en/latest/config.html
+# -----------------------------------------------------------------------------
+[run]
+omit =
+    */tests/*
+    */Navigator.app/*
+
+[report]
+fail_under = 30
+show_missing = true
+skip_covered = true
+
+[html]
+directory = coverage_html_report
+
+# -----------------------------------------------------------------------------
+# YAPF
+# https://github.com/google/yapf#formatting-style
+# -----------------------------------------------------------------------------
+[style]
+based_on_style = pep8
+column_limit = 79
+spaces_before_comment = 2
+

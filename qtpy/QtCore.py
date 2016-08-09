@@ -36,7 +36,7 @@ elif PYQT4:
     from PyQt4.QtCore import QT_VERSION_STR as __version__
 
     # Those are imported from `import *`
-    del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+    del pyqtSignal, pyqtSlot, pyqtProperty
 elif PYSIDE:
     from PySide.QtCore import *
     from PySide.QtGui import (QItemSelection, QItemSelectionModel,
