@@ -17,7 +17,7 @@ Copyright © 2009- The Spyder Development Team.
 
 ## Description
 
-**QtPy** (pronounced *'cutie pie'*) is a small abstraction layer that lets you
+**QtPy** is a small abstraction layer that lets you
 write applications using a single API call to either PyQt or PySide.
 
 It provides support for PyQt5, PyQt4 and PySide using the PyQt5 layout (where
