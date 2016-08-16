@@ -11,13 +11,14 @@ machine:
     PY_VERSIONS: "2.7 3.4 3.5"
     # Used by astropy-ci helpers
     TRAVIS_OS_NAME: "linux"
-    CONDA_CHANNELS: "spyder-ide qttesting"
-    CONDA_DEPENDENCIES: "pyqt pytest pytest-cov qt qtpy"
+    CONDA_CHANNELS: "qttesting"
+    CONDA_DEPENDENCIES: "pyqt pytest pytest-cov qt"
     PIP_DEPENDENCIES: "coveralls"
 
 dependencies:
   override:
-    # First convert PY_VERSIONS to an array and then select the python version based on the CIRCLE_NODE_INDEX
+    # First convert PY_VERSIONS to an array and then select the Python version based on the
+    # CIRCLE_NODE_INDEX
     - PY_VERSIONS=($PY_VERSIONS) &&
       TRAVIS_PYTHON_VERSION=${PY_VERSIONS[$CIRCLE_NODE_INDEX]} && 
       echo -e "PYTHON = $TRAVIS_PYTHON_VERSION \n============" &&
