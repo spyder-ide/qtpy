@@ -23,12 +23,10 @@ env:
     - PIP_DEPENDENCIES="coveralls"
 
   matrix:
-    - PYTHON_VERSION=2.7 USE_QT_API=PyQt5
     - PYTHON_VERSION=2.7 USE_QT_API=PyQt4
     - PYTHON_VERSION=2.7 USE_QT_API=PySide
     - PYTHON_VERSION=3.4 USE_QT_API=PyQt4
     - PYTHON_VERSION=3.5 USE_QT_API=PyQt4
-    - PYTHON_VERSION=3.5 USE_QT_API=PyQt5
 
 before_install:
   # Test environments for different Qt bindings
