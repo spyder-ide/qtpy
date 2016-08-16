@@ -11,10 +11,6 @@ branches:
   only:
     - master
 
-os:
-  - linux
-  - osx
-
 env:
   global:
     - SETUP_XVFB=True
@@ -23,12 +19,31 @@ env:
     - PIP_DEPENDENCIES="coveralls"
 
   matrix:
-    - PYTHON_VERSION=2.7 USE_QT_API=PyQt5
-    - PYTHON_VERSION=2.7 USE_QT_API=PyQt4
-    - PYTHON_VERSION=2.7 USE_QT_API=PySide
-    - PYTHON_VERSION=3.4 USE_QT_API=PyQt4
-    - PYTHON_VERSION=3.5 USE_QT_API=PyQt4
-    - PYTHON_VERSION=3.5 USE_QT_API=PyQt5
+    include:
+    # OS X
+    - os: osx
+      env: TRAVIS_PYTHON_VERSION=3.5 USE_QT_API=PyQt5
+    - os: osx
+      env: TRAVIS_PYTHON_VERSION=3.4 USE_QT_API=PyQt5
+    - os: osx
+      env: TRAVIS_PYTHON_VERSION=2.7 USE_QT_API=PyQt5
+    - os: osx
+      env: TRAVIS_PYTHON_VERSION=3.5 USE_QT_API=PyQt4
+    - os: osx
+      env: TRAVIS_PYTHON_VERSION=3.4 USE_QT_API=PyQt4
+    - os: osx
+      env: TRAVIS_PYTHON_VERSION=2.7 USE_QT_API=PyQt4
+    - os: osx
+      env: TRAVIS_PYTHON_VERSION=2.7 USE_QT_API=PySide
+    # Linux
+    - os: linux
+      env: TRAVIS_PYTHON_VERSION=3.5 USE_QT_API=PyQt4
+    - os: linux
+      env: TRAVIS_PYTHON_VERSION=3.4 USE_QT_API=PyQt4
+    - os: linux
+      env: TRAVIS_PYTHON_VERSION=2.7 USE_QT_API=PyQt4
+    - os: linux
+      env: TRAVIS_PYTHON_VERSION=2.7 USE_QT_API=PySide
 
 before_install:
   # Test environments for different Qt bindings
