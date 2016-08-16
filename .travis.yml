@@ -12,8 +12,8 @@ branches:
     - master
 
 os:
-  - linux
   - osx
+  - linux
 
 env:
   global:
