@@ -21,3 +21,5 @@ elif PYSIDE:
                               QSvgWidget)
 else:
     raise PythonQtError('No Qt bindings could be found')
+
+del PYQT4, PYQT5, PYSIDE
