@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from qtpy import PYSIDE
 from qtpy.QtWidgets import QApplication
 from qtpy.QtWidgets import QHeaderView
 from qtpy.QtCore import Qt
@@ -36,7 +37,11 @@ def test_patched_qheaderview():
     # test it
     assert isinstance(headerview.sectionsClickable(), bool)
     assert isinstance(headerview.sectionsMovable(), bool)
-    assert isinstance(headerview.sectionResizeMode(0), int)
+    if PYSIDE:
+        assert isinstance(headerview.sectionResizeMode(0),
+                          QHeaderView.ResizeMode)
+    else:
+        assert isinstance(headerview.sectionResizeMode(0), int)
 
     headerview.setSectionsClickable(True)
     assert headerview.sectionsClickable() == True
