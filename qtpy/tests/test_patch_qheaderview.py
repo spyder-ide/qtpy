@@ -1,10 +1,12 @@
 from __future__ import absolute_import
 
-from qtpy import PYSIDE
+from qtpy import PYSIDE, PYQT4
 from qtpy.QtWidgets import QApplication
 from qtpy.QtWidgets import QHeaderView
 from qtpy.QtCore import Qt
 from qtpy.QtCore import QAbstractListModel
+
+import pytest
 
 def get_qapp(icon_path=None):
     qapp = QApplication.instance()
@@ -70,4 +72,20 @@ def test_patched_qheaderview():
     assert headerview.sectionResizeMode(0) == QHeaderView.Stretch
     headerview.setSectionResizeMode(0, QHeaderView.ResizeToContents)
     assert headerview.sectionResizeMode(0) == QHeaderView.ResizeToContents
+
+    # test that the old methods in Qt4 raise exceptions
+    if PYQT4 or PYSIDE:
+        with pytest.raises(Exception):
+            headerview.isClickable()
+        with pytest.raises(Exception):
+            headerview.isMovable()
+        with pytest.raises(Exception):
+            headerview.resizeMode(0)
+        with pytest.raises(Exception):
+            headerview.setClickable(True)
+        with pytest.raises(Exception):
+            headerview.setMovableClickable(True)
+        with pytest.raises(Exception):
+            headerview.setResizeMode(0, QHeaderView.Interactive)
+
 
