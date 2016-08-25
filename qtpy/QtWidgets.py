@@ -15,6 +15,7 @@ Provides widget classes and functions.
 
 from qtpy import PYQT5, PYQT4, PYSIDE, PythonQtError
 from qtpy._patch.qcombobox import patch_qcombobox
+from qtpy._patch.qheaderview import introduce_renamed_methods_qheaderview
 
 
 if PYQT5:
@@ -65,6 +66,9 @@ elif PYQT4:
     # Patch QComboBox to allow Python objects to be passed to userData
     patch_qcombobox(QComboBox)
 
+    # QHeaderView: renamed methods
+    introduce_renamed_methods_qheaderview(QHeaderView)
+
 elif PYSIDE:
     from PySide.QtGui import *
     QStyleOptionViewItem = QStyleOptionViewItemV4
@@ -110,6 +114,9 @@ elif PYSIDE:
 
     # Patch QComboBox to allow Python objects to be passed to userData
     patch_qcombobox(QComboBox)
+
+    # QHeaderView: renamed methods
+    introduce_renamed_methods_qheaderview(QHeaderView)
 
 else:
     raise PythonQtError('No Qt bindings could be found')
