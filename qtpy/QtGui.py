@@ -13,7 +13,7 @@ Provides QtGui classes and functions.
     the ``PyQt5.QtGui`` module.
 """
 
-from qtpy import PYQT5, PYQT4, PYSIDE, PythonQtError
+from . import PYQT5, PYQT4, PYSIDE, PythonQtError
 
 
 if PYQT5:

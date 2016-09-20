@@ -1,7 +1,7 @@
 import os
 
-from qtpy import PYSIDE, PYQT4, PYQT5
-from qtpy.QtWidgets import QComboBox
+from . import PYSIDE, PYQT4, PYQT5
+from .QtWidgets import QComboBox
 
 __all__ = ['loadUi']
 

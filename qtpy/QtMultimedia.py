@@ -1,6 +1,6 @@
-from qtpy import PYQT5
-from qtpy import PYQT4
-from qtpy import PYSIDE
+from . import PYQT5
+from . import PYQT4
+from . import PYSIDE
 
 
 if PYQT5:
