@@ -35,6 +35,8 @@ elif PYSIDE2:
     except ImportError:
         from PySide2.QtWebKitWidgets import QWebPage as QWebEnginePage
         from PySide2.QtWebKitWidgets import QWebView as QWebEngineView
+        #: Current PySide2 builds seem to be missing this.
+        #: I'll leave it in for now because the final builds should have it
         from PySide2.QtWebKit import QWebSettings as QWebEngineSettings
         WEBENGINE = False
 elif PYQT4:
