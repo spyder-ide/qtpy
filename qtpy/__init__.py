@@ -149,7 +149,7 @@ if API in PYSIDE_API:
         raise PythonQtError('No Qt bindings could be found')
 
 API_NAME = {'pyqt5': 'PyQt5', 'pyqt': 'PyQt4', 'pyqt4': 'PyQt4',
-            'pyside': 'PySide'}[API]
+            'pyside': 'PySide', 'pyside2':'PySide2'}[API]
 if PYQT4:
         import sip
         try:
