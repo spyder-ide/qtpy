@@ -1,6 +1,6 @@
 import os
 
-from . import PYSIDE, PYQT4, PYQT5
+from . import PYSIDE, PYSIDE2, PYQT4, PYQT5
 from .QtWidgets import QComboBox
 
 __all__ = ['loadUi']
@@ -13,7 +13,7 @@ elif PYQT4:
 
     from PyQt4.uic import loadUi
 
-elif PYSIDE:
+else:
 
     # In PySide, loadUi does not exist, so we define it using QUiLoader, and
     # then make sure we expose that function. This is adapted from qt-helpers
@@ -77,8 +77,12 @@ elif PYSIDE:
     # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     # DEALINGS IN THE SOFTWARE.
 
-    from PySide.QtCore import QMetaObject
-    from PySide.QtUiTools import QUiLoader
+    if PYSIDE:
+        from PySide.QtCore import QMetaObject
+        from PySide.QtUiTools import QUiLoader
+    elif PYSIDE2:
+        from PySide2.QtCore import QMetaObject
+        from PySide2.QtUiTools import QUiLoader
 
     class UiLoader(QUiLoader):
         """

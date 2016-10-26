@@ -26,6 +26,17 @@ For PyQt5, you don't have to set anything as it will be used automatically::
     >>> print(QtWidgets.QWidget)
 
 
+PySide2
+======
+
+Set the QT_API environment variable to 'pyside2' before importing other
+packages::
+
+    >>> import os
+    >>> os.environ['QT_API'] = 'pyside2'
+    >>> from qtpy import QtGui, QtWidgets, QtCore
+    >>> print(QtWidgets.QWidget)
+
 PyQt4
 =====
 
@@ -66,14 +77,16 @@ PYQT4_API = [
 ]
 #: names of the expected PySide api
 PYSIDE_API = ['pyside']
+#: names of the expected PySide2 api
+PYSIDE2_API = ['pyside2']
 
 os.environ.setdefault(QT_API, 'pyqt5')
 API = os.environ[QT_API].lower()
-assert API in (PYQT5_API + PYQT4_API + PYSIDE_API)
+assert API in (PYQT5_API + PYQT4_API + PYSIDE_API+PYSIDE2_API)
 
 is_old_pyqt = is_pyqt46 = False
 PYQT5 = True
-PYQT4 = PYSIDE = False
+PYQT4 = PYSIDE = PYSIDE2 = False
 
 
 class PythonQtError(Exception):
@@ -88,6 +101,17 @@ if API in PYQT5_API:
         PYSIDE_VERSION = None
     except ImportError:
         API = os.environ['QT_API'] = 'pyqt'
+
+if API in PYSIDE2_API:
+    try:
+        from PySide2 import __version__ as PYSIDE_VERSION  # analysis:ignore
+        from PySide2.QtCore import __version__ as QT_VERSION  # analysis:ignore
+
+        PYQT_VERSION = None
+        PYQT5 = False
+        PYSIDE2 = True
+    except ImportError:
+        API = os.environ['QT_API'] = 'pyqt4'
 
 if API in PYQT4_API:
     try:
@@ -119,7 +143,7 @@ if API in PYSIDE_API:
         from PySide import __version__ as PYSIDE_VERSION  # analysis:ignore
         from PySide.QtCore import __version__ as QT_VERSION  # analysis:ignore
         PYQT_VERSION = None
-        PYQT5 = False
+        PYQT5 = PYSIDE2 = False
         PYSIDE = True
     except ImportError:
         raise PythonQtError('No Qt bindings could be found')
