@@ -12,7 +12,6 @@ branches:
     - master
 
 os:
-  - linux
   - osx
 
 env:
@@ -43,11 +42,10 @@ before_install:
 install:
   - git clone git://github.com/astropy/ci-helpers.git
   - source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh
-  - python setup.py install
+  - python setup.py develop
 
 script:
   - python qtpy/tests/runtests.py
 
 after_success:
   - coveralls
-
