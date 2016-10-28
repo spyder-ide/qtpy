@@ -19,7 +19,7 @@ add_init = true
 # -----------------------------------------------------------------------------
 [pep8]
 exclude = */tests/*
-ignore = E126,
+ignore = E126
 max-line-length = 79
 
 # -----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ inherit = false
 # -----------------------------------------------------------------------------
 [flake8]
 exclude = */tests/*
-ignore = E126,
+ignore = E126,F401
 max-line-length = 79
 max-complexity = 64
 
@@ -44,7 +44,8 @@ max-complexity = 64
 # pylint
 # https://pylint.readthedocs.io/en/latest/
 # -----------------------------------------------------------------------------
-#[pylint:messages]
+[pylint:messages]
+disable=unused-import
 
 # -----------------------------------------------------------------------------
 # isort
