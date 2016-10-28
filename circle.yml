@@ -4,7 +4,7 @@ machine:
     # Used by test scripts
     TEST_CI: "True"
     # Python versions to test (Maximum of 4 different versions for now)
-    PY_VERSIONS: "2.7 3.4 3.5"
+    PY_VERSIONS: "3.5 3.4 2.7"
     # Used by astropy-ci helpers
     TRAVIS_OS_NAME: "linux"
     PIP_DEPENDENCIES: "coveralls"
