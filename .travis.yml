@@ -12,7 +12,6 @@ branches:
     - master
 
 os:
-  - linux
   - osx
 
 env:
@@ -50,4 +49,3 @@ script:
 
 after_success:
   - coveralls
-
