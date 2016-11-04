@@ -82,7 +82,7 @@ PYSIDE2_API = ['pyside2']
 
 os.environ.setdefault(QT_API, 'pyqt5')
 API = os.environ[QT_API].lower()
-assert API in (PYQT5_API + PYQT4_API + PYSIDE_API+PYSIDE2_API)
+assert API in (PYQT5_API + PYQT4_API + PYSIDE_API + PYSIDE2_API)
 
 is_old_pyqt = is_pyqt46 = False
 PYQT5 = True
