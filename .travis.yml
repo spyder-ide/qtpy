@@ -17,7 +17,7 @@ os:
 env:
   global:
     - SETUP_XVFB=True
-    - CONDA_CHANNELS="qttesting"
+    - CONDA_CHANNELS="conda-forge"
     - CONDA_DEPENDENCIES="pytest pytest-cov"
     - PIP_DEPENDENCIES="coveralls"
 
