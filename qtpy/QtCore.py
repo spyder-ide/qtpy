@@ -32,7 +32,8 @@ elif PYQT4:
     from PyQt4.QtCore import pyqtSlot as Slot
     from PyQt4.QtCore import pyqtProperty as Property
     from PyQt4.QtGui import (QItemSelection, QItemSelectionModel,
-                             QItemSelectionRange, QSortFilterProxyModel)
+                             QItemSelectionRange, QSortFilterProxyModel,
+                             QStringListModel)
     from PyQt4.QtCore import QT_VERSION_STR as __version__
 
     # Those are imported from `import *`
@@ -40,7 +41,8 @@ elif PYQT4:
 elif PYSIDE:
     from PySide.QtCore import *
     from PySide.QtGui import (QItemSelection, QItemSelectionModel,
-                              QItemSelectionRange, QSortFilterProxyModel)
+                              QItemSelectionRange, QSortFilterProxyModel,
+                              QStringListModel)
     import PySide.QtCore
     __version__ = PySide.QtCore.__version__
 else:
