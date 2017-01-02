@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © The Spyder Development Team
+#
+# Licensed under the terms of the MIT License
+# (see LICENSE.txt for details)
+
 def introduce_renamed_methods_qheaderview(QHeaderView):
 
     _isClickable = QHeaderView.isClickable
