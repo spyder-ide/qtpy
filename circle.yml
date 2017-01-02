@@ -38,5 +38,5 @@ test:
     - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda install -q qt=4.* pyqt=4.* && python qtpy/tests/runtests.py: # note the colon
         parallel: true
     # Check Pyside
-    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda install -q qt=4.* pyside && python qtpy/tests/runtests.py; fi: # note the colon
-        parallel: true
+    #- export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda remove -q qt pyqt && conda install -c conda-forge qt=4.* pyside && python qtpy/tests/runtests.py: # note the colon
+    #    parallel: true
