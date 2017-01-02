@@ -11,14 +11,11 @@
 from . import PYQT4, PYQT5, PYSIDE, PythonQtError
 
 if PYQT5:
-    from PyQt5.QtSvg import (QGraphicsSvgItem, QSvgGenerator, QSvgRenderer,
-                             QSvgWidget)
+    from PyQt5.QtSvg import *
 elif PYQT4:
-    from PyQt4.QtSvg import (QGraphicsSvgItem, QSvgGenerator, QSvgRenderer,
-                             QSvgWidget)
+    from PyQt4.QtSvg import *
 elif PYSIDE:
-    from PySide.QtSvg import (QGraphicsSvgItem, QSvgGenerator, QSvgRenderer,
-                              QSvgWidget)
+    from PySide.QtSvg import *
 else:
     raise PythonQtError('No Qt bindings could be found')
 
