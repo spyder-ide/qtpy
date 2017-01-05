@@ -7,11 +7,11 @@ __all__ = ['loadUi']
 
 if PYQT5:
 
-    from PyQt5.uic import loadUi
+    from PyQt5.uic import *
 
 elif PYQT4:
 
-    from PyQt4.uic import loadUi
+    from PyQt4.uic import *
 
 elif PYSIDE:
 
