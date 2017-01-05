@@ -77,7 +77,6 @@ def test_load_full_uic():
         assert not hasattr(uic, 'loadUiType')
         assert not hasattr(uic, 'UiLoader')
     else:
-        objects = ['compileUi', 'compileUiDir', 'compiler', 'exceptions', 'icon_cache',
-                   'indenter', 'loadUi', 'loadUiType', 'objcreator', 'port_v3',
-                   'properties', 'uiparser', 'widgetPluginPath']
+        objects = ['compileUi', 'compileUiDir', 'loadUi', 'loadUiType',
+                   'uiparser', 'widgetPluginPath']
         assert all([hasattr(uic, o) for o in objects])
