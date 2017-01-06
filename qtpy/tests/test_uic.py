@@ -75,7 +75,6 @@ def test_load_full_uic():
     if QT_API == 'pyside':
         assert hasattr(uic, 'loadUi')
         assert not hasattr(uic, 'loadUiType')
-        assert not hasattr(uic, 'UiLoader')
     else:
         objects = ['compileUi', 'compileUiDir', 'loadUi', 'loadUiType',
                    'widgetPluginPath']
