@@ -1,5 +1,21 @@
 # History of changes
 
+## Version 1.2.1 (2017/01/21)
+
+### Bugs fixed
+
+**Pull requests**
+
+* [PR 98](https://github.com/spyder-ide/qtpy/pull/98) - PR: Don't use Travis to test macOS because it slows down the entire spyder-ide organization
+* [PR 97](https://github.com/spyder-ide/qtpy/pull/97) - PR: Update Appveyor badge in Readme because of moving to an org account
+* [PR 94](https://github.com/spyder-ide/qtpy/pull/94) - PR: Include test suite in sdist
+
+In this release 3 pull requests were merged
+
+
+----
+
+
 ## Version 1.2 (2017/01/08)
 
 ### New features
