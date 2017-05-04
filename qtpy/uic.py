@@ -159,6 +159,18 @@ else:
 
                 return widget
 
+    def _header_to_module(header):
+        header = os.path.splitext(header)[0]
+        if '..' in header:
+            raise SyntaxError("custom widget header file name may not contain '..'.")
+
+        header = header.replace('.', '')
+        while '//' in header:
+            header = header.replace('//', '/')
+        header = header.replace('/', '.')
+
+        return header
+
     def _get_custom_widgets(ui_file):
         """
         This function is used to parse a ui file and look for the <customwidgets>
@@ -185,8 +197,7 @@ else:
 
             cw_class = custom_widget.find('class').text
             cw_header = custom_widget.find('header').text
-
-            module = importlib.import_module(cw_header)
+            module = importlib.import_module(_header_to_module(cw_header))
 
             custom_widget_classes[cw_class] = getattr(module, cw_class)
 
