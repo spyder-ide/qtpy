@@ -4,7 +4,7 @@ machine:
     # Used by test scripts
     TEST_CI: "True"
     # Python versions to test (Maximum of 4 different versions for now)
-    PY_VERSIONS: "3.5 3.4 2.7"
+    PY_VERSIONS: "2.7 3.5 3.6"
     # Used by astropy-ci helpers
     TRAVIS_OS_NAME: "linux"
     PIP_DEPENDENCIES: "coveralls"
@@ -21,7 +21,7 @@ dependencies:
       export PATH="$HOME/miniconda/bin:$PATH" &&
       source activate test &&
       conda install -q ciocheck -c spyder-ide &&
-      python setup.py develop;
+      python setup.py install;
 
 test:
   override:
@@ -38,5 +38,5 @@ test:
     - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda install -q qt=4.* pyqt=4.* && python qtpy/tests/runtests.py: # note the colon
         parallel: true
     # Check Pyside
-    #- export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda remove -q qt pyqt && conda install -c conda-forge qt=4.* pyside && python qtpy/tests/runtests.py: # note the colon
+    - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda remove -q qt pyqt && conda install -c conda-forge qt=4.* pyside && python qtpy/tests/runtests.py: # note the colon
     #    parallel: true
