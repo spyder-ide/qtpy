@@ -9,6 +9,7 @@ machine:
     COVERALLS_REPO_TOKEN: xh75EzxFFMoTEyNPo3wXxXv8OVkul3eE5
     # Used by astropy-ci helpers
     TRAVIS_OS_NAME: "linux"
+    CONDA_DEPENDENCIES: "pytest pytest-cov"
     PIP_DEPENDENCIES: "coveralls"
 
 dependencies:
