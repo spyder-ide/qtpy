@@ -13,6 +13,9 @@ machine:
     PIP_DEPENDENCIES: "coveralls"
 
 dependencies:
+  pre:
+    # We need this for QtMultimedia in 5.8
+    - sudo apt-get install libpulse-dev
   override:
     # First convert PY_VERSIONS to an array and then select the Python version
     # based on the CIRCLE_NODE_INDEX
