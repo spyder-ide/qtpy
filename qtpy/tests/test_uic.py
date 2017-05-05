@@ -4,6 +4,7 @@ import contextlib
 
 from qtpy import QtWidgets
 from qtpy.QtWidgets import QComboBox
+from qtpy import uic
 from qtpy.uic import loadUi
 
 
@@ -66,3 +67,15 @@ def test_load_ui_custom_auto(tmpdir):
 
     assert isinstance(ui.pushButton, QtWidgets.QPushButton)
     assert isinstance(ui.comboBox, _QComboBoxSubclass)
+
+
+def test_load_full_uic():
+    """Test that we load the full uic objects for PyQt5 and PyQt4."""
+    QT_API = os.environ.get('QT_API', '').lower()
+    if QT_API == 'pyside':
+        assert hasattr(uic, 'loadUi')
+        assert not hasattr(uic, 'loadUiType')
+    else:
+        objects = ['compileUi', 'compileUiDir', 'loadUi', 'loadUiType',
+                   'widgetPluginPath']
+        assert all([hasattr(uic, o) for o in objects])

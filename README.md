@@ -8,8 +8,7 @@ Copyright © 2009- The Spyder Development Team.
 [![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)
 
 ## Build status
-[![Travis status](https://travis-ci.org/spyder-ide/qtpy.svg?branch=master)](https://travis-ci.org/spyder-ide/qtpy)
-[![Build status](https://ci.appveyor.com/api/projects/status/ab01a09cbx3m0ao9?svg=true)](https://ci.appveyor.com/project/goanpeca/qtpy)
+[![Build status](https://ci.appveyor.com/api/projects/status/62y6i02vhn4hefg0/branch/master?svg=true)](https://ci.appveyor.com/project/spyder-ide/qtpy/branch/master)
 [![CircleCI](https://circleci.com/gh/spyder-ide/qtpy.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtpy)
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
 [![Code Issues](https://www.quantifiedcode.com/api/v1/project/c769241c7d7f4463b1e6f67863dabace/badge.svg)](https://www.quantifiedcode.com/app/project/c769241c7d7f4463b1e6f67863dabace)

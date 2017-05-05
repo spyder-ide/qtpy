@@ -21,6 +21,17 @@ if PYQT5:
 elif PYSIDE2:
     from PySide2.QtGui import *
 elif PYQT4:
+    try:
+        # Older versions of PyQt4 do not provide these
+        from PyQt4.QtGui import (QGlyphRun, QMatrix2x2, QMatrix2x3,
+                                 QMatrix2x4, QMatrix3x2, QMatrix3x3,
+                                 QMatrix3x4, QMatrix4x2, QMatrix4x3,
+                                 QMatrix4x4, QTouchEvent, QQuaternion,
+                                 QRadialGradient, QRawFont, QStaticText,
+                                 QVector2D, QVector3D, QVector4D,
+                                 qFuzzyCompare)
+    except ImportError:
+        pass
     from PyQt4.Qt import QKeySequence, QTextCursor
     from PyQt4.QtGui import (QAbstractTextDocumentLayout, QActionEvent, QBitmap,
                              QBrush, QClipboard, QCloseEvent, QColor,
@@ -29,22 +40,19 @@ elif PYQT4:
                              QDragEnterEvent, QDragLeaveEvent, QDragMoveEvent,
                              QDropEvent, QFileOpenEvent, QFocusEvent, QFont,
                              QFontDatabase, QFontInfo, QFontMetrics,
-                             QFontMetricsF, QGlyphRun, QGradient, QHelpEvent,
+                             QFontMetricsF, QGradient, QHelpEvent,
                              QHideEvent, QHoverEvent, QIcon, QIconDragEvent,
                              QIconEngine, QImage, QImageIOHandler, QImageReader,
                              QImageWriter, QInputEvent, QInputMethodEvent,
                              QKeyEvent, QLinearGradient,
-                             QMatrix2x2, QMatrix2x3, QMatrix2x4, QMatrix3x2,
-                             QMatrix3x3, QMatrix3x4, QMatrix4x2, QMatrix4x3,
-                             QMatrix4x4, QMouseEvent, QMoveEvent, QMovie,
+                             QMouseEvent, QMoveEvent, QMovie,
                              QPaintDevice, QPaintEngine, QPaintEngineState,
                              QPaintEvent, QPainter, QPainterPath,
                              QPainterPathStroker, QPalette, QPen, QPicture,
                              QPictureIO, QPixmap, QPixmapCache, QPolygon,
-                             QPolygonF, QQuaternion, QRadialGradient, QRawFont,
-                             QRegExpValidator, QRegion, QResizeEvent,
+                             QPolygonF, QRegExpValidator, QRegion, QResizeEvent,
                              QSessionManager, QShortcutEvent, QShowEvent,
-                             QStandardItem, QStandardItemModel, QStaticText,
+                             QStandardItem, QStandardItemModel,
                              QStatusTipEvent, QSyntaxHighlighter, QTabletEvent,
                              QTextBlock, QTextBlockFormat, QTextBlockGroup,
                              QTextBlockUserData, QTextCharFormat,
@@ -55,11 +63,10 @@ elif PYQT4:
                              QTextLength, QTextLine, QTextList, QTextListFormat,
                              QTextObject, QTextObjectInterface, QTextOption,
                              QTextTable, QTextTableCell, QTextTableCellFormat,
-                             QTextTableFormat, QTouchEvent, QTransform,
-                             QValidator, QVector2D, QVector3D, QVector4D,
-                             QWhatsThisClickedEvent, QWheelEvent,
+                             QTextTableFormat, QTransform,
+                             QValidator, QWhatsThisClickedEvent, QWheelEvent,
                              QWindowStateChangeEvent, qAlpha, qBlue,
-                             qFuzzyCompare, qGray, qGreen, qIsGray, qRed, qRgb,
+                             qGray, qGreen, qIsGray, qRed, qRgb,
                              qRgba, QIntValidator)
 elif PYSIDE:
     from PySide.QtGui import (QAbstractTextDocumentLayout, QActionEvent, QBitmap,

@@ -1,5 +1,61 @@
 # History of changes
 
+## Version 1.2.1 (2017/01/21)
+
+### Bugs fixed
+
+**Pull requests**
+
+* [PR 98](https://github.com/spyder-ide/qtpy/pull/98) - PR: Don't use Travis to test macOS because it slows down the entire spyder-ide organization
+* [PR 97](https://github.com/spyder-ide/qtpy/pull/97) - PR: Update Appveyor badge in Readme because of moving to an org account
+* [PR 94](https://github.com/spyder-ide/qtpy/pull/94) - PR: Include test suite in sdist
+
+In this release 3 pull requests were merged
+
+
+----
+
+
+## Version 1.2 (2017/01/08)
+
+### New features
+
+* Add support for QtMultimedia
+* Use relative imports so its vendored more easily
+
+### Bugs fixed
+
+**Issues**
+
+* [Issue 83](https://github.com/spyder-ide/qtpy/issues/83) - Include core doc files in PyPi releases
+* [Issue 78](https://github.com/spyder-ide/qtpy/issues/78) - Request for a new bugfix release
+* [Issue 75](https://github.com/spyder-ide/qtpy/issues/75) - Missing copyright headers
+* [Issue 67](https://github.com/spyder-ide/qtpy/issues/67) - uic.loadUiType is missing
+* [Issue 64](https://github.com/spyder-ide/qtpy/issues/64) - QHeaderView.setSectionResizeMode
+* [Issue 49](https://github.com/spyder-ide/qtpy/issues/49) - QtMultimedia support
+
+In this release 6 issues were closed
+
+**Pull requests**
+
+* [PR 93](https://github.com/spyder-ide/qtpy/pull/93) - Restore uic full namespace for PyQt5 and PyQt4
+* [PR 92](https://github.com/spyder-ide/qtpy/pull/92) - Add missing copyright header in _patch/qheaderview.py
+* [PR 91](https://github.com/spyder-ide/qtpy/pull/91) - Use star imports in QtSvg again instead of direct ones (reverts PR #55)
+* [PR 88](https://github.com/spyder-ide/qtpy/pull/88) - PR: Add manifest
+* [PR 74](https://github.com/spyder-ide/qtpy/pull/74) - Move QStringListModel to QtCore
+* [PR 71](https://github.com/spyder-ide/qtpy/pull/71) - PR: Use relative imports so its vendored more easily
+* [PR 65](https://github.com/spyder-ide/qtpy/pull/65) - Introduce renamed methods of QHeaderView in PyQt4 and PySide
+* [PR 59](https://github.com/spyder-ide/qtpy/pull/59) - Don't install qtpy as a conda package in CircleCI
+* [PR 58](https://github.com/spyder-ide/qtpy/pull/58) - Remove reference to how qtpy is pronounced in README
+* [PR 55](https://github.com/spyder-ide/qtpy/pull/55) - PR: Add explicit imports to QtSvg module
+* [PR 50](https://github.com/spyder-ide/qtpy/pull/50) - Add support for QtMultimedia
+
+In this release 11 pull requests were merged
+
+
+----
+
+
 ## Version 1.1.2 (2016-08-08)
 
 ### Bugfixes

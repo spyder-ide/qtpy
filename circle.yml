@@ -5,6 +5,8 @@ machine:
     TEST_CI: "True"
     # Python versions to test (Maximum of 4 different versions for now)
     PY_VERSIONS: "2.7 3.5 3.6"
+    # For Coveralls
+    COVERALLS_REPO_TOKEN: xh75EzxFFMoTEyNPo3wXxXv8OVkul3eE5
     # Used by astropy-ci helpers
     TRAVIS_OS_NAME: "linux"
     PIP_DEPENDENCIES: "coveralls"
@@ -36,6 +38,8 @@ test:
 #        parallel: true
     # Check PyQt4
     - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda install -q qt=4.* pyqt=4.* && python qtpy/tests/runtests.py: # note the colon
+        parallel: true
+    - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && coveralls: # note the colon
         parallel: true
     # Check Pyside
     - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda remove -q qt pyqt && conda install -c conda-forge qt=4.* pyside && python qtpy/tests/runtests.py: # note the colon
