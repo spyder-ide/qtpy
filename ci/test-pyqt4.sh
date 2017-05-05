@@ -8,7 +8,7 @@ if [ "$CIRCLE_NODE_INDEX" = "3" ]; then
     exit 0
 else
     conda remove -q qt pyqt
-    conda install -q qt=4.* pyqt=4.*
+    conda install -q -c conda-forge qt=4.* pyqt=4.*
 fi
 
 python qtpy/tests/runtests.py
