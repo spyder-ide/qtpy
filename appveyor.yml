@@ -47,7 +47,7 @@ install:
     - "powershell ci-helpers/appveyor/install-miniconda.ps1"
     - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - "activate test"
-    - "python setup.py install"
+    - "python setup.py develop"
 
 # Not a .NET project, we build in the install step instead
 build: false
