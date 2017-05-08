@@ -16,6 +16,8 @@ dependencies:
   pre:
     # We need this for QtMultimedia in 5.8
     - sudo apt-get install libpulse-dev
+    # For PySide2
+    - sudo apt-get install libqt5core5a libqt5gui5 libqt5multimedia5
   override:
     # First convert PY_VERSIONS to an array and then select the Python version
     # based on the CIRCLE_NODE_INDEX
@@ -32,8 +34,8 @@ test:
   override:
     - ./ci/test-pyqt5.sh: # note the colon
         parallel: true
-    # - ./ci/test-pyside2.sh: # note the colon
-    #    parallel: true
+    - ./ci/test-pyside2.sh: # note the colon
+        parallel: true
     - ./ci/test-pyqt4.sh: # note the colon
         parallel: true
     - ./ci/test-pyside.sh: # note the colon
