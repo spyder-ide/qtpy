@@ -66,20 +66,25 @@ import os
 # Version of QtPy
 from ._version import __version__
 
-#: Qt API environment variable name
+# Qt API environment variable name
 QT_API = 'QT_API'
-#: names of the expected PyQt5 api
+
+# Names of the expected PyQt5 api
 PYQT5_API = ['pyqt5']
-#: names of the expected PyQt4 api
+
+# Names of the expected PyQt4 api
 PYQT4_API = [
     'pyqt',  # name used in IPython.qt
     'pyqt4'  # pyqode.qt original name
 ]
-#: names of the expected PySide api
+
+# Names of the expected PySide api
 PYSIDE_API = ['pyside']
-#: names of the expected PySide2 api
+
+# Names of the expected PySide2 api
 PYSIDE2_API = ['pyside2']
 
+# Setting a default value for QT_API
 os.environ.setdefault(QT_API, 'pyqt5')
 API = os.environ[QT_API].lower()
 assert API in (PYQT5_API + PYQT4_API + PYSIDE_API + PYSIDE2_API)
@@ -100,7 +105,7 @@ if API in PYQT5_API:
         from PyQt5.Qt import QT_VERSION_STR as QT_VERSION  # analysis:ignore
         PYSIDE_VERSION = None
     except ImportError:
-        API = os.environ['QT_API'] = 'pyqt'
+        API = os.environ['QT_API'] = 'pyside2'
 
 if API in PYSIDE2_API:
     try:
@@ -111,7 +116,7 @@ if API in PYSIDE2_API:
         PYQT5 = False
         PYSIDE2 = True
     except ImportError:
-        API = os.environ['QT_API'] = 'pyqt4'
+        API = os.environ['QT_API'] = 'pyqt'
 
 if API in PYQT4_API:
     try:
@@ -150,6 +155,7 @@ if API in PYSIDE_API:
 
 API_NAME = {'pyqt5': 'PyQt5', 'pyqt': 'PyQt4', 'pyqt4': 'PyQt4',
             'pyside': 'PySide', 'pyside2':'PySide2'}[API]
+
 if PYQT4:
         import sip
         try:
