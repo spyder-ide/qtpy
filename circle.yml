@@ -4,14 +4,26 @@ machine:
     # Used by test scripts
     TEST_CI: "True"
     # Python versions to test (Maximum of 4 different versions for now)
-    PY_VERSIONS: "3.5 3.4 2.7"
+    PY_VERSIONS: "2.7 3.5 3.6 3.5"
     # For Coveralls
     COVERALLS_REPO_TOKEN: xh75EzxFFMoTEyNPo3wXxXv8OVkul3eE5
     # Used by astropy-ci helpers
     TRAVIS_OS_NAME: "linux"
+    CONDA_DEPENDENCIES: "pytest pytest-cov"
     PIP_DEPENDENCIES: "coveralls"
 
 dependencies:
+  pre:
+    # We need this for QtMultimedia in 5.8
+    - sudo apt-get install libpulse-dev
+    # For PySide2
+    - sudo apt-get autoremove libqt5*
+    - sudo apt-get install apt -y
+    - sudo add-apt-repository -y ppa:beineri/opt-qt562-trusty
+    - sudo apt-get update -y; true
+    - sudo apt-get install -q qt56webengine
+    - sudo rsync -a /opt/qt56/ /usr/
+
   override:
     # First convert PY_VERSIONS to an array and then select the Python version
     # based on the CIRCLE_NODE_INDEX
@@ -22,25 +34,17 @@ dependencies:
       source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh &&
       export PATH="$HOME/miniconda/bin:$PATH" &&
       source activate test &&
-      conda install -q ciocheck -c spyder-ide &&
       python setup.py develop;
 
 test:
   override:
-    # Check style
-    - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && ciocheck qtpy: # note the colon
+    - ./ci/test-pyqt5.sh: # note the colon
         parallel: true
-    # Check PyQt5
-    - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda install -q qt=5.* pyqt=5.* && python qtpy/tests/runtests.py: # note the colon
+    - ./ci/test-pyside2.sh: # note the colon
         parallel: true
-    # Check PySide2
-#    - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda install -q qt=5.* pyside2 && python qtpy/tests/runtests.py: # note the colon
-#        parallel: true
-    # Check PyQt4
-    - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda install -q qt=4.* pyqt=4.* && python qtpy/tests/runtests.py: # note the colon
+    - ./ci/test-pyqt4.sh: # note the colon
+        parallel: true
+    - ./ci/test-pyside.sh: # note the colon
         parallel: true
     - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && coveralls: # note the colon
         parallel: true
-    # Check Pyside
-    #- export PATH="$HOME/miniconda/bin:$PATH" && source activate test && conda remove -q qt pyqt && conda install -c conda-forge qt=4.* pyside && python qtpy/tests/runtests.py: # note the colon
-    #    parallel: true

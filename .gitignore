@@ -34,3 +34,6 @@ lib64
 # Other files
 toread.md
 .chache
+.idea/
+
+# End of File
