@@ -36,7 +36,7 @@ elif PYQT4:
     from PyQt4.QtGui import (QAbstractTextDocumentLayout, QActionEvent, QBitmap,
                              QBrush, QClipboard, QCloseEvent, QColor,
                              QConicalGradient, QContextMenuEvent, QCursor,
-                             QDesktopServices, QDoubleValidator, QDrag,
+                             QDoubleValidator, QDrag,
                              QDragEnterEvent, QDragLeaveEvent, QDragMoveEvent,
                              QDropEvent, QFileOpenEvent, QFocusEvent, QFont,
                              QFontDatabase, QFontInfo, QFontMetrics,
@@ -68,6 +68,18 @@ elif PYQT4:
                              QWindowStateChangeEvent, qAlpha, qBlue,
                              qGray, qGreen, qIsGray, qRed, qRgb,
                              qRgba, QIntValidator)
+
+    # QDesktopServices has has been split into (QDesktopServices and
+    # QStandardPaths) in Qt5
+    # It only exposes QDesktopServices that are still in pyqt5
+    from PyQt4.QtGui import QDesktopServices as _QDesktopServices
+
+    class QDesktopServices():
+         openUrl = _QDesktopServices.openUrl
+         setUrlHandler = _QDesktopServices.setUrlHandler
+         unsetUrlHandler = _QDesktopServices.unsetUrlHandler
+
+
 elif PYSIDE:
     from PySide.QtGui import (QAbstractTextDocumentLayout, QActionEvent, QBitmap,
                               QBrush, QClipboard, QCloseEvent, QColor,
