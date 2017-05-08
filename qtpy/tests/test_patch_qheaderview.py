@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import sys
 
 import pytest
-from qtpy import PYSIDE, PYQT4
+from qtpy import PYSIDE, PYSIDE2, PYQT4
 from qtpy.QtWidgets import QApplication
 from qtpy.QtWidgets import QHeaderView
 from qtpy.QtCore import Qt
@@ -20,7 +20,7 @@ def get_qapp(icon_path=None):
     return qapp
 
 
-@pytest.mark.skipif(PY3, reason="It fails on Python 3")
+@pytest.mark.skipif(PY3 or PYSIDE2, reason="It fails on Python 3 and PySide2")
 def test_patched_qheaderview():
     """
     This will test whether QHeaderView has the new methods introduced in Qt5.

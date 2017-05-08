@@ -7,7 +7,9 @@ from . import PYSIDE2
 if PYQT5:
     from PyQt5.QtMultimedia import *
 elif PYSIDE2:
-    from PySide2.QtMultimedia import *
+    # Current wheels don't have this module
+    # from PySide2.QtMultimedia import *
+    pass
 elif PYQT4:
     from PyQt4.QtMultimedia import *
     from PyQt4.QtGui import QSound

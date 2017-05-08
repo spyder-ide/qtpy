@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import sys
 
 import pytest
-from qtpy import QtGui, QtWidgets
+from qtpy import PYSIDE2, QtGui, QtWidgets
 
 
 PY3 = sys.version[0] == "3"
@@ -25,7 +25,7 @@ class Data(object):
         raise ValueError("Failing")
 
 
-@pytest.mark.skipif(PY3, reason="It segfaults in Python 3")
+@pytest.mark.skipif(PY3 or PYSIDE2, reason="It segfaults in Python 3 and PYSIDE2")
 def test_patched_qcombobox():
     """
     In PySide, using Python objects as userData in QComboBox causes

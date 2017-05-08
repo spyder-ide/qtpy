@@ -31,3 +31,5 @@ python qtpy/tests/runtests.py
 if [ $? -ne 0 ]; then
     exit 1
 fi
+
+pip uninstall -y -q pyside2

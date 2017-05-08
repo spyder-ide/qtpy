@@ -31,12 +31,13 @@ elif PYSIDE2:
     try:
         from PySide2.QtWebEngineWidgets import QWebEnginePage
         from PySide2.QtWebEngineWidgets import QWebEngineView
-        from PySide2.QtWebEngineWidgets import QWebEngineSettings
+        # Current PySide2 wheels seem to be missing this.
+        # from PySide2.QtWebEngineWidgets import QWebEngineSettings
     except ImportError:
         from PySide2.QtWebKitWidgets import QWebPage as QWebEnginePage
         from PySide2.QtWebKitWidgets import QWebView as QWebEngineView
-        #: Current PySide2 builds seem to be missing this.
-        #: from PySide2.QtWebKit import QWebSettings as QWebEngineSettings
+        # Current PySide2 wheels seem to be missing this.
+        # from PySide2.QtWebKit import QWebSettings as QWebEngineSettings
         WEBENGINE = False
 elif PYQT4:
     from PyQt4.QtWebKit import QWebPage as QWebEnginePage
