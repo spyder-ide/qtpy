@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 import pytest
-from qtpy import PYSIDE2, QtPrintSupport
+from qtpy import QtPrintSupport
 
 
 def test_qtprintsupport():

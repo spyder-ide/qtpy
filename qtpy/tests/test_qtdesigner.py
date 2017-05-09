@@ -1,11 +1,11 @@
 from __future__ import absolute_import
 
 import pytest
-from qtpy import PYSIDE2, QtDesigner
+from qtpy import PYSIDE2, PYSIDE
 
-
-@pytest.mark.skipif(PYSIDE2, reason="It fails on PySide2")
+@pytest.mark.skipif(PYSIDE2 or PYSIDE, reason="QtDesigner is not avalaible in PySide/PySide2")
 def test_qtdesigner():
+    from qtpy import QtDesigner
     """Test the qtpy.QtDesigner namespace"""
     assert QtDesigner.QAbstractExtensionFactory is not None
     assert QtDesigner.QAbstractExtensionManager is not None
