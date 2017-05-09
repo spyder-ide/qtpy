@@ -19,7 +19,7 @@ Copyright © 2009- The Spyder Development Team.
 **QtPy** is a small abstraction layer that lets you
 write applications using a single API call to either PyQt or PySide.
 
-It provides support for PyQt5, PyQt4, PySide2 and PySide using the PyQt5 layout
+It provides support for PyQt5, PyQt4, PySide2 and PySide using the Qt5 layout
 (where the QtGui module has been split into QtGui and QtWidgets).
 
 Basically, you write your code as if you were using PyQt5 but import Qt modules
