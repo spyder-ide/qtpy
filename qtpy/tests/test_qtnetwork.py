@@ -20,15 +20,8 @@ def test_qtnetwork():
     assert QtNetwork.QNetworkConfiguration is not None
     assert QtNetwork.QNetworkSession is not None
     assert QtNetwork.QAuthenticator is not None
-    assert QtNetwork.QDnsDomainNameRecord is not None
-    assert QtNetwork.QDnsHostAddressRecord is not None
-    assert QtNetwork.QDnsLookup is not None
-    assert QtNetwork.QDnsMailExchangeRecord is not None
-    assert QtNetwork.QDnsServiceRecord is not None
-    assert QtNetwork.QDnsTextRecord is not None
     assert QtNetwork.QHostAddress is not None
     assert QtNetwork.QHostInfo is not None
-    assert QtNetwork.QNetworkDatagram is not None
     assert QtNetwork.QNetworkAddressEntry is not None
     assert QtNetwork.QNetworkInterface is not None
     assert QtNetwork.QNetworkProxy is not None
@@ -37,18 +30,12 @@ def test_qtnetwork():
     assert QtNetwork.QAbstractSocket is not None
     assert QtNetwork.QLocalServer is not None
     assert QtNetwork.QLocalSocket is not None
-    assert QtNetwork.QSctpServer is not None
-    assert QtNetwork.QSctpSocket is not None
     assert QtNetwork.QTcpServer is not None
     assert QtNetwork.QTcpSocket is not None
     assert QtNetwork.QUdpSocket is not None
     assert QtNetwork.QSslCertificate is not None
-    assert QtNetwork.QSslCertificateExtension is not None
     assert QtNetwork.QSslCipher is not None
     assert QtNetwork.QSslConfiguration is not None
-    assert QtNetwork.QSslDiffieHellmanParameters is not None
-    assert QtNetwork.QSslEllipticCurve is not None
     assert QtNetwork.QSslError is not None
     assert QtNetwork.QSslKey is not None
-    assert QtNetwork.QSslPreSharedKeyAuthenticator is not None
     assert QtNetwork.QSslSocket is not None

@@ -13,7 +13,6 @@ def test_qtdesigner():
     assert QtDesigner.QDesignerContainerExtension is not None
     assert QtDesigner.QDesignerCustomWidgetCollectionInterface is not None
     assert QtDesigner.QDesignerCustomWidgetInterface is not None
-    assert QtDesigner.QDesignerDynamicPropertySheetExtension is not None
     assert QtDesigner.QDesignerFormEditorInterface is not None
     assert QtDesigner.QDesignerFormWindowCursorInterface is not None
     assert QtDesigner.QDesignerFormWindowInterface is not None

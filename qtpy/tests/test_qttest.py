@@ -8,5 +8,3 @@ from qtpy import PYSIDE2, QtTest
 def test_qttest():
     """Test the qtpy.QtTest namespace"""
     assert QtTest.QTest is not None
-    assert QtTest.QSignalSpy is not None
-    assert QtTest.QTestEventList is not None
