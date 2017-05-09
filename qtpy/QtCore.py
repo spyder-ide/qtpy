@@ -38,6 +38,26 @@ elif PYQT4:
                              QStringListModel)
     from PyQt4.QtCore import QT_VERSION_STR as __version__
 
+    # QDesktopServices has has been split into (QDesktopServices and
+    # QStandardPaths) in Qt5
+    # This creates a dummy class that emulates QStandardPaths
+    from PyQt4.QtGui import QDesktopServices as _QDesktopServices
+
+    class QStandardPaths():
+        StandardLocation = _QDesktopServices.StandardLocation
+        displayName = _QDesktopServices.displayName
+        DesktopLocation = _QDesktopServices.DesktopLocation
+        DocumentsLocation = _QDesktopServices.DocumentsLocation
+        FontsLocation = _QDesktopServices.FontsLocation
+        ApplicationsLocation = _QDesktopServices.ApplicationsLocation
+        MusicLocation = _QDesktopServices.MusicLocation
+        MoviesLocation = _QDesktopServices.MoviesLocation
+        PicturesLocation = _QDesktopServices.PicturesLocation
+        TempLocation = _QDesktopServices.TempLocation
+        HomeLocation = _QDesktopServices.HomeLocation
+        DataLocation = _QDesktopServices.DataLocation
+        CacheLocation = _QDesktopServices.CacheLocation
+
     # Those are imported from `import *`
     del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 elif PYSIDE:
@@ -45,6 +65,27 @@ elif PYSIDE:
     from PySide.QtGui import (QItemSelection, QItemSelectionModel,
                               QItemSelectionRange, QSortFilterProxyModel,
                               QStringListModel)
+
+    # QDesktopServices has has been split into (QDesktopServices and
+    # QStandardPaths) in Qt5
+    # This creates a dummy class that emulates QStandardPaths
+    from PySide.QtGui import QDesktopServices as _QDesktopServices
+
+    class QStandardPaths():
+        StandardLocation = _QDesktopServices.StandardLocation
+        displayName = _QDesktopServices.displayName
+        DesktopLocation = _QDesktopServices.DesktopLocation
+        DocumentsLocation = _QDesktopServices.DocumentsLocation
+        FontsLocation = _QDesktopServices.FontsLocation
+        ApplicationsLocation = _QDesktopServices.ApplicationsLocation
+        MusicLocation = _QDesktopServices.MusicLocation
+        MoviesLocation = _QDesktopServices.MoviesLocation
+        PicturesLocation = _QDesktopServices.PicturesLocation
+        TempLocation = _QDesktopServices.TempLocation
+        HomeLocation = _QDesktopServices.HomeLocation
+        DataLocation = _QDesktopServices.DataLocation
+        CacheLocation = _QDesktopServices.CacheLocation
+
     import PySide.QtCore
     __version__ = PySide.QtCore.__version__
 else:
