@@ -1,5 +1,7 @@
 # QtPy: Abtraction layer for PyQt5/PyQt4/PySide2/PySide
 
+[![Join the chat at https://gitter.im/spyder-ide/qtpy](https://badges.gitter.im/spyder-ide/qtpy.svg)](https://gitter.im/spyder-ide/qtpy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Copyright © 2009- The Spyder Development Team.
 
 ## Project details
