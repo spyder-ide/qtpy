@@ -37,6 +37,7 @@ elif PYQT4:
                              QItemSelectionRange, QSortFilterProxyModel,
                              QStringListModel)
     from PyQt4.QtCore import QT_VERSION_STR as __version__
+    from PyQt4.QtCore import qInstallMsgHandler as qInstallMessageHandler
 
     # QDesktopServices has has been split into (QDesktopServices and
     # QStandardPaths) in Qt5
@@ -59,12 +60,14 @@ elif PYQT4:
         CacheLocation = _QDesktopServices.CacheLocation
 
     # Those are imported from `import *`
-    del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+    del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR, qInstallMsgHandler
 elif PYSIDE:
     from PySide.QtCore import *
     from PySide.QtGui import (QItemSelection, QItemSelectionModel,
                               QItemSelectionRange, QSortFilterProxyModel,
                               QStringListModel)
+    from PySide.QtCore import qInstallMsgHandler as qInstallMessageHandler
+    del qInstallMsgHandler
 
     # QDesktopServices has has been split into (QDesktopServices and
     # QStandardPaths) in Qt5
