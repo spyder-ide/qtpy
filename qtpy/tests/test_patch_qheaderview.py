@@ -80,19 +80,3 @@ def test_patched_qheaderview():
     headerview.setSectionResizeMode(0, QHeaderView.ResizeToContents)
     assert headerview.sectionResizeMode(0) == QHeaderView.ResizeToContents
 
-    # test that the old methods in Qt4 raise exceptions
-    if PYQT4 or PYSIDE:
-        with pytest.raises(Exception):
-            headerview.isClickable()
-        with pytest.raises(Exception):
-            headerview.isMovable()
-        with pytest.raises(Exception):
-            headerview.resizeMode(0)
-        with pytest.raises(Exception):
-            headerview.setClickable(True)
-        with pytest.raises(Exception):
-            headerview.setMovableClickable(True)
-        with pytest.raises(Exception):
-            headerview.setResizeMode(0, QHeaderView.Interactive)
-
-
