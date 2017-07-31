@@ -7,10 +7,13 @@
 Compatibility functions
 """
 
+# Standard library imports
 from __future__ import print_function
 import sys
 import collections
+import warnings
 
+# Local imports
 from . import PYQT4
 from .QtWidgets import QFileDialog
 from .py3compat import is_text_string, to_text_string, TEXT_TYPES
@@ -81,6 +84,9 @@ def getexistingdirectory(parent=None, caption='', basedir='',
                          options=QFileDialog.ShowDirsOnly):
     """Wrapper around QtGui.QFileDialog.getExistingDirectory static method
     Compatible with PyQt >=v4.4 (API #1 and #2) and PySide >=v1.0"""
+    warnings.warn('This method is deprecated. '
+                  'Use QFileDialog.getExistingDirectory2', DeprecationWarning)
+
     # Calling QFileDialog static method
     if sys.platform == "win32":
         # On Windows platforms: redirect standard outputs
@@ -162,6 +168,9 @@ def _qfiledialog_wrapper(attr, parent=None, caption='', basedir='',
 
 def getopenfilename(parent=None, caption='', basedir='', filters='',
                     selectedfilter='', options=None):
+    warnings.warn('This method is deprecated. '
+                  'Use QFileDialog.getOpenFileName2', DeprecationWarning)
+
     """Wrapper around QtGui.QFileDialog.getOpenFileName static method
     Returns a tuple (filename, selectedfilter) -- when dialog box is canceled,
     returns a tuple of empty strings
@@ -178,6 +187,9 @@ def getopenfilenames(parent=None, caption='', basedir='', filters='',
     Returns a tuple (filenames, selectedfilter) -- when dialog box is canceled,
     returns a tuple (empty list, empty string)
     Compatible with PyQt >=v4.4 (API #1 and #2) and PySide >=v1.0"""
+    warnings.warn('This method is deprecated. '
+                  'Use QFileDialog.getOpenFileNames2', DeprecationWarning)
+
     return _qfiledialog_wrapper('getOpenFileNames', parent=parent,
                                 caption=caption, basedir=basedir,
                                 filters=filters, selectedfilter=selectedfilter,
@@ -190,6 +202,9 @@ def getsavefilename(parent=None, caption='', basedir='', filters='',
     Returns a tuple (filename, selectedfilter) -- when dialog box is canceled,
     returns a tuple of empty strings
     Compatible with PyQt >=v4.4 (API #1 and #2) and PySide >=v1.0"""
+    warnings.warn('This method is deprecated. '
+                  'Use QFileDialog.getSaveFileName2', DeprecationWarning)
+
     return _qfiledialog_wrapper('getSaveFileName', parent=parent,
                                 caption=caption, basedir=basedir,
                                 filters=filters, selectedfilter=selectedfilter,
