@@ -1,4 +1,4 @@
-# QtPy: Abtraction layer for PyQt5/PyQt4/PySide2/PySide
+# QtPy: Abstraction layer for PyQt5/PyQt4/PySide2/PySide
 
 Copyright © 2009- The Spyder Development Team.
 
