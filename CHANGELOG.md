@@ -1,5 +1,44 @@
 # History of changes
 
+### New features
+
+* Add support for PySide2
+* Add support for QtMultimedia
+* Add support for PyQt 4.6
+
+### Bugs fixed
+
+**Issues**
+
+* [Issue 124](https://github.com/spyder-ide/qtpy/issues/124) - Typo in readme title
+* [Issue 111](https://github.com/spyder-ide/qtpy/issues/111) - Update Readme for 1.3 release
+* [Issue 110](https://github.com/spyder-ide/qtpy/issues/110) - Add tests for untested modules
+* [Issue 101](https://github.com/spyder-ide/qtpy/issues/101) - Missing: QtOpenGL Module
+* [Issue 89](https://github.com/spyder-ide/qtpy/issues/89) - QDesktopServices split into QDesktopServices and QStandardPaths
+* [Issue 57](https://github.com/spyder-ide/qtpy/issues/57) - qInstallMessageHandler <-> qInstallMsgHandler
+* [Issue 15](https://github.com/spyder-ide/qtpy/issues/15) - Feature Request: PySide2 support
+
+In this release 7 issues were closed
+
+**Pull requests**
+
+* [PR 125](https://github.com/spyder-ide/qtpy/pull/125) - PR: Fix typo in Readme.
+* [PR 117](https://github.com/spyder-ide/qtpy/pull/117) - PR: Add compatibility for the rename of qInstallMsgHandler to qInstallMessageHandler
+* [PR 115](https://github.com/spyder-ide/qtpy/pull/115) - PR: Update Readme to reflect that we actually use the PySide2 layout
+* [PR 114](https://github.com/spyder-ide/qtpy/pull/114) - PR: Update Readme to mention that we now support PySide2.
+* [PR 113](https://github.com/spyder-ide/qtpy/pull/113) - PR: Add tests for Qtdesigner, QtNetwork, QtPrintSupport, QtSvg and QtTest.
+* [PR 112](https://github.com/spyder-ide/qtpy/pull/112) - PR: Follow QStandardPaths location in Qt5 for PyQt4/PySide
+* [PR 109](https://github.com/spyder-ide/qtpy/pull/109) - PR: Add a coveragerc file
+* [PR 106](https://github.com/spyder-ide/qtpy/pull/106) - PR: Add support for PyQt 4.6
+* [PR 102](https://github.com/spyder-ide/qtpy/pull/102) - PR: Add a new QtOpenGL module
+* [PR 84](https://github.com/spyder-ide/qtpy/pull/84) - PR: Add PySide2 support
+
+In this release 10 pull requests were merged
+
+
+----
+
+
 ## Version 1.2.1 (2017/01/21)
 
 ### Bugs fixed
