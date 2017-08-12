@@ -1,5 +1,7 @@
 # History of changes
 
+## Version 1.3 (2017-08-12)
+
 ### New features
 
 * Add support for PySide2
