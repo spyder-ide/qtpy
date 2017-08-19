@@ -7,17 +7,20 @@
 
 """QtHelp Wrapper."""
 
+import warnings
+
 from . import PYQT5
 from . import PYQT4
 from . import PYSIDE
 from . import PYSIDE2
+from . import PythonQtWarning
 
 if PYQT5:
     from PyQt5.QtHelp import *
 elif PYSIDE2:
     # Current wheels don't have this module
     # from PySide2.QtHelp
-    pass
+    warnings.warn("QtHelp binding is missing in PySide2", PythonQtWarning)
 elif PYQT4:
     from PyQt4.QtHelp import *
 elif PYSIDE:

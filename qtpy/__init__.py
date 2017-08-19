@@ -98,6 +98,9 @@ class PythonQtError(Exception):
     """Error raise if no bindings could be selected"""
     pass
 
+class PythonQtWarning(Warning):
+    """Warning if some features are not implemented in a binding."""
+    pass
 
 if API in PYQT5_API:
     try:
