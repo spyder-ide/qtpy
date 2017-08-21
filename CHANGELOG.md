@@ -1,5 +1,28 @@
 # History of changes
 
+## Version 1.3.1 (2017-08-21)
+
+### Bugs fixed
+
+**Issues**
+
+* [Issue 129](https://github.com/spyder-ide/qtpy/issues/129) - Spurious cache files in PyPI tarball
+* [Issue 119](https://github.com/spyder-ide/qtpy/issues/119) - Importing qtpy should not raise exceptions
+
+In this release 2 issues were closed
+
+**Pull requests**
+
+* [PR 130](https://github.com/spyder-ide/qtpy/pull/130) - PR: No cache files included in the release tarball
+* [PR 126](https://github.com/spyder-ide/qtpy/pull/126) - PR: Remove Quantified Code badge because the service doesn't exist anymore
+* [PR 121](https://github.com/spyder-ide/qtpy/pull/121) - PR: Warn if QHeaderView deprecated methods are used
+
+In this release 3 pull requests were merged
+
+
+----
+
+
 ## Version 1.3 (2017-08-12)
 
 ### New features
