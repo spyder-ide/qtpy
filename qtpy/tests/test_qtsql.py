@@ -9,7 +9,7 @@ def test_qtsvg():
     # assert QtSql.QSqlDriverCreator is not None
     assert QtSql.QSqlDriverCreatorBase is not None
     assert QtSql.QSqlDriver is not None
-    assert QtSql.QSqlDriverPlugin is not None
+    #assert QtSql.QSqlDriverPlugin is not None
     assert QtSql.QSqlError is not None
     assert QtSql.QSqlField is not None
     assert QtSql.QSqlIndex is not None
