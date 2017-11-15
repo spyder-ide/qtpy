@@ -5,7 +5,7 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
-"""Provides QtSvg classes and functions."""
+"""Provides QtSql classes and functions."""
 
 # Local imports
 from . import PYQT4
