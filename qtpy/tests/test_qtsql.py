@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import pytest
 from qtpy import QtSql
 
-def test_qtsvg():
+def test_qtsql():
     """Test the qtpy.QtSql namespace"""
     assert QtSql.QSqlDatabase is not None
     # assert QtSql.QSqlDriverCreator is not None
