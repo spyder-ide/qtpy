@@ -8,11 +8,7 @@
 """Provides QtSql classes and functions."""
 
 # Local imports
-from . import PYQT4
-from . import PYSIDE2
-from . import PYQT5
-from . import PYSIDE
-from . import PythonQtError
+from . import PYQT5, PYSIDE2, PYQT4, PYSIDE, PythonQtError
 
 if PYQT5:
     from PyQt5.QtSql import *
