@@ -10,12 +10,13 @@
 **QtPy** is a shim over the various Python Qt bindings. It is used to write
 Qt binding indenpendent libraries or applications.
 
-The shim will automatically select the first available API (PyQt5, PyQt4 and
-finally PySide).
+If one of the APIs has already been imported, then it will be used.
 
-You can force the use of one specific bindings (e.g. if your application is
-using one specific bindings and you need to use library that use QtPy) by
-setting up the ``QT_API`` environment variable.
+Otherwise, the shim will automatically select the first available API (PyQt5,
+PySide2, PyQt4 and finally PySide); in that case, you can force the use of one
+specific bindings (e.g. if your application is using one specific bindings and
+you need to use library that use QtPy) by setting up the ``QT_API`` environment
+variable.
 
 PyQt5
 =====
@@ -62,6 +63,7 @@ packages::
 """
 
 import os
+import sys
 
 # Version of QtPy
 from ._version import __version__
@@ -97,6 +99,16 @@ PYQT4 = PYSIDE = PYSIDE2 = False
 class PythonQtError(Exception):
     """Error raise if no bindings could be selected"""
     pass
+
+
+if 'PyQt5' in sys.modules:
+    API = 'pyqt5'
+elif 'PySide2' in sys.modules:
+    API = 'pyside2'
+elif 'PyQt4' in sys.modules:
+    API = 'pyqt4'
+elif 'PySide' in sys.modules:
+    API = 'pyside'
 
 
 if API in PYQT5_API:
