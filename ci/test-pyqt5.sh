@@ -7,7 +7,8 @@ source activate test
 if [ "$CIRCLE_NODE_INDEX" != "3" ]; then
     conda install -q qt=5.* pyqt=5.*
 else
-    pip install -q pyqt5
+    # We are getting segfaults in 5.10
+    pip install -q pyqt5==5.9.2
 fi
 
 python qtpy/tests/runtests.py
