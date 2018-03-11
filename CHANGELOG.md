@@ -1,5 +1,36 @@
 # History of changes
 
+## Version 1.4 (2018-03-11)
+
+### New features
+
+* Add support for QtHelp
+* Add support for QtSql
+* Use already imported bindings
+
+### Issues Closed
+
+* [Issue 138](https://github.com/spyder-ide/qtpy/issues/138) - If one binding has already been imported, then qtpy should just use it ([PR 139](https://github.com/spyder-ide/qtpy/pull/139))
+* [Issue 135](https://github.com/spyder-ide/qtpy/issues/135) - Add Wrapper for QtSql [feature request] ([PR 136](https://github.com/spyder-ide/qtpy/pull/136))
+* [Issue 131](https://github.com/spyder-ide/qtpy/issues/131) - Methods missing from QStandardPaths when QT_API=pyqt4
+* [Issue 127](https://github.com/spyder-ide/qtpy/issues/127) - Add Wrapper for QtHelp [feature request] ([PR 128](https://github.com/spyder-ide/qtpy/pull/128))
+
+In this release 4 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 140](https://github.com/spyder-ide/qtpy/pull/140) - PR: Pin PyQt5 to 5.9.2 in CircleCI because 5.10 is generating segfaults
+* [PR 139](https://github.com/spyder-ide/qtpy/pull/139) - PR: If a Qt binding is already imported, then use it. ([138](https://github.com/spyder-ide/qtpy/issues/138))
+* [PR 136](https://github.com/spyder-ide/qtpy/pull/136) - PR: Add QtSql wrapper (incl. test) ([135](https://github.com/spyder-ide/qtpy/issues/135))
+* [PR 132](https://github.com/spyder-ide/qtpy/pull/132) - PR: Changes to QDesktop split 
+* [PR 128](https://github.com/spyder-ide/qtpy/pull/128) - PR: Add QtHelp Wrapper ([127](https://github.com/spyder-ide/qtpy/issues/127))
+
+In this release 5 pull requests were closed.
+
+
+----
+
+
 ## Version 1.3.1 (2017-08-21)
 
 ### Bugs fixed
