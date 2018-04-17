@@ -15,6 +15,7 @@ machine:
 dependencies:
   pre:
     # We need this for QtMultimedia in 5.8
+    - sudo apt-get update -y; true
     - sudo apt-get install libpulse-dev
     # For PySide2
     - sudo apt-get autoremove libqt5*

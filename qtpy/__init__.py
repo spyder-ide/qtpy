@@ -116,8 +116,8 @@ elif 'PySide' in sys.modules:
 
 if API in PYQT5_API:
     try:
-        from PyQt5.Qt import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
-        from PyQt5.Qt import QT_VERSION_STR as QT_VERSION  # analysis:ignore
+        from PyQt5.QtCore import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
+        from PyQt5.QtCore import QT_VERSION_STR as QT_VERSION  # analysis:ignore
         PYSIDE_VERSION = None
     except ImportError:
         API = os.environ['QT_API'] = 'pyside2'
