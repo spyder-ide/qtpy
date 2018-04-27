@@ -64,6 +64,7 @@ packages::
 
 import os
 import sys
+import warnings
 
 # Version of QtPy
 from ._version import __version__
@@ -88,7 +89,9 @@ PYSIDE2_API = ['pyside2']
 
 # Setting a default value for QT_API
 os.environ.setdefault(QT_API, 'pyqt5')
+
 API = os.environ[QT_API].lower()
+initial_api = API
 assert API in (PYQT5_API + PYQT4_API + PYSIDE_API + PYSIDE2_API)
 
 is_old_pyqt = is_pyqt46 = False
@@ -167,6 +170,12 @@ if API in PYSIDE_API:
         PYSIDE = True
     except ImportError:
         raise PythonQtError('No Qt bindings could be found')
+
+# If a correct API name is passed to QT_API and it could not be found,
+# switches to another and informs through the warning
+if API != initial_api:
+    warnings.warn('Selected binding "{}" could not be found, '
+                  'using "{}"'.format(initial_api, API), RuntimeWarning)
 
 API_NAME = {'pyqt5': 'PyQt5', 'pyqt': 'PyQt4', 'pyqt4': 'PyQt4',
             'pyside': 'PySide', 'pyside2':'PySide2'}[API]
