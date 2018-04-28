@@ -4,26 +4,19 @@ export PATH="$HOME/miniconda/bin:$PATH"
 source activate test
 
 # Download PySide2 wheel
-wget -q https://bintray.com/fredrikaverpil/pyside2-wheels/download_file?file_path=ubuntu14.04%2FPySide2-2.0.0.dev0-cp27-none-linux_x86_64.whl -O PySide2-2.0.0.dev0-cp27-none-linux_x86_64.whl
+wget -q http://download.qt.io/snapshots/ci/pyside/5.11/latest/pyside2/PySide2-5.11.0a1-5.11.0-cp27-cp27mu-linux_x86_64.whl -O PySide2-5.11.0a1-5.11.0-cp27-cp27mu-linux_x86_64.whl
+wget -q http://download.qt.io/snapshots/ci/pyside/5.11/latest/pyside2/PySide2-5.11.0a1-5.11.0-cp36-cp36m-linux_x86_64.whl -O PySide2-5.11.0a1-5.11.0-cp36-cp36m-linux_x86_64.whl
 
-# We only use container 0 for PySide2
+# We use container 3 to test with pip
 if [ "$CIRCLE_NODE_INDEX" = "0" ]; then
     conda remove -q qt pyqt
-    pip install PySide2-2.0.0.dev0-cp27-none-linux_x86_64.whl
+    pip install PySide2-5.11.0a1-5.11.0-cp27-cp27mu-linux_x86_64.whl
+elif [ "$CIRCLE_NODE_INDEX" = "3" ]; then
+    pip uninstall -q -y pyqt5 sip
+    pip install PySide2-5.11.0a1-5.11.0-cp36-cp36m-linux_x86_64.whl
 else
     exit 0
 fi
-
-# Make symlinks for Qt libraries (else imports fail)
-pushd "$HOME/miniconda/envs/test/lib/python2.7/site-packages/PySide2/"
-
-for file in `ls Qt*x86_64-linux-gnu.so`
-do
-    symlink=${file%.x86_64-linux-gnu.so}.so
-    ln -s $file $symlink
-done
-
-popd
 
 python qtpy/tests/runtests.py
 
