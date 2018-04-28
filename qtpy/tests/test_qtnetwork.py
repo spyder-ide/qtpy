@@ -4,7 +4,7 @@ import pytest
 from qtpy import PYSIDE, PYSIDE2, QtNetwork
 
 
-@pytest.mark.skipif(PYSIDE2 or PYSIDE, reason="It fails on PySide/PySide2")
+@pytest.mark.skipif(PYSIDE, reason="It fails on PySide/PySide2")
 def test_qtnetwork():
     """Test the qtpy.QtNetwork namespace"""
     assert QtNetwork.QAbstractNetworkCache is not None
