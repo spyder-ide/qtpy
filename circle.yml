@@ -4,7 +4,7 @@ machine:
     # Used by test scripts
     TEST_CI: "True"
     # Python versions to test (Maximum of 4 different versions for now)
-    PY_VERSIONS: "2.7 3.5 3.6 3.5"
+    PY_VERSIONS: "2.7 3.5 3.6 3.6"
     # For Coveralls
     COVERALLS_REPO_TOKEN: xh75EzxFFMoTEyNPo3wXxXv8OVkul3eE5
     # Used by astropy-ci helpers
@@ -17,13 +17,6 @@ dependencies:
     # We need this for QtMultimedia in 5.8
     - sudo apt-get update -y; true
     - sudo apt-get install libpulse-dev
-    # For PySide2
-    - sudo apt-get autoremove libqt5*
-    - sudo apt-get install apt -y
-    - sudo add-apt-repository -y ppa:beineri/opt-qt562-trusty
-    - sudo apt-get update -y; true
-    - sudo apt-get install -q qt56webengine
-    - sudo rsync -a /opt/qt56/ /usr/
 
   override:
     # First convert PY_VERSIONS to an array and then select the Python version
