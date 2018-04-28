@@ -1,5 +1,30 @@
 # History of changes
 
+## Version 1.4.1 (2018-04-28)
+
+### New features
+
+* Show a warning when QT_API is changed automatically by qtpy.
+
+### Issues Closed
+
+* [Issue 145](https://github.com/spyder-ide/qtpy/issues/145) - Raise a warning if QT_API value is changed automatically ([PR 146](https://github.com/spyder-ide/qtpy/pull/146))
+* [Issue 142](https://github.com/spyder-ide/qtpy/issues/142) - On OSX qtpy applications are forcing discrete graphics ([PR 143](https://github.com/spyder-ide/qtpy/pull/143))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 147](https://github.com/spyder-ide/qtpy/pull/147) - PR: Add better compatibility with PySide2
+* [PR 146](https://github.com/spyder-ide/qtpy/pull/146) - PR: Add a warning if API is changed automatically ([145](https://github.com/spyder-ide/qtpy/issues/145))
+* [PR 143](https://github.com/spyder-ide/qtpy/pull/143) - PR: Avoid using PyQt5.Qt, which imports unneeded stuff and forces discrete GPU on OSX ([142](https://github.com/spyder-ide/qtpy/issues/142))
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
 ## Version 1.4 (2018-03-11)
 
 ### New features
