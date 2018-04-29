@@ -24,8 +24,10 @@ if PYQT5:
     del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 elif PYSIDE2:
     from PySide2.QtCore import *
-    from PySide2.QtGui import QStringListModel
-
+    try:  # may be limited to PySide-5.11a1 only 
+        from PySide2.QtGui import QStringListModel
+    except:
+        pass
 elif PYQT4:
     from PyQt4.QtCore import *
     # Those are things we inherited from Spyder that fix crazy crashes under
