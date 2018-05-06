@@ -69,6 +69,17 @@ import warnings
 # Version of QtPy
 from ._version import __version__
 
+
+class PythonQtError(Exception):
+    """Error raise if no bindings could be selected"""
+    pass
+
+
+class PythonQtWarning(Warning):
+    """Warning if some features are not implemented in a binding."""
+    pass
+
+
 # Qt API environment variable name
 QT_API = 'QT_API'
 
@@ -98,14 +109,6 @@ is_old_pyqt = is_pyqt46 = False
 PYQT5 = True
 PYQT4 = PYSIDE = PYSIDE2 = False
 
-
-class PythonQtError(Exception):
-    """Error raise if no bindings could be selected"""
-    pass
-
-class PythonQtWarning(Warning):
-    """Warning if some features are not implemented in a binding."""
-    pass
 
 if 'PyQt5' in sys.modules:
     API = 'pyqt5'
@@ -181,8 +184,8 @@ API_NAME = {'pyqt5': 'PyQt5', 'pyqt': 'PyQt4', 'pyqt4': 'PyQt4',
             'pyside': 'PySide', 'pyside2':'PySide2'}[API]
 
 if PYQT4:
-        import sip
-        try:
-            API_NAME += (" (API v{0})".format(sip.getapi('QString')))
-        except AttributeError:
-            pass
+    import sip
+    try:
+        API_NAME += (" (API v{0})".format(sip.getapi('QString')))
+    except AttributeError:
+        pass
