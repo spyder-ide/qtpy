@@ -1,5 +1,27 @@
 # History of changes
 
+## Version 1.4.2 (2018-05-06)
+
+### Issues Closed
+
+* [Issue 150](https://github.com/spyder-ide/qtpy/issues/150) - PySide2-5.11 alpha2 compatibility ([PR 151](https://github.com/spyder-ide/qtpy/pull/151))
+* [Issue 144](https://github.com/spyder-ide/qtpy/issues/144) - ValueError: API 'QString' has already been set to version 1 at line 141 in __init__.py file. ([PR 152](https://github.com/spyder-ide/qtpy/pull/152))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 152](https://github.com/spyder-ide/qtpy/pull/152) - PR: Catch ValueError when trying to set sip API ([144](https://github.com/spyder-ide/qtpy/issues/144))
+* [PR 151](https://github.com/spyder-ide/qtpy/pull/151) - PR: Add a preventive change for PySide-5.11a2 ([150](https://github.com/spyder-ide/qtpy/issues/150))
+* [PR 149](https://github.com/spyder-ide/qtpy/pull/149) - PR: Use Qt official wheels to run tests for PySide2
+* [PR 148](https://github.com/spyder-ide/qtpy/pull/148) - PR: Remove internal conda recipe
+
+In this release 4 pull requests were closed.
+
+
+----
+
+
 ## Version 1.4.1 (2018-04-28)
 
 ### New features
