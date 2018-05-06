@@ -147,7 +147,7 @@ if API in PYQT4_API:
             sip.setapi('QTextStream', 2)
             sip.setapi('QTime', 2)
             sip.setapi('QUrl', 2)
-        except AttributeError:
+        except (AttributeError, ValueError):
             # PyQt < v4.6
             pass
         from PyQt4.Qt import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
