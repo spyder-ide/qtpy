@@ -23,14 +23,14 @@ LONG_DESCRIPTION = """
    :target: https://pypi.python.org/pypi/QtPy/
    :alt: Number of PyPI downloads
 
-QtPy: Abstraction layer for PyQt5/PyQt4/PySide
-=============================================
+QtPy: Abstraction layer for PyQt5/PyQt4/PySide2/PySide
+======================================================
 
 **QtPy** (pronounced *'cutie pie'*) is a small abstraction layer that lets you
 write applications using a single api call to either PyQt or PySide.
 
-It provides support for PyQt5, PyQt4 and PySide using the PyQt5 layout (where
-the QtGui module has been split into QtGui and QtWidgets).
+It provides support for PyQt5, PyQt4, PySide2 and PySide using the PyQt5
+layout (where the QtGui module has been split into QtGui and QtWidgets).
 
 Basically, you write your code as if you were using PyQt5 but import qt from
 ``qtpy`` instead of ``PyQt5``.
@@ -59,7 +59,7 @@ setup(
     name='QtPy',
     version=version_ns['__version__'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
-    keywords=["qt PyQt4 PyQt5 PySide"],
+    keywords=["qt PyQt4 PyQt5 PySide PySide2"],
     url='https://github.com/spyder-ide/qtpy',
     license='MIT',
     author='Colin Duquesnoy, The Spyder Development Team',
@@ -67,8 +67,8 @@ setup(
     maintainer='Gonzalo Peña-Castellanos',
     maintainer_email='goanpeca@gmail.com',
     description='Provides an abstraction layer on top of the various Qt '
-                'bindings (PyQt5, PyQt4 and PySide) and additional custom '
-                'QWidgets.',
+                'bindings (PyQt5, PyQt4, PySide2 and PySide) and additional '
+                'custom QWidgets.',
     long_description=LONG_DESCRIPTION,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
