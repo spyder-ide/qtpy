@@ -23,7 +23,7 @@ LONG_DESCRIPTION = """
    :target: https://pypi.python.org/pypi/QtPy/
    :alt: Number of PyPI downloads
 
-QtPy: Abtraction layer for PyQt5/PyQt4/PySide
+QtPy: Abstraction layer for PyQt5/PyQt4/PySide
 =============================================
 
 **QtPy** (pronounced *'cutie pie'*) is a small abstraction layer that lets you
