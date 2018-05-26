@@ -7,46 +7,53 @@
 # (see LICENSE.txt for details)
 
 """
-**QtPy** is a shim over the various Python Qt bindings. It is used to write
-Qt binding independent libraries or applications.
+**QtPy** is a shim over the various Python Qt bindings. It is used to
+write Qt binding independent libraries or applications.
 
 If one of the APIs has already been imported, then it will be used.
 
 Otherwise, the shim will automatically select the first available API
-following the list; in that case, you can force the use of one
-specific bindings (e.g. if your application is using one specific bindings and
-you need to use library that use QtPy) by setting up the ``QT_API`` environment
-variable.
+following the list below; in that case, you can force the use of one
+specific binding (e.g. if your application is using one specific binding
+and you need to use a library that uses QtPy) by setting up the
+``QT_API`` environment variable.
 
-For each binding selected, there are more three attempts if it not found,
-following the most recent (Qt5) and most stable (PyQt) API. See bellow:
+For each selected binding, there will be more three attempts if it is
+not found, following the most recent (Qt5) and most stable (PyQt) API.
+See below:
 
-    * PyQt5: PySide2, PyQt4, PySide
-    * PySide2: PyQt5, PyQt4, PySide
-    * PyQt4: PySide, PyQt5, PySide2
-    * PySide: PyQt4, PyQt5, PySide2
+* pyqt5: PyQt5, PySide2, PyQt4, PySide
+* pyside2: PySide2, PyQt5, PyQt4, PySide
+* pyqt4: PyQt4, PySide, PyQt5, PySide2
+* pyside: PySide, PyQt4, PyQt5, PySide2
 
-The default value for QT_API is PyQt5 (not case sensitive).
+The clearest way to set which API is to be used by QtPy is setting
+``QT_API`` environment variable. The default value for ``QT_API = 'pyqt5'``
+(not case sensitive).
 
-The clearest way to set which API is to be used by QtPy is setting``QT_API``
-environment variable.
-If any of binding is imported directly anywhere, but before you import QtPy,
-this binding will be used, overwriting your definition.
+The priority when setting the Qt binding API is detailed below:
 
-Priority when setting the Qt binding API:
+1 Have been already imported any Qt binding (not recommended, implicit):
+    1.1 QT_API is not set, pass, no output;
+    1.2 QT_API is set to the same binding, pass, no output;
+    1.3 QT_API is set to a different binding, ignore QT_API, pass but warns;
 
-    1 Have been already imported any Qt binding (not recommended):
-        1.1 QT_API is not set, pass, no output;
-        1.2 QT_API is set to the same binding, pass, no output;
-        1.3 QT_API is set to differ binding, ignore QT_API, pass but warns;
+2 Have NOT been already imported any Qt binding (explicitly setting):
+    2.1 QT_API is set correctly, pass;
+        2.1.1 If binding is found, pass, no output;
+        2.1.2 If binding is not found, try another one (more three);
+            2.1.2.a If any is found (different from set), pass but warns;
+            2.1.2.b If no one is found, stop, error;
+    2.2 QT_API is not set correctly, stop, error;
 
-    2 Have NOT been already imported any Qt binding:
-        2.1 QT_API is set correctly, pass;
-            2.1.1 If binding is found, pass, no output;
-            2.1.2 If binding is not found, try another one (more three):
-                2.1.2.a If any is found (different from set), pass but warns;
-                2.1.2.b If no one is found, stop, error;
-        2.2 QT_API is not set correctly, stop, error;
+Note 1: if any Qt binding is imported (a different one) after QtPy
+import, issues and errors may occur and QtPy won't be able to help you
+with any warning.
+
+Note 2: we always preffer to not break the code when something is not
+found, so we use ``warnings`` module to alert changes and show information
+that may be useful when developing using QtPy. Remember to set warnings
+to show messages.
 
 PyQt5
 =====
@@ -55,7 +62,6 @@ For PyQt5, you don't have to set anything as it will be used automatically::
 
     >>> from qtpy import QtGui, QtWidgets, QtCore
     >>> print(QtWidgets.QWidget)
-
 
 PySide2
 =======
