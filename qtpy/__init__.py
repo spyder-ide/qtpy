@@ -156,11 +156,11 @@ def get_available_api(apis_to_search):
 
 def get_api_information(api_name):
     """Get API information of version and Qt version.
-    
+
     ``api_name`` is an importing name, case sensitive.
 
-    Note: this function is not prepared to be called more than once.
-    Multiple calls will accumulate imports on sys.modules if they are
+    Note: this function is not prepared to be called more than once, yet.
+    Multiple calls will accumulate imports on sys.modules if api_name is
     installed. It must be rewrite to use pkgutil/importlib to check
     check version numbers.
     """
@@ -236,7 +236,8 @@ if not get_available_api(api_names[default_api]):
 
 # All False/None because they were not imported yet
 PYQT5 = PYQT4 = PYSIDE = PYSIDE2 = False
-API_VERSION = QT_VERSION = ''
+API_NAME = API_VERSION = QT_VERSION = ''
+PYQT_VERSION = PYSIDE_VERSION = None
 
 is_old_pyqt = is_pyqt46 = False
 api_trial = []
@@ -248,8 +249,8 @@ env_api = os.environ[QT_API].lower()
 # Check if it was correctly set with environment variable
 if env_api not in api_names.keys():
     raise PythonQtError('Qt binding "{}" is unknown, please use a name '
-                        '(not case sensitive) from {}'.format(env_api,
-                                                              list(api_names.keys())))
+                        '(not case sensitive) from {}.'.format(env_api,
+                                                               list(api_names.keys())))
 environment_api_list = api_names[env_api]
 
 # Check if Qt binding was already imported in 'sys.modules'
@@ -260,7 +261,7 @@ imported_api_list = get_imported_api(api_names[env_api])
 if len(imported_api_list) >= 2:
     warnings.warn('There is more than one imported Qt binding {}. '
                   'This may cause some issues, check your code '
-                  'consistence'.format(imported_api_list), RuntimeWarning)
+                  'consistence.'.format(imported_api_list), RuntimeWarning)
 
 # Priority for imported binding(s), even QT_API is set
 if imported_api_list:
@@ -273,38 +274,39 @@ initial_api = environment_api_list[0]
 
 for api_name in api_trial:
     try:
-        api_version, qt_version = get_api_information(api_name)
+        API_VERSION, QT_VERSION = get_api_information(api_name)
     except PythonQtError:
         pass
     else:
-        if api_version and qt_version:
-            API = api_name
-            API_VERSION = api_version
-            QT_VERSION = qt_version
-            if API == 'PyQt4':
+        if API_VERSION and QT_VERSION:
+            API = api_name.lower()
+            API_NAME = api_name
+            if api_name == 'PyQt4':
                 PYQT4 = True
-            elif API == 'PyQt5':
+                PYQT4_VERSION = API_VERSION
+            elif api_name == 'PyQt5':
                 PYQT5 = True
-            elif API == 'PySide':
+                PYQT4_VERSION = API_VERSION
+            elif api_name == 'PySide':
                 PYSIDE = True
-            elif API == 'PySide2':
+                PYSIDE_VERSION = API_VERSION
+            elif api_name == 'PySide2':
                 PYSIDE2 = True
+                PYSIDE_VERSION = API_VERSION
             break
 
 # If a correct API name is passed to QT_API and it cannot be found,
 # switches to another and informs through the warning
-if API != initial_api:
+if API_NAME != initial_api:
     if imported_api_list:
         # If the code is using QtPy is not supposed do directly import Qt api's,
         # so a warning is sent to check consistence
-        warnings.warn('Selected binding "{}" could not be set because there is '
-                      'already imported "{}", please check your code for '
-                      'consistence'.format(initial_api, API), RuntimeWarning)
+        warnings.warn('Selected binding "{}" could not be set because {} '
+                      'has already been imported. Please check your code for '
+                      'consistence.'.format(initial_api, API_NAME), RuntimeWarning)
     else:
         warnings.warn('Selected binding "{}" could not be found, '
-                      'using "{}"'.format(initial_api, API), RuntimeWarning)
-
-API_NAME = API
+                      'using "{}".'.format(initial_api, API_NAME), RuntimeWarning)
 
 if PYQT4:
     is_old_pyqt = API_VERSION.startswith(('4.4', '4.5', '4.6', '4.7'))
