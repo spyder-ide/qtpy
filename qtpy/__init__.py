@@ -70,7 +70,7 @@ Set the QT_API environment variable to 'PySide2' before importing other
 packages::
 
     >>> import os
-    >>> os.environ['QT_API'] = 'PySide2'
+    >>> os.environ['QT_API'] = 'pyside2'
     >>> from qtpy import QtGui, QtWidgets, QtCore
     >>> print(QtWidgets.QWidget)
 
@@ -81,7 +81,7 @@ Set the ``QT_API`` environment variable to 'PyQt4' before importing any python
 package::
 
     >>> import os
-    >>> os.environ['QT_API'] = 'PyQt4'
+    >>> os.environ['QT_API'] = 'pyqt4'
     >>> from qtpy import QtGui, QtWidgets, QtCore
     >>> print(QtWidgets.QWidget)
 
@@ -92,7 +92,7 @@ Set the QT_API environment variable to 'PySide' before importing other
 packages::
 
     >>> import os
-    >>> os.environ['QT_API'] = 'PySide'
+    >>> os.environ['QT_API'] = 'pyside'
     >>> from qtpy import QtGui, QtWidgets, QtCore
     >>> print(QtWidgets.QWidget)
 
