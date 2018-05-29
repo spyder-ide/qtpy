@@ -297,6 +297,7 @@ for api_name in api_trial:
 
 # If a correct API name is passed to QT_API and it cannot be found,
 # switches to another and informs through the warning
+os.environ['QT_API'] = API
 if API_NAME != initial_api:
     if imported_api_list:
         # If the code is using QtPy is not supposed do directly import Qt api's,

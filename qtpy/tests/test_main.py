@@ -1,6 +1,7 @@
 import os
+import importlib
 
-from qtpy import QtCore, QtGui, QtWidgets, QtWebEngineWidgets
+from qtpy import QtCore, QtGui, QtWidgets, QtWebEngineWidgets, API
 
 
 def assert_pyside():
@@ -52,7 +53,6 @@ def test_qt_api():
     """
     If QT_API is specified, we check that the correct Qt wrapper was used
     """
-
     QT_API = os.environ.get('QT_API', '').lower()
 
     if QT_API == 'pyside':
@@ -66,17 +66,28 @@ def test_qt_api():
     else:
         # If the tests are run locally, USE_QT_API and QT_API may not be
         # defined, but we still want to make sure qtpy is behaving sensibly.
-        # We should then be loading, in order of decreasing preference, PyQt5,
-        # PyQt4, and PySide.
+        #
+        # We should then be loading, in order of decreasing preference
+        # matching the api_names[default_api='pyqt5'] in __init__.py
+        # >>> PyQt5, PySide2, PyQt4, PySide
         try:
             import PyQt5
         except ImportError:
             try:
-                import PyQt4
+                import PySide2
             except ImportError:
-                import PySide
-                assert_pyside()
+                try:
+                    import PyQt4
+                except ImportError:
+                    try:
+                        import PySide
+                    except ImportError:
+                        pass
+                    else:
+                        assert_pyside()
+                else:
+                    assert_pyqt4()
             else:
-                assert_pyqt4()
+                assert_pyside2()
         else:
             assert_pyqt5()
