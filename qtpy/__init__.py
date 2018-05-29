@@ -98,7 +98,7 @@ packages::
 
 """
 
-import importlib.util
+import pkgutil
 import os
 import sys
 import warnings
@@ -118,7 +118,12 @@ class PythonQtWarning(Warning):
 
 
 def get_imported_api(apis_to_search):
-    """Return an ordered list of Qt bindings that have been already imported."""
+    """Return an ordered list of Qt bindings that have been already imported.
+
+    ``apis_to_search`` is a list of importing names, case sensitive.
+
+    Return the same list excluding api names not imported.
+    """
     imported_api = []
 
     for api_name in apis_to_search:
@@ -129,19 +134,36 @@ def get_imported_api(apis_to_search):
 
 
 def get_available_api(apis_to_search):
-    """Return an ordered list of Qt bindings that are available (installed)."""
+    """Return an ordered list of Qt bindings that are available (installed).
+
+    ``apis_to_search`` is a list of importing names, case sensitive.
+
+    Return the same list excluding api names not available.
+    """
     available_api = []
 
     for api_name in apis_to_search:
-        module_spec = importlib.util.find_spec(api_name)
-        if module_spec:
+        # Using try...import or __import__ causes the api_name to be
+        # imported accumulating on sys.modules.
+        # Using pkgutil.get_loader(), that works on both py2/3
+        # it works as expected.
+        can_import = pkgutil.get_loader(api_name)
+        if can_import:
             available_api.append(api_name)
 
     return available_api
 
 
 def get_api_information(api_name):
-    """Get API information of version and Qt version, also"""
+    """Get API information of version and Qt version.
+    
+    ``api_name`` is an importing name, case sensitive.
+
+    Note: this function is not prepared to be called more than once.
+    Multiple calls will accumulate imports on sys.modules if they are
+    installed. It must be rewrite to use pkgutil/importlib to check
+    check version numbers.
+    """
 
     if api_name == 'PyQt4':
         try:
@@ -236,7 +258,7 @@ imported_api_list = get_imported_api(api_names[env_api])
 
 # If more than one Qt binding is imported, just warns for now
 if len(imported_api_list) >= 2:
-    warnings.warn('There is more than one imported Qt binding {}.'
+    warnings.warn('There is more than one imported Qt binding {}. '
                   'This may cause some issues, check your code '
                   'consistence'.format(imported_api_list), RuntimeWarning)
 
