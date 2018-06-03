@@ -20,7 +20,6 @@ def get_qapp(icon_path=None):
     return qapp
 
 
-@pytest.mark.skipif(PY3 or PYSIDE2, reason="It fails on Python 3 and PySide2")
 def test_patched_qheaderview():
     """
     This will test whether QHeaderView has the new methods introduced in Qt5.
@@ -46,7 +45,7 @@ def test_patched_qheaderview():
     # test it
     assert isinstance(headerview.sectionsClickable(), bool)
     assert isinstance(headerview.sectionsMovable(), bool)
-    if PYSIDE:
+    if PYSIDE or PYSIDE2:
         assert isinstance(headerview.sectionResizeMode(0),
                           QHeaderView.ResizeMode)
     else:
