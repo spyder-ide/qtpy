@@ -21,7 +21,7 @@ def assert_pyside2():
     assert QtCore.QEvent is PySide2.QtCore.QEvent
     assert QtGui.QPainter is PySide2.QtGui.QPainter
     assert QtWidgets.QWidget is PySide2.QtWidgets.QWidget
-    assert QtWebEngineWidgets.QWebEnginePage is PySide2.QtWebEngineWidgets.QWebEnginePage
+    #assert QtWebEngineWidgets.QWebEnginePage is PySide2.QtWebEngineWidgets.QWebEnginePage
 
 def assert_pyqt4():
     """
