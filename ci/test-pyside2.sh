@@ -5,7 +5,7 @@ source activate test
 
 # Download PySide2 wheels
 export URL="download.qt.io/snapshots/ci/pyside/5.11/latest/pyside2/"
-wget -q -r --no-parent -A 'PySide2-*-linux_x86_64.whl' http://${URL}
+wget -r --no-parent -A 'PySide2-*-linux_x86_64.whl' http://${URL}
 
 # We use container 3 to test with pip
 if [ "$CIRCLE_NODE_INDEX" = "0" ]; then
