@@ -1,13 +1,12 @@
 # QtPy: Abstraction layer for PyQt5/PyQt4/PySide2/PySide
 
-## Project details
 [![license](https://img.shields.io/pypi/l/qtpy.svg)](./LICENSE)
-[![pypi version](https://img.shields.io/pypi/v/qtpy.svg)](https://pypi.python.org/pypi/qtpy)
-[![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)
+[![pypi version](https://img.shields.io/pypi/v/qtpy.svg)](https://pypi.org/project/QtPy/)
+[![conda version](https://img.shields.io/conda/vn/conda-forge/qtpy.svg)](https://www.anaconda.com/download/)
+[![download count](https://img.shields.io/conda/dn/conda-forge/qtpy.svg)](https://www.anaconda.com/download/)
 [![OpenCollective Backers](https://opencollective.com/spyder/backers/badge.svg?color=blue)](#backers)
-[![OpenCollective Sponsors](https://opencollective.com/spyder/sponsors/badge.svg?color=blue)](#sponsors)
-
-## Build status
+[![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)<br>
+[![PyPI status](https://img.shields.io/pypi/status/qtpy.svg)](https://github.com/spyder-ide/qtpy)
 [![Build status](https://ci.appveyor.com/api/projects/status/62y6i02vhn4hefg0/branch/master?svg=true)](https://ci.appveyor.com/project/spyder-ide/qtpy/branch/master)
 [![CircleCI](https://circleci.com/gh/spyder-ide/qtpy.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtpy)
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
