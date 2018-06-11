@@ -1,7 +1,5 @@
 # QtPy: Abstraction layer for PyQt5/PyQt4/PySide2/PySide
 
-Copyright © 2009- The Spyder Development Team.
-
 ## Project details
 [![license](https://img.shields.io/pypi/l/qtpy.svg)](./LICENSE)
 [![pypi version](https://img.shields.io/pypi/v/qtpy.svg)](https://pypi.python.org/pypi/qtpy)
@@ -15,6 +13,8 @@ Copyright © 2009- The Spyder Development Team.
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spyder-ide/qtpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spyder-ide/qtpy/?branch=master)
 
+*Copyright © 2009–2018 The Spyder Development Team*
+
 
 ## Description
 
@@ -24,11 +24,11 @@ write applications using a single API call to either PyQt or PySide.
 It provides support for PyQt5, PyQt4, PySide2 and PySide using the Qt5 layout
 (where the QtGui module has been split into QtGui and QtWidgets).
 
-Basically, you write your code as if you were using PySide2 but import Qt modules
-from `qtpy` instead of `PySide2` (or `PyQt5`)
+Basically, you can write your code as if you were using PySide2
+but import Qt modules from `qtpy` instead of `PySide2` (or `PyQt5`)
 
 
-### Attribution and acknowledgements
+### Attribution and acknowledgments
 
 This project is based on the [pyqode.qt](https://github.com/pyQode/pyqode.qt)
 project and the [spyderlib.qt](https://github.com/spyder-ide/spyder/tree/2.3/spyderlib/qt)
@@ -43,7 +43,7 @@ to a particular project or namespace.
 
 ### License
 
-This project is licensed under the MIT license.
+This project is released under the MIT license.
 
 
 ### Requirements
@@ -72,9 +72,11 @@ or
 conda install qtpy
 ```
 
+
 ## Contributing
 
 Everyone is welcome to contribute!
+
 
 ## Backers
 
