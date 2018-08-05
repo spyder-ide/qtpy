@@ -6,8 +6,8 @@ source activate test
 # Download PySide2 wheels
 export URL="http://download.qt.io/snapshots/ci/pyside/5.11/latest/"
 
-if [ "$USE_CONDA" = "Yes"]; then
-    if [ "$PYTHON_VERSION" = "2.7"]; then
+if [ "$USE_CONDA" = "Yes" ]; then
+    if [ "$PYTHON_VERSION" = "2.7" ]; then
         conda remove -q qt pyqt
         pip install -q --index-url=${URL} pyside2 --trusted-host download.qt.io
     else
