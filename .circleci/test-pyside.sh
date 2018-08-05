@@ -3,8 +3,7 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 source activate test
 
-# We use container 3 to test with pip
-if [ "$CIRCLE_NODE_INDEX" = "3" ]; then
+if [ "$USE_CONDA" = "No" ]; then
     exit 0
 else
     conda remove -q qt pyqt
