@@ -3,12 +3,11 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 source activate test
 
-# We use container 3 to test with pip
-if [ "$CIRCLE_NODE_INDEX" != "3" ]; then
-    conda install -q qt=5.* pyqt=5.*
+if [ "$USE_CONDA" = "No" ]; then
+    exit 0
 else
-    # We are getting segfaults in 5.10
-    pip install -q pyqt5==5.9.2
+    conda remove -q qt pyqt
+    conda install -q -c conda-forge qt=4.* pyside
 fi
 
 python qtpy/tests/runtests.py
