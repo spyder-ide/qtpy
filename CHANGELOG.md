@@ -1,5 +1,38 @@
 # History of changes
 
+## Version 1.5 (2018-08-25)
+
+### New features
+
+* Add support for QtLocation, QtMultimediaWidgets, QtQml, QtQuick,
+  QtWebChannel, QtWebSockets and QtXmlPatterns.
+* Raise an error when trying to use the wrong combination of macOS
+  and Qt versions.
+
+### Issues Closed
+
+* [Issue 155](https://github.com/spyder-ide/qtpy/issues/155) - Add warnings for Qt 5.9 in macOS 10.9 and Qt 5.11 and macOS 10.11 ([PR 168](https://github.com/spyder-ide/qtpy/pull/168))
+* [Issue 153](https://github.com/spyder-ide/qtpy/issues/153) - Shim PyQt5 ToPyDateTime for compatibility with PySide2 ([PR 169](https://github.com/spyder-ide/qtpy/pull/169))
+* [Issue 123](https://github.com/spyder-ide/qtpy/issues/123) - Wrap QWebChannel module ([PR 157](https://github.com/spyder-ide/qtpy/pull/157))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 169](https://github.com/spyder-ide/qtpy/pull/169) - PR: Shim PyQt5 QDateTime.toPyDateTime to QDateTime.toPython for compatibility with PySide2 ([153](https://github.com/spyder-ide/qtpy/issues/153))
+* [PR 168](https://github.com/spyder-ide/qtpy/pull/168) - PR: Raise error when trying to use the wrong combination of macOS and Qt versions ([155](https://github.com/spyder-ide/qtpy/issues/155))
+* [PR 167](https://github.com/spyder-ide/qtpy/pull/167) - PR: Migrate to CircleCI 2.0
+* [PR 163](https://github.com/spyder-ide/qtpy/pull/163) - PR: Add QtLocation
+* [PR 162](https://github.com/spyder-ide/qtpy/pull/162) - PR: Update readme to remove funding appeal, harmonize with other readmes and minor fixes
+* [PR 161](https://github.com/spyder-ide/qtpy/pull/161) - PR: Fix pyside2 wheels install
+* [PR 157](https://github.com/spyder-ide/qtpy/pull/157) - PR: Add more Qt modules ([123](https://github.com/spyder-ide/qtpy/issues/123))
+
+In this release 7 pull requests were closed.
+
+
+----
+
+
 ## Version 1.4.2 (2018-05-06)
 
 ### Issues Closed
@@ -51,8 +84,7 @@ In this release 3 pull requests were closed.
 
 ### New features
 
-* Add support for QtHelp
-* Add support for QtSql
+* Add support for QtHelp and QtSql
 * Use already imported bindings
 
 ### Issues Closed
@@ -105,9 +137,7 @@ In this release 3 pull requests were merged
 
 ### New features
 
-* Add support for PySide2
-* Add support for QtMultimedia
-* Add support for PyQt 4.6
+* Add support for PySide2 and PyQt 4.6
 
 ### Bugs fixed
 
