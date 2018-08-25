@@ -155,6 +155,17 @@ if API in PYSIDE2_API:
         PYQT_VERSION = None
         PYQT5 = False
         PYSIDE2 = True
+
+        if sys.platform == 'darwin':
+            macos_version = LooseVersion(platform.mac_ver()[0])
+            if macos_version < LooseVersion('10.11'):
+                if LooseVersion(QT_VERSION) >= '5.11':
+                    raise PythonQtError("Qt 5.11 or higher only works in "
+                                        "macOS 10.11 or higher. Your "
+                                        "program will fail in this "
+                                        "system.")
+
+            del macos_version
     except ImportError:
         API = os.environ['QT_API'] = 'pyqt'
 

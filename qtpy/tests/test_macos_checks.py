@@ -5,7 +5,7 @@ import platform
 import sys
 
 import pytest
-from qtpy import PYQT5, QT_VERSION
+from qtpy import PYQT5, PYSIDE2
 
 
 @pytest.mark.skipif(not PYQT5, reason="Targeted to PyQt5")
@@ -55,7 +55,8 @@ def test_qt59_no_exception(mac_ver, monkeypatch):
         pytest.fail("Error!")
 
 
-@pytest.mark.skipif(not PYQT5, reason="Targeted to PyQt5")
+@pytest.mark.skipif(not (PYQT5 or PYSIDE2),
+                    reason="Targeted to PyQt5 or PySide2")
 @mock.patch.object(platform, 'mac_ver')
 def test_qt511_exception(mac_ver, monkeypatch):
     # Remove qtpy to reimport it again
@@ -69,7 +70,10 @@ def test_qt511_exception(mac_ver, monkeypatch):
     mac_ver.return_value = ('10.10.3',)
 
     # Patch Qt version
-    monkeypatch.setattr("PyQt5.QtCore.QT_VERSION_STR", '5.11.1')
+    if PYQT5:
+        monkeypatch.setattr("PyQt5.QtCore.QT_VERSION_STR", '5.11.1')
+    else:
+        monkeypatch.setattr("PySide2.QtCore.__version__", '5.11.1')
 
     # This should raise an Exception
     with pytest.raises(Exception) as e:
@@ -79,7 +83,8 @@ def test_qt511_exception(mac_ver, monkeypatch):
     assert '5.11' in str(e.value)
 
 
-@pytest.mark.skipif(not PYQT5, reason="Targeted to PyQt5")
+@pytest.mark.skipif(not (PYQT5 or PYSIDE2),
+                    reason="Targeted to PyQt5 or PySide2")
 @mock.patch.object(platform, 'mac_ver')
 def test_qt511_no_exception(mac_ver, monkeypatch):
     # Remove qtpy to reimport it again
@@ -93,7 +98,10 @@ def test_qt511_no_exception(mac_ver, monkeypatch):
     mac_ver.return_value = ('10.13.2',)
 
     # Patch Qt version
-    monkeypatch.setattr("PyQt5.QtCore.QT_VERSION_STR", '5.11.1')
+    if PYQT5:
+        monkeypatch.setattr("PyQt5.QtCore.QT_VERSION_STR", '5.11.1')
+    else:
+        monkeypatch.setattr("PySide2.QtCore.__version__", '5.11.1')
 
    # This should not raise an Exception
     try:
