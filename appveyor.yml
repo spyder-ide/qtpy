@@ -15,18 +15,18 @@ environment:
   matrix:
     # Qt4
     - PYTHON_VERSION: "2.7"
-      CONDA_DEPENDENCIES: "pytest pytest-cov qt=4.* pyside"
+      CONDA_DEPENDENCIES: "pytest pytest-cov mock qt=4.* pyside"
     - PYTHON_VERSION: "2.7"
-      CONDA_DEPENDENCIES: "pytest pytest-cov qt=4.* pyqt=4.*"
+      CONDA_DEPENDENCIES: "pytest pytest-cov mock qt=4.* pyqt=4.*"
     - PYTHON_VERSION: "3.5"
-      CONDA_DEPENDENCIES: "pytest pytest-cov qt=4.* pyqt=4.*"
+      CONDA_DEPENDENCIES: "pytest pytest-cov mock qt=4.* pyqt=4.*"
     # Qt5
     - PYTHON_VERSION: "2.7"
-      CONDA_DEPENDENCIES: "pytest pytest-cov qt=5.* pyqt=5.*"
+      CONDA_DEPENDENCIES: "pytest pytest-cov mock qt=5.* pyqt=5.*"
     - PYTHON_VERSION: "3.5"
-      CONDA_DEPENDENCIES: "pytest pytest-cov qt=5.* pyqt=5.*"
+      CONDA_DEPENDENCIES: "pytest pytest-cov mock qt=5.* pyqt=5.*"
     - PYTHON_VERSION: "3.6"
-      CONDA_DEPENDENCIES: "pytest pytest-cov"
+      CONDA_DEPENDENCIES: "pytest pytest-cov mock"
       PIP_DEPENDENCIES: "pyqt5==5.9.2"
       PIP_DEPENDENCIES_FLAGS: "-q"
 
