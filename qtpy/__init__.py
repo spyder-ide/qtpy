@@ -62,7 +62,9 @@ packages::
 
 """
 
+from distutils.version import LooseVersion
 import os
+import platform
 import sys
 import warnings
 
@@ -125,6 +127,23 @@ if API in PYQT5_API:
         from PyQt5.QtCore import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
         from PyQt5.QtCore import QT_VERSION_STR as QT_VERSION  # analysis:ignore
         PYSIDE_VERSION = None
+
+        if sys.platform == 'darwin':
+            macos_version = LooseVersion(platform.mac_ver()[0])
+            if macos_version < LooseVersion('10.10'):
+                if LooseVersion(QT_VERSION) >= '5.9':
+                    raise PythonQtError("Qt 5.9 or higher only works in "
+                                        "macOS 10.10 or higher. Your "
+                                        "program will fail in this "
+                                        "system.")
+            elif macos_version < LooseVersion('10.11'):
+                if LooseVersion(QT_VERSION) >= '5.11':
+                    raise PythonQtError("Qt 5.11 or higher only works in "
+                                        "macOS 10.11 or higher. Your "
+                                        "program will fail in this "
+                                        "system.")
+
+            del macos_version
     except ImportError:
         API = os.environ['QT_API'] = 'pyside2'
 
