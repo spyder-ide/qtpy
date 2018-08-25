@@ -1,5 +1,7 @@
 To release a new version of qtpy on PyPI:
 
+* Close Github milestone
+
 * git fetch upstream && git merge upstream/master
 
 * git clean -xfdi
