@@ -20,6 +20,10 @@ if PYQT5:
     from PyQt5.QtCore import pyqtProperty as Property
     from PyQt5.QtCore import QT_VERSION_STR as __version__
 
+    # For issue #153
+    from PyQt5.QtCore import QDateTime
+    QDateTime.toPython = QDateTime.toPyDateTime
+
     # Those are imported from `import *`
     del pyqtSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 elif PYSIDE2:
