@@ -18,8 +18,8 @@ This module should be fully compatible with:
 
 from __future__ import print_function
 
-import sys
 import os
+import sys
 
 PY2 = sys.version[0] == '2'
 PY3 = sys.version[0] == '3'
@@ -28,11 +28,11 @@ PY3 = sys.version[0] == '3'
 # =============================================================================
 # Data types
 # =============================================================================
-if PY2:
+try:
     # Python 2
     TEXT_TYPES = (str, unicode)
     INT_TYPES = (int, long)
-else:
+except NameError:
     # Python 3
     TEXT_TYPES = (str,)
     INT_TYPES = (int,)
@@ -64,18 +64,18 @@ if PY2:
     import repr as reprlib
 else:
     # Python 3
-    import builtins
-    import configparser
+    import builtins  # noqa F401
+    import configparser  # noqa F401
     try:
-        import winreg
+        import winreg  # noqa F401
     except ImportError:
         pass
-    from sys import maxsize
-    import io
-    import pickle
-    from collections import MutableMapping
-    import _thread
-    import reprlib
+    from sys import maxsize  # noqa F401
+    import io  # noqa F401
+    import pickle  # noqa F401
+    from collections import MutableMapping  # noqa F401
+    import _thread  # noqa F401
+    import reprlib  # noqa F401
 
 
 # =============================================================================
@@ -98,10 +98,10 @@ else:
 def is_text_string(obj):
     """Return True if `obj` is a text string, False if it is anything else,
     like binary data (Python 3) or QString (Python 2, PyQt API #1)"""
-    if PY2:
+    try:
         # Python 2
         return isinstance(obj, basestring)
-    else:
+    except NameError:
         # Python 3
         return isinstance(obj, str)
 
@@ -124,23 +124,23 @@ def is_string(obj):
 
 def is_unicode(obj):
     """Return True if `obj` is unicode"""
-    if PY2:
+    try:
         # Python 2
         return isinstance(obj, unicode)
-    else:
+    except NameError:
         # Python 3
         return isinstance(obj, str)
 
 
 def to_text_string(obj, encoding=None):
     """Convert `obj` to (unicode) text string"""
-    if PY2:
+    try:
         # Python 2
         if encoding is None:
             return unicode(obj)
         else:
             return unicode(obj, encoding)
-    else:
+    except NameError:
         # Python 3
         if encoding is None:
             return str(obj)
@@ -233,23 +233,33 @@ def get_meth_class(obj):
 # =============================================================================
 # Misc.
 # =============================================================================
-if PY2:
+try:
+    # Python 2
+    cmp = cmp
+except NameError:
+    # Python 3
+    def cmp(a, b):
+        return (a > b) - (a < b)
+
+try:
     # Python 2
     input = raw_input
+except NameError:
+    # Python 3
+    input = input
+
+
+if PY2:
+    # Python 2
     getcwd = os.getcwdu
-    cmp = cmp
     import string
     str_lower = string.lower
     from itertools import izip_longest as zip_longest
 else:
     # Python 3
-    input = input
     getcwd = os.getcwd
-
-    def cmp(a, b):
-        return (a > b) - (a < b)
     str_lower = str.lower
-    from itertools import zip_longest
+    from itertools import zip_longest  # noqa F401
 
 
 def qbytearray_to_str(qba):
