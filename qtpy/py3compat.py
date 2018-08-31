@@ -34,8 +34,8 @@ try:
     INT_TYPES = (int, long)
 except NameError:
     # Python 3
-    TEXT_TYPES = (str,)
-    INT_TYPES = (int,)
+    TEXT_TYPES = (str, )
+    INT_TYPES = (int, )
 NUMERIC_TYPES = tuple(list(INT_TYPES) + [float, complex])
 
 
