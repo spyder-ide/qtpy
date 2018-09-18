@@ -3,8 +3,17 @@
 source $HOME/miniconda/etc/profile.d/conda.sh
 conda activate test
 
+# Select build with QtMultimedia
+if [ "$PYTHON_VERSION" = "2.7" ]; then
+    export BUILD=py27h22d08a2_0
+elif [ "$PYTHON_VERSION" = "3.5" ]; then
+    export BUILD=py35h751905a_0
+else
+    export BUILD=py36h751905a_0
+fi
+
 if [ "$USE_CONDA" = "Yes" ]; then
-    conda install -q qt=5.* pyqt=5.*
+    conda install -q qt=5.* pyqt=5.9.2=$BUILD
     conda install -q sip=4.19.8
 else
     # We are getting segfaults in 5.10
