@@ -1,5 +1,22 @@
 # History of changes
 
+## Version 1.5.1 (2018-09-18)
+
+### Issues Closed
+
+* [Issue 170](https://github.com/spyder-ide/qtpy/issues/170) - Can't catch PythonQtError ([PR 173](https://github.com/spyder-ide/qtpy/pull/173))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 173](https://github.com/spyder-ide/qtpy/pull/173) - PR: Make PythonQtError inherit from RuntimeError to be easily catchable ([170](https://github.com/spyder-ide/qtpy/issues/170))
+
+In this release 1 pull request was closed.
+
+----
+
+
 ## Version 1.5 (2018-08-25)
 
 ### New features
