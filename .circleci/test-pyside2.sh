@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export PATH="$HOME/miniconda/bin:$PATH"
-source activate test
+source $HOME/miniconda/etc/profile.d/conda.sh
+conda activate test
 
 # Download PySide2 wheels
 export URL="http://download.qt.io/snapshots/ci/pyside/5.11/latest/"
