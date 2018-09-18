@@ -44,6 +44,12 @@ jobs:
       - PYTHON_VERSION: "3.6"
       - USE_CONDA: "Yes"
 
+  python2.7-pip:
+    <<: *main
+    environment:
+      - PYTHON_VERSION: "2.7"
+      - USE_CONDA: "No"
+
   python3.6-pip:
     <<: *main
     environment:
@@ -57,4 +63,5 @@ workflows:
       - python2.7
       - python3.5
       - python3.6
+      - python2.7-pip
       - python3.6-pip

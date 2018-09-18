@@ -10,8 +10,10 @@ export PIP_DEPENDENCIES="coveralls"
 echo -e "PYTHON = $PYTHON_VERSION \n============"
 git clone git://github.com/astropy/ci-helpers.git > /dev/null
 source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh
-export PATH="$HOME/miniconda/bin:$PATH"
-source activate test
+
+# Activate conda
+source $HOME/miniconda/etc/profile.d/conda.sh
+conda activate test
 
 # Install the package in develop mode
-python setup.py develop
+pip install -e .
