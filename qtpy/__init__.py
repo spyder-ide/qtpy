@@ -72,7 +72,7 @@ import warnings
 from ._version import __version__
 
 
-class PythonQtError(Exception):
+class PythonQtError(RuntimeError):
     """Error raise if no bindings could be selected."""
     pass
 
