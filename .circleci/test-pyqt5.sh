@@ -16,8 +16,13 @@ if [ "$USE_CONDA" = "Yes" ]; then
     conda install -q qt=5.* pyqt=5.9.2=$BUILD
     conda install -q sip=4.19.8
 else
-    # We are getting segfaults in 5.10
-    pip install -q pyqt5==5.9.2
+    if [ "$PYTHON_VERSION" = "2.7" ]; then
+        # There are no pyqt5 wheels for Python 2
+        exit 0
+    else
+        # We are getting segfaults in 5.10
+        pip install -q pyqt5==5.9.2
+    fi
 fi
 
 python qtpy/tests/runtests.py
