@@ -16,6 +16,7 @@ Provides widget classes and functions.
 from . import PYQT5, PYSIDE2, PYQT4, PYSIDE, PythonQtError
 from ._patch.qcombobox import patch_qcombobox
 from ._patch.qheaderview import introduce_renamed_methods_qheaderview
+from ._patch.qfiledialog import patch_qfiledialog
 
 
 if PYQT5:
@@ -131,3 +132,7 @@ elif PYSIDE:
 
 else:
     raise PythonQtError('No Qt bindings could be found')
+
+
+# Patch QFileDialog
+patch_qfiledialog(QFileDialog)
