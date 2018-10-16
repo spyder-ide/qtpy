@@ -5,3 +5,6 @@ export PATH="$HOME/miniconda/bin:$PATH"
 source activate test
 
 coveralls
+
+# Don't fail at this step
+exit 0
