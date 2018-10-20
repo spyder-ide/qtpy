@@ -1,5 +1,19 @@
 # History of changes
 
+## Version 1.5.2 (2018-10-20)
+
+
+### Pull Requests Merged
+
+* [PR 175](https://github.com/spyder-ide/qtpy/pull/175) - PR: Fix tests
+* [PR 174](https://github.com/spyder-ide/qtpy/pull/174) - PR: Add support for PySide2.QtOpenGL
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 1.5.1 (2018-09-18)
 
 ### Issues Closed
