@@ -1,5 +1,29 @@
 # History of changes
 
+## Version 1.6 (2019-01-12)
+
+### New features
+
+* Add support for QtQuickWidgets.
+
+### Issues Closed
+
+* [Issue 178](https://github.com/spyder-ide/qtpy/issues/178) - Error when import QtCore.__version__ in PySide2 ([PR 180](https://github.com/spyder-ide/qtpy/pull/180))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 181](https://github.com/spyder-ide/qtpy/pull/181) - PR: Restore QWebEngineSettings for PySide2
+* [PR 180](https://github.com/spyder-ide/qtpy/pull/180) - PR: Add QtCore.__version__ for PySide2 ([178](https://github.com/spyder-ide/qtpy/issues/178))
+* [PR 179](https://github.com/spyder-ide/qtpy/pull/179) - PR: Add QtQuickWidgets
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
 ## Version 1.5.2 (2018-10-20)
 
 
