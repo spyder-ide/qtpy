@@ -12,9 +12,11 @@ To release a new version of qtpy on PyPI:
 
 * git add and git commit
 
-* python setup.py sdist upload
+* python setup.py sdist
 
-* python setup.py bdist_wheel upload
+* python setup.py bdist_wheel
+
+* twine upload dist/*
 
 * git tag -a vX.X.X -m 'comment'
 
