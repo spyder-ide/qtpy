@@ -113,13 +113,13 @@ PYQT4 = PYSIDE = PYSIDE2 = False
 
 
 if 'PyQt5' in sys.modules:
-    API = 'pyqt5'
+    API = initial_api if initial_api in PYQT5_API else 'pyqt5'
 elif 'PySide2' in sys.modules:
-    API = 'pyside2'
+    API = initial_api if initial_api in PYSIDE2_API else 'pyside2'
 elif 'PyQt4' in sys.modules:
-    API = 'pyqt4'
+    API = initial_api if initial_api in PYQT4_API else 'pyqt4'
 elif 'PySide' in sys.modules:
-    API = 'pyside'
+    API = initial_api if initial_api in PYSIDE_API else 'pyside'
 
 
 if API in PYQT5_API:
