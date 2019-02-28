@@ -100,12 +100,21 @@ PYSIDE_API = ['pyside']
 # Names of the expected PySide2 api
 PYSIDE2_API = ['pyside2']
 
+VALID_APIS = PYQT5_API + PYQT4_API + PYSIDE_API + PYSIDE2_API
+
+# Record if an explicit version of Qt was requested, so we can report this if
+# an error occurs.
+_EXPLICIT_API = None
+if QT_API in os.environ:
+    _EXPLICIT_API = os.environ[QT_API]
+
 # Setting a default value for QT_API
 os.environ.setdefault(QT_API, 'pyqt5')
 
 API = os.environ[QT_API].lower()
 initial_api = API
-assert API in (PYQT5_API + PYQT4_API + PYSIDE_API + PYSIDE2_API)
+
+assert API in VALID_APIS
 
 is_old_pyqt = is_pyqt46 = False
 PYQT5 = True
@@ -120,6 +129,9 @@ elif 'PyQt4' in sys.modules:
     API = 'pyqt4'
 elif 'PySide' in sys.modules:
     API = 'pyside'
+
+
+_fallback_fmt = 'The binding "{}" could not be found, try fallback "{}"'
 
 
 if API in PYQT5_API:
@@ -145,7 +157,9 @@ if API in PYQT5_API:
 
             del macos_version
     except ImportError:
-        API = os.environ['QT_API'] = 'pyside2'
+        FALLBACK_API = 'pyside2'
+        warnings.warn(_fallback_fmt.format(API, FALLBACK_API), RuntimeWarning)
+        API = os.environ[QT_API] = FALLBACK_API
 
 if API in PYSIDE2_API:
     try:
@@ -167,7 +181,9 @@ if API in PYSIDE2_API:
 
             del macos_version
     except ImportError:
-        API = os.environ['QT_API'] = 'pyqt'
+        FALLBACK_API = 'pyqt'
+        warnings.warn(_fallback_fmt.format(API, FALLBACK_API), RuntimeWarning)
+        API = os.environ[QT_API] = FALLBACK_API
 
 if API in PYQT4_API:
     try:
@@ -189,7 +205,9 @@ if API in PYQT4_API:
         PYQT5 = False
         PYQT4 = True
     except ImportError:
-        API = os.environ['QT_API'] = 'pyside'
+        FALLBACK_API = 'pyside'
+        warnings.warn(_fallback_fmt.format(API, FALLBACK_API), RuntimeWarning)
+        API = os.environ[QT_API] = FALLBACK_API
     else:
         is_old_pyqt = PYQT_VERSION.startswith(('4.4', '4.5', '4.6', '4.7'))
         is_pyqt46 = PYQT_VERSION.startswith('4.6')
@@ -202,7 +220,16 @@ if API in PYSIDE_API:
         PYQT5 = PYSIDE2 = False
         PYSIDE = True
     except ImportError:
-        raise PythonQtError('No Qt bindings could be found')
+        warnings.warn('The binding "{}" could not be found, '
+                      'cannot fall back'.format(API), RuntimeWarning)
+        if _EXPLICIT_API:
+            raise PythonQtError((
+                'No Qt bindings could be found for {}={}, which was '
+                'explicitly requested. Try unsetting the {!r} environ '
+                'or explicitly setting it to a different valid API: {!r}'
+            ).format(QT_API, _EXPLICIT_API, QT_API, VALID_APIS))
+        else:
+            raise PythonQtError('No Qt bindings could be found for {}={}'.format(QT_API, API))
 
 # If a correct API name is passed to QT_API and it could not be found,
 # switches to another and informs through the warning
@@ -211,7 +238,7 @@ if API != initial_api:
                   'using "{}"'.format(initial_api, API), RuntimeWarning)
 
 API_NAME = {'pyqt5': 'PyQt5', 'pyqt': 'PyQt4', 'pyqt4': 'PyQt4',
-            'pyside': 'PySide', 'pyside2':'PySide2'}[API]
+            'pyside': 'PySide', 'pyside2': 'PySide2'}[API]
 
 if PYQT4:
     import sip
