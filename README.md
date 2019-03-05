@@ -10,9 +10,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/62y6i02vhn4hefg0/branch/master?svg=true)](https://ci.appveyor.com/project/spyder-ide/qtpy/branch/master)
 [![CircleCI](https://circleci.com/gh/spyder-ide/qtpy.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtpy)
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spyder-ide/qtpy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spyder-ide/qtpy/?branch=master)
 
-*Copyright © 2009–2018 The Spyder Development Team*
+*Copyright © 2009–2019 The Spyder Development Team*
 
 
 ## Description
@@ -75,13 +74,6 @@ conda install qtpy
 ## Contributing
 
 Everyone is welcome to contribute!
-
-
-## Backers
-
-Support us with a monthly donation and help us continue our activities.
-
-[![Backers](https://opencollective.com/spyder/backers.svg)](https://opencollective.com/spyder#support)
 
 
 ## Sponsors
