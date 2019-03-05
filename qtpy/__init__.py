@@ -100,10 +100,11 @@ PYSIDE_API = ['pyside']
 # Names of the expected PySide2 api
 PYSIDE2_API = ['pyside2']
 
+# Detecting if a binding was specified by the user
+binding_specified = QT_API in os.environ
+
 # Setting a default value for QT_API
-binding_specified = PYQT5_API[0] in os.environ
-if not binding_specified:
-    os.environ[QT_API] = PYQT5_API[0]
+os.environ.setdefault(QT_API, 'pyqt5')
 
 API = os.environ[QT_API].lower()
 initial_api = API
