@@ -100,6 +100,9 @@ PYSIDE_API = ['pyside']
 # Names of the expected PySide2 api
 PYSIDE2_API = ['pyside2']
 
+# Detecting if a binding was specified by the user
+binding_specified = QT_API in os.environ
+
 # Setting a default value for QT_API
 os.environ.setdefault(QT_API, 'pyqt5')
 
@@ -206,7 +209,7 @@ if API in PYSIDE_API:
 
 # If a correct API name is passed to QT_API and it could not be found,
 # switches to another and informs through the warning
-if API != initial_api:
+if API != initial_api and binding_specified:
     warnings.warn('Selected binding "{}" could not be found, '
                   'using "{}"'.format(initial_api, API), RuntimeWarning)
 
