@@ -100,6 +100,7 @@ PYSIDE_API = ['pyside']
 # Names of the expected PySide2 api
 PYSIDE2_API = ['pyside2']
 
+
 VALID_APIS = PYQT5_API + PYQT4_API + PYSIDE_API + PYSIDE2_API
 
 # Record if an explicit version of Qt was requested, so we can report this if
@@ -107,6 +108,10 @@ VALID_APIS = PYQT5_API + PYQT4_API + PYSIDE_API + PYSIDE2_API
 _EXPLICIT_API = None
 if QT_API in os.environ:
     _EXPLICIT_API = os.environ[QT_API]
+
+# Detecting if a binding was specified by the user
+binding_specified = QT_API in os.environ
+
 
 # Setting a default value for QT_API
 os.environ.setdefault(QT_API, 'pyqt5')
@@ -122,13 +127,13 @@ PYQT4 = PYSIDE = PYSIDE2 = False
 
 
 if 'PyQt5' in sys.modules:
-    API = 'pyqt5'
+    API = initial_api if initial_api in PYQT5_API else 'pyqt5'
 elif 'PySide2' in sys.modules:
-    API = 'pyside2'
+    API = initial_api if initial_api in PYSIDE2_API else 'pyside2'
 elif 'PyQt4' in sys.modules:
-    API = 'pyqt4'
+    API = initial_api if initial_api in PYQT4_API else 'pyqt4'
 elif 'PySide' in sys.modules:
-    API = 'pyside'
+    API = initial_api if initial_api in PYSIDE_API else 'pyside'
 
 
 _fallback_fmt = 'The binding "{}" could not be found, try fallback "{}"'
@@ -233,7 +238,7 @@ if API in PYSIDE_API:
 
 # If a correct API name is passed to QT_API and it could not be found,
 # switches to another and informs through the warning
-if API != initial_api:
+if API != initial_api and binding_specified:
     warnings.warn('Selected binding "{}" could not be found, '
                   'using "{}"'.format(initial_api, API), RuntimeWarning)
 
