@@ -1,5 +1,24 @@
 # History of changes
 
+## Version 1.7.0 (2019-03-16)
+
+### New features
+
+* Add support for QtCharts.
+
+### Pull Requests Merged
+
+* [PR 186](https://github.com/spyder-ide/qtpy/pull/186) - PR: Generate PyPI long description from README.md
+* [PR 183](https://github.com/spyder-ide/qtpy/pull/183) - PR: Add QtCharts module support
+* [PR 182](https://github.com/spyder-ide/qtpy/pull/182) - PR: Prevent warnings for equivalent APIs
+* [PR 176](https://github.com/spyder-ide/qtpy/pull/176) - PR: Don't warn about bindings change if user did not specify a binding
+
+In this release 4 pull requests were closed.
+
+
+----
+
+
 ## Version 1.6 (2019-01-12)
 
 ### New features
