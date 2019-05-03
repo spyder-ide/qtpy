@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 
 export TRAVIS_OS_NAME="linux"
 export CONDA_DEPENDENCIES_FLAGS="--quiet"
