@@ -23,6 +23,7 @@ import os
 
 PY2 = sys.version_info[0] == 2
 PY3 = sys.version_info[0] == 3
+PY33 = PY3 and sys.version_info[1] >= 3
 
 
 # =============================================================================
@@ -73,7 +74,10 @@ else:
     from sys import maxsize
     import io
     import pickle
-    from collections import MutableMapping
+    if PY33:
+        from collections.abc import MutableMapping
+    else:
+        from collections import MutableMapping
     import _thread
     import reprlib
 
