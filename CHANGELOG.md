@@ -1,5 +1,20 @@
 # History of changes
 
+## Version 1.7.1 (2019-05-05)
+
+
+### Pull Requests Merged
+
+* [PR 189](https://github.com/spyder-ide/qtpy/pull/189) - PR: Skip testing PyQt4 and PySide in Python 3.5
+* [PR 188](https://github.com/spyder-ide/qtpy/pull/188) - PR: Trivial maintenance tweaks
+* [PR 187](https://github.com/spyder-ide/qtpy/pull/187) - PR: Avoid deprecated "from collections import MutableMapping"
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
 ## Version 1.7.0 (2019-03-16)
 
 ### New features
