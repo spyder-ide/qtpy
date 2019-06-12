@@ -1,5 +1,23 @@
 # History of changes
 
+## Version 1.8.0 (2019-06-12)
+
+### Issues Closed
+
+* [Issue 172](https://github.com/spyder-ide/qtpy/issues/172) - Support for Qt3D ([PR 191](https://github.com/spyder-ide/qtpy/pull/191))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 191](https://github.com/spyder-ide/qtpy/pull/191) - PR: Add Qt 3D bindings ([172](https://github.com/spyder-ide/qtpy/issues/172))
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 1.7.1 (2019-05-05)
 
 
