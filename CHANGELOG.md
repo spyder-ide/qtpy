@@ -2,6 +2,10 @@
 
 ## Version 1.8.0 (2019-06-12)
 
+### New features
+
+* Add support for several Qt 3D modules.
+
 ### Issues Closed
 
 * [Issue 172](https://github.com/spyder-ide/qtpy/issues/172) - Support for Qt3D ([PR 191](https://github.com/spyder-ide/qtpy/pull/191))
