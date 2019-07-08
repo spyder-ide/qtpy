@@ -114,9 +114,9 @@ is_old_pyqt = is_pyqt46 = False
 PYQT5 = True
 PYQT4 = PYSIDE = PYSIDE2 = False
 
-# When `FORCE_QT_API` is set to "1", we disregard
+# When `FORCE_QT_API` is set, we disregard
 # any previously imported python bindings.
-if os.environ.get('FORCE_QT_API') == '1':
+if os.environ.get('FORCE_QT_API') is not None:
     if 'PyQt5' in sys.modules:
         API = initial_api if initial_api in PYQT5_API else 'pyqt5'
     elif 'PySide2' in sys.modules:
