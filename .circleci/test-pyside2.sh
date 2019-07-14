@@ -8,7 +8,9 @@ if [ "$USE_CONDA" = "Yes" ]; then
     exit 0
 else
     pip uninstall -q -y pyqt5 sip
-    pip install -q pyside2
+    # Simple solution to avoid failures with the
+    # Qt3D modules
+    pip install -q pyside2==5.12.3
 fi
 
 python qtpy/tests/runtests.py
