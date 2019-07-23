@@ -1,5 +1,34 @@
 # History of changes
 
+## Version 1.9.0 (2019-07-23)
+
+### New features
+
+* Add the FORCE_QT_API environment variable to keep using the Qt
+  bindings selected with the QT_API variable and avoid switching
+  to the currently imported bindings. This allows to have
+  applications that import PySide and PyQt bindings at the same
+  time (which is possible if both bindings are compiled for the
+  same Qt version).
+
+### Issues Closed
+
+* [Issue 195](https://github.com/spyder-ide/qtpy/issues/195) - Errors in the Qt3D modules with PySide2 5.12.4+ and Python 2 ([PR 196](https://github.com/spyder-ide/qtpy/pull/196))
+* [Issue 192](https://github.com/spyder-ide/qtpy/issues/192) - Binding Selection Logic ([PR 194](https://github.com/spyder-ide/qtpy/pull/194))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 196](https://github.com/spyder-ide/qtpy/pull/196) - PR: Don't load Qt3D modules for buggy versions of PySide2 ([195](https://github.com/spyder-ide/qtpy/issues/195))
+* [PR 194](https://github.com/spyder-ide/qtpy/pull/194) - PR: Add FORCE_QT_API environment variable ([192](https://github.com/spyder-ide/qtpy/issues/192))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 1.8.0 (2019-06-12)
 
 ### New features
