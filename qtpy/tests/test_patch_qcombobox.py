@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import os
 import sys
 
 import pytest
@@ -25,7 +26,8 @@ class Data(object):
         raise ValueError("Failing")
 
 
-@pytest.mark.skipif(PY3 or PYSIDE2, reason="It segfaults in Python 3 and PYSIDE2")
+@pytest.mark.skipif(PY3 or (PYSIDE2 and os.environ.get('CI', None) is not None),
+                    reason="It segfaults in Python 3 and in our CIs with PySide2")
 def test_patched_qcombobox():
     """
     In PySide, using Python objects as userData in QComboBox causes
@@ -84,6 +86,8 @@ def test_patched_qcombobox():
     assert widget.itemText(6) == 'f'
 
 
+@pytest.mark.skipif((PYSIDE2 and os.environ.get('CI', None) is not None),
+                    reason="It segfaults in our CIs with PYSIDE2")
 def test_model_item():
     """
     This is a regression test for an issue that caused the call to item(0)

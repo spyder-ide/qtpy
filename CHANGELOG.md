@@ -1,5 +1,178 @@
 # History of changes
 
+## Version 1.9.0 (2019-07-23)
+
+### New features
+
+* Add the FORCE_QT_API environment variable to keep using the Qt
+  bindings selected with the QT_API variable and avoid switching
+  to the currently imported bindings. This allows to have
+  applications that import PySide and PyQt bindings at the same
+  time (which is possible if both bindings are compiled for the
+  same Qt version).
+
+### Issues Closed
+
+* [Issue 195](https://github.com/spyder-ide/qtpy/issues/195) - Errors in the Qt3D modules with PySide2 5.12.4+ and Python 2 ([PR 196](https://github.com/spyder-ide/qtpy/pull/196))
+* [Issue 192](https://github.com/spyder-ide/qtpy/issues/192) - Binding Selection Logic ([PR 194](https://github.com/spyder-ide/qtpy/pull/194))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 196](https://github.com/spyder-ide/qtpy/pull/196) - PR: Don't load Qt3D modules for buggy versions of PySide2 ([195](https://github.com/spyder-ide/qtpy/issues/195))
+* [PR 194](https://github.com/spyder-ide/qtpy/pull/194) - PR: Add FORCE_QT_API environment variable ([192](https://github.com/spyder-ide/qtpy/issues/192))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
+## Version 1.8.0 (2019-06-12)
+
+### New features
+
+* Add support for several Qt 3D modules.
+
+### Issues Closed
+
+* [Issue 172](https://github.com/spyder-ide/qtpy/issues/172) - Support for Qt3D ([PR 191](https://github.com/spyder-ide/qtpy/pull/191))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 191](https://github.com/spyder-ide/qtpy/pull/191) - PR: Add Qt 3D bindings ([172](https://github.com/spyder-ide/qtpy/issues/172))
+
+In this release 1 pull request was closed.
+
+
+----
+
+
+## Version 1.7.1 (2019-05-05)
+
+
+### Pull Requests Merged
+
+* [PR 189](https://github.com/spyder-ide/qtpy/pull/189) - PR: Skip testing PyQt4 and PySide in Python 3.5
+* [PR 188](https://github.com/spyder-ide/qtpy/pull/188) - PR: Trivial maintenance tweaks
+* [PR 187](https://github.com/spyder-ide/qtpy/pull/187) - PR: Avoid deprecated "from collections import MutableMapping"
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
+## Version 1.7.0 (2019-03-16)
+
+### New features
+
+* Add support for QtCharts.
+
+### Pull Requests Merged
+
+* [PR 186](https://github.com/spyder-ide/qtpy/pull/186) - PR: Generate PyPI long description from README.md
+* [PR 183](https://github.com/spyder-ide/qtpy/pull/183) - PR: Add QtCharts module support
+* [PR 182](https://github.com/spyder-ide/qtpy/pull/182) - PR: Prevent warnings for equivalent APIs
+* [PR 176](https://github.com/spyder-ide/qtpy/pull/176) - PR: Don't warn about bindings change if user did not specify a binding
+
+In this release 4 pull requests were closed.
+
+
+----
+
+
+## Version 1.6 (2019-01-12)
+
+### New features
+
+* Add support for QtQuickWidgets.
+
+### Issues Closed
+
+* [Issue 178](https://github.com/spyder-ide/qtpy/issues/178) - Error when import QtCore.__version__ in PySide2 ([PR 180](https://github.com/spyder-ide/qtpy/pull/180))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 181](https://github.com/spyder-ide/qtpy/pull/181) - PR: Restore QWebEngineSettings for PySide2
+* [PR 180](https://github.com/spyder-ide/qtpy/pull/180) - PR: Add QtCore.__version__ for PySide2 ([178](https://github.com/spyder-ide/qtpy/issues/178))
+* [PR 179](https://github.com/spyder-ide/qtpy/pull/179) - PR: Add QtQuickWidgets
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
+## Version 1.5.2 (2018-10-20)
+
+
+### Pull Requests Merged
+
+* [PR 175](https://github.com/spyder-ide/qtpy/pull/175) - PR: Fix tests
+* [PR 174](https://github.com/spyder-ide/qtpy/pull/174) - PR: Add support for PySide2.QtOpenGL
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
+## Version 1.5.1 (2018-09-18)
+
+### Issues Closed
+
+* [Issue 170](https://github.com/spyder-ide/qtpy/issues/170) - Can't catch PythonQtError ([PR 173](https://github.com/spyder-ide/qtpy/pull/173))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 173](https://github.com/spyder-ide/qtpy/pull/173) - PR: Make PythonQtError inherit from RuntimeError to be easily catchable ([170](https://github.com/spyder-ide/qtpy/issues/170))
+
+In this release 1 pull request was closed.
+
+----
+
+
+## Version 1.5 (2018-08-25)
+
+### New features
+
+* Add support for QtLocation, QtMultimediaWidgets, QtQml, QtQuick,
+  QtWebChannel, QtWebSockets and QtXmlPatterns.
+* Raise an error when trying to use the wrong combination of macOS
+  and Qt versions.
+
+### Issues Closed
+
+* [Issue 155](https://github.com/spyder-ide/qtpy/issues/155) - Add warnings for Qt 5.9 in macOS 10.9 and Qt 5.11 and macOS 10.11 ([PR 168](https://github.com/spyder-ide/qtpy/pull/168))
+* [Issue 153](https://github.com/spyder-ide/qtpy/issues/153) - Shim PyQt5 ToPyDateTime for compatibility with PySide2 ([PR 169](https://github.com/spyder-ide/qtpy/pull/169))
+* [Issue 123](https://github.com/spyder-ide/qtpy/issues/123) - Wrap QWebChannel module ([PR 157](https://github.com/spyder-ide/qtpy/pull/157))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 169](https://github.com/spyder-ide/qtpy/pull/169) - PR: Shim PyQt5 QDateTime.toPyDateTime to QDateTime.toPython for compatibility with PySide2 ([153](https://github.com/spyder-ide/qtpy/issues/153))
+* [PR 168](https://github.com/spyder-ide/qtpy/pull/168) - PR: Raise error when trying to use the wrong combination of macOS and Qt versions ([155](https://github.com/spyder-ide/qtpy/issues/155))
+* [PR 167](https://github.com/spyder-ide/qtpy/pull/167) - PR: Migrate to CircleCI 2.0
+* [PR 163](https://github.com/spyder-ide/qtpy/pull/163) - PR: Add QtLocation
+* [PR 162](https://github.com/spyder-ide/qtpy/pull/162) - PR: Update readme to remove funding appeal, harmonize with other readmes and minor fixes
+* [PR 161](https://github.com/spyder-ide/qtpy/pull/161) - PR: Fix pyside2 wheels install
+* [PR 157](https://github.com/spyder-ide/qtpy/pull/157) - PR: Add more Qt modules ([123](https://github.com/spyder-ide/qtpy/issues/123))
+
+In this release 7 pull requests were closed.
+
+
+----
+
+
 ## Version 1.4.2 (2018-05-06)
 
 ### Issues Closed
@@ -51,8 +224,7 @@ In this release 3 pull requests were closed.
 
 ### New features
 
-* Add support for QtHelp
-* Add support for QtSql
+* Add support for QtHelp and QtSql
 * Use already imported bindings
 
 ### Issues Closed
@@ -105,9 +277,7 @@ In this release 3 pull requests were merged
 
 ### New features
 
-* Add support for PySide2
-* Add support for QtMultimedia
-* Add support for PyQt 4.6
+* Add support for PySide2 and PyQt 4.6
 
 ### Bugs fixed
 
