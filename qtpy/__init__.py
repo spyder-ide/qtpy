@@ -256,9 +256,9 @@ QT_API = 'QT_API'
 default_api = 'pyqt5'
 
 # All false/none/empty because they were not imported yet
-# PYQT5 = PYQT4 = PYSIDE = PYSIDE2 = False
+PYQT5 = PYQT4 = PYSIDE = PYSIDE2 = False
 API = API_NAME = API_VERSION = QT_VERSION = ''
-PYQT_VERSION = PYSIDE_VERSION = None
+PYQT_VERSION = PYSIDE_VERSION = ''
 is_old_pyqt = is_pyqt46 = False
 
 # Keys: names of the expected Qt API (internal names)
@@ -356,7 +356,7 @@ for api_name in api_trial_avaliable:
 # Set the environment variable to the current used API
 os.environ['QT_API'] = API
 
-if API_NAME != initial_api:
+if API_NAME != initial_api and binding_specified:
     # If the code is using QtPy is not supposed do directly import Qt api's,
     # so a warning is sent to check consistence
     if imported_api_list:
