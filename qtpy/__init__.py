@@ -11,7 +11,6 @@
 write Qt binding independent libraries or applications.
 
 If one of the APIs has already been imported, then it will be used.
-
 Otherwise, the shim will automatically select the first available API
 following the list below; in that case, you can force the use of one
 specific binding (e.g. if your application is using one specific binding
@@ -34,23 +33,26 @@ The clearest way to set which API is to be used by QtPy is setting
 The priority when setting the Qt binding API is detailed below:
 
 1 Have been already imported any Qt binding (not recommended, implicit):
-    1.1 QT_API is not set, pass, no output;
-    1.2 QT_API is set to the same binding, pass, no output;
-    1.3 QT_API is set to a different binding, ignore QT_API, pass but warns;
+    1.1 Just one binding is found imported;
+        1.1.1 QT_API is not set, pass, no output;
+        1.1.2 QT_API is set to the same binding, pass, no output;
+        1.1.3 QT_API is set to a different binding, ignore QT_API, pass but warns;
+    2.1 More than one binding is found imported;
 
 2 Have NOT been already imported any Qt binding (explicitly setting):
     2.1 QT_API is set correctly, pass;
         2.1.1 If binding is found, pass, no output;
-        2.1.2 If binding is not found, try another one (more three);
+        2.1.2 If binding is not found, try another one (three more);
             2.1.2.a If any is found (different from set), pass but warns;
             2.1.2.b If no one is found, stop, error;
     2.2 QT_API is not set correctly, stop, error;
+    2.3 QT_API is not set, use default, continue to 2.1.1, without 2.1.2.a;
 
-Note 1: if any Qt binding is imported (a different one) after QtPy
+Note 1: If any Qt binding is imported (a different one) after QtPy
 import, issues and errors may occur and QtPy won't be able to help you
 with any warning.
 
-Note 2: we always preffer to not break the code when something is not
+Note 2: We always preffer to not break the code when something is not
 found, so we use ``warnings`` module to alert changes and show information
 that may be useful when developing using QtPy. Remember to set warnings
 to show messages.
@@ -98,12 +100,12 @@ packages::
 
 """
 
-import pkgutil
-from distutils.version import LooseVersion
 import os
+import pkgutil
 import platform
 import sys
 import warnings
+from distutils.version import LooseVersion
 
 # Version of QtPy
 from ._version import __version__
@@ -119,37 +121,44 @@ class PythonQtWarning(Warning):
     pass
 
 
-def get_imported_api(apis_to_search):
+def get_imported_bindings(import_list):
     """Return an ordered list of Qt bindings that have been already imported.
-    ``apis_to_search`` is a list of importing names, case sensitive.
-    Return the same list excluding api names not imported.
+
+    ``import_list`` is a list of importing names, case sensitive.
+
+    Return the same list excluding binding names not imported.
     """
+
     imported_api = []
 
-    for api_name in apis_to_search:
+    for api_name in import_list:
         if api_name in sys.modules:
             imported_api.append(api_name)
 
     return imported_api
 
 
-def get_available_api(apis_to_search):
+def get_available_bindings(import_list):
     """Return an ordered list of Qt bindings that are available (installed).
-    ``apis_to_search`` is a list of importing names, case sensitive.
-    Return the same list excluding api names not available.
+
+    ``import_list`` is a list of importing names, case sensitive.
+
+    Return the same list excluding binding names not available.
     """
-    available_api = []
 
-    for api_name in apis_to_search:
-        # Using try...import or __import__ causes the api_name to be
-        # imported accumulating on sys.modules.
-        # Using pkgutil.get_loader(), that works on both py2/3
-        # it works as expected.
+    available_bindings = []
+
+    for api_name in import_list:
+        # Using 'try...import' or __import__ to TEST causes the
+        # api_name to be imported and accumulating on sys.modules
+        # Using pkgutil.get_loader(), that works on both py2 and py3
+        # it works as expected without the need of restore sys.path
         can_import = pkgutil.get_loader(api_name)
-        if can_import:
-            available_api.append(api_name)
 
-    return available_api
+        if can_import:
+            available_bindings.append(api_name)
+
+    return available_bindings
 
 
 def get_api_information(api_name):
@@ -190,7 +199,9 @@ def get_api_information(api_name):
             raise PythonQtError('PyQt5 cannot be imported in QtPy.')
 
         if sys.platform == 'darwin':
+
             macos_version = LooseVersion(platform.mac_ver()[0])
+
             if macos_version < LooseVersion('10.10'):
                 if LooseVersion(QT_VERSION) >= LooseVersion('5.9'):
                     raise PythonQtError("Qt 5.9 or higher only works in "
@@ -220,7 +231,9 @@ def get_api_information(api_name):
             raise PythonQtError('PySide2 cannot be imported in QtPy.')
 
         if sys.platform == 'darwin':
+
             macos_version = LooseVersion(platform.mac_ver()[0])
+
             if macos_version < LooseVersion('10.11'):
                 if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
                     raise PythonQtError("Qt 5.11 or higher only works in "
@@ -239,8 +252,14 @@ def get_api_information(api_name):
 # Qt API environment variable name
 QT_API = 'QT_API'
 
-# Detecting if a binding was specified by the user
-binding_specified = QT_API in os.environ
+# Default/Preferrable API, must be one of api_names keys
+default_api = 'pyqt5'
+
+# All false/none/empty because they were not imported yet
+# PYQT5 = PYQT4 = PYSIDE = PYSIDE2 = False
+API = API_NAME = API_VERSION = QT_VERSION = ''
+PYQT_VERSION = PYSIDE_VERSION = None
+is_old_pyqt = is_pyqt46 = False
 
 # Keys: names of the expected Qt API (internal names)
 # Values: ordered list of importing names based on its key
@@ -251,22 +270,106 @@ api_names = {'pyqt4': ['PyQt4', 'PySide', 'PyQt5', 'PySide2'],
              'pyside2': ['PySide2', 'PyQt5', 'PyQt4', 'PySide']}
 
 # Other keys for the same Qt API that can be used, for compatibility
-# pyqt4 -> pyqode.qt original name
-# pyqt -> name used in IPython.qt
+# pyqt4 -> pyqode.qt original name, pyqt -> name used in IPython.qt
 api_names['pyqt'] = api_names['pyqt4']
 
-# Default/Preferrable API, must be one of api_names keys
-default_api = 'pyqt5'
+# Detecting if a binding was specified by the user
+binding_specified = QT_API in os.environ
 
-# Check if API's are available, maybe overtested
-if not get_available_api(api_names[default_api]):
-    raise PythonQtError('No Qt API can be imported. Please, install at least '
-                        'one of these: {}.'.format(api_names[default_api]))
+# Setting a default value for QT_API
+os.environ.setdefault(QT_API, default_api)
 
-# All False/None because they were not imported yet
-PYQT5 = PYQT4 = PYSIDE = PYSIDE2 = False
-API_NAME = API_VERSION = QT_VERSION = ''
-PYQT_VERSION = PYSIDE_VERSION = None
+# Get the value from environment (or default if not set)
+env_api = os.environ[QT_API].lower()
+
+# Check if it was correctly set with environment variable
+if env_api not in api_names.keys():
+    msg = 'Qt binding "{}" is unknown. Use one from these: {}.'
+    msg = msg.format(env_api, api_names[default_api])
+    raise PythonQtError(msg)
+
+# The preference sequence is given by env_api
+environment_api_list = api_names[env_api]
+
+# Check if Qt bindings have been already imported in 'sys.modules'
+imported_api_list = get_imported_bindings(api_names[env_api])
+
+# If more than one Qt binding is imported, just warns for now
+if len(imported_api_list) >= 2:
+    msg = 'There is more than one imported Qt binding: {}. '
+    msg += 'This may cause some issues. Check your code for consistence.'
+    msg = msg.format(imported_api_list)
+    warnings.warn(msg, RuntimeWarning)
+
+# Importing order for bindings if they are not found
+api_trial = imported_api_list if imported_api_list else environment_api_list
+
+# Refined import order with installed ones
+api_trial_avaliable = get_available_bindings(api_trial)
+
+# Check bindings available, maybe overtested
+if not api_trial_avaliable:
+    msg = 'No Qt binding can be imported. Install at least one of these: {}.'
+    msg = msg.format(api_names[default_api])
+    raise PythonQtError(msg)
+
+# Initial value for API is get always from environment first trial, index 0
+initial_api = environment_api_list[0]
+
+# In most cases, it will execute only the first item as expected
+# because we already refined the list of installed bindings
+# Only if any importing problem occurs it will try other ones
+for api_name in api_trial_avaliable:
+    try:
+        API_VERSION, QT_VERSION = get_api_information(api_name)
+    except PythonQtError as er:
+        msg = 'The binding "{}" is installed but cannot be used. '
+        msg += 'Check the original error message: {}.'
+        msg = msg.format(api_name, str(er))
+        warnings.warn(msg, RuntimeWarning)
+    else:
+        if API_VERSION and QT_VERSION:
+            API = api_name.lower()
+            API_NAME = api_name
+            if api_name == 'PyQt4':
+                PYQT4 = True
+                PYQT4_VERSION = API_VERSION
+                versions = ('4.4', '4.5', '4.6', '4.7')
+                is_old_pyqt = PYQT4_VERSION.startswith(versions)
+                is_pyqt46 = PYQT4_VERSION.startswith('4.6')
+                import sip
+                try:
+                    API_NAME += (" (API v{0})".format(sip.getapi('QString')))
+                except AttributeError:
+                    pass
+            elif api_name == 'PyQt5':
+                PYQT5 = True
+                PYQT4_VERSION = API_VERSION
+            elif api_name == 'PySide':
+                PYSIDE = True
+                PYSIDE_VERSION = API_VERSION
+            elif api_name == 'PySide2':
+                PYSIDE2 = True
+                PYSIDE_VERSION = API_VERSION
+            break
+
+# Set the environment variable to the current used API
+os.environ['QT_API'] = API
+
+if API_NAME != initial_api:
+    # If the code is using QtPy is not supposed do directly import Qt api's,
+    # so a warning is sent to check consistence
+    if imported_api_list:
+        msg = 'Selected binding "{}" could not be set because "{}" has '
+        msg += 'already been imported. Check your code for consistence.'
+        msg = msg.format(initial_api, API_NAME)
+        warnings.warn(msg, RuntimeWarning)
+    # If a correct API name is passed to QT_API and it cannot be found,
+    # switches to another and informs through the warning
+    else:
+        msg = 'Selected binding "{}" could not be found, using "{}".'
+        msg = msg.format(initial_api, API_NAME)
+        warnings.warn(msg, RuntimeWarning)
 
 
 # When `FORCE_QT_API` is set, we disregard
@@ -280,83 +383,3 @@ if os.environ.get('FORCE_QT_API') is not None:
         API = initial_api if initial_api in PYQT4_API else 'pyqt4'
     elif 'PySide' in sys.modules:
         API = initial_api if initial_api in PYSIDE_API else 'pyside'
-
-
-is_old_pyqt = is_pyqt46 = False
-api_trial = []
-
-# Setting a default value for QT_API and get the value from environment
-os.environ.setdefault(QT_API, default_api)
-env_api = os.environ[QT_API].lower()
-
-# Check if it was correctly set with environment variable
-if env_api not in api_names.keys():
-    raise PythonQtError('Qt binding "{}" is unknown, please use a name '
-                        '(not case sensitive) from {}.'.format(env_api,
-                                                               list(api_names.keys())))
-environment_api_list = api_names[env_api]
-
-# Check if Qt binding was already imported in 'sys.modules'
-# The preference sequence is given by env_api if set or by default_api
-imported_api_list = get_imported_api(api_names[env_api])
-
-# If more than one Qt binding is imported, just warns for now
-if len(imported_api_list) >= 2:
-    warnings.warn('There is more than one imported Qt binding {}. '
-                  'This may cause some issues, check your code '
-                  'consistence.'.format(imported_api_list), RuntimeWarning)
-
-# Priority for imported binding(s), even QT_API is set
-if imported_api_list:
-    api_trial = imported_api_list
-else:
-    api_trial = environment_api_list
-
-# Initial value for API is get always from environment
-initial_api = environment_api_list[0]
-
-for api_name in api_trial:
-    try:
-        API_VERSION, QT_VERSION = get_api_information(api_name)
-    except PythonQtError:
-        pass
-    else:
-        if API_VERSION and QT_VERSION:
-            API = api_name.lower()
-            API_NAME = api_name
-            if api_name == 'PyQt4':
-                PYQT4 = True
-                PYQT4_VERSION = API_VERSION
-            elif api_name == 'PyQt5':
-                PYQT5 = True
-                PYQT4_VERSION = API_VERSION
-            elif api_name == 'PySide':
-                PYSIDE = True
-                PYSIDE_VERSION = API_VERSION
-            elif api_name == 'PySide2':
-                PYSIDE2 = True
-                PYSIDE_VERSION = API_VERSION
-            break
-
-# If a correct API name is passed to QT_API and it cannot be found,
-# switches to another and informs through the warning
-os.environ['QT_API'] = API
-if API_NAME != initial_api:
-    if imported_api_list:
-        # If the code is using QtPy is not supposed do directly import Qt api's,
-        # so a warning is sent to check consistence
-        warnings.warn('Selected binding "{}" could not be set because {} '
-                      'has already been imported. Please check your code for '
-                      'consistence.'.format(initial_api, API_NAME), RuntimeWarning)
-    else:
-        warnings.warn('Selected binding "{}" could not be found, '
-                      'using "{}".'.format(initial_api, API_NAME), RuntimeWarning)
-
-if PYQT4:
-    is_old_pyqt = API_VERSION.startswith(('4.4', '4.5', '4.6', '4.7'))
-    is_pyqt46 = API_VERSION.startswith('4.6')
-    import sip
-    try:
-        API_NAME += (" (API v{0})".format(sip.getapi('QString')))
-    except AttributeError:
-        pass
