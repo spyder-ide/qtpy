@@ -14,3 +14,4 @@ Contributors
 ============
 
 * Thomas Robitaille ([@astrofrog](http://www.github.com/astrofrog))
+* Daniel C. Pizetta ([@dpizetta](https://github.com/dpizetta))
