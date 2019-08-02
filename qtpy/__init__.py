@@ -121,132 +121,226 @@ class PythonQtWarning(Warning):
     pass
 
 
-def get_imported_bindings(import_list):
-    """Return an ordered list of Qt bindings that have been already imported.
+def get_installed_bindings(import_list):
+    """Return a list of Qt bindings that are installed.
 
-    ``import_list`` is a list of importing names, case sensitive.
+    Args:
+        import_list (list): List of importing names to check, case sensitive.
 
-    Return the same list excluding binding names not imported.
+    Returns:
+        list: List of installed binding names.
     """
 
-    imported_api = []
+    installed_bindings = []
 
-    for api_name in import_list:
-        if api_name in sys.modules:
-            imported_api.append(api_name)
-
-    return imported_api
-
-
-def get_available_bindings(import_list):
-    """Return an ordered list of Qt bindings that are available (installed).
-
-    ``import_list`` is a list of importing names, case sensitive.
-
-    Return the same list excluding binding names not available.
-    """
-
-    available_bindings = []
-
-    for api_name in import_list:
+    for imp_name in import_list:
         # Using 'try...import' or __import__ to TEST causes the
-        # api_name to be imported and accumulating on sys.modules
+        # imp_name to be imported and accumulating on sys.modules
         # Using pkgutil.get_loader(), that works on both py2 and py3
         # it works as expected without the need of restore sys.path
-        can_import = pkgutil.get_loader(api_name)
+        can_import = pkgutil.get_loader(imp_name)
 
         if can_import:
-            available_bindings.append(api_name)
+            installed_bindings.append(imp_name)
 
-    return available_bindings
+    print(installed_bindings)
+
+    return installed_bindings
 
 
-def get_api_information(api_name):
-    """Get API information of version and Qt version.
+def get_imported_bindings(import_list):
+    """Return a list of Qt bindings that are imported (sys.modules).
 
-    ``api_name`` is an importing name, case sensitive.
+    Args:
+        import_list (list): List of importing names to check, case sensitive.
 
-    Note: this function is not prepared to be called more than once, yet.
-    Multiple calls will accumulate imports on sys.modules if api_name is
-    installed. It must be rewrite to use pkgutil/importlib to check
-    check version numbers.
+    Returns:
+        list: List of imported binding names.
     """
 
-    if api_name == 'PyQt4':
+    imported_bindings = []
+
+    for imp_name in import_list:
+        if imp_name in sys.modules:
+            imported_bindings.append(imp_name)
+
+    print(imported_bindings)
+
+    return imported_bindings
+
+
+def get_binding_info(binding_name, restore_sys_path=True):
+    """Get binding and Qt version information by the import system.
+
+    Note:
+        - This function should be called after using the
+          get_installed_bindings to avoid raise the PythonQtError by the
+          not installed binding. So, this error will only be raised if the
+          specific import used here fails.
+        - It must be rewrite to use pkgutil/importlib to check version
+          numbers when after only py36 be used.
+
+    Args:
+        binding_name (str): Importing binding name, case sensitive.
+        restore_sys_path (bool): If true restore the sys.path, otherwise
+            keep the import into it. Defauls to True.
+
+    Raises:
+        PythonQtError: If is not possible to import the selected binding,
+            or if it is not recognized by the QtPy as a binding.
+
+    Returns:
+        tuple: Binding and Qt versions as strings.
+    """
+
+    # Copy sys path to restore later
+    sys_path = sys.path
+    binding_version = qt_version = ''
+
+    if binding_name == 'PyQt4':
         try:
-            import sip
-            try:
-                sip.setapi('QString', 2)
-                sip.setapi('QVariant', 2)
-                sip.setapi('QDate', 2)
-                sip.setapi('QDateTime', 2)
-                sip.setapi('QTextStream', 2)
-                sip.setapi('QTime', 2)
-                sip.setapi('QUrl', 2)
-            except (AttributeError, ValueError):
-                # PyQt < v4.6
-                pass
-            from PyQt4.Qt import PYQT_VERSION_STR as api_version  # analysis:ignore
+            from PyQt4.Qt import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt4.Qt import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PyQt4 cannot be imported in QtPy.')
+            raise PythonQtError('PyQt4 cannot be imported by QtPy..')
 
-    elif api_name == 'PyQt5':
+    elif binding_name == 'PyQt5':
         try:
-            from PyQt5.QtCore import PYQT_VERSION_STR as api_version  # analysis:ignore
+            from PyQt5.QtCore import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt5.QtCore import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PyQt5 cannot be imported in QtPy.')
+            raise PythonQtError('PyQt5 cannot be imported by QtPy..')
 
-        if sys.platform == 'darwin':
-
-            macos_version = LooseVersion(platform.mac_ver()[0])
-
-            if macos_version < LooseVersion('10.10'):
-                if LooseVersion(QT_VERSION) >= LooseVersion('5.9'):
-                    raise PythonQtError("Qt 5.9 or higher only works in "
-                                        "macOS 10.10 or higher. Your "
-                                        "program will fail in this "
-                                        "system.")
-            elif macos_version < LooseVersion('10.11'):
-                if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
-                    raise PythonQtError("Qt 5.11 or higher only works in "
-                                        "macOS 10.11 or higher. Your "
-                                        "program will fail in this "
-                                        "system.")
-            del macos_version
-
-    elif api_name == 'PySide':
+    elif binding_name == 'PySide':
         try:
-            from PySide import __version__ as api_version  # analysis:ignore
+            from PySide import __version__ as binding_version  # analysis:ignore
             from PySide.QtCore import __version__ as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PySide cannot be imported in QtPy.')
+            raise PythonQtError('PySide cannot be imported by QtPy..')
 
-    elif api_name == 'PySide2':
+    elif binding_name == 'PySide2':
         try:
-            from PySide2 import __version__ as api_version  # analysis:ignore
+            from PySide2 import __version__ as binding_version  # analysis:ignore
             from PySide2.QtCore import __version__ as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PySide2 cannot be imported in QtPy.')
-
-        if sys.platform == 'darwin':
-
-            macos_version = LooseVersion(platform.mac_ver()[0])
-
-            if macos_version < LooseVersion('10.11'):
-                if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
-                    raise PythonQtError("Qt 5.11 or higher only works in "
-                                        "macOS 10.11 or higher. Your "
-                                        "program will fail in this "
-                                        "system.")
-
-            del macos_version
+            raise PythonQtError('PySide2 cannot be imported by QtPy.')
 
     else:
-        return (None, None)
+        msg = '{} is not recognized as a binding by QtPy.'.format(binding_name)
+        raise PythonQtError(msg)
 
-    return (api_version, qt_version)
+    # Restore sys path
+    if restore_sys_path:
+        sys.path = sys_path
+
+    print(binding_version, qt_version)
+
+    return (binding_version, qt_version)
+
+
+def set_binding(binding_name):
+    """Set a binding to be used by QtPy and get information from it.
+
+    Warning:
+        - This function is not prepared to be called more than once, yet.
+          Multiple calls will accumulate imports on 'sys.modules' if
+          'binding_name' is installed.
+    Note:
+        - It should not raise anything here because we have tested all
+          thing before call this. However, if any import problems appears
+          after those tests, we could get some PythonQtError.
+
+    Args:
+        binding_name (str): Importing binding name, case sensitive.
+
+    Raises:
+        PythonQtError: If is not possible to import.
+    """
+
+    try:
+        # Using get_binding_info without restore sys path keep the import
+        binding_version, qt_version = get_binding_info(binding_name,
+                                                       restore_sys_path=False)
+
+    except PythonQtError as er:
+        raise PythonQtError(str(er))
+
+    else:
+
+        # Set values for general configuration
+        API_NAME = binding_name
+        API_VERSION = binding_version
+        QT_VERSION = qt_version
+
+        if binding_name == 'PyQt4':
+            # Set values for specific binding
+            PYQT4 = True
+            PYQT_VERSION = binding_version
+
+            try:
+                import sip
+
+                try:
+                    sip.setapi('QString', 2)
+                    sip.setapi('QVariant', 2)
+                    sip.setapi('QDate', 2)
+                    sip.setapi('QDateTime', 2)
+                    sip.setapi('QTextStream', 2)
+                    sip.setapi('QTime', 2)
+                    sip.setapi('QUrl', 2)
+
+                except (AttributeError, ValueError):
+                    # PyQt < v4.6
+                    pass
+
+            except ImportError:
+                msg = 'SIP library (for PyQt4) cannot be imported in QtPy.'
+                raise PythonQtError(msg)
+
+        elif binding_name == 'PyQt5':
+            # Set values for the specific binding
+            PYQT5 = True
+            PYQT_VERSION = binding_version
+
+            if sys.platform == 'darwin':
+
+                macos_version = LooseVersion(platform.mac_ver()[0])
+
+                if macos_version < LooseVersion('10.10'):
+                    if LooseVersion(QT_VERSION) >= LooseVersion('5.9'):
+                        msg = "Qt 5.9 or higher only works in macOS 10.10 "
+                        "or higher. Your program will fail in this system."
+                        raise PythonQtError(msg)
+
+                elif macos_version < LooseVersion('10.11'):
+                    if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
+                        msg = "Qt 5.11 or higher only works in macOS 10.11 "
+                        "or higher. Your program will fail in this system."
+                        raise PythonQtError(msg)
+
+                del macos_version
+
+        elif binding_name == 'PySide':
+            # Set values for the specific binding
+            PYSIDE = True
+            PYSIDE_VERSION = binding_version
+
+        elif binding_name == 'PySide2':
+            # Set values for the specific binding
+            PYSIDE2 = True
+            PYSIDE_VERSION = binding_version
+
+            if sys.platform == 'darwin':
+
+                macos_version = LooseVersion(platform.mac_ver()[0])
+
+                if macos_version < LooseVersion('10.11'):
+
+                    if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
+                        msg = "Qt 5.11 or higher only works in macOS 10.11 "
+                        "or higher. Your program will fail in this system."
+                        raise PythonQtError(msg)
+                del macos_version
 
 
 # Qt API environment variable name
@@ -266,14 +360,14 @@ is_old_pyqt = is_pyqt46 = False
 # The sequence preserves the most recent (Qt5) and stable (PyQt) api
 api_names = {'pyqt4': ['PyQt4', 'PySide', 'PyQt5', 'PySide2'],
              'pyqt5': ['PyQt5', 'PySide2', 'PyQt4', 'PySide'],
-             'pyside': ['PySide', 'PyQt4', 'PyQt5', 'PySide2'],
+             'pyside': ['PySide', 'PyQt4', 'PySide2', 'PyQt5'],  # or PyQt5, PySide2
              'pyside2': ['PySide2', 'PyQt5', 'PyQt4', 'PySide']}
 
-# Other keys for the same Qt API that can be used, for compatibility
+# Other keys for the same Qt API that can be used for compatibility
 # pyqt4 -> pyqode.qt original name, pyqt -> name used in IPython.qt
 api_names['pyqt'] = api_names['pyqt4']
 
-# Detecting if a binding was specified by the user
+# Detecting if a binding was specified by the user, before setting default
 binding_specified = QT_API in os.environ
 
 # Setting a default value for QT_API
@@ -288,40 +382,44 @@ if env_api not in api_names.keys():
     msg = msg.format(env_api, api_names[default_api])
     raise PythonQtError(msg)
 
+
+# NOW WE GET A LIST OF TRIALS (SET + 3 MORE) BASED ON SET VALUE AND API_NAMES
+
+
 # The preference sequence is given by env_api
-environment_api_list = api_names[env_api]
+env_api_list = api_names[env_api]
+
+# Initial value is get from environment first trial, index 0 (set value)
+initial_api = env_api_list[0]
 
 # Check if Qt bindings have been already imported in 'sys.modules'
-imported_api_list = get_imported_bindings(api_names[env_api])
-
-# If more than one Qt binding is imported, just warns for now
-if len(imported_api_list) >= 2:
-    msg = 'There is more than one imported Qt binding: {}. '
-    msg += 'This may cause some issues. Check your code for consistence.'
-    msg = msg.format(imported_api_list)
-    warnings.warn(msg, RuntimeWarning)
+imp_api_list = get_imported_bindings(api_names[env_api])
 
 # Importing order for bindings if they are not found
-api_trial = imported_api_list if imported_api_list else environment_api_list
+api_trial_list = imp_api_list if imp_api_list else env_api_list
 
 # Refined import order with installed ones
-api_trial_avaliable = get_available_bindings(api_trial)
+api_trial_avaliable_list = get_installed_bindings(api_trial_list)
 
-# Check bindings available, maybe overtested
-if not api_trial_avaliable:
+# Check if something is installed
+if not api_trial_avaliable_list:
     msg = 'No Qt binding can be imported. Install at least one of these: {}.'
     msg = msg.format(api_names[default_api])
     raise PythonQtError(msg)
 
-# Initial value for API is get always from environment first trial, index 0
-initial_api = environment_api_list[0]
+# If more than one Qt binding is imported, just warns for now
+if len(imp_api_list) >= 2:
+    msg = 'There is more than one imported Qt binding: {}. '
+    msg += 'This may cause some issues. Check your code for consistence.'
+    msg = msg.format(imp_api_list)
+    warnings.warn(msg, RuntimeWarning)
 
 # In most cases, it will execute only the first item as expected
 # because we already refined the list of installed bindings
 # Only if any importing problem occurs it will try other ones
-for api_name in api_trial_avaliable:
+for api_name in api_trial_avaliable_list:
     try:
-        API_VERSION, QT_VERSION = get_api_information(api_name)
+        API_VERSION, QT_VERSION = get_binding_info(api_name)
     except PythonQtError as er:
         msg = 'The binding "{}" is installed but cannot be used. '
         msg += 'Check the original error message: {}.'
@@ -331,20 +429,23 @@ for api_name in api_trial_avaliable:
         if API_VERSION and QT_VERSION:
             API = api_name.lower()
             API_NAME = api_name
+
             if api_name == 'PyQt4':
                 PYQT4 = True
-                PYQT4_VERSION = API_VERSION
+                PYQT_VERSION = API_VERSION
                 versions = ('4.4', '4.5', '4.6', '4.7')
-                is_old_pyqt = PYQT4_VERSION.startswith(versions)
-                is_pyqt46 = PYQT4_VERSION.startswith('4.6')
+                is_old_pyqt = PYQT_VERSION.startswith(versions)
+                is_pyqt46 = PYQT_VERSION.startswith('4.6')
+
                 import sip
+
                 try:
                     API_NAME += (" (API v{0})".format(sip.getapi('QString')))
                 except AttributeError:
                     pass
             elif api_name == 'PyQt5':
                 PYQT5 = True
-                PYQT4_VERSION = API_VERSION
+                PYQT_VERSION = API_VERSION
             elif api_name == 'PySide':
                 PYSIDE = True
                 PYSIDE_VERSION = API_VERSION
@@ -353,13 +454,13 @@ for api_name in api_trial_avaliable:
                 PYSIDE_VERSION = API_VERSION
             break
 
-# Set the environment variable to the current used API
+# Set the environment variable to the current used API after all tests
 os.environ['QT_API'] = API
 
 if API_NAME != initial_api and binding_specified:
     # If the code is using QtPy is not supposed do directly import Qt api's,
     # so a warning is sent to check consistence
-    if imported_api_list:
+    if imp_api_list:
         msg = 'Selected binding "{}" could not be set because "{}" has '
         msg += 'already been imported. Check your code for consistence.'
         msg = msg.format(initial_api, API_NAME)
@@ -372,14 +473,7 @@ if API_NAME != initial_api and binding_specified:
         warnings.warn(msg, RuntimeWarning)
 
 
-# When `FORCE_QT_API` is set, we disregard
-# any previously imported python bindings.
-if os.environ.get('FORCE_QT_API') is not None:
-    if 'PyQt5' in sys.modules:
-        API = initial_api if initial_api in PYQT5_API else 'pyqt5'
-    elif 'PySide2' in sys.modules:
-        API = initial_api if initial_api in PYSIDE2_API else 'pyside2'
-    elif 'PyQt4' in sys.modules:
-        API = initial_api if initial_api in PYQT4_API else 'pyqt4'
-    elif 'PySide' in sys.modules:
-        API = initial_api if initial_api in PYSIDE_API else 'pyside'
+print("1", PYQT5, PYQT4, PYSIDE, PYSIDE2)
+print("2", API, API_NAME, API_VERSION, QT_VERSION)
+print("3", PYQT_VERSION, PYSIDE_VERSION)
+print("4", is_old_pyqt, is_pyqt46)
