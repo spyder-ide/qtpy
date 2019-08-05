@@ -229,28 +229,28 @@ def get_binding_info(binding_name, restore_sys_path=True):
 
     # Copy sys path to restore later
     sys_path = sys.path
-    binding_version = qt_version = ''
+    binding_version = generator_version = qt_version = ''
 
     if binding_name == 'PyQt4':
         try:
             from PyQt4.Qt import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt4.Qt import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PyQt4 cannot be imported by QtPy..')
+            raise PythonQtError('PyQt4 cannot be imported by QtPy.')
 
     elif binding_name == 'PyQt5':
         try:
             from PyQt5.QtCore import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt5.QtCore import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PyQt5 cannot be imported by QtPy..')
+            raise PythonQtError('PyQt5 cannot be imported by QtPy.')
 
     elif binding_name == 'PySide':
         try:
             from PySide import __version__ as binding_version  # analysis:ignore
             from PySide.QtCore import __version__ as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PySide cannot be imported by QtPy..')
+            raise PythonQtError('PySide cannot be imported by QtPy.')
 
     elif binding_name == 'PySide2':
         try:
@@ -263,13 +263,13 @@ def get_binding_info(binding_name, restore_sys_path=True):
         msg = '{} is not recognized as a binding by QtPy.'.format(binding_name)
         raise PythonQtError(msg)
 
-    # Restore sys path
+    # Restore sys path if needed
     if restore_sys_path:
         sys.path = sys_path
 
-    print(binding_version, qt_version)
+    print(binding_version, generator_version, qt_version)
 
-    return (binding_version, qt_version)
+    return (binding_version, generator_version, qt_version)
 
 
 def set_binding(binding_name):
