@@ -380,44 +380,65 @@ def set_binding(binding_name):
 # Qt API environment variable name
 QT_API = 'QT_API'
 
-# Default/Preferrable API, must be one of api_names keys
-default_api = 'pyqt5'
+# When `FORCE_QT_API` is set, we disregard
+# any previously imported python bindings
+FORCE_QT_API = 'FORCE_QT_API'
+
+# Default/Preferrable API/force, must be one of api_names keys
+DEFAULT_API = 'pyqt5'
+DEFAULT_FORCE = False
 
 # All false/none/empty because they were not imported yet
 PYQT5 = PYQT4 = PYSIDE = PYSIDE2 = False
-API = API_NAME = API_VERSION = QT_VERSION = ''
 PYQT_VERSION = PYSIDE_VERSION = ''
 is_old_pyqt = is_pyqt46 = False
 
+# API is not a good name for describing binding and its generator
+# keep for compatibility with older versions
+API = API_NAME = API_VERSION = ''
+
+# Respective to Qt C++ compiled version
+QT_VERSION = ''
+
+# Binding name and version such as PySide, PyQt
+BINDING_NAME = BINDING_VERSION = ''
+
+# Generator name and version such as Sip and Shiboken
+GENERATOR_NAME = GENERATOR_VERSION = ''
+
 # Keys: names of the expected Qt API (internal names)
 # Values: ordered list of importing names based on its key
-# The sequence preserves the most recent (Qt5) and stable (PyQt) api
+# The sequence preserves the most recent (Qt5) and stable (PyQt)
+# TODO: If 'pyside', keep chosen order as PySide2, PyQt5 or use PyQt5, PySide2?
 api_names = {'pyqt4': ['PyQt4', 'PySide', 'PyQt5', 'PySide2'],
              'pyqt5': ['PyQt5', 'PySide2', 'PyQt4', 'PySide'],
-             'pyside': ['PySide', 'PyQt4', 'PySide2', 'PyQt5'],  # or PyQt5, PySide2
-             'pyside2': ['PySide2', 'PyQt5', 'PyQt4', 'PySide']}
+             'pyside': ['PySide', 'PyQt4', 'PySide2', 'PyQt5'],
+             'pyside2': ['PySide2', 'PyQt5', 'PySide', 'PyQt4']}
 
 # Other keys for the same Qt API that can be used for compatibility
 # pyqt4 -> pyqode.qt original name, pyqt -> name used in IPython.qt
 api_names['pyqt'] = api_names['pyqt4']
 
-# Detecting if a binding was specified by the user, before setting default
-binding_specified = QT_API in os.environ
+# Detecting if a api/force was specified by the user, before setting default
+api_specified = QT_API in os.environ
+force_specified = FORCE_QT_API in os.environ
 
-# Setting a default value for QT_API
-os.environ.setdefault(QT_API, default_api)
+# Setting a default value for QT_API/FORCE_QT_API
+os.environ.setdefault(QT_API, DEFAULT_API)
+os.environ.setdefault(FORCE_QT_API, DEFAULT_FORCE)
 
 # Get the value from environment (or default if not set)
 env_api = os.environ[QT_API].lower()
+env_force = bool(os.environ[FORCE_QT_API])
 
-# Check if it was correctly set with environment variable
+# Check if env_api was correctly set with environment variable
 if env_api not in api_names.keys():
     msg = 'Qt binding "{}" is unknown. Use one from these: {}.'
-    msg = msg.format(env_api, api_names[default_api])
+    msg = msg.format(env_api, api_names[DEFAULT_API])
     raise PythonQtError(msg)
 
 
-# NOW WE GET A LIST OF TRIALS (SET + 3 MORE) BASED ON SET VALUE AND API_NAMES
+# NOW GET A LIST OF TRIALS (SET + 3 MORE) BASED ON SET VALUE AND API_NAMES
 
 
 # The preference sequence is given by env_api
