@@ -10,52 +10,79 @@
 **QtPy** is a shim over the various Python Qt bindings. It is used to
 write Qt binding independent libraries or applications.
 
-If one of the APIs has already been imported, then it will be used.
-Otherwise, the shim will automatically select the first available API
-following the list below; in that case, you can force the use of one
-specific binding (e.g. if your application is using one specific binding
-and you need to use a library that uses QtPy) by setting up the
-``QT_API`` environment variable.
+You can set the use of one specific binding by setting up the ``QT_API``
+environment variable. The default value for ``QT_API = 'pyqt5'``
+(not case sensitive). For each selected binding, there will be more three
+attempts if it is not found, following the most recent (Qt5) and most
+stable (PyQt) API. See below:
 
-For each selected binding, there will be more three attempts if it is
-not found, following the most recent (Qt5) and most stable (PyQt) API.
-See below:
+* pyqt5: PyQt5, PySide2, PyQt4, PySide;
+* pyside2: PySide2, PyQt5, PyQt4, PySide;
+* pyqt4: PyQt4, PySide, PyQt5, PySide2;
+* pyside: PySide, PyQt4, PyQt5, PySide2.
 
-* pyqt5: PyQt5, PySide2, PyQt4, PySide
-* pyside2: PySide2, PyQt5, PyQt4, PySide
-* pyqt4: PyQt4, PySide, PyQt5, PySide2
-* pyside: PySide, PyQt4, PyQt5, PySide2
-
-The clearest way to set which API is to be used by QtPy is setting
-``QT_API`` environment variable. The default value for ``QT_API = 'pyqt5'``
-(not case sensitive).
+If one of the APIs has already been imported, then that one will be used.
+(if the environment variable FORCE_QT_API is not set or set to false).
+If you want to ensure that the set binding will be used, indepedent if
+any other binding was imported before, you can set ``FORCE_QT_API = True``
 
 The priority when setting the Qt binding API is detailed below:
 
-1 Have been already imported any Qt binding (not recommended, implicit):
-    1.1 Just one binding is found imported;
-        1.1.1 QT_API is not set, pass, no output;
-        1.1.2 QT_API is set to the same binding, pass, no output;
-        1.1.3 QT_API is set to a different binding, ignore QT_API, pass but warns;
-    2.1 More than one binding is found imported;
+0 No bindings are found installed, stop, error;
 
-2 Have NOT been already imported any Qt binding (explicitly setting):
-    2.1 QT_API is set correctly, pass;
-        2.1.1 If binding is found, pass, no output;
-        2.1.2 If binding is not found, try another one (three more);
-            2.1.2.a If any is found (different from set), pass but warns;
-            2.1.2.b If no one is found, stop, error;
-    2.2 QT_API is not set correctly, stop, error;
-    2.3 QT_API is not set, use default, continue to 2.1.1, without 2.1.2.a;
+1 QT_API is set but incorrectly, stop, error;
 
-Note 1: If any Qt binding is imported (a different one) after QtPy
-import, issues and errors may occur and QtPy won't be able to help you
-with any warning.
+1 Have NOT been already imported any Qt binding, independs on FORCE_QT_API:
+    1.1 QT_API is set correctly;
+        1.1.1 If binding is found, pass, no output;
+        1.1.2 If binding is NOT found, try another one (three more);
+            1.1.2.a If any is found (different from set), pass but warns;
+    1.3 QT_API is not set, use default, continue to 1.1.1, without warning;
 
-Note 2: We always preffer to not break the code when something is not
-found, so we use ``warnings`` module to alert changes and show information
-that may be useful when developing using QtPy. Remember to set warnings
-to show messages.
+2 Have been already imported ONE Qt binding (not recommended):
+    2.1 QT_API is set correctly;
+        2.1.1 If the binding is is identical to QT_API, pass, no output,
+              independs on FORCE_QT_API;
+        2.1.2 If the binding is different from QT_API;
+              2.1.2.a FORCE_QT_API is set false or not set, use that
+                      imported binding, pass, but warns;
+              2.1.2.b FORCE_QT_API is set true, stop, error;
+    2.2 QT_API is not set, use default, continue to 2.1.1, without warning;
+
+3 Have been already imported MORE than one Qt binding (highly unrecommended):
+    3.1 QT_API is set correctly;
+        3.1.1 If the binding is found in the imported bindings, pass,
+              no output, independs on FORCE_QT_API;
+        3.1.2 If the binding is NOT found in the imported bindings;
+            3.1.2.a FORCE_QT_API is set false or not set, try another one
+                    (three more);
+                    1.1.2.a If any is found (different from set), pass
+                            but warns;
+            3.1.2.b FORCE_QT_API is set true, stop, error;
+    3.2 QT_API is not set, use default, continue to 3.1.1, without warning.
+
+Note:
+    Always preffer set the things (QT_API and FORCE_QT_API) explicit at
+    the beggining of your code. Also, do all your imports using QtPy,
+    avoiding using imports from PySide or PyQt directly.
+
+Important:
+    We always preffer to not break the code when something is not
+    found, so we use ``warnings`` module to alert changes and show
+    information that may be useful when developing with QtPy. Remember
+    to set warnings to show messages.
+
+Caution:
+    Importing more than one binding in the code could cause issues and
+    errors that are unpredictable, for example, when comparing instance
+    types, inserting widgets from one biding to another. So, it is not
+    recommended you do that.
+
+Warning:
+    If any Qt binding is imported (a different one) after QtPy import,
+    issues and errors may occur and QtPy won't be able to help you
+    with any warning, see Caution note.
+
 
 PyQt5
 =====
