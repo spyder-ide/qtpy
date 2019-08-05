@@ -197,19 +197,26 @@ def get_imported_bindings(import_list):
 
 
 def get_binding_info(binding_name, restore_sys_path=True):
-    """Get binding and Qt version information by the import system.
+    """Get binding, generator and Qt version information by the import system.
+
+    All the tool names are given by their import names, so we get:
+
+        - Bindings are PyQt4, PyQt5, PySide2, PySide;
+        - Generators of code are the tools sip (for PyQt) and shiboken
+          (for PySide).
 
     Note:
         - This function should be called after using the
-          get_installed_bindings to avoid raise the PythonQtError by the
-          not installed binding. So, this error will only be raised if the
-          specific import used here fails.
+          get_installed_bindings to avoid raise the PythonQtError
+          by the not installed binding. So, this error will only be
+          raised if the specific import used here fails.
         - It must be rewrite to use pkgutil/importlib to check version
           numbers when after only py36 be used.
 
     Args:
-        binding_name (str): Importing binding name, case sensitive.
-        restore_sys_path (bool): If true restore the sys.path, otherwise
+        binding_name (str): Importing binding name, case sensitive. Must be
+            installed,, otherwise will raise an error.
+        restore_sys_path (bool): If true, restore the sys.path, otherwise
             keep the import into it. Defauls to True.
 
     Raises:
@@ -217,7 +224,7 @@ def get_binding_info(binding_name, restore_sys_path=True):
             or if it is not recognized by the QtPy as a binding.
 
     Returns:
-        tuple: Binding and Qt versions as strings.
+        tuple: Binding, generator and Qt version as strings.
     """
 
     # Copy sys path to restore later
@@ -269,13 +276,13 @@ def set_binding(binding_name):
     """Set a binding to be used by QtPy and get information from it.
 
     Warning:
-        - This function is not prepared to be called more than once, yet.
-          Multiple calls will accumulate imports on 'sys.modules' if
-          'binding_name' is installed.
+        - This function is not prepared to be called more than once in
+          a unique import of QtPy, yet. Multiple calls will accumulate
+          imports on 'sys.modules' if 'binding_name' is installed.
     Note:
         - It should not raise anything here because we have tested all
-          thing before call this. However, if any import problems appears
-          after those tests, we could get some PythonQtError.
+          things before call this. However, if any import problems
+          appears after those tests, we could get some PythonQtError.
 
     Args:
         binding_name (str): Importing binding name, case sensitive.
