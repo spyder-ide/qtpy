@@ -28,38 +28,38 @@ any other binding was imported before, you can set ``FORCE_QT_API = True``
 
 The priority when setting the Qt binding API is detailed below:
 
-0 No bindings are found installed, stop, error;
-
 1 QT_API is set but incorrectly, stop, error;
 
-1 Have NOT been already imported any Qt binding, independs on FORCE_QT_API:
-    1.1 QT_API is set correctly;
-        1.1.1 If binding is found, pass, no output;
-        1.1.2 If binding is NOT found, try another one (three more);
-            1.1.2.a If any is found (different from set), pass but warns;
-    1.3 QT_API is not set, use default, continue to 1.1.1, without warning;
+2 No bindings are found installed, stop, error;
 
-2 Have been already imported ONE Qt binding (not recommended):
-    2.1 QT_API is set correctly;
-        2.1.1 If the binding is is identical to QT_API, pass, no output,
-              independs on FORCE_QT_API;
-        2.1.2 If the binding is different from QT_API;
-              2.1.2.a FORCE_QT_API is set false or not set, use that
-                      imported binding, pass, but warns;
-              2.1.2.b FORCE_QT_API is set true, stop, error;
-    2.2 QT_API is not set, use default, continue to 2.1.1, without warning;
-
-3 Have been already imported MORE than one Qt binding (highly unrecommended):
+3 Have NOT been already imported any Qt binding, independs on FORCE_QT_API:
     3.1 QT_API is set correctly;
-        3.1.1 If the binding is found in the imported bindings, pass,
+        3.1.1 If binding is found, pass, no output;
+        3.1.2 If binding is NOT found, try another one (three more);
+            3.1.2.a If any is found (different from set), pass but warns;
+    3.3 QT_API is not set, use default, continue to 3.1.1, without warning;
+
+4 Have been already imported ONE Qt binding (not recommended):
+    4.1 QT_API is set correctly;
+        4.1.1 If the binding is is identical to QT_API, pass, no output,
+              independs on FORCE_QT_API;
+        4.1.2 If the binding is different from QT_API;
+            4.1.2.a FORCE_QT_API is set false or not set, use that
+                      imported binding, pass, but warns;
+            4.1.2.b FORCE_QT_API is set true, stop, error;
+    4.2 QT_API is not set, use default, continue to 4.1.1, without warning;
+
+5 Have been already imported MORE than one Qt binding (highly unrecommended):
+    5.1 QT_API is set correctly;
+        5.1.1 If the binding is found in the imported bindings, pass,
               no output, independs on FORCE_QT_API;
-        3.1.2 If the binding is NOT found in the imported bindings;
-            3.1.2.a FORCE_QT_API is set false or not set, try another one
+        5.1.2 If the binding is NOT found in the imported bindings;
+            5.1.2.a FORCE_QT_API is set false or not set, try another one
                     (three more);
-                    1.1.2.a If any is found (different from set), pass
+                    5.1.2.a.i If any is found (different from set), pass
                             but warns;
-            3.1.2.b FORCE_QT_API is set true, stop, error;
-    3.2 QT_API is not set, use default, continue to 3.1.1, without warning.
+            5.1.2.b FORCE_QT_API is set true, stop, error;
+    5.2 QT_API is not set, use default, continue to 5.1.1, without warning.
 
 Note:
     Always preffer set the things (QT_API and FORCE_QT_API) explicit at
