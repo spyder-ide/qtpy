@@ -300,7 +300,6 @@ def set_binding(binding_name):
         raise PythonQtError(str(er))
 
     else:
-
         # Set values for general configuration
         API_NAME = binding_name
         API_VERSION = binding_version
@@ -450,7 +449,7 @@ initial_api = env_api_list[0]
 # Check if Qt bindings have been already imported in 'sys.modules'
 imp_api_list = get_imported_bindings(api_names[env_api])
 
-# Importing order for bindings if they are not found
+# Importing order for binding trial if they are not found
 api_trial_list = imp_api_list if imp_api_list else env_api_list
 
 # Refined import order with installed ones
@@ -459,13 +458,24 @@ api_trial_avaliable_list = get_installed_bindings(api_trial_list)
 # Check if something is installed
 if not api_trial_avaliable_list:
     msg = 'No Qt binding can be imported. Install at least one of these: {}.'
-    msg = msg.format(api_names[default_api])
-    raise PythonQtError(msg)
+    msg = msg.format(api_names[DEFAULT_API])
+    raise PythonQtError(msg, RuntimeError)
 
-# If more than one Qt binding is imported, just warns for now
-if len(imp_api_list) >= 2:
-    msg = 'There is more than one imported Qt binding: {}. '
-    msg += 'This may cause some issues. Check your code for consistence.'
+# If more than one Qt binding is imported but none is specified
+if len(imp_api_list) >= 2 and not force_specified:
+    msg = 'There is more than one imported Qt binding: {}. It is impossible '
+    'to know which one is to import. You must specify QT_API and '
+    'FORCE_QT_API if using both is your desire. We warn that this mix '
+    'could cause inexpected results.'
+    msg = msg.format(imp_api_list)
+    raise PythonQtError(msg, RuntimeError)
+
+# If more than one Qt binding is imported but none is specified
+if len(imp_api_list) >= 2 and not env_api and not env_force:
+    msg = 'There is more than one imported Qt binding: {}. It is impossible '
+    'to know which one is to import. You must specify QT_API and '
+    'FORCE_QT_API if using both is your desire. We warn that this mix '
+    'could cause inexpected results.'
     msg = msg.format(imp_api_list)
     warnings.warn(msg, RuntimeWarning)
 
@@ -512,7 +522,7 @@ for api_name in api_trial_avaliable_list:
 # Set the environment variable to the current used API after all tests
 os.environ['QT_API'] = API
 
-if API_NAME != initial_api and binding_specified:
+if API_NAME != initial_api and api_specified:
     # If the code is using QtPy is not supposed do directly import Qt api's,
     # so a warning is sent to check consistence
     if imp_api_list:
@@ -528,7 +538,14 @@ if API_NAME != initial_api and binding_specified:
         warnings.warn(msg, RuntimeWarning)
 
 
-print("1", PYQT5, PYQT4, PYSIDE, PYSIDE2)
-print("2", API, API_NAME, API_VERSION, QT_VERSION)
-print("3", PYQT_VERSION, PYSIDE_VERSION)
-print("4", is_old_pyqt, is_pyqt46)
+print("USING PYQT-5-4,PYSIDE-2-1", PYQT5, PYQT4, PYSIDE2, PYSIDE)
+print("PYQT/PYSIDE VERSION", PYQT_VERSION, PYSIDE_VERSION)
+
+print("OLDPYQT,PYQT46", is_old_pyqt, is_pyqt46)
+
+print("APIS: ", API, API_NAME, API_VERSION)
+
+print("QT: ", QT_VERSION)
+
+print("BINDING: ", BINDING_NAME, BINDING_VERSION)
+print("GENERATOR: ", GENERATOR_NAME, GENERATOR_VERSION)
