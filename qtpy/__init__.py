@@ -392,53 +392,102 @@ if len(imp_api_list) >= 2 and not force_specified:
     msg = msg.format(imp_api_list)
     raise PythonQtError(msg, RuntimeError)
 
-# If more than one Qt binding is imported but none is specified
-if len(imp_api_list) >= 2 and not env_api and not env_force:
-    msg = 'There is more than one imported Qt binding: {}. It is impossible '
-    'to know which one is to import. You must specify QT_API and '
-    'FORCE_QT_API if using both is your desire. We warn that this mix '
-    'could cause inexpected results.'
-    msg = msg.format(imp_api_list)
-    warnings.warn(msg, RuntimeWarning)
-
 # In most cases, it will execute only the first item as expected
 # because we already refined the list of installed bindings
 # Only if any importing problem occurs it will try other ones
-for api_name in api_trial_avaliable_list:
+for binding_name in api_trial_avaliable_list:
+
+    _logger.debug('Trying to use: {}'.format(binding_name))
+
     try:
-        API_VERSION, QT_VERSION = get_binding_info(api_name)
+        info = get_binding_info(binding_name)
+
     except PythonQtError as er:
         msg = 'The binding "{}" is installed but cannot be used. '
         msg += 'Check the original error message: {}.'
-        msg = msg.format(api_name, str(er))
+        msg = msg.format(binding_name, str(er))
         warnings.warn(msg, RuntimeWarning)
-    else:
-        if API_VERSION and QT_VERSION:
-            API = api_name.lower()
-            API_NAME = api_name
 
-            if api_name == 'PyQt4':
+    else:
+        # Set values for general configuration
+        (BINDING_NAME, BINDING_VERSION, GENERATOR_NAME,
+         GENERATOR_VERSION, QT_VERSION) = info
+
+        _logger.info('Binding: {} v{}'.format(BINDING_NAME, BINDING_VERSION))
+        _logger.info('Generator: {} v{}'.format(GENERATOR_NAME, GENERATOR_VERSION))
+        _logger.info('Qt: v{}'.format(QT_VERSION))
+
+        if binding_name == 'PyQt4':
+            # Set values for specific binding
                 PYQT4 = True
-                PYQT_VERSION = API_VERSION
+            PYQT_VERSION = BINDING_VERSION
+
                 versions = ('4.4', '4.5', '4.6', '4.7')
                 is_old_pyqt = PYQT_VERSION.startswith(versions)
                 is_pyqt46 = PYQT_VERSION.startswith('4.6')
 
+            try:
                 import sip
-
+            except ImportError:
+                msg = '"sip" library (for PyQt4) cannot be imported in QtPy.'
+                raise PythonQtError(msg)
+            else:
                 try:
-                    API_NAME += (" (API v{0})".format(sip.getapi('QString')))
-                except AttributeError:
+                    sip.setapi('QString', 2)
+                    sip.setapi('QVariant', 2)
+                    sip.setapi('QDate', 2)
+                    sip.setapi('QDateTime', 2)
+                    sip.setapi('QTextStream', 2)
+                    sip.setapi('QTime', 2)
+                    sip.setapi('QUrl', 2)
+                except (AttributeError, ValueError):
+                    # PyQt < v4.6
                     pass
-            elif api_name == 'PyQt5':
+
+        elif binding_name == 'PyQt5':
+            # Set values for the specific binding
                 PYQT5 = True
-                PYQT_VERSION = API_VERSION
-            elif api_name == 'PySide':
+            PYQT_VERSION = BINDING_VERSION
+
+            if sys.platform == 'darwin':
+
+                macos_version = LooseVersion(platform.mac_ver()[0])
+
+                if macos_version < LooseVersion('10.10'):
+                    if LooseVersion(QT_VERSION) >= LooseVersion('5.9'):
+                        msg = "Qt 5.9 or higher only works in macOS 10.10 "
+                        "or higher. Your program will fail in this "
+                        "system."
+                        raise PythonQtError(msg)
+
+                elif macos_version < LooseVersion('10.11'):
+                    if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
+                        msg = "Qt 5.11 or higher only works in macOS 10.11 "
+                        "or higher. Your program will fail in this "
+                        "system."
+                        raise PythonQtError(msg)
+
+                del macos_version
+
+        elif binding_name == 'PySide':
+            # Set values for the specific binding
                 PYSIDE = True
-                PYSIDE_VERSION = API_VERSION
-            elif api_name == 'PySide2':
+            PYSIDE_VERSION = BINDING_VERSION
+
+        elif binding_name == 'PySide2':
+            # Set values for the specific binding
                 PYSIDE2 = True
-                PYSIDE_VERSION = API_VERSION
+            PYSIDE_VERSION = BINDING_VERSION
+
+            if sys.platform == 'darwin':
+                macos_version = LooseVersion(platform.mac_ver()[0])
+                if macos_version < LooseVersion('10.11'):
+                    if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
+                        msg = "Qt 5.11 or higher only works in macOS 10.11 "
+                        "or higher. Your program will fail in this "
+                        "system."
+                        raise PythonQtError(msg)
+                del macos_version
             break
 
 # Set the environment variable to the current used API after all tests
