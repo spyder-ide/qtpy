@@ -490,22 +490,22 @@ for binding_name in api_trial_avaliable_list:
                 del macos_version
             break
 
-# Set the environment variable to the current used API after all tests
-os.environ['QT_API'] = API
+                                                                       PYSIDE))
 
-if API_NAME != initial_api and api_specified:
+# BINDING_NAME and initial_api are importing names, case sensitive
+if BINDING_NAME != initial_api and api_specified:
     # If the code is using QtPy is not supposed do directly import Qt api's,
     # so a warning is sent to check consistence
-    if imp_api_list:
+    if imp_api_list and not force_specified:
         msg = 'Selected binding "{}" could not be set because "{}" has '
         msg += 'already been imported. Check your code for consistence.'
-        msg = msg.format(initial_api, API_NAME)
+        msg = msg.format(initial_api, BINDING_NAME)
         warnings.warn(msg, RuntimeWarning)
     # If a correct API name is passed to QT_API and it cannot be found,
     # switches to another and informs through the warning
     else:
-        msg = 'Selected binding "{}" could not be found, using "{}".'
-        msg = msg.format(initial_api, API_NAME)
+        msg = 'Selected binding "{}" could not be used. Using "{}".'
+        msg = msg.format(initial_api, BINDING_NAME)
         warnings.warn(msg, RuntimeWarning)
 
 
