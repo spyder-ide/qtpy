@@ -70,7 +70,7 @@ The priority when setting the Qt binding API is detailed below:
         5.1.2 If the binding is NOT found in the imported bindings;
             5.1.2.a FORCE_QT_API is not set, try another one (three more);
                     5.1.2.a.i If any is found (different from set), pass
-                            but warns;
+                              but warns;
             5.1.2.b FORCE_QT_API is set, stop, error;
     5.2 QT_API is not set, use default, continue to 5.1.1, without warning.
 
@@ -294,7 +294,7 @@ def get_binding_info(binding_name):
         raise PythonQtError(msg)
 
     # Restore sys path
-        sys.path = sys_path
+    sys.path = sys_path
 
     return (binding_name, binding_version,
             generator_name, generator_version,
@@ -424,12 +424,12 @@ for binding_name in api_trial_avaliable_list:
 
         if binding_name == 'PyQt4':
             # Set values for specific binding
-                PYQT4 = True
+            PYQT4 = True
             PYQT_VERSION = BINDING_VERSION
 
-                versions = ('4.4', '4.5', '4.6', '4.7')
-                is_old_pyqt = PYQT_VERSION.startswith(versions)
-                is_pyqt46 = PYQT_VERSION.startswith('4.6')
+            versions = ('4.4', '4.5', '4.6', '4.7')
+            is_old_pyqt = PYQT_VERSION.startswith(versions)
+            is_pyqt46 = PYQT_VERSION.startswith('4.6')
 
             try:
                 import sip
@@ -451,7 +451,7 @@ for binding_name in api_trial_avaliable_list:
 
         elif binding_name == 'PyQt5':
             # Set values for the specific binding
-                PYQT5 = True
+            PYQT5 = True
             PYQT_VERSION = BINDING_VERSION
 
             if sys.platform == 'darwin':
@@ -476,12 +476,12 @@ for binding_name in api_trial_avaliable_list:
 
         elif binding_name == 'PySide':
             # Set values for the specific binding
-                PYSIDE = True
+            PYSIDE = True
             PYSIDE_VERSION = BINDING_VERSION
 
         elif binding_name == 'PySide2':
             # Set values for the specific binding
-                PYSIDE2 = True
+            PYSIDE2 = True
             PYSIDE_VERSION = BINDING_VERSION
 
             if sys.platform == 'darwin':
@@ -493,7 +493,7 @@ for binding_name in api_trial_avaliable_list:
                         "system."
                         raise PythonQtError(msg)
                 del macos_version
-            break
+        break
 
 _logger.debug('Keys: PYQT5={}, PYQT4={}, PYSIDE={}, PYSIDE2={}'.format(PYQT5,
                                                                        PYQT4,
@@ -515,7 +515,6 @@ if BINDING_NAME != initial_api and api_specified:
         msg = 'Selected binding "{}" could not be used. Using "{}".'
         msg = msg.format(initial_api, BINDING_NAME)
         warnings.warn(msg, RuntimeWarning)
-
 
 # Set the environment variable to the current used API after all tests
 os.environ['QT_API'] = API
