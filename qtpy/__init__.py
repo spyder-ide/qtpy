@@ -26,6 +26,20 @@ If one of the APIs has already been imported, then that one will be used.
 If you want to ensure that the set binding will be used, indepedent if
 any other binding was imported before, you can set ``FORCE_QT_API = True``
 
+There are some globlas variables that can be used to reach information
+after QtPy is imported that shows the current setup.
+
+- Binding set (bool): PYQT5, PYQT4, PYSIDE, PYSIDE2;
+- Specific binding version (str): PYQT_VERSION, PYSIDE_VERSION;
+- General binding name (str, import name): BINDING_NAME;
+- General binding version (str): BINDING_VERSION;
+- General generator name (str): GENERATOR_NAME;
+- General generator version (str): GENERATOR_VERSION;
+- General Qt version (str): QT_VERSION;
+- Composed API name (str): API_NAME = BINDING_NAME (BINDING_VERSION),
+                                      GENERATOR_NAME (GENERATOR_VERSION),
+                                      QT_VERSION
+
 The priority when setting the Qt binding API is detailed below:
 
 1 QT_API is set but incorrectly, stop, error;
