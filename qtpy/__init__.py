@@ -140,6 +140,7 @@ packages::
 
 """
 
+import logging
 import os
 import pkgutil
 import platform
@@ -149,6 +150,8 @@ from distutils.version import LooseVersion
 
 # Version of QtPy
 from ._version import __version__
+
+_logger = logging.getLogger(__name__)
 
 
 class PythonQtError(RuntimeError):
@@ -183,8 +186,6 @@ def get_installed_bindings(import_list):
         if can_import:
             installed_bindings.append(imp_name)
 
-    print(installed_bindings)
-
     return installed_bindings
 
 
@@ -203,8 +204,6 @@ def get_imported_bindings(import_list):
     for imp_name in import_list:
         if imp_name in sys.modules:
             imported_bindings.append(imp_name)
-
-    print(imported_bindings)
 
     return imported_bindings
 
@@ -352,15 +351,16 @@ os.environ.setdefault(QT_API, DEFAULT_API)
 # Get the value from environment (or default if not set)
 env_api = os.environ[QT_API].lower()
 
+_logger.debug('API is specified: %s FORCE is specified: %s' % (api_specified,
+                                                               force_specified))
+
 # Check if env_api was correctly set with environment variable
 if env_api not in api_names.keys():
     msg = 'Qt binding "{}" is unknown. Use one from these: {}.'
     msg = msg.format(env_api, api_names[DEFAULT_API])
     raise PythonQtError(msg)
 
-
 # NOW GET A LIST OF TRIALS (SET + 3 MORE) BASED ON SET VALUE AND API_NAMES
-
 
 # The preference sequence is given by env_api
 env_api_list = api_names[env_api]
@@ -370,18 +370,23 @@ initial_api = env_api_list[0]
 
 # Check if Qt bindings have been already imported in 'sys.modules'
 imp_api_list = get_imported_bindings(api_names[env_api])
+_logger.info('Already imported bindings: {}'.format(imp_api_list))
 
 # Importing order for binding trial if they are not found
-api_trial_list = imp_api_list if imp_api_list else env_api_list
+api_trial_list = env_api_list
+
+if imp_api_list and not force_specified:
+    api_trial_list = imp_api_list
 
 # Refined import order with installed ones
 api_trial_avaliable_list = get_installed_bindings(api_trial_list)
+_logger.info('Installed bindings: {}'.format(api_trial_avaliable_list))
 
 # Check if something is installed
 if not api_trial_avaliable_list:
-    msg = 'No Qt binding can be imported. Install at least one of these: {}.'
+    msg = 'No Qt binding could be found. Install at least one of these: {}.'
     msg = msg.format(api_names[DEFAULT_API])
-    raise PythonQtError(msg, RuntimeError)
+    raise PythonQtError(msg)
 
 # If more than one Qt binding is imported but none is specified
 if len(imp_api_list) >= 2 and not force_specified:
@@ -390,7 +395,7 @@ if len(imp_api_list) >= 2 and not force_specified:
     'FORCE_QT_API if using both is your desire. We warn that this mix '
     'could cause inexpected results.'
     msg = msg.format(imp_api_list)
-    raise PythonQtError(msg, RuntimeError)
+    raise PythonQtError(msg)
 
 # In most cases, it will execute only the first item as expected
 # because we already refined the list of installed bindings
@@ -490,6 +495,9 @@ for binding_name in api_trial_avaliable_list:
                 del macos_version
             break
 
+_logger.debug('Keys: PYQT5={}, PYQT4={}, PYSIDE={}, PYSIDE2={}'.format(PYQT5,
+                                                                       PYQT4,
+                                                                       PYSIDE2,
                                                                        PYSIDE))
 
 # BINDING_NAME and initial_api are importing names, case sensitive
@@ -521,5 +529,4 @@ API_NAME = '{} v{}, {} v{}, Qt v{}'.format(BINDING_NAME,
                                            GENERATOR_VERSION,
                                            QT_VERSION)
 
-print("BINDING: ", BINDING_NAME, BINDING_VERSION)
-print("GENERATOR: ", GENERATOR_NAME, GENERATOR_VERSION)
+_logger.info('Using API_NAME: {}'.format(API_NAME))
