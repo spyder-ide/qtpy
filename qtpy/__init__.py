@@ -209,7 +209,7 @@ def get_imported_bindings(import_list):
     return imported_bindings
 
 
-def get_binding_info(binding_name, restore_sys_path=True):
+def get_binding_info(binding_name):
     """Get binding, generator and Qt version information by the import system.
 
     All the tool names are given by their import names, so we get:
@@ -221,172 +221,85 @@ def get_binding_info(binding_name, restore_sys_path=True):
     Note:
         - This function should be called after using the
           get_installed_bindings to avoid raise the PythonQtError
-          by the not installed binding. So, this error will only be
+          by the not installed bindings. So, this error will only be
           raised if the specific import used here fails.
         - It must be rewrite to use pkgutil/importlib to check version
           numbers when after only py36 be used.
 
     Args:
-        binding_name (str): Importing binding name, case sensitive. Must be
-            installed,, otherwise will raise an error.
-        restore_sys_path (bool): If true, restore the sys.path, otherwise
-            keep the import into it. Defauls to True.
+        binding_name (str): Importing binding name, case sensitive. Bindings
+            must be installed, otherwise it will raise an error.
 
     Raises:
         PythonQtError: If is not possible to import the selected binding,
             or if it is not recognized by the QtPy as a binding.
 
     Returns:
-        tuple: Binding, generator and Qt version as strings.
+        tuple: Binding name, binding version, generator name,
+               generator version and Qt version as strings.
     """
 
     # Copy sys path to restore later
     sys_path = sys.path
-    binding_version = generator_version = qt_version = ''
+    binding_version = generator_version = qt_version = generator_name = ''
 
     if binding_name == 'PyQt4':
+        generator_name = 'sip'
         try:
             from PyQt4.Qt import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt4.Qt import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
             raise PythonQtError('PyQt4 cannot be imported by QtPy.')
+        try:
+            from sip import SIP_VERSION_STR as generator_version  # analysis:ignore
+        except ImportError:
+            raise PythonQtError('SIP (PyQt4) cannot be imported by QtPy.')
 
     elif binding_name == 'PyQt5':
+        generator_name = 'sip'
         try:
             from PyQt5.QtCore import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt5.QtCore import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
             raise PythonQtError('PyQt5 cannot be imported by QtPy.')
+        try:
+            from sip import SIP_VERSION_STR as generator_version  # analysis:ignore
+        except ImportError:
+            raise PythonQtError('SIP (PyQt5) cannot be imported by QtPy.')
 
     elif binding_name == 'PySide':
+        generator_name = 'shiboken'
         try:
             from PySide import __version__ as binding_version  # analysis:ignore
             from PySide.QtCore import __version__ as qt_version  # analysis:ignore
         except ImportError:
             raise PythonQtError('PySide cannot be imported by QtPy.')
+        try:
+            from shiboken import __version__ as generator_version  # analysis:ignore
+        except ImportError:
+            raise PythonQtError('Shiboken (PySide) cannot be imported by QtPy.')
 
     elif binding_name == 'PySide2':
+        generator_name = 'shiboken2'
         try:
             from PySide2 import __version__ as binding_version  # analysis:ignore
             from PySide2.QtCore import __version__ as qt_version  # analysis:ignore
         except ImportError:
             raise PythonQtError('PySide2 cannot be imported by QtPy.')
-
+        try:
+            from shiboken2 import __version__ as generator_version  # analysis:ignore
+        except ImportError:
+            raise PythonQtError('Shiboken2 (PySide2) cannot be imported by QtPy.')
     else:
         msg = '{} is not recognized as a binding by QtPy.'.format(binding_name)
         raise PythonQtError(msg)
 
-    # Restore sys path if needed
-    if restore_sys_path:
+    # Restore sys path
         sys.path = sys_path
 
-    print(binding_version, generator_version, qt_version)
-
-    return (binding_version, generator_version, qt_version)
-
-
-def set_binding(binding_name):
-    """Set a binding to be used by QtPy and get information from it.
-
-    Warning:
-        - This function is not prepared to be called more than once in
-          a unique import of QtPy, yet. Multiple calls will accumulate
-          imports on 'sys.modules' if 'binding_name' is installed.
-    Note:
-        - It should not raise anything here because we have tested all
-          things before call this. However, if any import problems
-          appears after those tests, we could get some PythonQtError.
-
-    Args:
-        binding_name (str): Importing binding name, case sensitive.
-
-    Raises:
-        PythonQtError: If is not possible to import.
-    """
-
-    try:
-        # Using get_binding_info without restore sys path keep the import
-        binding_version, qt_version = get_binding_info(binding_name,
-                                                       restore_sys_path=False)
-
-    except PythonQtError as er:
-        raise PythonQtError(str(er))
-
-    else:
-        # Set values for general configuration
-        API_NAME = binding_name
-        API_VERSION = binding_version
-        QT_VERSION = qt_version
-
-        if binding_name == 'PyQt4':
-            # Set values for specific binding
-            PYQT4 = True
-            PYQT_VERSION = binding_version
-
-            try:
-                import sip
-
-                try:
-                    sip.setapi('QString', 2)
-                    sip.setapi('QVariant', 2)
-                    sip.setapi('QDate', 2)
-                    sip.setapi('QDateTime', 2)
-                    sip.setapi('QTextStream', 2)
-                    sip.setapi('QTime', 2)
-                    sip.setapi('QUrl', 2)
-
-                except (AttributeError, ValueError):
-                    # PyQt < v4.6
-                    pass
-
-            except ImportError:
-                msg = 'SIP library (for PyQt4) cannot be imported in QtPy.'
-                raise PythonQtError(msg)
-
-        elif binding_name == 'PyQt5':
-            # Set values for the specific binding
-            PYQT5 = True
-            PYQT_VERSION = binding_version
-
-            if sys.platform == 'darwin':
-
-                macos_version = LooseVersion(platform.mac_ver()[0])
-
-                if macos_version < LooseVersion('10.10'):
-                    if LooseVersion(QT_VERSION) >= LooseVersion('5.9'):
-                        msg = "Qt 5.9 or higher only works in macOS 10.10 "
-                        "or higher. Your program will fail in this system."
-                        raise PythonQtError(msg)
-
-                elif macos_version < LooseVersion('10.11'):
-                    if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
-                        msg = "Qt 5.11 or higher only works in macOS 10.11 "
-                        "or higher. Your program will fail in this system."
-                        raise PythonQtError(msg)
-
-                del macos_version
-
-        elif binding_name == 'PySide':
-            # Set values for the specific binding
-            PYSIDE = True
-            PYSIDE_VERSION = binding_version
-
-        elif binding_name == 'PySide2':
-            # Set values for the specific binding
-            PYSIDE2 = True
-            PYSIDE_VERSION = binding_version
-
-            if sys.platform == 'darwin':
-
-                macos_version = LooseVersion(platform.mac_ver()[0])
-
-                if macos_version < LooseVersion('10.11'):
-
-                    if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
-                        msg = "Qt 5.11 or higher only works in macOS 10.11 "
-                        "or higher. Your program will fail in this system."
-                        raise PythonQtError(msg)
-                del macos_version
+    return (binding_name, binding_version,
+            generator_name, generator_version,
+            qt_version)
 
 
 # Qt API environment variable name
