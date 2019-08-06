@@ -509,14 +509,17 @@ if BINDING_NAME != initial_api and api_specified:
         warnings.warn(msg, RuntimeWarning)
 
 
-print("USING PYQT-5-4,PYSIDE-2-1", PYQT5, PYQT4, PYSIDE2, PYSIDE)
-print("PYQT/PYSIDE VERSION", PYQT_VERSION, PYSIDE_VERSION)
+# Set the environment variable to the current used API after all tests
+os.environ['QT_API'] = API
 
-print("OLDPYQT,PYQT46", is_old_pyqt, is_pyqt46)
+API_VERSION = BINDING_VERSION
+API = BINDING_VERSION.lower()
 
-print("APIS: ", API, API_NAME, API_VERSION)
-
-print("QT: ", QT_VERSION)
+API_NAME = '{} v{}, {} v{}, Qt v{}'.format(BINDING_NAME,
+                                           BINDING_VERSION,
+                                           GENERATOR_NAME,
+                                           GENERATOR_VERSION,
+                                           QT_VERSION)
 
 print("BINDING: ", BINDING_NAME, BINDING_VERSION)
 print("GENERATOR: ", GENERATOR_NAME, GENERATOR_VERSION)
