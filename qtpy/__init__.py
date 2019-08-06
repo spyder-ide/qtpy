@@ -345,11 +345,16 @@ api_names['pyqt'] = api_names['pyqt4']
 api_specified = QT_API in os.environ
 force_specified = FORCE_QT_API in os.environ
 
-# Setting a default value for QT_API/FORCE_QT_API
+# Setting a default value for QT_API
 os.environ.setdefault(QT_API, DEFAULT_API)
 
 # Get the value from environment (or default if not set)
 env_api = os.environ[QT_API].lower()
+
+# If QT_API exists but it is empty, use default and unset api_specified
+if api_specified and not env_api:
+    api_specified = False
+    env_api = DEFAULT_API
 
 _logger.debug('API is specified: %s FORCE is specified: %s' % (api_specified,
                                                                force_specified))
