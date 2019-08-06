@@ -58,9 +58,9 @@ The priority when setting the Qt binding API is detailed below:
         4.1.1 If the binding is is identical to QT_API, pass, no output,
               independs on FORCE_QT_API;
         4.1.2 If the binding is different from QT_API;
-            4.1.2.a FORCE_QT_API is set false or not set, use that
-                      imported binding, pass, but warns;
-            4.1.2.b FORCE_QT_API is set true, stop, error;
+            4.1.2.a FORCE_QT_API is not set, use that imported binding,
+                    pass, but warns;
+            4.1.2.b FORCE_QT_API is set, stop, error;
     4.2 QT_API is not set, use default, continue to 4.1.1, without warning;
 
 5 Have been already imported MORE than one Qt binding (highly unrecommended):
@@ -68,11 +68,10 @@ The priority when setting the Qt binding API is detailed below:
         5.1.1 If the binding is found in the imported bindings, pass,
               no output, independs on FORCE_QT_API;
         5.1.2 If the binding is NOT found in the imported bindings;
-            5.1.2.a FORCE_QT_API is set false or not set, try another one
-                    (three more);
+            5.1.2.a FORCE_QT_API is not set, try another one (three more);
                     5.1.2.a.i If any is found (different from set), pass
                             but warns;
-            5.1.2.b FORCE_QT_API is set true, stop, error;
+            5.1.2.b FORCE_QT_API is set, stop, error;
     5.2 QT_API is not set, use default, continue to 5.1.1, without warning.
 
 Note:
