@@ -309,26 +309,24 @@ QT_API = 'QT_API'
 # any previously imported python bindings
 FORCE_QT_API = 'FORCE_QT_API'
 
-# Default/Preferrable API/force, must be one of api_names keys
+# Default/Preferrable API, must be one of api_names keys
 DEFAULT_API = 'pyqt5'
-DEFAULT_FORCE = False
 
 # All false/none/empty because they were not imported yet
 PYQT5 = PYQT4 = PYSIDE = PYSIDE2 = False
 PYQT_VERSION = PYSIDE_VERSION = ''
 is_old_pyqt = is_pyqt46 = False
 
-# API is not a good name for describing binding and its generator
-# keep for compatibility with older versions
+# Keep for compatibility with older versions
 API = API_NAME = API_VERSION = ''
 
 # Respective to Qt C++ compiled version
 QT_VERSION = ''
 
-# Binding name and version such as PySide, PyQt
+# Binding name and version such as PySide2, PyQt5
 BINDING_NAME = BINDING_VERSION = ''
 
-# Generator name and version such as Sip and Shiboken
+# Generator name and version such as sip and shiboken
 GENERATOR_NAME = GENERATOR_VERSION = ''
 
 # Keys: names of the expected Qt API (internal names)
@@ -350,11 +348,9 @@ force_specified = FORCE_QT_API in os.environ
 
 # Setting a default value for QT_API/FORCE_QT_API
 os.environ.setdefault(QT_API, DEFAULT_API)
-os.environ.setdefault(FORCE_QT_API, DEFAULT_FORCE)
 
 # Get the value from environment (or default if not set)
 env_api = os.environ[QT_API].lower()
-env_force = bool(os.environ[FORCE_QT_API])
 
 # Check if env_api was correctly set with environment variable
 if env_api not in api_names.keys():
