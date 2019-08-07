@@ -9,12 +9,14 @@
 """File for running tests programmatically."""
 
 # Standard library imports
+import logging
 import sys
 
 # Third party imports
 import qtpy  # to ensure that Qt4 uses API v2
 import pytest
 
+logging.basicConfig(level=logging.DEBUG)
 
 def main():
     """Run pytest tests."""

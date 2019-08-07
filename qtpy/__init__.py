@@ -248,11 +248,11 @@ def get_binding_info(binding_name):
             from PyQt4.Qt import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt4.Qt import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PyQt4 cannot be imported by QtPy.')
+            raise PythonQtError('"PyQt4" cannot be imported by QtPy.')
         try:
             from sip import SIP_VERSION_STR as generator_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('SIP (PyQt4) cannot be imported by QtPy.')
+            raise PythonQtError('"sip" (PyQt4) cannot be imported by QtPy.')
 
     elif binding_name == 'PyQt5':
         generator_name = 'sip'
@@ -260,11 +260,11 @@ def get_binding_info(binding_name):
             from PyQt5.QtCore import PYQT_VERSION_STR as binding_version  # analysis:ignore
             from PyQt5.QtCore import QT_VERSION_STR as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PyQt5 cannot be imported by QtPy.')
+            raise PythonQtError('"PyQt5" cannot be imported by QtPy.')
         try:
             from sip import SIP_VERSION_STR as generator_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('SIP (PyQt5) cannot be imported by QtPy.')
+            raise PythonQtError('"sip" (PyQt5) cannot be imported by QtPy.')
 
     elif binding_name == 'PySide':
         generator_name = 'shiboken'
@@ -272,11 +272,13 @@ def get_binding_info(binding_name):
             from PySide import __version__ as binding_version  # analysis:ignore
             from PySide.QtCore import __version__ as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PySide cannot be imported by QtPy.')
+            raise PythonQtError('"PySide" cannot be imported by QtPy.')
         try:
-            from shiboken import __version__ as generator_version  # analysis:ignore
+            import shiboken  # analysis:ignore
         except ImportError:
-            raise PythonQtError('Shiboken (PySide) cannot be imported by QtPy.')
+            # Unable to get this info using PySide, there is no __version__
+            # After PySide2 we get from
+            generator_version = 'Unknown'
 
     elif binding_name == 'PySide2':
         generator_name = 'shiboken2'
@@ -284,11 +286,11 @@ def get_binding_info(binding_name):
             from PySide2 import __version__ as binding_version  # analysis:ignore
             from PySide2.QtCore import __version__ as qt_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('PySide2 cannot be imported by QtPy.')
+            raise PythonQtError('"PySide2" cannot be imported by QtPy.')
         try:
             from shiboken2 import __version__ as generator_version  # analysis:ignore
         except ImportError:
-            raise PythonQtError('Shiboken2 (PySide2) cannot be imported by QtPy.')
+            raise PythonQtError('"shiboken2" (PySide2) cannot be imported by QtPy.')
     else:
         msg = '{} is not recognized as a binding by QtPy.'.format(binding_name)
         raise PythonQtError(msg)
@@ -439,7 +441,7 @@ for binding_name in api_trial_avaliable_list:
             try:
                 import sip
             except ImportError:
-                msg = '"sip" library (for PyQt4) cannot be imported in QtPy.'
+                msg = '"sip" (PyQt4) cannot be imported in QtPy.'
                 raise PythonQtError(msg)
             else:
                 try:
