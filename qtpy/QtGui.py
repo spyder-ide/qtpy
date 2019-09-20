@@ -33,7 +33,10 @@ elif PYQT4:
                                  qFuzzyCompare)
     except ImportError:
         pass
-    from PyQt4.Qt import QKeySequence, QTextCursor
+    try:
+        from PyQt4.Qt import QKeySequence, QTextCursor
+    except ImportError:
+        from PyQt4.QtGui import QKeySequence, QTextCursor
     from PyQt4.QtGui import (QAbstractTextDocumentLayout, QActionEvent, QBitmap,
                              QBrush, QClipboard, QCloseEvent, QColor,
                              QConicalGradient, QContextMenuEvent, QCursor,

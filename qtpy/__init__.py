@@ -188,8 +188,12 @@ if API in PYQT4_API:
         except (AttributeError, ValueError):
             # PyQt < v4.6
             pass
-        from PyQt4.Qt import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
-        from PyQt4.Qt import QT_VERSION_STR as QT_VERSION  # analysis:ignore
+        try:
+            from PyQt4.Qt import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
+            from PyQt4.Qt import QT_VERSION_STR as QT_VERSION  # analysis:ignore
+        except ImportError:
+            from PyQt4.QtCore import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
+            from PyQt4.QtCore import QT_VERSION_STR as QT_VERSION  # analysis:ignore
         PYSIDE_VERSION = None
         PYQT5 = False
         PYQT4 = True
