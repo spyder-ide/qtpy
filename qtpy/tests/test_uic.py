@@ -6,7 +6,7 @@ import pytest
 from qtpy import PYQT5, PYSIDE2, QtWidgets
 from qtpy.QtWidgets import QComboBox
 from qtpy import uic
-from qtpy.uic import loadUi
+from qtpy.uic import loadUi, loadUiType
 
 
 QCOMBOBOX_SUBCLASS = """
@@ -59,6 +59,30 @@ def test_load_ui():
 @pytest.mark.skipif(((PYSIDE2 or PYQT5)
                      and os.environ.get('CI', None) is not None),
                     reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
+def test_load_ui_type():
+    """
+    Make sure that the patched loadUiType function behaves as expected with a
+    simple .ui file.
+    """
+    app = get_qapp()
+    ui_type, ui_base_type = loadUiType(
+        os.path.join(os.path.dirname(__file__), 'test.ui'))
+    assert ui_type.__name__ == 'Ui_Form'
+
+    class Widget(ui_base_type, ui_type):
+        def __init__(self):
+            super(Widget, self).__init__()
+            self.setupUi(self)
+
+    ui = Widget()
+    assert isinstance(ui, QtWidgets.QWidget)
+    assert isinstance(ui.pushButton, QtWidgets.QPushButton)
+    assert isinstance(ui.comboBox, QComboBox)
+
+
+@pytest.mark.skipif(((PYSIDE2 or PYQT5)
+                     and os.environ.get('CI', None) is not None),
+                    reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
 def test_load_ui_custom_auto(tmpdir):
     """
     Test that we can load a .ui file with custom widgets without having to
@@ -81,7 +105,7 @@ def test_load_full_uic():
     QT_API = os.environ.get('QT_API', '').lower()
     if QT_API.startswith('pyside'):
         assert hasattr(uic, 'loadUi')
-        assert not hasattr(uic, 'loadUiType')
+        assert hasattr(uic, 'loadUiType')
     else:
         objects = ['compileUi', 'compileUiDir', 'loadUi', 'loadUiType',
                    'widgetPluginPath']

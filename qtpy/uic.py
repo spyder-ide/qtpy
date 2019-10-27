@@ -14,7 +14,7 @@ elif PYQT4:
 
 else:
 
-    __all__ = ['loadUi']
+    __all__ = ['loadUi', 'loadUiType']
 
     # In PySide, loadUi does not exist, so we define it using QUiLoader, and
     # then make sure we expose that function. This is adapted from qt-helpers
@@ -81,9 +81,11 @@ else:
     if PYSIDE:
         from PySide.QtCore import QMetaObject
         from PySide.QtUiTools import QUiLoader
+        from pysideuic import compileUi
     elif PYSIDE2:
         from PySide2.QtCore import QMetaObject
         from PySide2.QtUiTools import QUiLoader
+        from pyside2uic import compileUi
 
     class UiLoader(QUiLoader):
         """
@@ -226,3 +228,46 @@ else:
         widget = loader.load(uifile)
         QMetaObject.connectSlotsByName(widget)
         return widget
+
+
+    # Credit:
+    # http://stackoverflow.com/questions/4442286/python-code-genration-with-pyside-uic/14195313#14195313
+    def loadUiType(uifile, from_imports=False):
+        """Load a .ui file and return the generated form class and
+        the Qt base class.
+
+        The "loadUiType" command convert the ui file to py code
+        in-memory first and then execute it in a special frame to
+        retrieve the form_class.
+
+        """
+
+        import sys
+        if sys.version_info >= (3, 0):
+            from io import StringIO
+        else:
+            from io import BytesIO as StringIO
+        from xml.etree.ElementTree import ElementTree
+        from . import QtWidgets
+
+        # Parse the UI file
+        etree = ElementTree()
+        ui = etree.parse(uifile)
+
+        widget_class = ui.find('widget').get('class')
+        form_class = ui.find('class').text
+
+        with open(uifile, 'r') as fd:
+            code_stream = StringIO()
+            frame = {}
+
+            compileUi(fd, code_stream, indent=0, from_imports=from_imports)
+            pyc = compile(code_stream.getvalue(), '<string>', 'exec')
+            exec(pyc, frame)
+
+            # Fetch the base_class and form class based on their type in the
+            # xml from designer
+            form_class = frame['Ui_%s' % form_class]
+            base_class = getattr(QtWidgets, widget_class)
+
+        return form_class, base_class
