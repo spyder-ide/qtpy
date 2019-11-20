@@ -12,11 +12,12 @@
 import logging
 import sys
 
+logging.basicConfig(level=logging.DEBUG) # set before import qtpy
+
 # Third party imports
 import qtpy  # to ensure that Qt4 uses API v2
 import pytest
 
-logging.basicConfig(level=logging.DEBUG)
 
 def main():
     """Run pytest tests."""
