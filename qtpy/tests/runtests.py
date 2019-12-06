@@ -9,7 +9,10 @@
 """File for running tests programmatically."""
 
 # Standard library imports
+import logging
 import sys
+
+logging.basicConfig(level=logging.DEBUG) # set before import qtpy
 
 # Third party imports
 import qtpy  # to ensure that Qt4 uses API v2

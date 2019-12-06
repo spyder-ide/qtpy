@@ -33,7 +33,10 @@ lib64
 
 # Other files
 toread.md
-.chache
+.cache
+.mypy_cache
+.pytest_cache
 .idea/
+.vscode
 
 # End of File

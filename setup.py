@@ -23,7 +23,7 @@ setup(
     name='QtPy',
     version=version_ns['__version__'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
-    keywords=["qt PyQt4 PyQt5 PySide"],
+    keywords=["qt PyQt4 PyQt5 PySide PySide2"],
     url='https://github.com/spyder-ide/qtpy',
     license='MIT',
     author='Colin Duquesnoy, The Spyder Development Team',
@@ -31,8 +31,8 @@ setup(
     maintainer='Gonzalo Peña-Castellanos',
     maintainer_email='goanpeca@gmail.com',
     description='Provides an abstraction layer on top of the various Qt '
-                'bindings (PyQt5, PyQt4 and PySide) and additional custom '
-                'QWidgets.',
+                'bindings (PyQt5, PyQt4, PySide2 and PySide) and additional '
+                'custom QWidgets.',
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     classifiers=[
@@ -47,5 +47,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5']
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6']
 )

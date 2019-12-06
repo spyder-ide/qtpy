@@ -3,7 +3,7 @@ import sys
 import contextlib
 
 import pytest
-from qtpy import PYSIDE2, QtWidgets
+from qtpy import PYSIDE2, PYQT4, PYQT5, QtWidgets
 from qtpy.QtWidgets import QComboBox
 from qtpy import uic
 from qtpy.uic import loadUi
@@ -76,11 +76,10 @@ def test_load_ui_custom_auto(tmpdir):
 
 def test_load_full_uic():
     """Test that we load the full uic objects for PyQt5 and PyQt4."""
-    QT_API = os.environ.get('QT_API', '').lower()
-    if QT_API.startswith('pyside'):
-        assert hasattr(uic, 'loadUi')
-        assert not hasattr(uic, 'loadUiType')
-    else:
+    if PYQT4 or PYQT5:
         objects = ['compileUi', 'compileUiDir', 'loadUi', 'loadUiType',
                    'widgetPluginPath']
         assert all([hasattr(uic, o) for o in objects])
+    else:
+        assert hasattr(uic, 'loadUi')
+        assert not hasattr(uic, 'loadUiType')
