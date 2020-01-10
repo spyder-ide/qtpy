@@ -44,6 +44,18 @@ jobs:
       - PYTHON_VERSION: "3.6"
       - USE_CONDA: "Yes"
 
+  python3.7:
+    <<: *main
+    environment:
+      - PYTHON_VERSION: "3.7"
+      - USE_CONDA: "Yes"
+
+  python3.9:
+    <<: *main
+    environment:
+      - PYTHON_VERSION: "3.8"
+      - USE_CONDA: "Yes"
+
   python2.7-pip:
     <<: *main
     environment:
@@ -56,6 +68,18 @@ jobs:
       - PYTHON_VERSION: "3.6"
       - USE_CONDA: "No"
 
+  python3.7-pip:
+    <<: *main
+    environment:
+      - PYTHON_VERSION: "3.7"
+      - USE_CONDA: "No"
+
+  python3.8-pip:
+    <<: *main
+    environment:
+      - PYTHON_VERSION: "3.8"
+      - USE_CONDA: "No"
+
 workflows:
   version: 2
   build_and_test:
@@ -63,5 +87,9 @@ workflows:
       - python2.7
       - python3.5
       - python3.6
+      - python3.7
+      - python3.8
       - python2.7-pip
       - python3.6-pip
+      - python3.7-pip
+      - python3.8-pip
