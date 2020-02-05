@@ -1,0 +1,171 @@
+name: Tests
+
+on:
+  # This avoids having duplicate builds for a pull request
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  smoke:
+    name: Linux smoke test Py${{ matrix.PYTHON_VERSION }} conda=yes
+    runs-on: ubuntu-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+      USE_CONDA: 'Yes'
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['3.5']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install System Packages
+        run: | 
+          sudo apt-get update
+          sudo apt-get install libpulse-dev
+          sudo apt-get install libegl1-mesa
+          sudo apt-get install libqtwebkit4
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: ''
+           auto-update-conda: true
+           auto-activate-base: false
+      - name: Test PyQt5
+        shell: bash -l {0}
+        run: |
+          eval "$(conda shell.bash hook)"
+          xvfb-run --auto-servernum ./.github/workflows/test-pyqt5.sh
+      - name: Test PySide2
+        shell: bash -l {0}
+        run: xvfb-run --auto-servernum ./.github/workflows/test-pyside2.sh
+      - name: Test PyQt4
+        shell: bash -l {0}
+        run: xvfb-run --auto-servernum ./.github/workflows/test-pyqt4.sh
+      - name: Test PySide
+        shell: bash -l {0}
+        run: xvfb-run --auto-servernum ./.github/workflows/test-pyside.sh
+      - name: Upload coverage
+        shell: bash -l {0}
+        run: ./.github/workflows/coverage.sh
+
+  linux:
+    name: Linux Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
+    needs: smoke
+    runs-on: ubuntu-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+      USE_CONDA: ${{ matrix.USE_CONDA }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['2.7', '3.6']
+        USE_CONDA: ['Yes', 'No']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install System Packages
+        run: | 
+          sudo apt-get update
+          sudo apt-get install libpulse-dev
+          sudo apt-get install libegl1-mesa
+          sudo apt-get install libqtwebkit4
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: ''
+           auto-update-conda: true
+           auto-activate-base: false
+      - name: Test PyQt5
+        shell: bash -l {0}
+        run: |
+          eval "$(conda shell.bash hook)"
+          xvfb-run --auto-servernum ./.github/workflows/test-pyqt5.sh
+      - name: Test PySide2
+        shell: bash -l {0}
+        run: xvfb-run --auto-servernum ./.github/workflows/test-pyside2.sh
+      - name: Test PyQt4
+        shell: bash -l {0}
+        run: xvfb-run --auto-servernum ./.github/workflows/test-pyqt4.sh
+      - name: Test PySide
+        shell: bash -l {0}
+        run: xvfb-run --auto-servernum ./.github/workflows/test-pyside.sh
+
+  windows:
+    name: Windows Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
+    needs: smoke
+    runs-on: windows-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+      USE_CONDA: ${{ matrix.USE_CONDA }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['2.7', '3.5', '3.6']
+        USE_CONDA: ['Yes', 'No']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: ''
+           auto-update-conda: true
+           auto-activate-base: true
+      - name: Test PyQt5
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt5.sh
+      - name: Test PySide2
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt5.sh
+      - name: Test PyQt4
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt4.sh
+      - name: Test PySide
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyside.sh
+
+  macos:
+    name: Mac Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
+    needs: smoke
+    runs-on: macos-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+      USE_CONDA: ${{ matrix.USE_CONDA }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['2.7', '3.5', '3.6']
+        USE_CONDA: ['Yes', 'No']
+        exclude:
+        - PYTHON_VERSION: '2.7'
+          USE_CONDA: 'Yes'
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: ''
+           auto-update-conda: true
+           auto-activate-base: false
+      - name: Test PyQt5
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt5.sh
+      - name: Test PySide2
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyside2.sh
+      - name: Test PyQt4
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt4.sh
+      - name: Test PySide
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyside.sh
