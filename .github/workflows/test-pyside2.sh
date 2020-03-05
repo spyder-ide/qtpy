@@ -1,7 +1,5 @@
 #!/bin/bash -ex
 
-eval "$(conda shell.bash hook)"
-
 # Create conda environment for this test
 conda create -n test-pyside2
 conda activate test-pyside2

@@ -1,7 +1,5 @@
 #!/bin/bash -ex
 
-eval "$(conda shell.bash hook)"
-
 # Create conda environment for this test
 conda create -n test-pyqt5
 conda activate test-pyqt5
@@ -50,7 +48,7 @@ else
     else
         # We are getting segfaults in 5.10
         conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c anaconda -q
-        pip install -q pyqt5==5.9.2
+        pip install -q pyqt5
     fi
 fi
 
