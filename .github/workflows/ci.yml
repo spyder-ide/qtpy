@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false 
       matrix:
-        PYTHON_VERSION: ['3.5']
+        PYTHON_VERSION: ['2.7', '3.6']
     steps:
       - name: Checkout branch
         uses: actions/checkout@v1.2.0
@@ -50,9 +50,6 @@ jobs:
       - name: Test PySide
         shell: bash -l {0}
         run: xvfb-run --auto-servernum ./.github/workflows/test-pyside.sh
-      - name: Upload coverage
-        shell: bash -l {0}
-        run: ./.github/workflows/coverage.sh
 
   linux:
     name: Linux Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
@@ -65,7 +62,7 @@ jobs:
     strategy:
       fail-fast: false 
       matrix:
-        PYTHON_VERSION: ['2.7', '3.6']
+        PYTHON_VERSION: ['3.8']
         USE_CONDA: ['Yes', 'No']
     steps:
       - name: Checkout branch
@@ -96,6 +93,10 @@ jobs:
       - name: Test PySide
         shell: bash -l {0}
         run: xvfb-run --auto-servernum ./.github/workflows/test-pyside.sh
+      - name: Upload coverage
+        if: matrix.PYTHON_VERSION == '3.8'
+        shell: bash -l {0}
+        run: ./.github/workflows/coverage.sh
 
   windows:
     name: Windows Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
@@ -108,7 +109,7 @@ jobs:
     strategy:
       fail-fast: false 
       matrix:
-        PYTHON_VERSION: ['2.7', '3.5', '3.6']
+        PYTHON_VERSION: ['2.7', '3.6', '3.8']
         USE_CONDA: ['Yes', 'No']
     steps:
       - name: Checkout branch
@@ -143,7 +144,7 @@ jobs:
     strategy:
       fail-fast: false 
       matrix:
-        PYTHON_VERSION: ['2.7', '3.5', '3.6']
+        PYTHON_VERSION: ['2.7', '3.6', '3.8']
         USE_CONDA: ['Yes', 'No']
         exclude:
         - PYTHON_VERSION: '2.7'
