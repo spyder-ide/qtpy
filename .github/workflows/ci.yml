@@ -98,41 +98,6 @@ jobs:
         shell: bash -l {0}
         run: ./.github/workflows/coverage.sh
 
-  windows:
-    name: Windows Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
-    needs: smoke
-    runs-on: windows-latest
-    env:
-      CI: True
-      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
-      USE_CONDA: ${{ matrix.USE_CONDA }}
-    strategy:
-      fail-fast: false 
-      matrix:
-        PYTHON_VERSION: ['2.7', '3.6', '3.8']
-        USE_CONDA: ['Yes', 'No']
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v1.2.0
-      - name: Install Conda
-        uses: goanpeca/setup-miniconda@v1
-        with:
-           activate-environment: ''
-           auto-update-conda: true
-           auto-activate-base: true
-      - name: Test PyQt5
-        shell: bash -l {0}
-        run: ./.github/workflows/test-pyqt5.sh
-      - name: Test PySide2
-        shell: bash -l {0}
-        run: ./.github/workflows/test-pyqt5.sh
-      - name: Test PyQt4
-        shell: bash -l {0}
-        run: ./.github/workflows/test-pyqt4.sh
-      - name: Test PySide
-        shell: bash -l {0}
-        run: ./.github/workflows/test-pyside.sh
-
   macos:
     name: Mac Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
     needs: smoke
@@ -164,6 +129,41 @@ jobs:
       - name: Test PySide2
         shell: bash -l {0}
         run: ./.github/workflows/test-pyside2.sh
+      - name: Test PyQt4
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt4.sh
+      - name: Test PySide
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyside.sh
+
+  windows:
+    name: Windows Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
+    needs: smoke
+    runs-on: windows-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+      USE_CONDA: ${{ matrix.USE_CONDA }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['2.7', '3.6', '3.8']
+        USE_CONDA: ['Yes', 'No']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: ''
+           auto-update-conda: true
+           auto-activate-base: true
+      - name: Test PyQt5
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt5.sh
+      - name: Test PySide2
+        shell: bash -l {0}
+        run: ./.github/workflows/test-pyqt5.sh
       - name: Test PyQt4
         shell: bash -l {0}
         run: ./.github/workflows/test-pyqt4.sh

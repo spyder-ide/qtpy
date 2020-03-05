@@ -11,30 +11,30 @@ if [ "$(uname)" == "Darwin" ]; then
 
     if [ "$PYTHON_VERSION" = "2.7" ]; then
         export PYQT_VER=5.9.2=py27h655552a_0
-    elif [ "$PYTHON_VERSION" = "3.5" ]; then
-        export PYQT_VER=5.9.2=py35h11d3b92_0
-    else
+    elif [ "$PYTHON_VERSION" = "3.6" ]; then
         export PYQT_VER=5.9.2=py36h11d3b92_0
+    else
+        export PYQT_VER=5.*
     fi
 
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 
     if [ "$PYTHON_VERSION" = "2.7" ]; then
         export PYQT_VER=5.9.2=py27h22d08a2_0
-    elif [ "$PYTHON_VERSION" = "3.5" ]; then
-        export PYQT_VER=5.9.2=py35h751905a_0
-    else
+    elif [ "$PYTHON_VERSION" = "3.6" ]; then
         export PYQT_VER=5.9.2=py36h751905a_0
+    else
+        export PYQT_VER=5.*
     fi
 
 else
 
     if [ "$PYTHON_VERSION" = "2.7" ]; then
         exit 0
-    elif [ "$PYTHON_VERSION" = "3.5" ]; then
-        export PYQT_VER=5.9.2=py35h1aa27d4_0
-    else
+    elif [ "$PYTHON_VERSION" = "3.6" ]; then
         export PYQT_VER=5.9.2=py36h1aa27d4_0
+    else
+        export PYQT_VER=5.*
     fi
 
 fi
