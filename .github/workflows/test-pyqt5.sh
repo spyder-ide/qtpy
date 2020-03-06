@@ -40,7 +40,7 @@ fi
 if [ "$USE_CONDA" = "Yes" ]; then
     conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c anaconda -q
     conda install -q qt=5.* pyqt=$PYQT_VER -c anaconda -q
-    conda install -q sip=4.19.8 -c anaconda -q
+    # conda install -q sip=4.19.8 -c anaconda -q
 else
     if [ "$PYTHON_VERSION" = "2.7" ]; then
         # There are no pyqt5 wheels for Python 2
