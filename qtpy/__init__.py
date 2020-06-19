@@ -8,7 +8,7 @@
 
 """
 **QtPy** is a shim over the various Python Qt bindings. It is used to write
-Qt binding indenpendent libraries or applications.
+Qt binding independent libraries or applications.
 
 If one of the APIs has already been imported, then it will be used.
 
