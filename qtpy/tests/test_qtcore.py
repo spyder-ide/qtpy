@@ -16,3 +16,12 @@ def test_qtmsghandler():
 def test_DateTime_toPython():
     """Test QDateTime.toPython"""
     assert QtCore.QDateTime.toPython is not None
+
+
+def test_QtCore_SignalInstance():
+    class ClassWithSignal(QtCore.QObject):
+        signal = QtCore.Signal()
+
+    instance = ClassWithSignal()
+
+    assert isinstance(instance.signal, QtCore.SignalInstance)
