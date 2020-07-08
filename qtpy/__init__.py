@@ -220,8 +220,10 @@ if API != initial_api and binding_specified:
     warnings.warn('Selected binding "{}" could not be found, '
                   'using "{}"'.format(initial_api, API), RuntimeWarning)
 
-API_NAME = {'pyqt5': 'PyQt5', 'pyqt': 'PyQt4', 'pyqt4': 'PyQt4',
-            'pyside': 'PySide', 'pyside2':'PySide2'}[API]
+API_NAMES = {'pyqt5': 'PyQt5', 'pyqt': 'PyQt4', 'pyqt4': 'PyQt4',
+            'pyside': 'PySide', 'pyside2':'PySide2'}
+APIS = sorted(name.upper() for name in set(API_NAMES.values()))
+API_NAME = API_NAMES[API]
 
 if PYQT4:
     import sip

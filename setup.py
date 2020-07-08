@@ -47,5 +47,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5']
+        'Programming Language :: Python :: 3.5'],
+    extras_require={'cli': ['click']},
+    entry_points={'console_scripts': 'qtpy = qtpy.cli:cli [cli]'}
 )
