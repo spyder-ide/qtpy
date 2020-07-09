@@ -3,16 +3,22 @@ import click
 
 @click.group()
 def cli():
+    """Features in support of development with QtPy."""
+
     pass
 
 
 @cli.group()
 def mypy():
+    """Features in support of running mypy"""
+
     pass
 
 
 @mypy.command()
 def args():
+    """Generate command line arguments for using mypy with QtPy."""
+
     options = {False: '--always-false', True: '--always-true'}
 
     import qtpy
