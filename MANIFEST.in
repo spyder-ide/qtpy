@@ -3,3 +3,4 @@ include CHANGELOG.md
 include LICENSE.txt
 include README.md
 recursive-include qtpy/tests *.py *.ui
+include qtpy/py.typed
