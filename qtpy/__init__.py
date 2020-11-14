@@ -213,8 +213,7 @@ if API in PYSIDE_API:
         PYSIDE = True
     except ImportError:
         raise PythonQtError('No Qt bindings could be found, please install '
-                            'either PyQt5 or PySide2 (e.g. "pip install PyQt5"'
-                            ' or "pip install PySide2").')
+                            'either PyQt5 or PySide2.')
 
 # If a correct API name is passed to QT_API and it could not be found,
 # switches to another and informs through the warning
