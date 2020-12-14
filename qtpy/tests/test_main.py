@@ -1,6 +1,11 @@
 import os
 
-from qtpy import QtCore, QtGui, QtWidgets, QtWebEngineWidgets
+from qtpy import QtCore, QtGui, QtWidgets
+try:
+    # removed in qt 6.0
+    from qtpy import QtWebEngineWidgets
+except Exception:
+    pass
 
 
 def assert_pyside():
@@ -22,6 +27,17 @@ def assert_pyside2():
     assert QtGui.QPainter is PySide2.QtGui.QPainter
     assert QtWidgets.QWidget is PySide2.QtWidgets.QWidget
     assert QtWebEngineWidgets.QWebEnginePage is PySide2.QtWebEngineWidgets.QWebEnginePage
+
+def assert_pyside6():
+    """
+    Make sure that we are using PySide
+    """
+    import PySide6
+    assert QtCore.QEvent is PySide6.QtCore.QEvent
+    assert QtGui.QPainter is PySide6.QtGui.QPainter
+    assert QtWidgets.QWidget is PySide6.QtWidgets.QWidget
+    # Only valid for qt>=6.2
+    # assert QtWebEngineWidgets.QWebEnginePage is PySide6.QtWebEngineCore.QWebEnginePage
 
 def assert_pyqt4():
     """
@@ -47,6 +63,15 @@ def assert_pyqt5():
     else:
         assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebKitWidgets.QWebPage
 
+def assert_pyqt6():
+    """
+    Make sure that we are using PyQt6
+    """
+    import PyQt6
+    assert QtCore.QEvent is PyQt6.QtCore.QEvent
+    assert QtGui.QPainter is PyQt6.QtGui.QPainter
+    assert QtWidgets.QWidget is PyQt6.QtWidgets.QWidget
+
 
 def test_qt_api():
     """
@@ -61,8 +86,12 @@ def test_qt_api():
         assert_pyqt4()
     elif QT_API == 'pyqt5':
         assert_pyqt5()
+    elif QT_API == 'pyqt6':
+        assert_pyqt6()
     elif QT_API == 'pyside2':
         assert_pyside2()
+    elif QT_API == 'pyside6':
+        assert_pyside6()
     else:
         # If the tests are run locally, USE_QT_API and QT_API may not be
         # defined, but we still want to make sure qtpy is behaving sensibly.

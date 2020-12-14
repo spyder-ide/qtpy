@@ -13,13 +13,23 @@ Provides widget classes and functions.
     were the ``PyQt5.QtWidgets`` module.
 """
 
-from . import PYQT5, PYSIDE2, PYQT4, PYSIDE, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYQT4, PYSIDE, PYSIDE6, PythonQtError
 from ._patch.qcombobox import patch_qcombobox
 from ._patch.qheaderview import introduce_renamed_methods_qheaderview
 
-
-if PYQT5:
+if PYQT6:
+    from PyQt6.QtWidgets import *
+    from PyQt6.QtGui import QAction, QActionGroup
+elif PYQT5:
     from PyQt5.QtWidgets import *
+elif PYSIDE6:
+    from PySide6.QtWidgets import *
+    from PySide6.QtGui import QAction, QActionGroup
+    from PySide6.QtOpenGLWidgets import QOpenGLWidget
+    QTextEdit.setTabStopWidth = QTextEdit.setTabStopDistance
+    QTextEdit.tabStopWidth = QTextEdit.tabStopDistance
+    QPlainTextEdit.setTabStopWidth = QPlainTextEdit.setTabStopDistance
+    QPlainTextEdit.tabStopWidth = QPlainTextEdit.tabStopDistance
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYQT4:

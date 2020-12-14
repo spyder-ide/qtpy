@@ -10,10 +10,14 @@
 Provides QtCore classes and functions.
 """
 
-from . import PYQT5, PYSIDE2, PYQT4, PYSIDE, PythonQtError
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PYQT4, PYSIDE, PythonQtError
 
+if PYQT6:
+    from PyQt6.QtCore import *
+    from PyQt6.QtCore import pyqtSignal as Signal
+    from PyQt6.QtCore import QT_VERSION_STR as __version__
 
-if PYQT5:
+elif PYQT5:
     from PyQt5.QtCore import *
     from PyQt5.QtCore import pyqtSignal as Signal
     from PyQt5.QtCore import pyqtBoundSignal as SignalInstance
@@ -27,6 +31,19 @@ if PYQT5:
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+
+elif PYSIDE6:
+   from PySide6.QtCore import *
+   import PySide6.QtCore
+   __version__ = PySide6.QtCore.__version__
+
+   # obsolete in qt6
+   Qt.BackgroundColorRole = Qt.BackgroundRole
+   Qt.TextColorRole = Qt.ForegroundRole
+   Qt.BackgroundColorRole = Qt.BackgroundRole
+   Qt.TextColorRole = Qt.ForegroundRole
+   Qt.MidButton = Qt.MiddleButton
+
 elif PYSIDE2:
     from PySide2.QtCore import *
 

@@ -3,7 +3,7 @@ import sys
 import contextlib
 
 import pytest
-from qtpy import PYQT5, PYSIDE2, PYSIDE, QtWidgets
+from qtpy import PYQT5, PYSIDE6, PYSIDE2, PYSIDE, QtWidgets
 from qtpy.QtWidgets import QComboBox
 
 if PYSIDE2 or PYSIDE:
@@ -46,9 +46,9 @@ def get_qapp(icon_path=None):
     return qapp
 
 
-@pytest.mark.skipif(((PYSIDE2 or PYQT5)
+@pytest.mark.skipif(((PYSIDE2 or PYSIDE6 or PYQT5)
                      and os.environ.get('CI', None) is not None),
-                    reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
+                    reason="It segfaults in our CIs with PYSIDE2/PYSIDE6 or PYQT5")
 def test_load_ui():
     """
     Make sure that the patched loadUi function behaves as expected with a
@@ -61,7 +61,7 @@ def test_load_ui():
 
 
 @pytest.mark.skipif(((PYSIDE2 or PYQT5)
-                     and os.environ.get('CI', None) is not None),
+                     and os.environ.get('CI', None) is not None) or PYSIDE6,
                     reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
 def test_load_ui_type():
     """
@@ -84,9 +84,9 @@ def test_load_ui_type():
     assert isinstance(ui.comboBox, QComboBox)
 
 
-@pytest.mark.skipif(((PYSIDE2 or PYQT5)
+@pytest.mark.skipif(((PYSIDE2 or PYSIDE6 or PYQT5)
                      and os.environ.get('CI', None) is not None),
-                    reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
+                    reason="It segfaults in our CIs with PYSIDE2/PYSIDE6 or PYQT5")
 def test_load_ui_custom_auto(tmpdir):
     """
     Test that we can load a .ui file with custom widgets without having to
@@ -103,7 +103,7 @@ def test_load_ui_custom_auto(tmpdir):
     assert isinstance(ui.pushButton, QtWidgets.QPushButton)
     assert isinstance(ui.comboBox, _QComboBoxSubclass)
 
-
+@pytest.mark.skipif(PYSIDE6, reason="unavailable")
 def test_load_full_uic():
     """Test that we load the full uic objects for PyQt5 and PyQt4."""
     QT_API = os.environ.get('QT_API', '').lower()

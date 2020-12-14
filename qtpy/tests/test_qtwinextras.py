@@ -4,10 +4,10 @@ import os
 import sys
 
 import pytest
-from qtpy import PYSIDE2
+from qtpy import PYSIDE2, PYSIDE6
 
 @pytest.mark.skipif(
-    sys.platform != "win32" or os.environ['USE_CONDA'] == 'Yes',
+    sys.platform != "win32" or os.environ['USE_CONDA'] == 'Yes' or PYSIDE6,
     reason="Only available in Qt5 bindings > 5.9 (only available with pip in the current CI setup) and Windows platform")
 def test_qtwinextras():
     """Test the qtpy.QtWinExtras namespace"""

@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 import pytest
-from qtpy import PYSIDE, PYSIDE2, QtNetwork
+from qtpy import PYSIDE, PYSIDE2, PYSIDE6, QtNetwork
 
 
 def test_qtnetwork():
@@ -17,9 +17,10 @@ def test_qtnetwork():
     assert QtNetwork.QNetworkDiskCache is not None
     assert QtNetwork.QNetworkReply is not None
     assert QtNetwork.QNetworkRequest is not None
-    assert QtNetwork.QNetworkConfigurationManager is not None
-    assert QtNetwork.QNetworkConfiguration is not None
-    assert QtNetwork.QNetworkSession is not None
+    if not PYSIDE6:
+        assert QtNetwork.QNetworkConfigurationManager is not None
+        assert QtNetwork.QNetworkConfiguration is not None
+        assert QtNetwork.QNetworkSession is not None
     assert QtNetwork.QAuthenticator is not None
     assert QtNetwork.QHostAddress is not None
     assert QtNetwork.QHostInfo is not None

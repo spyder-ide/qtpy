@@ -8,10 +8,12 @@
 """Provides QtQml classes and functions."""
 
 # Local imports
-from . import PYQT5, PYSIDE2, PythonQtError
+from . import PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
     from PyQt5.QtQml import *
+elif PYSIDE6:
+    from PySide6.QtQml import *
 elif PYSIDE2:
     from PySide2.QtQml import *
 else:
