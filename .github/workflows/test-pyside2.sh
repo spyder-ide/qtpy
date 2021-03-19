@@ -7,6 +7,9 @@ conda activate test-pyside2
 if [ "$USE_CONDA" = "Yes" ]; then
     # There are no conda packages for PySide2
     exit 0
+elif [ "$PYTHON_VERSION" != "3.6" ] && [ "$RUNNER_OS" = "Windows" ]; then
+    # There is no wheel for PySide 5.12.3 on Windows and Python 2.7 or 3.8
+    exit 0
 else
     # Simple solution to avoid failures with the
     # Qt3D modules

@@ -48,7 +48,7 @@ else
     else
         # We are getting segfaults in 5.10
         conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c anaconda -q
-        pip install -q pyqt5
+        pip install -q pyqt5 PyQtWebEngine
     fi
 fi
 
