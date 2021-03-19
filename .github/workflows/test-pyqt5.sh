@@ -8,21 +8,21 @@ conda activate test-pyqt5
 if [ "$(uname)" == "Darwin" ]; then
 
     if [ "$PYTHON_VERSION" = "2.7" ]; then
-        export PYQT_VER=5.9.2=py27h655552a_0
+        export QT_VER=5.9
     elif [ "$PYTHON_VERSION" = "3.6" ]; then
-        export PYQT_VER=5.9.2=py36h11d3b92_0
+        export QT_VER=5.12
     else
-        export PYQT_VER=5.*
+        export QT_VER=5.*
     fi
 
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 
     if [ "$PYTHON_VERSION" = "2.7" ]; then
-        export PYQT_VER=5.9.2=py27h22d08a2_0
+        export QT_VER=5.9
     elif [ "$PYTHON_VERSION" = "3.6" ]; then
-        export PYQT_VER=5.9.2=py36h751905a_0
+        export QT_VER=5.12
     else
-        export PYQT_VER=5.*
+        export QT_VER=5.*
     fi
 
 else
@@ -30,17 +30,16 @@ else
     if [ "$PYTHON_VERSION" = "2.7" ]; then
         exit 0
     elif [ "$PYTHON_VERSION" = "3.6" ]; then
-        export PYQT_VER=5.9.2=py36h1aa27d4_0
+        export QT_VER=5.9
     else
-        export PYQT_VER=5.*
+        export QT_VER=5.*
     fi
 
 fi
 
 if [ "$USE_CONDA" = "Yes" ]; then
-    conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c anaconda -q
-    conda install -q qt=5.* pyqt=$PYQT_VER -c anaconda -q
-    # conda install -q sip=4.19.8 -c anaconda -q
+    conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c conda-forge -q
+    conda install -q qt=$QT_VER pyqt=$QT_VER -c conda-forge -q
 else
     if [ "$PYTHON_VERSION" = "2.7" ]; then
         # There are no pyqt5 wheels for Python 2
