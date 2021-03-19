@@ -10,7 +10,7 @@
 [![Github build status](https://github.com/spyder-ide/qtpy/workflows/Tests/badge.svg)](https://github.com/spyder-ide/qtpy/actions)
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
 
-*Copyright © 2009–2019 The Spyder Development Team*
+*Copyright © 2009–2021 The Spyder Development Team*
 
 
 ## Description
