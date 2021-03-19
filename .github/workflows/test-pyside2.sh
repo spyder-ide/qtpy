@@ -18,7 +18,7 @@ else
 fi
 
 # Install package
-python setup.py develop
+python -m pip install -e .
 
 # Run tests
 python qtpy/tests/runtests.py
