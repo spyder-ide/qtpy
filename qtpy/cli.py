@@ -1,21 +1,60 @@
-import click
+import argparse
+import inspect
 
 
-@click.group()
-def cli():
-    """Features in support of development with QtPy."""
-
+class RawDescriptionArgumentDefaultsHelpFormatter(
+    argparse.RawDescriptionHelpFormatter,
+    argparse.ArgumentDefaultsHelpFormatter,
+):
     pass
 
 
-@cli.group()
+def cli():
+    """Features in support of development with QtPy."""
+
+    parser = argparse.ArgumentParser(
+        description=inspect.getdoc(cli),
+        formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
+    )
+
+    parser.set_defaults(func=parser.print_help)
+
+    cli_subparsers = parser.add_subparsers()
+
+    mypy_parser = cli_subparsers.add_parser(
+        name=mypy.__name__,
+        description=inspect.getdoc(mypy),
+        formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
+    )
+    mypy_parser.set_defaults(func=mypy)
+
+    mypy_subparsers = mypy_parser.add_subparsers()
+
+    mypy_args_parser = mypy_subparsers.add_parser(
+        name=args.__name__,
+        description=inspect.getdoc(args),
+        formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
+    )
+    mypy_args_parser.set_defaults(func=args)
+
+    arguments = parser.parse_args()
+
+    reserved_parameters = {'func'}
+    cleaned = {
+        k: v
+        for k, v in vars(args).items()
+        if k not in reserved_parameters
+    }
+
+    arguments.func(**cleaned)
+
+
 def mypy():
     """Features in support of running mypy"""
 
     pass
 
 
-@mypy.command()
 def args():
     """Generate command line arguments for using mypy with QtPy.
 
