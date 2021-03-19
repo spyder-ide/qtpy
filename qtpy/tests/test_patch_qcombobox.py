@@ -4,7 +4,7 @@ import os
 import sys
 
 import pytest
-from qtpy import PYSIDE2, QtGui, QtWidgets
+from qtpy import PYQT5, PYSIDE2, QtGui, QtWidgets
 
 
 PY3 = sys.version[0] == "3"
@@ -86,8 +86,9 @@ def test_patched_qcombobox():
     assert widget.itemText(6) == 'f'
 
 
-@pytest.mark.skipif((PYSIDE2 and os.environ.get('CI', None) is not None),
-                    reason="It segfaults in our CIs with PYSIDE2")
+@pytest.mark.skipif(((PYSIDE2 or PYQT5)
+                     and os.environ.get('CI', None) is not None),
+                    reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
 def test_model_item():
     """
     This is a regression test for an issue that caused the call to item(0)

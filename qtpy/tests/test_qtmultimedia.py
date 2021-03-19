@@ -5,7 +5,7 @@ import sys
 import pytest
 
 
-@pytest.mark.skipif(os.name == 'nt' and sys.version_info[:2] == (3, 5),
+@pytest.mark.skipif(sys.version_info[0] == 3,
                     reason="Conda packages don't seem to include QtMultimedia")
 def test_qtmultimedia():
     """Test the qtpy.QtMultimedia namespace"""

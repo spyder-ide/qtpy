@@ -18,6 +18,8 @@ def test_DateTime_toPython():
     assert QtCore.QDateTime.toPython is not None
 
 
+@pytest.mark.skipif(PYSIDE2,
+                    reason="Doesn't seem to be present on PySide2")
 def test_QtCore_SignalInstance():
     class ClassWithSignal(QtCore.QObject):
         signal = QtCore.Signal()

@@ -3,7 +3,7 @@ import sys
 import contextlib
 
 import pytest
-from qtpy import PYSIDE2, QtWidgets
+from qtpy import PYQT5, PYSIDE2, QtWidgets
 from qtpy.QtWidgets import QComboBox
 from qtpy import uic
 from qtpy.uic import loadUi
@@ -42,8 +42,9 @@ def get_qapp(icon_path=None):
     return qapp
 
 
-@pytest.mark.skipif((PYSIDE2 and os.environ.get('CI', None) is not None),
-                    reason="It segfaults in our CIs with PYSIDE2")
+@pytest.mark.skipif(((PYSIDE2 or PYQT5)
+                     and os.environ.get('CI', None) is not None),
+                    reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
 def test_load_ui():
     """
     Make sure that the patched loadUi function behaves as expected with a
@@ -55,8 +56,9 @@ def test_load_ui():
     assert isinstance(ui.comboBox, QComboBox)
 
 
-@pytest.mark.skipif((PYSIDE2 and os.environ.get('CI', None) is not None),
-                    reason="It segfaults in our CIs with PYSIDE2")
+@pytest.mark.skipif(((PYSIDE2 or PYQT5)
+                     and os.environ.get('CI', None) is not None),
+                    reason="It segfaults in our CIs with PYSIDE2 or PYQT5")
 def test_load_ui_custom_auto(tmpdir):
     """
     Test that we can load a .ui file with custom widgets without having to

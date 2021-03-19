@@ -44,7 +44,7 @@ elif PYQT4:
     from PyQt4.QtCore import QCoreApplication
     from PyQt4.QtCore import Qt
     from PyQt4.QtCore import pyqtSignal as Signal
-    from PyQt4.Qtcore import pyqtBoundSignal as SignalInstance
+    from PyQt4.QtCore import pyqtBoundSignal as SignalInstance
     from PyQt4.QtCore import pyqtSlot as Slot
     from PyQt4.QtCore import pyqtProperty as Property
     from PyQt4.QtGui import (QItemSelection, QItemSelectionModel,
