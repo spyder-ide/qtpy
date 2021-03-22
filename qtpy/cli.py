@@ -20,7 +20,7 @@ class RawDescriptionArgumentDefaultsHelpFormatter(
     pass
 
 
-def cli():
+def cli(args=sys.argv):
     """Features in support of development with QtPy."""
 
     parser = argparse.ArgumentParser(
@@ -46,9 +46,9 @@ def cli():
         description=inspect.getdoc(args),
         formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
     )
-    mypy_args_parser.set_defaults(func=args)
+    mypy_args_parser.set_defaults(func=mypy_args)
 
-    arguments = parser.parse_args()
+    arguments = parser.parse_args(args=args)
 
     reserved_parameters = {'func'}
     cleaned = {
@@ -66,7 +66,7 @@ def mypy():
     pass
 
 
-def args():
+def mypy_args():
     """Generate command line arguments for using mypy with QtPy.
 
     This will generate strings similar to the following which help guide mypy
