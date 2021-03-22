@@ -74,7 +74,7 @@ conda install qtpy
 ### mypy
 
 A CLI is offered to help with usage of QtPy including the subcommand
-`qtpy mypy args` which generates command line arguments similar to the
+`qtpy mypy-args` which generates command line arguments similar to the
 following which help guide mypy through which library QtPy would have used
 so that mypy can get the proper underlying type hints.
 
@@ -85,7 +85,7 @@ so that mypy can get the proper underlying type hints.
 Use such as:
 
 ```bash
-env/bin/mypy --package mypackage $(env/bin/qtpy mypy args)
+env/bin/mypy --package mypackage $(env/bin/qtpy mypy-args)
 ```
 
 

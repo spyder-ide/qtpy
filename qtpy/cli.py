@@ -10,7 +10,8 @@
 
 # Standard library imports
 import argparse
-import inspect
+import sys
+import textwrap
 
 
 class RawDescriptionArgumentDefaultsHelpFormatter(
@@ -20,11 +21,9 @@ class RawDescriptionArgumentDefaultsHelpFormatter(
     pass
 
 
-def cli(args=sys.argv):
-    """Features in support of development with QtPy."""
-
+def cli(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(
-        description=inspect.getdoc(cli),
+        description="Features in support of development with QtPy.",
         formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
     )
 
@@ -32,18 +31,23 @@ def cli(args=sys.argv):
 
     cli_subparsers = parser.add_subparsers()
 
-    mypy_parser = cli_subparsers.add_parser(
-        name=mypy.__name__,
-        description=inspect.getdoc(mypy),
-        formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
-    )
-    mypy_parser.set_defaults(func=mypy)
+    mypy_args_parser = cli_subparsers.add_parser(
+        name='mypy-args',
+        description=textwrap.dedent(
+            """\
+            Generate command line arguments for using mypy with QtPy.
 
-    mypy_subparsers = mypy_parser.add_subparsers()
+            This will generate strings similar to the following which help guide mypy
+            through which library QtPy would have used so that mypy can get the proper
+            underlying type hints.
 
-    mypy_args_parser = mypy_subparsers.add_parser(
-        name=args.__name__,
-        description=inspect.getdoc(args),
+                --always-false=PYQT4 --always-false=PYQT5 --always-false=PYSIDE --always-true=PYSIDE2
+
+            Use such as:
+
+                env/bin/mypy --package mypackage $(env/bin/qtpy mypy-args)
+            """
+        ),
         formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
     )
     mypy_args_parser.set_defaults(func=mypy_args)
@@ -53,33 +57,14 @@ def cli(args=sys.argv):
     reserved_parameters = {'func'}
     cleaned = {
         k: v
-        for k, v in vars(args).items()
+        for k, v in vars(arguments).items()
         if k not in reserved_parameters
     }
 
     arguments.func(**cleaned)
 
 
-def mypy():
-    """Features in support of running mypy"""
-
-    pass
-
-
 def mypy_args():
-    """Generate command line arguments for using mypy with QtPy.
-
-    This will generate strings similar to the following which help guide mypy
-    through which library QtPy would have used so that mypy can get the proper
-    underlying type hints.
-
-        --always-false=PYQT4 --always-false=PYQT5 --always-false=PYSIDE --always-true=PYSIDE2
-
-    Use such as:
-
-        env/bin/mypy --package mypackage $(env/bin/qtpy mypy args)
-    """
-
     options = {False: '--always-false', True: '--always-true'}
 
     import qtpy

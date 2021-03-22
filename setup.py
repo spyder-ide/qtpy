@@ -48,6 +48,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5'],
-    entry_points={'console_scripts': 'qtpy = qtpy.cli:cli [cli]'},
+    entry_points={'console_scripts': 'qtpy = qtpy.__main__:main [cli]'},
     include_package_data=True
 )
