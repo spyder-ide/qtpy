@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+# -----------------------------------------------------------------------------
+# Copyright © 2009- The QtPy Contributors
+#
+# Released under the terms of the MIT License
+# (see LICENSE.txt for details)
+# -----------------------------------------------------------------------------
+
+"""Provide a CLI to allow configuring developer settings, including mypy."""
+
+# Standard library imports
 import argparse
 import inspect
 
