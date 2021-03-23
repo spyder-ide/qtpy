@@ -36,4 +36,7 @@ toread.md
 .chache
 .idea/
 
+# Macos
+*.DS_Store
+
 # End of File
