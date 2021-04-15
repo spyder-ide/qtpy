@@ -62,7 +62,11 @@ packages::
 
 """
 
-from distutils.version import LooseVersion
+try:  # disutils is being deprecated
+    import pkg_resources
+    from pkg_resources import parse_version as LooseVersion
+except:
+    from distutils.version import LooseVersion
 import os
 import platform
 import sys
