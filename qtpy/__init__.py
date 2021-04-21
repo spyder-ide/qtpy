@@ -65,7 +65,7 @@ packages::
 try:  # disutils is being deprecated
     import pkg_resources
     from pkg_resources import parse_version as LooseVersion
-except:
+except ImportError:
     from distutils.version import LooseVersion
 import os
 import platform
