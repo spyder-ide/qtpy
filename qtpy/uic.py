@@ -2,7 +2,7 @@ import os
 
 from . import PYSIDE, PYSIDE2, PYQT4, PYQT5
 from .QtWidgets import QComboBox
-from .pycompat import PY33
+from .py3compat import PY33
 
 
 if PYQT5:
