@@ -2,7 +2,6 @@ import os
 
 from . import PYSIDE, PYSIDE2, PYQT4, PYQT5
 from .QtWidgets import QComboBox
-from .py3compat import PY33
 
 
 if PYQT5:
@@ -181,12 +180,8 @@ else:
             return {}
 
         custom_widget_classes = {}
-        if PY33:
-            children = list(custom_widgets)
-        else:
-            children = custom_widgets.getchildren()
 
-        for custom_widget in children:
+        for custom_widget in custom_widgets.getchildren():
 
             cw_class = custom_widget.find('class').text
             cw_header = custom_widget.find('header').text
