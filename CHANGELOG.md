@@ -1,5 +1,34 @@
 # History of changes
 
+## Version 1.10.0 (2021-08-17)
+
+### Issues Closed
+
+* [Issue 238](https://github.com/spyder-ide/qtpy/issues/238) - PySide2 and Python3.9: xml.etree.ElementTree.Element' object has no attribute 'getchildren
+* [Issue 222](https://github.com/spyder-ide/qtpy/issues/222) - Imported modules are not respected
+* [Issue 220](https://github.com/spyder-ide/qtpy/issues/220) - MNT: Stop using ci-helpers in appveyor.yml
+* [Issue 206](https://github.com/spyder-ide/qtpy/issues/206) - DeprecationWarning for getchildren ([PR 224](https://github.com/spyder-ide/qtpy/pull/224) by [@irrcombat](https://github.com/irrcombat))
+* [Issue 198](https://github.com/spyder-ide/qtpy/issues/198) - PyQt4-sip==4.19.13 not supported
+
+In this release 5 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 241](https://github.com/spyder-ide/qtpy/pull/241) - PR: Update setup.py classifiers, by [@dalthviz](https://github.com/dalthviz)
+* [PR 230](https://github.com/spyder-ide/qtpy/pull/230) - PR: Fix imported modules logic if 'FORCE_QT_API' is empty, by [@hiaselhans](https://github.com/hiaselhans)
+* [PR 224](https://github.com/spyder-ide/qtpy/pull/224) - PR: Support python 3.9 `custom_widgets` iteration, by [@irrcombat](https://github.com/irrcombat) ([206](https://github.com/spyder-ide/qtpy/issues/206))
+* [PR 215](https://github.com/spyder-ide/qtpy/pull/215) - PR: Slight typo fix, by [@altendky](https://github.com/altendky)
+* [PR 214](https://github.com/spyder-ide/qtpy/pull/214) - PR: Handle QtCore.SignalInstance/pyqtBoundSignal, by [@altendky](https://github.com/altendky)
+* [PR 208](https://github.com/spyder-ide/qtpy/pull/208) - PR: Move CI to Github Actions, by [@goanpeca](https://github.com/goanpeca)
+* [PR 204](https://github.com/spyder-ide/qtpy/pull/204) - PR: Add Python 3.9 compatibility for `collections.abc` module, by [@tirkarthi](https://github.com/tirkarthi)
+* [PR 199](https://github.com/spyder-ide/qtpy/pull/199) - PR: Add support to PyQt4-sip 4.19.13, by [@milanmatic](https://github.com/milanmatic)
+
+In this release 8 pull requests were closed.
+
+
+----
+
+
 ## Version 1.9.0 (2019-07-23)
 
 ### New features
