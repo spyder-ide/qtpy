@@ -229,9 +229,6 @@ else:
         QMetaObject.connectSlotsByName(widget)
         return widget
 
-
-    # Credit:
-    # http://stackoverflow.com/questions/4442286/python-code-genration-with-pyside-uic/14195313#14195313
     def loadUiType(uifile, from_imports=False):
         """Load a .ui file and return the generated form class and
         the Qt base class.
@@ -240,6 +237,7 @@ else:
         in-memory first and then execute it in a special frame to
         retrieve the form_class.
 
+        Credit: https://stackoverflow.com/a/14195313/15954282
         """
 
         import sys
