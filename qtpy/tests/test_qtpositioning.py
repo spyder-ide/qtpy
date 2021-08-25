@@ -14,10 +14,12 @@ def test_qtpositioning():
     assert QtPositioning.QGeoCoordinate is not None
     assert QtPositioning.QGeoLocation is not None
     assert QtPositioning.QGeoPath is not None
-    # assert QtPositioning.QGeoPolygon is not None  # New in Qt 5.10
+    assert QtPositioning.QGeoPolygon is not None
     assert QtPositioning.QGeoPositionInfo is not None
     assert QtPositioning.QGeoPositionInfoSource is not None
-    # assert QtPositioning.QGeoPositionInfoSourceFactory is not None
+    # QGeoPositionInfoSourceFactory is not available in PyQt
+    # assert QtPositioning.QGeoPositionInfoSourceFactory is not None  # New in Qt 5.2
+    # assert QtPositioning.QGeoPositionInfoSourceFactoryV2 is not None  # New in Qt 5.14
     assert QtPositioning.QGeoRectangle is not None
     assert QtPositioning.QGeoSatelliteInfo is not None
     assert QtPositioning.QGeoSatelliteInfoSource is not None
