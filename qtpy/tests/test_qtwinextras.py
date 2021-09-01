@@ -18,7 +18,8 @@ def test_qtwinextras():
     assert QtWinExtras.QWinTaskbarProgress is not None
     assert QtWinExtras.QWinThumbnailToolBar is not None
     assert QtWinExtras.QWinThumbnailToolButton is not None
-    assert QtWinExtras.QtWin is not None
+    if not PYSIDE2:  # See https://bugreports.qt.io/browse/PYSIDE-1047
+        assert QtWinExtras.QtWin is not None
 
     if PYSIDE2:
         assert QtWinExtras.QWinColorizationChangeEvent is not None
