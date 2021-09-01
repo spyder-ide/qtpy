@@ -1,13 +1,16 @@
 from __future__ import absolute_import
 
+import os
 import sys
 
 import pytest
 from qtpy import PYQT5, PYSIDE2
+from qtpy.py3compat import PY3
 
-
-@pytest.mark.skipif(sys.platform != "win32" or not (PYQT5 or PYSIDE2),
-                    reason="Only available in Qt5 bindings and Windows platform")
+@pytest.mark.skipif(
+    sys.platform != "win32" or not (PYQT5 or PYSIDE2) or
+    os.environ['USE_CONDA'] == 'Yes' and PY3 and PYQT5,
+    reason="Only available in Qt5 bindings and Windows platform")
 def test_qtwinextras():
     """Test the qtpy.QtWinExtras namespace"""
     from qtpy import QtWinExtras
