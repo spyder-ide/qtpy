@@ -229,3 +229,6 @@ if PYQT4:
         API_NAME += (" (API v{0})".format(sip.getapi('QString')))
     except AttributeError:
         pass
+
+# QtDataVisualization backward compatibility (valid also on Windows)
+from . import QtDataVisualization as QtDatavisualization
