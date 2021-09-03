@@ -70,6 +70,7 @@ import warnings
 
 # Version of QtPy
 from ._version import __version__
+from .py3compat import PY2
 
 
 class PythonQtError(RuntimeError):
@@ -230,5 +231,7 @@ if PYQT4:
     except AttributeError:
         pass
 
-# QtDataVisualization backward compatibility (valid also on Windows)
-from . import QtDataVisualization as QtDatavisualization
+if (PYQT5 or PYSIDE2) and PY2:
+    # QtDataVisualization backward compatibility (valid also on Windows)
+    # Only available for Python 2 and Qt5 bindings
+    from . import QtDataVisualization as QtDatavisualization
