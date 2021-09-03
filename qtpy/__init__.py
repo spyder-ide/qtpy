@@ -70,6 +70,7 @@ import warnings
 
 # Version of QtPy
 from ._version import __version__
+from .py3compat import PY2
 
 
 class PythonQtError(RuntimeError):
@@ -229,3 +230,8 @@ if PYQT4:
         API_NAME += (" (API v{0})".format(sip.getapi('QString')))
     except AttributeError:
         pass
+
+if (PYQT5 or PYSIDE2) and PY2 and sys.platform == "win32":
+    # QtDataVisualization backward compatibility (valid also on Windows)
+    # Only available for Python 2 on Windows and Qt5 bindings
+    from . import QtDataVisualization as QtDatavisualization
