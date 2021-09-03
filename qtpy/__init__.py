@@ -231,7 +231,7 @@ if PYQT4:
     except AttributeError:
         pass
 
-if (PYQT5 or PYSIDE2) and PY2:
+if (PYQT5 or PYSIDE2) and PY2 and sys.platform == "win32":
     # QtDataVisualization backward compatibility (valid also on Windows)
-    # Only available for Python 2 and Qt5 bindings
+    # Only available for Python 2 on Windows and Qt5 bindings
     from . import QtDataVisualization as QtDatavisualization
