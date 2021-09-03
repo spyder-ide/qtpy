@@ -1,5 +1,30 @@
 # History of changes
 
+## Version 1.11.0 (2021-09-03)
+
+### Issues Closed
+
+* [Issue 201](https://github.com/spyder-ide/qtpy/issues/201) - Missing QWebEngineProfile from QtWebEngineWidgets ([PR 242](https://github.com/spyder-ide/qtpy/pull/242) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 243](https://github.com/spyder-ide/qtpy/pull/243) - PR: `QtDataVisualization` backward compatibility handling on Windows, by [@dalthviz](https://github.com/dalthviz)
+* [PR 242](https://github.com/spyder-ide/qtpy/pull/242) - PR: Add `QtWebEngineWidgets.QWebEngineProfile` for PyQt5 and PySide2, by [@dalthviz](https://github.com/dalthviz) ([201](https://github.com/spyder-ide/qtpy/issues/201))
+* [PR 228](https://github.com/spyder-ide/qtpy/pull/228) - PR: Rename QtDatavisualization to use uppercase v, by [@antlarr](https://github.com/antlarr)
+* [PR 219](https://github.com/spyder-ide/qtpy/pull/219) - PR: Add support for QStyleOptionFrameV3 from PyQt4, by [@PierreRaybaut](https://github.com/PierreRaybaut)
+* [PR 218](https://github.com/spyder-ide/qtpy/pull/218) - PR: Add QtWinExtras module, by [@phil65](https://github.com/phil65)
+* [PR 209](https://github.com/spyder-ide/qtpy/pull/209) - PR: Add support for QtSerialPort add-on, by [@Stanowczo](https://github.com/Stanowczo)
+* [PR 205](https://github.com/spyder-ide/qtpy/pull/205) - PR: Add support for the QtPositioning module, by [@avalentino](https://github.com/avalentino)
+* [PR 202](https://github.com/spyder-ide/qtpy/pull/202) - PR: Add loadUiType implementation for PySide2, by [@avalentino](https://github.com/avalentino)
+
+In this release 8 pull requests were closed.
+
+
+----
+
+
 ## Version 1.10.0 (2021-08-17)
 
 ### Issues Closed
