@@ -3,8 +3,12 @@ import sys
 import contextlib
 
 import pytest
-from qtpy import PYQT5, PYSIDE2, QtWidgets
+from qtpy import PYQT5, PYSIDE2, PYSIDE, QtWidgets
 from qtpy.QtWidgets import QComboBox
+
+if PYSIDE2 or PYSIDE:
+    pytest.importorskip("pyside2uic", reason="pyside2uic not installed")
+
 from qtpy import uic
 from qtpy.uic import loadUi, loadUiType
 
