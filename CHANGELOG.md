@@ -1,5 +1,24 @@
 # History of changes
 
+## Version 1.11.1 (2021-09-13)
+
+### Issues Closed
+
+* [Issue 245](https://github.com/spyder-ide/qtpy/issues/245) - Importing `qtpy.uic` raises an exception ([PR 246](https://github.com/spyder-ide/qtpy/pull/246) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 246](https://github.com/spyder-ide/qtpy/pull/246) - PR: Wrap `pysideuic` and `pyside2uic` imports since they could be unavailable, by [@dalthviz](https://github.com/dalthviz) ([245](https://github.com/spyder-ide/qtpy/issues/245))
+* [PR 244](https://github.com/spyder-ide/qtpy/pull/244) - qtpy/tests/test_uic.py: skip if pyside2uic not installed, by [@AndrewAmmerlaan](https://github.com/AndrewAmmerlaan)
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 1.11.0 (2021-09-03)
 
 ### Issues Closed
