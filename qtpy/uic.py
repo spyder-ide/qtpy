@@ -81,11 +81,17 @@ else:
     if PYSIDE:
         from PySide.QtCore import QMetaObject
         from PySide.QtUiTools import QUiLoader
-        from pysideuic import compileUi
+        try:
+            from pysideuic import compileUi
+        except ImportError:
+            pass
     elif PYSIDE2:
         from PySide2.QtCore import QMetaObject
         from PySide2.QtUiTools import QUiLoader
-        from pyside2uic import compileUi
+        try:
+            from pyside2uic import compileUi
+        except ImportError:
+            pass
 
     class UiLoader(QUiLoader):
         """
