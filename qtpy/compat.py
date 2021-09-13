@@ -10,67 +10,13 @@ Compatibility functions
 from __future__ import print_function
 import sys
 
-from . import PYQT4
-from .QtWidgets import QFileDialog
-from .py3compat import Callable, is_text_string, to_text_string, TEXT_TYPES
+from qtpy.QtWidgets import QFileDialog
 
 
 # =============================================================================
 # QVariant conversion utilities
 # =============================================================================
 PYQT_API_1 = False
-if PYQT4:
-    import sip
-    try:
-        PYQT_API_1 = sip.getapi('QVariant') == 1  # PyQt API #1
-    except AttributeError:
-        # PyQt <v4.6
-        PYQT_API_1 = True
-
-    def to_qvariant(pyobj=None):
-        """Convert Python object to QVariant
-        This is a transitional function from PyQt API #1 (QVariant exist)
-        to PyQt API #2 and Pyside (QVariant does not exist)"""
-        if PYQT_API_1:
-            # PyQt API #1
-            from PyQt4.QtCore import QVariant
-            return QVariant(pyobj)
-        else:
-            # PyQt API #2
-            return pyobj
-
-    def from_qvariant(qobj=None, convfunc=None):
-        """Convert QVariant object to Python object
-        This is a transitional function from PyQt API #1 (QVariant exist)
-        to PyQt API #2 and Pyside (QVariant does not exist)"""
-        if PYQT_API_1:
-            # PyQt API #1
-            assert isinstance(convfunc, Callable)
-            if convfunc in TEXT_TYPES or convfunc is to_text_string:
-                return convfunc(qobj.toString())
-            elif convfunc is bool:
-                return qobj.toBool()
-            elif convfunc is int:
-                return qobj.toInt()[0]
-            elif convfunc is float:
-                return qobj.toDouble()[0]
-            else:
-                return convfunc(qobj)
-        else:
-            # PyQt API #2
-            return qobj
-else:
-    def to_qvariant(obj=None):  # analysis:ignore
-        """Convert Python object to QVariant
-        This is a transitional function from PyQt API#1 (QVariant exist)
-        to PyQt API#2 and Pyside (QVariant does not exist)"""
-        return obj
-
-    def from_qvariant(qobj=None, pytype=None):  # analysis:ignore
-        """Convert QVariant object to Python object
-        This is a transitional function from PyQt API #1 (QVariant exist)
-        to PyQt API #2 and Pyside (QVariant does not exist)"""
-        return qobj
 
 
 # =============================================================================
@@ -92,10 +38,7 @@ def getexistingdirectory(parent=None, caption='', basedir='',
         if sys.platform == "win32":
             # On Windows platforms: restore standard outputs
             sys.stdout, sys.stderr = _temp1, _temp2
-    if not is_text_string(result):
-        # PyQt API #1
-        result = to_text_string(result)
-    return result
+    return str(result)
 
 
 def _qfiledialog_wrapper(attr, parent=None, caption='', basedir='',
@@ -104,7 +47,7 @@ def _qfiledialog_wrapper(attr, parent=None, caption='', basedir='',
         options = QFileDialog.Options(0)
     try:
         # PyQt <v4.6 (API #1)
-        from .QtCore import QString
+        from qtpy.QtCore import QString
     except ImportError:
         # PySide or PyQt >=v4.6
         QString = None  # analysis:ignore
@@ -147,13 +90,13 @@ def _qfiledialog_wrapper(attr, parent=None, caption='', basedir='',
         output = result
     if QString is not None:
         # PyQt API #1: conversions needed from QString/QStringList
-        selectedfilter = to_text_string(selectedfilter)
+        selectedfilter = str(selectedfilter)
         if isinstance(output, QString):
             # Single filename
-            output = to_text_string(output)
+            output = str(output)
         else:
             # List of filenames
-            output = [to_text_string(fname) for fname in output]
+            output = [str(fname) for fname in output]
 
     # Always returns the tuple (output, selectedfilter)
     return output, selectedfilter

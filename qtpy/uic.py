@@ -1,20 +1,17 @@
 import os
 
-from . import PYSIDE, PYSIDE2, PYQT4, PYQT5
-from .QtWidgets import QComboBox
+from . import PYSIDE, PYSIDE2, PYQT5
+from qtpy.QtWidgets import QComboBox
 
 
 if PYQT5:
 
     from PyQt5.uic import *
 
-elif PYQT4:
-
-    from PyQt4.uic import *
 
 else:
 
-    __all__ = ['loadUi', 'loadUiType']
+    __all__ = ["loadUi", "loadUiType"]
 
     # In PySide, loadUi does not exist, so we define it using QUiLoader, and
     # then make sure we expose that function. This is adapted from qt-helpers
@@ -81,6 +78,7 @@ else:
     if PYSIDE:
         from PySide.QtCore import QMetaObject
         from PySide.QtUiTools import QUiLoader
+
         try:
             from pysideuic import compileUi
         except ImportError:
@@ -88,6 +86,7 @@ else:
     elif PYSIDE2:
         from PySide2.QtCore import QMetaObject
         from PySide2.QtUiTools import QUiLoader
+
         try:
             from pyside2uic import compileUi
         except ImportError:
@@ -130,7 +129,7 @@ else:
             else:
                 self.customWidgets = customWidgets
 
-        def createWidget(self, class_name, parent=None, name=''):
+        def createWidget(self, class_name, parent=None, name=""):
             """
             Function that is called for each widget defined in ui file,
             overridden here to populate baseinstance instead.
@@ -145,7 +144,7 @@ else:
 
                 # For some reason, Line is not in the list of available
                 # widgets, but works fine, so we have to special case it here.
-                if class_name in self.availableWidgets() or class_name == 'Line':
+                if class_name in self.availableWidgets() or class_name == "Line":
                     # create a new widget for child widgets
                     widget = QUiLoader.createWidget(self, class_name, parent, name)
 
@@ -157,8 +156,10 @@ else:
                     try:
                         widget = self.customWidgets[class_name](parent)
                     except KeyError:
-                        raise Exception('No custom widget ' + class_name + ' '
-                                        'found in customWidgets')
+                        raise Exception(
+                            "No custom widget " + class_name + " "
+                            "found in customWidgets"
+                        )
 
                 if self.baseinstance:
                     # set an attribute for the new child widget on the base
@@ -182,7 +183,7 @@ else:
         ui = etree.parse(ui_file)
 
         # Get the customwidgets section
-        custom_widgets = ui.find('customwidgets')
+        custom_widgets = ui.find("customwidgets")
 
         if custom_widgets is None:
             return {}
@@ -191,8 +192,8 @@ else:
 
         for custom_widget in list(custom_widgets):
 
-            cw_class = custom_widget.find('class').text
-            cw_header = custom_widget.find('header').text
+            cw_class = custom_widget.find("class").text
+            cw_header = custom_widget.find("header").text
 
             module = importlib.import_module(cw_header)
 
@@ -247,6 +248,7 @@ else:
         """
 
         import sys
+
         if sys.version_info >= (3, 0):
             from io import StringIO
         else:
@@ -258,20 +260,20 @@ else:
         etree = ElementTree()
         ui = etree.parse(uifile)
 
-        widget_class = ui.find('widget').get('class')
-        form_class = ui.find('class').text
+        widget_class = ui.find("widget").get("class")
+        form_class = ui.find("class").text
 
-        with open(uifile, 'r') as fd:
+        with open(uifile, "r") as fd:
             code_stream = StringIO()
             frame = {}
 
             compileUi(fd, code_stream, indent=0, from_imports=from_imports)
-            pyc = compile(code_stream.getvalue(), '<string>', 'exec')
+            pyc = compile(code_stream.getvalue(), "<string>", "exec")
             exec(pyc, frame)
 
             # Fetch the base_class and form class based on their type in the
             # xml from designer
-            form_class = frame['Ui_%s' % form_class]
+            form_class = frame["Ui_%s" % form_class]
             base_class = getattr(QtWidgets, widget_class)
 
         return form_class, base_class

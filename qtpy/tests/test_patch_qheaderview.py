@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import sys
 
 import pytest
-from qtpy import PYSIDE, PYSIDE2, PYQT4
+from qtpy import PYSIDE2
 from qtpy.QtWidgets import QApplication
 from qtpy.QtWidgets import QHeaderView
 from qtpy.QtCore import Qt
@@ -46,11 +46,7 @@ def test_patched_qheaderview():
     # test it
     assert isinstance(headerview.sectionsClickable(), bool)
     assert isinstance(headerview.sectionsMovable(), bool)
-    if PYSIDE:
-        assert isinstance(headerview.sectionResizeMode(0),
-                          QHeaderView.ResizeMode)
-    else:
-        assert isinstance(headerview.sectionResizeMode(0), int)
+    assert isinstance(headerview.sectionResizeMode(0), int)
 
     headerview.setSectionsClickable(True)
     assert headerview.sectionsClickable() == True
@@ -79,20 +75,4 @@ def test_patched_qheaderview():
     assert headerview.sectionResizeMode(0) == QHeaderView.Stretch
     headerview.setSectionResizeMode(0, QHeaderView.ResizeToContents)
     assert headerview.sectionResizeMode(0) == QHeaderView.ResizeToContents
-
-    # test that the old methods in Qt4 raise exceptions
-    if PYQT4 or PYSIDE:
-        with pytest.warns(UserWarning):
-            headerview.isClickable()
-        with pytest.warns(UserWarning):
-            headerview.isMovable()
-        with pytest.warns(UserWarning):
-            headerview.resizeMode(0)
-        with pytest.warns(UserWarning):
-            headerview.setClickable(True)
-        with pytest.warns(UserWarning):
-            headerview.setMovable(True)
-        with pytest.warns(UserWarning):
-            headerview.setResizeMode(0, QHeaderView.Interactive)
-
 
