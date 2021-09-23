@@ -1,5 +1,23 @@
 # History of changes
 
+## Version 1.11.2 (2021-09-23)
+
+### Issues Closed
+
+* [Issue 248](https://github.com/spyder-ide/qtpy/issues/248) - Missing QtDataVisualization ([PR 249](https://github.com/spyder-ide/qtpy/pull/249) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 249](https://github.com/spyder-ide/qtpy/pull/249) - PR: Add handling for QtDataVisualization when missing, by [@dalthviz](https://github.com/dalthviz) ([248](https://github.com/spyder-ide/qtpy/issues/248))
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 1.11.1 (2021-09-13)
 
 ### Issues Closed
