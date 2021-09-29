@@ -243,10 +243,7 @@ else:
         """
 
         import sys
-        if sys.version_info >= (3, 0):
-            from io import StringIO
-        else:
-            from io import BytesIO as StringIO
+        from io import StringIO
         from xml.etree.ElementTree import ElementTree
         from . import QtWidgets
 

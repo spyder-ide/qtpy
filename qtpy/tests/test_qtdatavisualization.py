@@ -1,13 +1,7 @@
-from __future__ import absolute_import
-
-import sys
-
 import pytest
-from qtpy import PYQT5, PYSIDE2
-from qtpy.py3compat import PY3
 
 @pytest.mark.skipif(
-    sys.platform != "win32" or not (PYQT5 or PYSIDE2) or PY3,
+    True,  # TODO: Check to see future usage
     reason="Only available in Qt5 bindings and Python 2 on Windows")
 def test_qtdatavisualization():
     """Test the qtpy.QtDataVisualization namespace"""

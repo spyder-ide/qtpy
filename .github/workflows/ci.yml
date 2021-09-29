@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        PYTHON_VERSION: ['2.7', '3.6', '3.8']
+        PYTHON_VERSION: ['3.6', '3.8']
         USE_CONDA: ['Yes', 'No']
     steps:
       - name: Checkout branch
@@ -61,11 +61,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        PYTHON_VERSION: ['2.7', '3.6', '3.8']
+        PYTHON_VERSION: ['3.6', '3.8']
         USE_CONDA: ['Yes', 'No']
         exclude:
-        - PYTHON_VERSION: '2.7'
-          USE_CONDA: 'Yes'
+        - USE_CONDA: 'Yes'
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
@@ -95,7 +94,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        PYTHON_VERSION: ['2.7', '3.6', '3.8']
+        PYTHON_VERSION: ['3.6', '3.8']
         USE_CONDA: ['Yes', 'No']
     steps:
       - name: Checkout branch

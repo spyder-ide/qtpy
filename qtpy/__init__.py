@@ -63,7 +63,6 @@ import warnings
 
 # Version of QtPy
 from ._version import __version__
-from .py3compat import PY2
 
 
 class PythonQtError(RuntimeError):

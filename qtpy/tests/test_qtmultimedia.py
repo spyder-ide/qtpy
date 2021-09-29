@@ -1,13 +1,3 @@
-from __future__ import absolute_import
-import os
-import sys
-
-import pytest
-from qtpy import PYSIDE6
-
-
-@pytest.mark.skipif(sys.version_info[0] == 3,
-                    reason="Conda packages don't seem to include QtMultimedia")
 def test_qtmultimedia():
     """Test the qtpy.QtMultimedia namespace"""
     from qtpy import QtMultimedia

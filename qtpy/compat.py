@@ -7,11 +7,30 @@
 Compatibility functions
 """
 
-from __future__ import print_function
+from collections.abc import Callable
 import sys
 
 from .QtWidgets import QFileDialog
-from .py3compat import Callable, is_text_string, to_text_string, TEXT_TYPES
+
+
+TEXT_TYPES = (str,)
+
+
+def is_text_string(obj):
+    """Return True if `obj` is a text string, False if it is anything else,
+    like binary data."""
+    return isinstance(obj, str)
+
+
+def to_text_string(obj, encoding=None):
+    """Convert `obj` to (unicode) text string"""
+    if encoding is None:
+        return str(obj)
+    elif isinstance(obj, str):
+        # In case this function is not used properly, this could happen
+        return obj
+    else:
+        return str(obj, encoding)
 
 
 # =============================================================================
