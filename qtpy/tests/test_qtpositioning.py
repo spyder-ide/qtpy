@@ -14,7 +14,7 @@ def test_qtpositioning():
     assert QtPositioning.QGeoCoordinate is not None
     assert QtPositioning.QGeoLocation is not None
     assert QtPositioning.QGeoPath is not None
-    # CI for Python 2.7 and 3.6 uses Qt 5.9
+    # CI for 3.6 uses Qt 5.9
     # assert QtPositioning.QGeoPolygon is not None  # New in Qt 5.10
     assert QtPositioning.QGeoPositionInfo is not None
     assert QtPositioning.QGeoPositionInfoSource is not None
