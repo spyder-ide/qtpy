@@ -63,8 +63,6 @@ jobs:
       matrix:
         PYTHON_VERSION: ['3.6', '3.8']
         USE_CONDA: ['Yes', 'No']
-        exclude:
-        - USE_CONDA: 'Yes'
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
