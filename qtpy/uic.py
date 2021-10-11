@@ -254,7 +254,7 @@ else:
         widget_class = ui.find('widget').get('class')
         form_class = ui.find('class').text
 
-        with open(uifile, 'r') as fd:
+        with open(uifile) as fd:
             code_stream = StringIO()
             frame = {}
 

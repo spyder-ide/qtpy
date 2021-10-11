@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2009- The Spyder Development Team
 # Copyright © 2014-2015 Colin Duquesnoy

@@ -12,7 +12,7 @@ elif [ "$PYTHON_VERSION" != "3.6" ] && [ "$RUNNER_OS" = "Windows" ]; then
     exit 0
 else
     # Simple solution to avoid failures with the Qt3D modules
-    conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c conda-forge -q
+    conda install -q coveralls pytest pytest-cov python="$PYTHON_VERSION" -c conda-forge
     pip install -q pyside2==5.12
 fi
 

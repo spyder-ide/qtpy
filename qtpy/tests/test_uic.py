@@ -75,7 +75,7 @@ def test_load_ui_type():
 
     class Widget(ui_base_type, ui_type):
         def __init__(self):
-            super(Widget, self).__init__()
+            super().__init__()
             self.setupUi(self)
 
     ui = Widget()

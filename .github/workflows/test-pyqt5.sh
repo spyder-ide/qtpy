@@ -32,11 +32,11 @@ else
 fi
 
 if [ "$USE_CONDA" = "Yes" ]; then
-    conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c conda-forge -q
-    conda install -q qt=$QT_VER pyqt=$QT_VER -c conda-forge -q
+    conda install -q coveralls pytest pytest-cov python="$PYTHON_VERSION" -c conda-forge
+    conda install -q qt=$QT_VER pyqt=$QT_VER -c conda-forge
 else
     # We are getting segfaults in 5.10
-    conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c anaconda -q
+    conda install -q coveralls pytest pytest-cov python="$PYTHON_VERSION" -c anaconda
     pip install -q pyqt5 PyQtWebEngine
 fi
 

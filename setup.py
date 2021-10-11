@@ -1,12 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """
 Setup script for qtpy
 """
 
 import os
-import io
 
 from setuptools import setup, find_packages
 
@@ -16,7 +14,7 @@ version_ns = {}
 with open(os.path.join(HERE, 'qtpy', '_version.py')) as f:
     exec(f.read(), {}, version_ns)
 
-with io.open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
+with open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
 
 setup(
