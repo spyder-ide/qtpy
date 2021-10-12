@@ -10,7 +10,7 @@
 Provides QtWebEngineWidgets classes and functions.
 """
 
-from . import PYQT5,PYSIDE2, PYSIDE6, PYQT4, PYSIDE, PythonQtError
+from . import PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
 
 # To test if we are using WebEngine or WebKit
@@ -40,15 +40,5 @@ elif PYSIDE2:
     from PySide2.QtWebEngineWidgets import QWebEngineSettings
     # Based on the work at https://github.com/spyder-ide/qtpy/pull/203
     from PySide2.QtWebEngineWidgets import QWebEngineProfile
-elif PYQT4:
-    from PyQt4.QtWebKit import QWebPage as QWebEnginePage
-    from PyQt4.QtWebKit import QWebView as QWebEngineView
-    from PyQt4.QtWebKit import QWebSettings as QWebEngineSettings
-    WEBENGINE = False
-elif PYSIDE:
-    from PySide.QtWebKit import QWebPage as QWebEnginePage
-    from PySide.QtWebKit import QWebView as QWebEngineView
-    from PySide.QtWebKit import QWebSettings as QWebEngineSettings
-    WEBENGINE = False
 else:
     raise PythonQtError('No Qt bindings could be found')

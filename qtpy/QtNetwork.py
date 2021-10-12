@@ -10,7 +10,7 @@
 Provides QtNetwork classes and functions.
 """
 
-from . import PYQT5, PYSIDE2, PYSIDE6, PYQT4, PYSIDE, PythonQtError
+from . import PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
 
 if PYQT5:
@@ -19,9 +19,5 @@ elif PYSIDE6:
     from PySide6.QtNetwork import *
 elif PYSIDE2:
     from PySide2.QtNetwork import *
-elif PYQT4:
-    from PyQt4.QtNetwork import *
-elif PYSIDE:
-    from PySide.QtNetwork import *
 else:
     raise PythonQtError('No Qt bindings could be found')

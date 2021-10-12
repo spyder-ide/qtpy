@@ -10,7 +10,7 @@
 Provides QtTest and functions
 """
 
-from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, PYQT4, PYSIDE, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, PythonQtError
 
 if PYQT6:
     from PyQt6.QtTest import QTest
@@ -20,14 +20,5 @@ elif PYSIDE6:
     from PySide6.QtTest import QTest
 elif PYSIDE2:
     from PySide2.QtTest import QTest
-elif PYQT4:
-    from PyQt4.QtTest import QTest as OldQTest
-
-    class QTest(OldQTest):
-        @staticmethod
-        def qWaitForWindowActive(QWidget):
-            OldQTest.qWaitForWindowShown(QWidget)
-elif PYSIDE:
-    from PySide.QtTest import QTest
 else:
     raise PythonQtError('No Qt bindings could be found')

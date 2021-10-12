@@ -3,10 +3,10 @@ import sys
 import contextlib
 
 import pytest
-from qtpy import PYQT5, PYSIDE6, PYSIDE2, PYSIDE, QtWidgets
+from qtpy import PYQT5, PYSIDE6, PYSIDE2, QtWidgets
 from qtpy.QtWidgets import QComboBox
 
-if PYSIDE2 or PYSIDE:
+if PYSIDE2:
     pytest.importorskip("pyside2uic", reason="pyside2uic not installed")
 
 from qtpy import uic
@@ -105,7 +105,7 @@ def test_load_ui_custom_auto(tmpdir):
 
 @pytest.mark.skipif(PYSIDE6, reason="unavailable")
 def test_load_full_uic():
-    """Test that we load the full uic objects for PyQt5 and PyQt4."""
+    """Test that we load the full uic objects for PyQt5."""
     QT_API = os.environ.get('QT_API', '').lower()
     if QT_API.startswith('pyside'):
         assert hasattr(uic, 'loadUi')

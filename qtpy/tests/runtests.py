@@ -12,7 +12,7 @@
 import sys
 
 # Third party imports
-import qtpy  # to ensure that Qt4 uses API v2
+import qtpy
 import pytest
 
 
