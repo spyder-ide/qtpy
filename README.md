@@ -18,7 +18,7 @@
 **QtPy** is a small abstraction layer that lets you
 write applications using a single API call to either PyQt or PySide.
 
-It provides support for PyQt5, PyQt4, PySide2 and PySide using the Qt5 layout
+It provides support for PyQt5, PyQt4, PySide6, PySide2 and PySide using the Qt5 layout
 (where the QtGui module has been split into QtGui and QtWidgets).
 
 Basically, you can write your code as if you were using PySide2
@@ -53,6 +53,7 @@ default unless you set the `QT_API` environment variable.
 
 * `pyqt5` (to use PyQt5).
 * `pyqt` or `pyqt4` (to use PyQt4).
+* `pyside6` (to use PySide6)
 * `pyside2` (to use PySide2)
 * `pyside` (to use PySide).
 

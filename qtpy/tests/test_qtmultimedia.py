@@ -3,6 +3,7 @@ import os
 import sys
 
 import pytest
+from qtpy import PYSIDE6
 
 
 @pytest.mark.skipif(sys.version_info[0] == 3,
