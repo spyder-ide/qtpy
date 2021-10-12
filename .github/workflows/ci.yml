@@ -28,8 +28,7 @@ jobs:
       - name: Install System Packages
         run: |
           sudo apt update
-          sudo apt install libpulse-dev
-          sudo apt install libegl1-mesa
+          sudo apt install libpulse-dev libegl1-mesa libopengl0
       - name: Install Conda
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -44,6 +43,9 @@ jobs:
       - name: Test PySide2
         shell: bash -l {0}
         run: xvfb-run --auto-servernum bash -l ./.github/workflows/test-pyside2.sh
+      - name: Test PySide6
+        shell: bash -l {0}
+        run: xvfb-run --auto-servernum bash -l ./.github/workflows/test-pyside6.sh
       - name: Upload coverage
         if: matrix.PYTHON_VERSION == '3.8'
         shell: bash -l {0}
@@ -79,6 +81,9 @@ jobs:
       - name: Test PySide2
         shell: bash -l {0}
         run: bash -l ./.github/workflows/test-pyside2.sh
+      - name: Test PySide6
+        shell: bash -l {0}
+        run: bash -l ./.github/workflows/test-pyside6.sh
 
   windows:
     name: Windows Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
@@ -107,3 +112,6 @@ jobs:
       - name: Test PySide2
         shell: bash -l {0}
         run: bash -l ./.github/workflows/test-pyside2.sh
+      - name: Test PySide6
+        shell: bash -l {0}
+        run: bash -l ./.github/workflows/test-pyside6.sh
