@@ -24,7 +24,7 @@ elif PYQT5:
     from PyQt5.QtWidgets import *
 elif PYSIDE6:
     from PySide6.QtWidgets import *
-    from PySide6.QtGui import QAction, QActionGroup
+    from PySide6.QtGui import QAction, QActionGroup, QShortcut
     from PySide6.QtOpenGLWidgets import QOpenGLWidget
     QTextEdit.setTabStopWidth = QTextEdit.setTabStopDistance
     QTextEdit.tabStopWidth = QTextEdit.tabStopDistance
