@@ -60,7 +60,7 @@ def pytest_report_header(config):
     try:
         import PySide6
         from PySide6 import QtCore
-        versions += "PySide: {0} - Qt: {1}".format(PySide6.__version__, QtCore.__version__)
+        versions += f"PySide: {PySide6.__version__} - Qt: {QtCore.__version__}"
     except ImportError:
         versions += 'not installed'
     except AttributeError:
