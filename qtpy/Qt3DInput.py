@@ -7,10 +7,14 @@
 """Provides Qt3DInput classes and functions."""
 
 # Local imports
-from . import PYQT5, PYSIDE2, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
     from PyQt5.Qt3DInput import *
+elif PYQT6:
+    from PyQt6.Qt3DInput import *
+elif PYSIDE6:
+    from PySide6.Qt3DInput.Qt3DInput import *
 elif PYSIDE2:
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import PySide2.Qt3DInput as __temp

@@ -1,7 +1,7 @@
 import pytest
-from qtpy import PYSIDE2, PYSIDE6
+from qtpy import PYSIDE2, PYSIDE6, PYQT6
 
-@pytest.mark.skipif(PYSIDE6, reason="not available with qt 6.0")
+@pytest.mark.skipif((PYSIDE6 or PYQT6), reason="not available with qt 6.0")
 def test_qtxmlpatterns():
     """Test the qtpy.QtXmlPatterns namespace"""
     from qtpy import QtXmlPatterns

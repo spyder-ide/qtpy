@@ -1,7 +1,7 @@
 import pytest
-from qtpy import PYQT5
+from qtpy import PYSIDE2
 
-@pytest.mark.skipif(not PYQT5, reason="Only available in Qt5 bindings, but still not in PySide2")
+@pytest.mark.skipif(PYSIDE2, reason="Not available in CI")
 def test_qtserialport():
     """Test the qtpy.QtSerialPort namespace"""
     from qtpy import QtSerialPort

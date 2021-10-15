@@ -2,7 +2,7 @@ import sys
 
 import pytest
 
-from qtpy import PYSIDE2, PYSIDE6, QT_VERSION
+from qtpy import PYQT6, PYSIDE2, PYSIDE6, QT_VERSION
 from qtpy.QtWidgets import QApplication
 from qtpy.QtWidgets import QHeaderView
 from qtpy.QtCore import Qt
@@ -17,7 +17,7 @@ def get_qapp(icon_path=None):
 
 
 @pytest.mark.skipif(
-    QT_VERSION.startswith('5.15') or PYSIDE6 or
+    QT_VERSION.startswith('5.15') or PYSIDE6 or PYQT6 or
     ((PYSIDE2) and sys.version_info.major == 3 and sys.version_info.minor == 8 and
         (sys.platform == 'darwin' or sys.platform.startswith('linux'))
     ),

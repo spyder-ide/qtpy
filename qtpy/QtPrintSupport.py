@@ -8,11 +8,13 @@
 Provides QtPrintSupport classes and functions.
 """
 
-from . import PYQT5, PYSIDE6, PYSIDE2, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, PythonQtError
 
 
 if PYQT5:
     from PyQt5.QtPrintSupport import *
+elif PYQT6:
+    from PyQt6.QtPrintSupport import *
 elif PYSIDE6:
     from PySide6.QtPrintSupport import *
 elif PYSIDE2:

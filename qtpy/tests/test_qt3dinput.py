@@ -1,7 +1,5 @@
 import pytest
-from qtpy import PYQT5, PYSIDE2
 
-@pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qt3dinput():
     """Test the qtpy.Qt3DInput namespace"""
     Qt3DInput = pytest.importorskip("qtpy.Qt3DInput")
