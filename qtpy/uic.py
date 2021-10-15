@@ -243,10 +243,7 @@ else:
         """
 
         import sys
-        if sys.version_info >= (3, 0):
-            from io import StringIO
-        else:
-            from io import BytesIO as StringIO
+        from io import StringIO
         from xml.etree.ElementTree import ElementTree
         from . import QtWidgets
 
@@ -257,7 +254,7 @@ else:
         widget_class = ui.find('widget').get('class')
         form_class = ui.find('class').text
 
-        with open(uifile, 'r') as fd:
+        with open(uifile) as fd:
             code_stream = StringIO()
             frame = {}
 

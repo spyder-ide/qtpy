@@ -1,6 +1,5 @@
 """Test QDesktopServices split in Qt5."""
 
-from __future__ import absolute_import
 
 import pytest
 import warnings

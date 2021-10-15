@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
 # Copyright © 2020 Marcin Stano
 # Copyright © 2009- The Spyder Development Team

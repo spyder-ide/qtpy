@@ -4,6 +4,5 @@ omit =
     */tests/*
     # Omit other files
     */__init__.py
-    */py3compat.py
     */compat.py
     */_version.py

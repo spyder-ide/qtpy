@@ -1,12 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """
 Setup script for qtpy
 """
 
 import os
-import io
 
 from setuptools import setup, find_packages
 
@@ -16,14 +14,14 @@ version_ns = {}
 with open(os.path.join(HERE, 'qtpy', '_version.py')) as f:
     exec(f.read(), {}, version_ns)
 
-with io.open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
+with open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
 
 setup(
     name='QtPy',
     version=version_ns['__version__'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
-    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*',
+    python_requires='>=3.6',
     keywords=["qt PyQt5 PyQt6 PySide2 PySide6"],
     url='https://github.com/spyder-ide/qtpy',
     license='MIT',
@@ -43,8 +41,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',

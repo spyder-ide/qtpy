@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2009- The Spyder Development Team
 # Licensed under the terms of the MIT License
@@ -7,11 +6,30 @@
 Compatibility functions
 """
 
-from __future__ import print_function
+from collections.abc import Callable
 import sys
 
 from .QtWidgets import QFileDialog
-from .py3compat import Callable, is_text_string, to_text_string, TEXT_TYPES
+
+
+TEXT_TYPES = (str,)
+
+
+def is_text_string(obj):
+    """Return True if `obj` is a text string, False if it is anything else,
+    like binary data."""
+    return isinstance(obj, str)
+
+
+def to_text_string(obj, encoding=None):
+    """Convert `obj` to (unicode) text string"""
+    if encoding is None:
+        return str(obj)
+    elif isinstance(obj, str):
+        # In case this function is not used properly, this could happen
+        return obj
+    else:
+        return str(obj, encoding)
 
 
 # =============================================================================
@@ -60,7 +78,7 @@ def _qfiledialog_wrapper(attr, parent=None, caption='', basedir='',
                          filters='', selectedfilter='', options=None):
     if options is None:
         options = QFileDialog.Options(0)
-    
+
     func = getattr(QFileDialog, attr)
 
     # Calling QFileDialog static method
@@ -68,19 +86,10 @@ def _qfiledialog_wrapper(attr, parent=None, caption='', basedir='',
         # On Windows platforms: redirect standard outputs
         _temp1, _temp2 = sys.stdout, sys.stderr
         sys.stdout, sys.stderr = None, None
-    try:
-        result = func(parent, caption, basedir,
-                      filters, selectedfilter, options)
-    except TypeError:
-        # The selectedfilter option (`initialFilter` in Qt) has only been
-        # introduced in Jan. 2010 for PyQt v4.7, that's why we handle here
-        # the TypeError exception which will be raised with PyQt v4.6
-        # (see Issue 960 for more details)
-        result = func(parent, caption, basedir, filters, options)
-    finally:
-        if sys.platform == "win32":
-            # On Windows platforms: restore standard outputs
-            sys.stdout, sys.stderr = _temp1, _temp2
+    result = func(parent, caption, basedir, filters, selectedfilter, options)
+    if sys.platform == "win32":
+        # On Windows platforms: restore standard outputs
+        sys.stdout, sys.stderr = _temp1, _temp2
 
     output, selectedfilter = result
 

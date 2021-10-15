@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2009- The Spyder Development Team
 # Copyright © 2014-2015 Colin Duquesnoy
@@ -63,7 +62,6 @@ import warnings
 
 # Version of QtPy
 from ._version import __version__
-from .py3compat import PY2
 
 
 class PythonQtError(RuntimeError):

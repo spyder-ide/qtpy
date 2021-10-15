@@ -25,7 +25,7 @@ def pytest_report_header(config):
 
     try:
         from PyQt6 import Qt
-        versions += "PyQt: {0} - Qt: {1}".format(Qt.PYQT_VERSION_STR, Qt.QT_VERSION_STR)
+        versions += f"PyQt: {Qt.PYQT_VERSION_STR} - Qt: {Qt.QT_VERSION_STR}"
     except ImportError:
         versions += 'not installed'
     except AttributeError:
@@ -36,7 +36,7 @@ def pytest_report_header(config):
 
     try:
         from PyQt5 import Qt
-        versions += "PyQt: {0} - Qt: {1}".format(Qt.PYQT_VERSION_STR, Qt.QT_VERSION_STR)
+        versions += f"PyQt: {Qt.PYQT_VERSION_STR} - Qt: {Qt.QT_VERSION_STR}"
     except ImportError:
         versions += 'not installed'
     except AttributeError:
@@ -48,7 +48,7 @@ def pytest_report_header(config):
     try:
         import PySide2
         from PySide2 import QtCore
-        versions += "PySide: {0} - Qt: {1}".format(PySide2.__version__, QtCore.__version__)
+        versions += f"PySide: {PySide2.__version__} - Qt: {QtCore.__version__}"
     except ImportError:
         versions += 'not installed'
     except AttributeError:
@@ -60,7 +60,7 @@ def pytest_report_header(config):
     try:
         import PySide6
         from PySide6 import QtCore
-        versions += "PySide: {0} - Qt: {1}".format(PySide6.__version__, QtCore.__version__)
+        versions += f"PySide: {PySide6.__version__} - Qt: {QtCore.__version__}"
     except ImportError:
         versions += 'not installed'
     except AttributeError:

@@ -1,86 +1,88 @@
-from __future__ import absolute_import
-
-import sys
-
 import pytest
-from qtpy import PYQT5, PYSIDE2
-from qtpy.py3compat import PY3
 
-@pytest.mark.skipif(
-    sys.platform != "win32" or not (PYQT5 or PYSIDE2) or PY3,
-    reason="Only available in Qt5 bindings and Python 2 on Windows")
+from qtpy import PYQT5, PYSIDE2
+
+
+@pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qtdatavisualization():
     """Test the qtpy.QtDataVisualization namespace"""
+    # Using import skip here since with Python 3 you need to install another package
+    # besides the base `PyQt5` or `PySide2`.
+    # For example in the case of `PyQt5` you need `PyQtDataVisualization`
+
     # QtDataVisualization
-    assert qtpy.QtDataVisualization.QScatter3DSeries is not None
-    assert qtpy.QtDataVisualization.QSurfaceDataItem is not None
-    assert qtpy.QtDataVisualization.QSurface3DSeries is not None
-    assert qtpy.QtDataVisualization.QAbstract3DInputHandler is not None
-    assert qtpy.QtDataVisualization.QHeightMapSurfaceDataProxy is not None
-    assert qtpy.QtDataVisualization.QAbstractDataProxy is not None
-    assert qtpy.QtDataVisualization.Q3DCamera is not None
-    assert qtpy.QtDataVisualization.QAbstract3DGraph is not None
-    assert qtpy.QtDataVisualization.QCustom3DVolume is not None
-    assert qtpy.QtDataVisualization.Q3DInputHandler is not None
-    assert qtpy.QtDataVisualization.QBarDataProxy is not None
-    assert qtpy.QtDataVisualization.QSurfaceDataProxy is not None
-    assert qtpy.QtDataVisualization.QScatterDataItem is not None
-    assert qtpy.QtDataVisualization.Q3DLight is not None
-    assert qtpy.QtDataVisualization.QScatterDataProxy is not None
-    assert qtpy.QtDataVisualization.QValue3DAxis is not None
-    assert qtpy.QtDataVisualization.Q3DBars is not None
-    assert qtpy.QtDataVisualization.QBarDataItem is not None
-    assert qtpy.QtDataVisualization.QItemModelBarDataProxy is not None
-    assert qtpy.QtDataVisualization.Q3DTheme is not None
-    assert qtpy.QtDataVisualization.QCustom3DItem is not None
-    assert qtpy.QtDataVisualization.QItemModelScatterDataProxy is not None
-    assert qtpy.QtDataVisualization.QValue3DAxisFormatter is not None
-    assert qtpy.QtDataVisualization.QItemModelSurfaceDataProxy is not None
-    assert qtpy.QtDataVisualization.Q3DScatter is not None
-    assert qtpy.QtDataVisualization.QTouch3DInputHandler is not None
-    assert qtpy.QtDataVisualization.QBar3DSeries is not None
-    assert qtpy.QtDataVisualization.QAbstract3DAxis is not None
-    assert qtpy.QtDataVisualization.Q3DScene is not None
-    assert qtpy.QtDataVisualization.QCategory3DAxis is not None
-    assert qtpy.QtDataVisualization.QAbstract3DSeries is not None
-    assert qtpy.QtDataVisualization.Q3DObject is not None
-    assert qtpy.QtDataVisualization.QCustom3DLabel is not None
-    assert qtpy.QtDataVisualization.Q3DSurface is not None
-    assert qtpy.QtDataVisualization.QLogValue3DAxisFormatter is not None
+    QtDataVisualization = pytest.importorskip("qtpy.QtDataVisualization")
+    assert QtDataVisualization.QScatter3DSeries is not None
+    assert QtDataVisualization.QSurfaceDataItem is not None
+    assert QtDataVisualization.QSurface3DSeries is not None
+    assert QtDataVisualization.QAbstract3DInputHandler is not None
+    assert QtDataVisualization.QHeightMapSurfaceDataProxy is not None
+    assert QtDataVisualization.QAbstractDataProxy is not None
+    assert QtDataVisualization.Q3DCamera is not None
+    assert QtDataVisualization.QAbstract3DGraph is not None
+    assert QtDataVisualization.QCustom3DVolume is not None
+    assert QtDataVisualization.Q3DInputHandler is not None
+    assert QtDataVisualization.QBarDataProxy is not None
+    assert QtDataVisualization.QSurfaceDataProxy is not None
+    assert QtDataVisualization.QScatterDataItem is not None
+    assert QtDataVisualization.Q3DLight is not None
+    assert QtDataVisualization.QScatterDataProxy is not None
+    assert QtDataVisualization.QValue3DAxis is not None
+    assert QtDataVisualization.Q3DBars is not None
+    assert QtDataVisualization.QBarDataItem is not None
+    assert QtDataVisualization.QItemModelBarDataProxy is not None
+    assert QtDataVisualization.Q3DTheme is not None
+    assert QtDataVisualization.QCustom3DItem is not None
+    assert QtDataVisualization.QItemModelScatterDataProxy is not None
+    assert QtDataVisualization.QValue3DAxisFormatter is not None
+    assert QtDataVisualization.QItemModelSurfaceDataProxy is not None
+    assert QtDataVisualization.Q3DScatter is not None
+    assert QtDataVisualization.QTouch3DInputHandler is not None
+    assert QtDataVisualization.QBar3DSeries is not None
+    assert QtDataVisualization.QAbstract3DAxis is not None
+    assert QtDataVisualization.Q3DScene is not None
+    assert QtDataVisualization.QCategory3DAxis is not None
+    assert QtDataVisualization.QAbstract3DSeries is not None
+    assert QtDataVisualization.Q3DObject is not None
+    assert QtDataVisualization.QCustom3DLabel is not None
+    assert QtDataVisualization.Q3DSurface is not None
+    assert QtDataVisualization.QLogValue3DAxisFormatter is not None
 
     # QtDatavisualization
-    assert qtpy.QtDatavisualization.QScatter3DSeries is not None
-    assert qtpy.QtDatavisualization.QSurfaceDataItem is not None
-    assert qtpy.QtDatavisualization.QSurface3DSeries is not None
-    assert qtpy.QtDatavisualization.QAbstract3DInputHandler is not None
-    assert qtpy.QtDatavisualization.QHeightMapSurfaceDataProxy is not None
-    assert qtpy.QtDatavisualization.QAbstractDataProxy is not None
-    assert qtpy.QtDatavisualization.Q3DCamera is not None
-    assert qtpy.QtDatavisualization.QAbstract3DGraph is not None
-    assert qtpy.QtDatavisualization.QCustom3DVolume is not None
-    assert qtpy.QtDatavisualization.Q3DInputHandler is not None
-    assert qtpy.QtDatavisualization.QBarDataProxy is not None
-    assert qtpy.QtDatavisualization.QSurfaceDataProxy is not None
-    assert qtpy.QtDatavisualization.QScatterDataItem is not None
-    assert qtpy.QtDatavisualization.Q3DLight is not None
-    assert qtpy.QtDatavisualization.QScatterDataProxy is not None
-    assert qtpy.QtDatavisualization.QValue3DAxis is not None
-    assert qtpy.QtDatavisualization.Q3DBars is not None
-    assert qtpy.QtDatavisualization.QBarDataItem is not None
-    assert qtpy.QtDatavisualization.QItemModelBarDataProxy is not None
-    assert qtpy.QtDatavisualization.Q3DTheme is not None
-    assert qtpy.QtDatavisualization.QCustom3DItem is not None
-    assert qtpy.QtDatavisualization.QItemModelScatterDataProxy is not None
-    assert qtpy.QtDatavisualization.QValue3DAxisFormatter is not None
-    assert qtpy.QtDatavisualization.QItemModelSurfaceDataProxy is not None
-    assert qtpy.QtDatavisualization.Q3DScatter is not None
-    assert qtpy.QtDatavisualization.QTouch3DInputHandler is not None
-    assert qtpy.QtDatavisualization.QBar3DSeries is not None
-    assert qtpy.QtDatavisualization.QAbstract3DAxis is not None
-    assert qtpy.QtDatavisualization.Q3DScene is not None
-    assert qtpy.QtDatavisualization.QCategory3DAxis is not None
-    assert qtpy.QtDatavisualization.QAbstract3DSeries is not None
-    assert qtpy.QtDatavisualization.Q3DObject is not None
-    assert qtpy.QtDatavisualization.QCustom3DLabel is not None
-    assert qtpy.QtDatavisualization.Q3DSurface is not None
-    assert qtpy.QtDatavisualization.QLogValue3DAxisFormatter is not None
+    QtDatavisualization = pytest.importorskip("qtpy.QtDatavisualization")
+
+    assert QtDatavisualization.QScatter3DSeries is not None
+    assert QtDatavisualization.QSurfaceDataItem is not None
+    assert QtDatavisualization.QSurface3DSeries is not None
+    assert QtDatavisualization.QAbstract3DInputHandler is not None
+    assert QtDatavisualization.QHeightMapSurfaceDataProxy is not None
+    assert QtDatavisualization.QAbstractDataProxy is not None
+    assert QtDatavisualization.Q3DCamera is not None
+    assert QtDatavisualization.QAbstract3DGraph is not None
+    assert QtDatavisualization.QCustom3DVolume is not None
+    assert QtDatavisualization.Q3DInputHandler is not None
+    assert QtDatavisualization.QBarDataProxy is not None
+    assert QtDatavisualization.QSurfaceDataProxy is not None
+    assert QtDatavisualization.QScatterDataItem is not None
+    assert QtDatavisualization.Q3DLight is not None
+    assert QtDatavisualization.QScatterDataProxy is not None
+    assert QtDatavisualization.QValue3DAxis is not None
+    assert QtDatavisualization.Q3DBars is not None
+    assert QtDatavisualization.QBarDataItem is not None
+    assert QtDatavisualization.QItemModelBarDataProxy is not None
+    assert QtDatavisualization.Q3DTheme is not None
+    assert QtDatavisualization.QCustom3DItem is not None
+    assert QtDatavisualization.QItemModelScatterDataProxy is not None
+    assert QtDatavisualization.QValue3DAxisFormatter is not None
+    assert QtDatavisualization.QItemModelSurfaceDataProxy is not None
+    assert QtDatavisualization.Q3DScatter is not None
+    assert QtDatavisualization.QTouch3DInputHandler is not None
+    assert QtDatavisualization.QBar3DSeries is not None
+    assert QtDatavisualization.QAbstract3DAxis is not None
+    assert QtDatavisualization.Q3DScene is not None
+    assert QtDatavisualization.QCategory3DAxis is not None
+    assert QtDatavisualization.QAbstract3DSeries is not None
+    assert QtDatavisualization.Q3DObject is not None
+    assert QtDatavisualization.QCustom3DLabel is not None
+    assert QtDatavisualization.Q3DSurface is not None
+    assert QtDatavisualization.QLogValue3DAxisFormatter is not None
