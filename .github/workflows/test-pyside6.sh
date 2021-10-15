@@ -9,7 +9,7 @@ if [ "$USE_CONDA" = "Yes" ]; then
     exit 0
 else
     # Simple solution to avoid failures with the Qt3D modules
-    conda install coveralls mock pytest pytest-cov python="$PYTHON_VERSION" -c conda-forge -q
+    conda install -q coveralls pytest pytest-cov python="$PYTHON_VERSION" -c conda-forge
     pip install -q pyside6==6.2.0
 fi
 
