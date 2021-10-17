@@ -182,7 +182,7 @@ if API in PYSIDE6_API:
         PYSIDE6 = True
 
     except ImportError:
-        API = os.environ['QT_API'] = 'pyqt'
+        API = os.environ['QT_API'] = 'pyqt5'
 
 
 # If a correct API name is passed to QT_API and it could not be found,
