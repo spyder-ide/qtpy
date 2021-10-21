@@ -17,7 +17,7 @@ def test_DateTime_toPython():
 
 
 @pytest.mark.skipif(PYSIDE2 or PYQT6,
-                    reason="Doesn't seem to be present on PySide2")
+                    reason="Doesn't seem to be present on PySide2 and PyQt6")
 def test_QtCore_SignalInstance():
     class ClassWithSignal(QtCore.QObject):
         signal = QtCore.Signal()

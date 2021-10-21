@@ -1,10 +1,9 @@
 import pytest
 from qtpy import PYSIDE2, PYSIDE6, PYQT5, PYQT6
 
-@pytest.mark.skipif(True, reason="Not available in CI")
 def test_qtremoteobjects():
     """Test the qtpy.QtRemoteObjects namespace"""
-    from qtpy import QtRemoteObjects
+    QtRemoteObjects = pytest.importorskip("qtpy.QtRemoteObjects")
 
     assert QtRemoteObjects.QRemoteObjectAbstractPersistedStore is not None
     assert QtRemoteObjects.QRemoteObjectDynamicReplica is not None
