@@ -1,9 +1,6 @@
 import pytest
 
-from qtpy import PYQT5, PYSIDE2
 
-
-@pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qtdatavisualization():
     """Test the qtpy.QtDataVisualization namespace"""
     # Using import skip here since with Python 3 you need to install another package

@@ -1,5 +1,5 @@
 import pytest
-from qtpy import PYSIDE2, PYSIDE6, QtNetwork
+from qtpy import PYSIDE2, PYSIDE6, PYQT6, QtNetwork
 
 
 def test_qtnetwork():
@@ -15,7 +15,7 @@ def test_qtnetwork():
     assert QtNetwork.QNetworkDiskCache is not None
     assert QtNetwork.QNetworkReply is not None
     assert QtNetwork.QNetworkRequest is not None
-    if not PYSIDE6:
+    if not (PYSIDE6 or PYQT6):
         assert QtNetwork.QNetworkConfigurationManager is not None
         assert QtNetwork.QNetworkConfiguration is not None
         assert QtNetwork.QNetworkSession is not None
