@@ -1,4 +1,5 @@
 import pytest
+
 from qtpy import PYSIDE2, PYSIDE6
 
 
@@ -6,4 +7,4 @@ from qtpy import PYSIDE2, PYSIDE6
 def test_qtcharts():
     """Test the qtpy.QtCharts namespace"""
     from qtpy import QtCharts
-    assert QtCharts.QtCharts.QChart is not None
+    assert QtCharts.QChart is not None
