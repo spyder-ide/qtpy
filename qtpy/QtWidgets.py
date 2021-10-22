@@ -19,6 +19,8 @@ if PYQT6:
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = QDialog.exec
     QMenu.exec_ = QMenu.exec
+    QTextEdit.print_ = QTextEdit.print
+    QPlainTextEdit.print_ = QPlainTextEdit.print
 elif PYQT5:
     from PyQt5.QtWidgets import *
 elif PYSIDE6:

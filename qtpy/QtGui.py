@@ -17,6 +17,7 @@ if PYQT6:
     from PyQt6.QtGui import *
     QDrag.exec_ = QDrag.exec
     QGuiApplication.exec_ = QGuiApplication.exec
+    QTextDocument.print_ = QTextDocument.print
 elif PYQT5:
     from PyQt5.QtGui import *
 elif PYSIDE2:
