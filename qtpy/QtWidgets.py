@@ -15,6 +15,7 @@ from ._patch.qheaderview import introduce_renamed_methods_qheaderview
 if PYQT6:
     from PyQt6.QtWidgets import *
     from PyQt6.QtGui import QAction, QActionGroup
+    from PyQt6.QtOpenGLWidgets import QOpenGLWidget
 elif PYQT5:
     from PyQt5.QtWidgets import *
 elif PYSIDE6:
