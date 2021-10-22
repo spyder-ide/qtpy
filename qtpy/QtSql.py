@@ -13,6 +13,9 @@ if PYQT5:
     from PyQt5.QtSql import *
 elif PYQT6:
     from PyQt6.QtSql import *
+    QSqlDatabase.exec_ = QSqlDatabase.exec
+    QSqlQuery.exec_ = QSqlQuery.exec
+    QSqlResult.exec_ = QSqlResult.exec
 elif PYSIDE6:
     from PySide6.QtSql import *
 elif PYSIDE2:

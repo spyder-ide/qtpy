@@ -16,6 +16,9 @@ if PYQT6:
     from PyQt6.QtWidgets import *
     from PyQt6.QtGui import QAction, QActionGroup, QShortcut
     from PyQt6.QtOpenGLWidgets import QOpenGLWidget
+    QApplication.exec_ = QApplication.exec
+    QDialog.exec_ = QDialog.exec
+    QMenu.exec_ = QMenu.exec
 elif PYQT5:
     from PyQt5.QtWidgets import *
 elif PYSIDE6:
