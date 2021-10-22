@@ -16,6 +16,10 @@ if PYQT6:
     from PyQt6.QtCore import pyqtSignal as Signal
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
+    QCoreApplication.exec_ = QCoreApplication.exec
+    QEventLoop.exec_ = QEventLoop.exec
+    QThread.exec_ = QThread.exec
+
 elif PYQT5:
     from PyQt5.QtCore import *
     from PyQt5.QtCore import pyqtSignal as Signal
