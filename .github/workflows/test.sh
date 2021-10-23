@@ -35,13 +35,13 @@ else
 fi
 
 # Install package
-pip install -e .
+python -bb -X dev -W error -m pip install -e .
 
 # Print environment information
 conda list
 
 # Run tests
-python qtpy/tests/runtests.py
+python -I -bb -X dev -W error -m pytest qtpy
 
 # Deactivate conda env after
 conda deactivate
