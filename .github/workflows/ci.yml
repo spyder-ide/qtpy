@@ -25,9 +25,11 @@ jobs:
       PYTHON_VERSION: ${{ matrix.python-version }}
       USE_CONDA: ${{ matrix.use-conda }}
       PYQT5_VERSION: ${{ matrix.pyqt5-version }}
+      PYQT6_VERSION: ${{ matrix.pyqt6-version }}
       PYSIDE2_VERSION: ${{ matrix.pyside2-version }}
       PYSIDE6_VERSION: ${{ matrix.pyside6-version }}
       PYQT5_QT_VERSION: ${{ matrix.pyqt5-qt-version }}
+      PYQT6_QT_VERSION: ${{ matrix.pyqt6-qt-version }}
       PYSIDE2_QT_VERSION: ${{ matrix.pyside2-qt-version }}
       PYSIDE6_QT_VERSION: ${{ matrix.pyside6-qt-version }}
     strategy:
@@ -51,6 +53,7 @@ jobs:
           python-version: '3.6'
           use-conda: 'No'
           special-invocation: 'xvfb-run --auto-servernum '
+          skip-pyqt6: true  # No wheels on Py 3.6 Linux CIs
           pyside2-version: 5.12.0  # 5.12.1-5.12.6 core dumps on patch test
         - os: windows-latest
           python-version: '3.9'
@@ -79,6 +82,7 @@ jobs:
         - os: macos-latest
           python-version: '3.6'
           use-conda: 'No'
+          skip-pyqt6: true  # No wheels on Py 3.6 macOS CIs
           pyside2-version: 5.12.0  # 5.12.1-5.12.6 fails on test collection
     steps:
       - name: Checkout branch
@@ -104,6 +108,9 @@ jobs:
       - name: Test PyQt5
         if: (! matrix.skip-pyqt5)
         run: ./.github/workflows/test.sh pyqt5
+      - name: Test PyQt6
+        if: always() && (! ((matrix.skip-pyqt6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Qt6/PyQt6
+        run: ./.github/workflows/test.sh pyqt6
       - name: Test PySide2
         if: always() && (! (matrix.skip-pyside2))
         run: ./.github/workflows/test.sh pyside2
