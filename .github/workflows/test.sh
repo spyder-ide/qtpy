@@ -15,7 +15,9 @@ conda activate test-${1}
 if [ "$USE_CONDA" = "Yes" ]; then
 
     if [ "${1}" = "pyqt5" ]; then
-        conda install -q pyqt=${PYQT5_VERSION:-"5.12"}
+        conda install -q qt=${PYQT5_QT_VERSION:-"5.12"} pyqt=${PYQT5_VERSION:-"5"}
+    elif [ "${1}" = "pyside2" ]; then
+        conda install -q qt=${PYSIDE2_QT_VERSION:-"5.12"} pyside2=${PYSIDE2_VERSION:-"5"}
     else
         exit 1
     fi

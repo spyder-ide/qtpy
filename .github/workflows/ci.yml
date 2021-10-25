@@ -27,6 +27,9 @@ jobs:
       PYQT5_VERSION: ${{ matrix.pyqt5-version }}
       PYSIDE2_VERSION: ${{ matrix.pyside2-version }}
       PYSIDE6_VERSION: ${{ matrix.pyside6-version }}
+      PYQT5_QT_VERSION: ${{ matrix.pyqt5-qt-version }}
+      PYSIDE2_QT_VERSION: ${{ matrix.pyside2-qt-version }}
+      PYSIDE6_QT_VERSION: ${{ matrix.pyside6-qt-version }}
     strategy:
       fail-fast: false
       matrix:
@@ -55,11 +58,11 @@ jobs:
         - os: windows-latest
           python-version: '3.8'
           use-conda: 'No'
-          skip-pyside2: true  # No wheel on Windows and Python 3.8
+          pyside2-version: 5.15  # No 5.12 wheel on Windows and Python 3.8
         - os: windows-latest
           python-version: '3.6'
           use-conda: 'Yes'
-          pyqt5-version: '5.9'
+          pyqt5-qt-version: '5.9'
         - os: windows-latest
           python-version: '3.6'
           use-conda: 'No'
@@ -102,10 +105,10 @@ jobs:
         if: (! matrix.skip-pyqt5)
         run: ./.github/workflows/test.sh pyqt5
       - name: Test PySide2
-        if: always() && (! ((matrix.skip-pyside2) || (matrix.use-conda == 'Yes')))  # No conda packages for Pyside2?
+        if: always() && (! (matrix.skip-pyside2))
         run: ./.github/workflows/test.sh pyside2
       - name: Test PySide6
-        if: always() && (! ((matrix.skip-pyside6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Pyside6
+        if: always() && (! ((matrix.skip-pyside6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Qt6/Pyside6
         run: ./.github/workflows/test.sh pyside6
       - name: Upload coverage data to coveralls.io
         if: matrix.coverage
