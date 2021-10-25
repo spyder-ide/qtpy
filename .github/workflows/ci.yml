@@ -35,12 +35,12 @@ jobs:
       matrix:
         include:
         - os: ubuntu-latest
-          python-version: '3.8'
+          python-version: '3.9'
           use-conda: 'Yes'
           special-invocation: 'xvfb-run --auto-servernum '
           coverage: 'True'
         - os: ubuntu-latest
-          python-version: '3.8'
+          python-version: '3.9'
           use-conda: 'No'
           special-invocation: 'xvfb-run --auto-servernum '
         - os: ubuntu-latest
@@ -53,12 +53,12 @@ jobs:
           special-invocation: 'xvfb-run --auto-servernum '
           pyside2-version: 5.12.0  # 5.12.1-5.12.6 core dumps on patch test
         - os: windows-latest
-          python-version: '3.8'
+          python-version: '3.9'
           use-conda: 'Yes'
         - os: windows-latest
-          python-version: '3.8'
+          python-version: '3.9'
           use-conda: 'No'
-          pyside2-version: 5.15  # No 5.12 wheel on Windows and Python 3.8
+          pyside2-version: 5.15  # No 5.12 wheel on Windows and Python 3.9
         - os: windows-latest
           python-version: '3.6'
           use-conda: 'Yes'
@@ -68,10 +68,10 @@ jobs:
           use-conda: 'No'
           pyside2-version: 5.12.0  # 5.12.1-5.12.6 fails on test collection
         - os: macos-latest
-          python-version: '3.8'
+          python-version: '3.9'
           use-conda: 'Yes'
         - os: macos-latest
-          python-version: '3.8'
+          python-version: '3.9'
           use-conda: 'No'
         - os: macos-latest
           python-version: '3.6'
