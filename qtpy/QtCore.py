@@ -43,8 +43,6 @@ elif PYSIDE6:
    # obsolete in qt6
    Qt.BackgroundColorRole = Qt.BackgroundRole
    Qt.TextColorRole = Qt.ForegroundRole
-   Qt.BackgroundColorRole = Qt.BackgroundRole
-   Qt.TextColorRole = Qt.ForegroundRole
    Qt.MidButton = Qt.MiddleButton
 
 elif PYSIDE2:
