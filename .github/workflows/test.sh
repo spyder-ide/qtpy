@@ -34,14 +34,17 @@ else
 
 fi
 
-# Install package
-python -bb -X dev -W error -m pip install -e .
+# Build wheel of package
+git clean -xdf
+python -bb -X dev -W error setup.py sdist bdist_wheel
+
+# Install package from build wheel
+echo dist/*.whl | xargs -I % python -bb -X dev -W error -m pip install --upgrade %
 
 # Print environment information
 conda list
 
 # Run tests
-python -I -bb -X dev -W error -m pytest qtpy
-
-# Deactivate conda env after
-conda deactivate
+cd qtpy
+python -I -bb -X dev -W error -m pytest --cov-config ../.coveragerc
+cd ..
