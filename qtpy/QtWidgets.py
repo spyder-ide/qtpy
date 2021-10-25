@@ -16,6 +16,10 @@ if PYQT6:
     from PyQt6.QtWidgets import *
     from PyQt6.QtGui import QAction, QActionGroup, QShortcut
     from PyQt6.QtOpenGLWidgets import QOpenGLWidget
+    QTextEdit.setTabStopWidth = QTextEdit.setTabStopDistance
+    QTextEdit.tabStopWidth = QTextEdit.tabStopDistance
+    QPlainTextEdit.setTabStopWidth = QPlainTextEdit.setTabStopDistance
+    QPlainTextEdit.tabStopWidth = QPlainTextEdit.tabStopDistance
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = QDialog.exec
     QMenu.exec_ = QMenu.exec
