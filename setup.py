@@ -22,6 +22,7 @@ setup(
     version=version_ns['__version__'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     python_requires='>=3.6',
+    install_requires=['packaging'],
     keywords=["qt PyQt5 PyQt6 PySide2 PySide6"],
     url='https://github.com/spyder-ide/qtpy',
     license='MIT',

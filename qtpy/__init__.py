@@ -54,7 +54,7 @@ PySide6
 
 """
 
-from distutils.version import LooseVersion
+from packaging.version import parse
 import os
 import platform
 import sys
@@ -121,15 +121,15 @@ if API in PYQT5_API:
         PYSIDE_VERSION = None
 
         if sys.platform == 'darwin':
-            macos_version = LooseVersion(platform.mac_ver()[0])
-            if macos_version < LooseVersion('10.10'):
-                if LooseVersion(QT_VERSION) >= LooseVersion('5.9'):
+            macos_version = parse(platform.mac_ver()[0])
+            if macos_version < parse('10.10'):
+                if parse(QT_VERSION) >= parse('5.9'):
                     raise PythonQtError("Qt 5.9 or higher only works in "
                                         "macOS 10.10 or higher. Your "
                                         "program will fail in this "
                                         "system.")
-            elif macos_version < LooseVersion('10.11'):
-                if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
+            elif macos_version < parse('10.11'):
+                if parse(QT_VERSION) >= parse('5.11'):
                     raise PythonQtError("Qt 5.11 or higher only works in "
                                         "macOS 10.11 or higher. Your "
                                         "program will fail in this "
@@ -160,9 +160,9 @@ if API in PYSIDE2_API:
         PYSIDE2 = True
 
         if sys.platform == 'darwin':
-            macos_version = LooseVersion(platform.mac_ver()[0])
-            if macos_version < LooseVersion('10.11'):
-                if LooseVersion(QT_VERSION) >= LooseVersion('5.11'):
+            macos_version = parse(platform.mac_ver()[0])
+            if macos_version < parse('10.11'):
+                if parse(QT_VERSION) >= parse('5.11'):
                     raise PythonQtError("Qt 5.11 or higher only works in "
                                         "macOS 10.11 or higher. Your "
                                         "program will fail in this "
