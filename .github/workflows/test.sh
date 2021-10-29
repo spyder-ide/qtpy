@@ -40,7 +40,7 @@ fi
 
 # Build wheel of package
 git clean -xdf
-python -bb -X dev -W error setup.py sdist bdist_wheel
+python -bb -X dev setup.py sdist bdist_wheel  # Needs migration to modern PEP 517-based build backend
 
 # Install package from build wheel
 echo dist/*.whl | xargs -I % python -bb -X dev -W error -m pip install --upgrade %
@@ -49,6 +49,5 @@ echo dist/*.whl | xargs -I % python -bb -X dev -W error -m pip install --upgrade
 conda list
 
 # Run tests
-cd qtpy
+cd qtpy  # Hack to work around non-src layout pulling in local instead of installed package for cov
 python -I -bb -X dev -W error -m pytest --cov-config ../.coveragerc
-cd ..

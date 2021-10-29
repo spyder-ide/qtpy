@@ -103,5 +103,6 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: 'xh75EzxFFMoTEyNPo3wXxXv8OVkul3eE5'
         run: |
+          cd qtpy  # Switch to test working dir per non-src-layout hack
           python3 -m pip install --upgrade coveralls
           python3 -m coveralls --service=github-actions || true
