@@ -1,31 +1,75 @@
+# Run the project's test suite
 name: Tests
 
 on:
-  # This avoids having duplicate builds for a pull request
   push:
     branches:
     - master
+    - main
+    - '*.x'
   pull_request:
     branches:
     - master
+    - main
+    - '*.x'
 
 jobs:
-  linux:
-    name: Linux Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
-    runs-on: ubuntu-latest
+  test:
+    name: Test ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: ${{ matrix.special-invocation }}bash -l {0}
     env:
-      CI: True
-      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
-      USE_CONDA: ${{ matrix.USE_CONDA }}
+      CI: 'True'
+      PYTHON_VERSION: ${{ matrix.python-version }}
+      USE_CONDA: ${{ matrix.use-conda }}
+      PYQT5_VERSION: ${{ matrix.pyqt5-version }}
+      PYQT6_VERSION: ${{ matrix.pyqt6-version }}
+      PYSIDE2_VERSION: ${{ matrix.pyside2-version }}
+      PYSIDE6_VERSION: ${{ matrix.pyside6-version }}
+      PYQT5_QT_VERSION: ${{ matrix.pyqt5-qt-version }}
+      PYQT6_QT_VERSION: ${{ matrix.pyqt6-qt-version }}
+      PYSIDE2_QT_VERSION: ${{ matrix.pyside2-qt-version }}
+      PYSIDE6_QT_VERSION: ${{ matrix.pyside6-qt-version }}
     strategy:
       fail-fast: false
       matrix:
-        PYTHON_VERSION: ['3.6', '3.8']
-        USE_CONDA: ['Yes', 'No']
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.6', '3.9']
+        use-conda: ['Yes', 'No']
+        include:
+        - os: ubuntu-latest
+          special-invocation: 'xvfb-run --auto-servernum '
+        - python-version: '3.6'
+          use-conda: 'No'
+          pyside2-version: 5.12.0  # 5.12.1-5.12.6 fails on collection/segfaults on patch test
+        - os: ubuntu-latest
+          python-version: '3.9'
+          use-conda: 'Yes'
+          coverage: 'True'  # Collect coverage only from this run, currently
+        - os: ubuntu-latest
+          python-version: '3.6'
+          use-conda: 'No'
+          skip-pyqt6: true  # No wheels on Py 3.6 Linux CIs
+        - os: windows-latest
+          python-version: '3.9'
+          use-conda: 'No'
+          pyside2-version: 5.15  # No 5.12 wheel on Windows and Python 3.9
+        - os: windows-latest
+          python-version: '3.6'
+          use-conda: 'Yes'
+          pyqt5-qt-version: '5.9'  # 5.12 is apparently unreliable here
+        - os: macos-latest
+          python-version: '3.6'
+          use-conda: 'No'
+          skip-pyqt6: true  # No wheels on Py 3.6 macOS CIs
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
-      - name: Install System Packages
+      - name: Install Linux system packages
+        if: contains(matrix.os, 'ubuntu')
+        shell: bash
         run: |
           sudo apt update
           sudo apt install libpulse-dev libegl1-mesa libopengl0
@@ -33,82 +77,31 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
            activate-environment: ''
+           auto-activate-base: true
            auto-update-conda: true
-           auto-activate-base: false
-      - name: Test PyQt5
+           channels: conda-forge
+      - name: Print Conda info
         shell: bash -l {0}
         run: |
-          eval "$(conda shell.bash hook)"
-          xvfb-run --auto-servernum bash -l ./.github/workflows/test-pyqt5.sh
-      - name: Test PySide2
-        shell: bash -l {0}
-        run: xvfb-run --auto-servernum bash -l ./.github/workflows/test-pyside2.sh
-      - name: Test PySide6
-        shell: bash -l {0}
-        run: xvfb-run --auto-servernum bash -l ./.github/workflows/test-pyside6.sh
-      - name: Upload coverage
-        if: matrix.PYTHON_VERSION == '3.8'
-        shell: bash -l {0}
-        run: bash -l ./.github/workflows/coverage.sh
-
-  macos:
-    name: Mac Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
-    runs-on: macos-latest
-    env:
-      CI: True
-      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
-      USE_CONDA: ${{ matrix.USE_CONDA }}
-    strategy:
-      fail-fast: false
-      matrix:
-        PYTHON_VERSION: ['3.6', '3.8']
-        USE_CONDA: ['Yes', 'No']
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-      - name: Install Conda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-           activate-environment: ''
-           auto-update-conda: true
-           auto-activate-base: false
+          conda info
+          conda list
       - name: Test PyQt5
-        shell: bash -l {0}
-        run: bash -l ./.github/workflows/test-pyqt5.sh
+        if: (! matrix.skip-pyqt5)
+        run: ./.github/workflows/test.sh pyqt5
+      - name: Test PyQt6
+        if: always() && (! ((matrix.skip-pyqt6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Qt6/PyQt6
+        run: ./.github/workflows/test.sh pyqt6
       - name: Test PySide2
-        shell: bash -l {0}
-        run: bash -l ./.github/workflows/test-pyside2.sh
+        if: always() && (! (matrix.skip-pyside2))
+        run: ./.github/workflows/test.sh pyside2
       - name: Test PySide6
-        shell: bash -l {0}
-        run: bash -l ./.github/workflows/test-pyside6.sh
-
-  windows:
-    name: Windows Py${{ matrix.PYTHON_VERSION }} conda=${{ matrix.USE_CONDA }}
-    runs-on: windows-latest
-    env:
-      CI: True
-      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
-      USE_CONDA: ${{ matrix.USE_CONDA }}
-    strategy:
-      fail-fast: false
-      matrix:
-        PYTHON_VERSION: ['3.6', '3.8']
-        USE_CONDA: ['Yes', 'No']
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-      - name: Install Conda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-           activate-environment: ''
-           auto-update-conda: true
-           auto-activate-base: true
-      - name: Test PyQt5
-        shell: bash -l {0}
-        run: bash -l ./.github/workflows/test-pyqt5.sh
-      - name: Test PySide2
-        shell: bash -l {0}
-        run: bash -l ./.github/workflows/test-pyside2.sh
-      - name: Test PySide6
-        shell: bash -l {0}
-        run: bash -l ./.github/workflows/test-pyside6.sh
+        if: always() && (! ((matrix.skip-pyside6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Qt6/Pyside6
+        run: ./.github/workflows/test.sh pyside6
+      - name: Upload coverage data to coveralls.io
+        if: matrix.coverage
+        shell: bash
+        env:
+          COVERALLS_REPO_TOKEN: 'xh75EzxFFMoTEyNPo3wXxXv8OVkul3eE5'
+        run: |
+          python3 -m pip install --upgrade coveralls
+          python3 -m coveralls --service=github-actions || true

@@ -2,9 +2,7 @@ import os
 
 
 def pytest_configure(config):
-    """
-    This function gets run by py.test at the very start
-    """
+    """Configure the test environment."""
 
     if 'USE_QT_API' in os.environ:
         os.environ['QT_API'] = os.environ['USE_QT_API'].lower()
@@ -15,10 +13,7 @@ def pytest_configure(config):
 
 
 def pytest_report_header(config):
-    """
-    This function is used by py.test to insert a customized header into the
-    test report.
-    """
+    """Insert a customized header into the test report."""
 
     versions = os.linesep
     versions += 'PyQt6: '
@@ -67,5 +62,5 @@ def pytest_report_header(config):
         versions += 'unknown version'
 
     versions += os.linesep
-    
+
     return versions
