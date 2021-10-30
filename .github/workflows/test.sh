@@ -8,9 +8,12 @@ if [ "$USE_CONDA" = "No" ]; then
     CONDA_CHANNEL_ARG="-c anaconda"
 fi
 
+# Remove any existing env
+conda remove -q -n test-env ${CONDA_CHANNEL_ARG} --all || true
+
 # Create and activate conda environment for this test
-conda create -q -n test-${1} ${CONDA_CHANNEL_ARG} python=${PYTHON_VERSION} pytest pytest-cov
-conda activate test-${1}
+conda create -q -n test-env ${CONDA_CHANNEL_ARG} python=${PYTHON_VERSION} pytest pytest-cov
+conda activate test-env
 
 if [ "$USE_CONDA" = "Yes" ]; then
 
@@ -39,7 +42,7 @@ else
 fi
 
 # Build wheel of package
-git clean -xdf
+git clean -xdf -e *.coverage
 python -bb -X dev setup.py sdist bdist_wheel  # Needs migration to modern PEP 517-based build backend
 
 # Install package from build wheel
@@ -50,4 +53,7 @@ conda list
 
 # Run tests
 cd qtpy  # Hack to work around non-src layout pulling in local instead of installed package for cov
-python -I -bb -X dev -W error -m pytest --cov-config ../.coveragerc
+python -I -bb -X dev -W error -m pytest --cov-config ../.coveragerc --cov-append
+
+# Save QtPy base path for coverage
+python -c "from pathlib import Path; import qtpy; print(Path(qtpy.__file__).parent.parent.as_posix())" > qtpy_basepath.txt

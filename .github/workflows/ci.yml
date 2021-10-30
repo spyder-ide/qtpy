@@ -46,7 +46,7 @@ jobs:
           pyside2-version: 5.12.0  # 5.12.1-5.12.6 fails on collection/segfaults on patch test
         - os: ubuntu-latest
           python-version: '3.9'
-          use-conda: 'Yes'
+          use-conda: 'No'
           coverage: 'True'  # Collect coverage only from this run, currently
         - os: ubuntu-latest
           python-version: '3.6'
@@ -106,4 +106,5 @@ jobs:
         run: |
           cd qtpy  # Switch to test working dir per non-src-layout hack
           python3 -m pip install --upgrade coveralls
-          python3 -m coveralls --service=github --rcfile="../.coveragerc" || true
+          python3 -m coveralls --service=github --rcfile="../.coveragerc" --basedir=$(cat qtpy_basepath.txt)
+        continue-on-error: true
