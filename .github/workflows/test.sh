@@ -43,9 +43,10 @@ fi
 
 # Build wheel of package
 git clean -xdf -e *.coverage
-python -bb -X dev setup.py sdist bdist_wheel  # Needs migration to modern PEP 517-based build backend
+pip install --upgrade build
+python -bb -X dev -W error -W ignore:::pyparsing -m build
 
-# Install package from build wheel
+# Install package from built wheel
 echo dist/*.whl | xargs -I % python -bb -X dev -W error -m pip install --upgrade %
 
 # Print environment information

@@ -14,9 +14,7 @@ To release a new version of qtpy on PyPI:
 
 * git add . && git commit -m 'Release X.X.X'
 
-* python setup.py sdist
-
-* python setup.py bdist_wheel
+* python -m build
 
 * twine check dist/*
 
