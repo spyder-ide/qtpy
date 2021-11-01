@@ -45,10 +45,6 @@ jobs:
           use-conda: 'No'
           pyside2-version: 5.12.0  # 5.12.1-5.12.6 fails on collection/segfaults on patch test
         - os: ubuntu-latest
-          python-version: '3.9'
-          use-conda: 'Yes'
-          coverage: 'True'  # Collect coverage only from this run, currently
-        - os: ubuntu-latest
           python-version: '3.6'
           use-conda: 'No'
           skip-pyqt6: true  # No wheels on Py 3.6 Linux CIs
@@ -67,6 +63,10 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
       - name: Install Linux system packages
         if: contains(matrix.os, 'ubuntu')
         shell: bash
@@ -98,10 +98,12 @@ jobs:
         if: always() && (! ((matrix.skip-pyside6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Qt6/Pyside6
         run: ./.github/workflows/test.sh pyside6
       - name: Upload coverage data to coveralls.io
-        if: matrix.coverage
         shell: bash
         env:
-          COVERALLS_REPO_TOKEN: 'xh75EzxFFMoTEyNPo3wXxXv8OVkul3eE5'
+          COVERALLS_FLAG_NAME: ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 -m pip install --upgrade coveralls
-          python3 -m coveralls --service=github-actions || true
+          cd qtpy  # Switch to test working dir per non-src-layout hack
+          python -m pip install --upgrade coveralls
+          cat qtpy_basedir.txt
+          python -b -X dev -m coveralls --service=github --rcfile="../.coveragerc" --basedir="$(cat qtpy_basedir.txt)"
