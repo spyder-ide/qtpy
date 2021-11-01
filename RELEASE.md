@@ -10,7 +10,7 @@ To release a new version of qtpy on PyPI:
 
     loghub -m vX.X.X spyder-ide/qtpy
 
-* Update `_version.py` (set release version, remove 'dev0')
+* Update `__version__` in `__init__.py` (set release version, remove 'dev0')
 
 * git add . && git commit -m 'Release X.X.X'
 
@@ -22,7 +22,7 @@ To release a new version of qtpy on PyPI:
 
 * git tag -a vX.X.X -m 'Release X.X.X'
 
-* Update `_version.py` (add 'dev0' and increment minor)
+* Update `__version__` in `__init__.py` (add 'dev0' and increment minor)
 
 * git add . && git commit -m 'Back to work'
 
