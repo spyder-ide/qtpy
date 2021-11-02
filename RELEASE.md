@@ -1,31 +1,58 @@
-To release a new version of qtpy on PyPI:
+# Release Procedure
 
-* Close Github milestone
+To release a new version of QtPy on PyPI:
 
-* git fetch upstream && git merge upstream/master
 
-* git clean -xfdi
+## Prepare
 
-* Update CHANGELOG.md using `loghub` to generate the list of issues and PRs merged to add at the top of the file
+* Close Github milestone and ensure all issues are resolved/moved
 
-    loghub -m vX.X.X spyder-ide/qtpy
+* `git switch master && git pull upstream master` (assuming `master` is the release branch)
 
-* Update `__version__` in `__init__.py` (set release version, remove 'dev0')
+* Check `MANIFEST.in` and `setup.cfg` to ensure they are up to date
 
-* git add . && git commit -m 'Release X.X.X'
 
-* python -m build
+## Commit
 
-* twine check dist/*
+* `pip install --upgrade loghub`
 
-* twine upload dist/*
+* Update `CHANGELOG.md` using `loghub` to generate the list of issues and PRs merged to add at the top of the file:
 
-* git tag -a vX.X.X -m 'Release X.X.X'
+  ```bash
+  loghub -m vX.Y.Z spyder-ide/qtpy
+  ```
 
-* Update `__version__` in `__init__.py` (add 'dev0' and increment minor)
+* Update `__version__` in `__init__.py` (set release version, remove `.dev0`)
 
-* git add . && git commit -m 'Back to work'
+* `git commit -am 'Release X.Y.Z'`
 
-* git push
 
-* git push --tags
+## Build
+
+**Note**: We use `pip` instead of `conda` here even on Conda installs, to ensure we always get the latest upstream versions of the build dependencies.
+
+* `git clean -xfdi`
+
+* `python -m pip install --upgrade-strategy eager --upgrade build pip setuptools twine wheel`
+
+* `python -bb -X dev -W error -m build`
+
+
+## Upload
+
+* `twine check --strict dist/*`
+
+* `twine upload dist/*`
+
+* `git tag -a vX.Y.Z -m 'Release X.Y.Z'`
+
+
+## Cleanup
+
+* Update `__version__` in `__init__.py` (add `.dev0` and increment minor)
+
+* `git commit -am 'Back to work'`
+
+* `git push upstream --follow-tags`
+
+* Create a GitHub release from the tag
