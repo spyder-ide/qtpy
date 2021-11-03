@@ -28,7 +28,11 @@ def enabled_qcombobox_subclass(temp_dir_path):
     and then removes it once we are done.
     """
 
-    with open(temp_dir_path / 'qcombobox_subclass.py', 'w') as f:
+    with open(
+            temp_dir_path / 'qcombobox_subclass.py',
+            mode='w',
+            encoding="utf-8",
+            ) as f:
         f.write(QCOMBOBOX_SUBCLASS)
 
     sys.path.insert(0, str(temp_dir_path))
