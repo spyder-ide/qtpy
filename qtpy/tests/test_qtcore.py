@@ -1,7 +1,7 @@
+"""Test QtCore."""
+
 import pytest
 from qtpy import PYQT5, PYQT6, PYSIDE2, QtCore
-
-"""Test QtCore."""
 
 
 def test_qtmsghandler():

@@ -65,13 +65,11 @@ from ._version import __version__
 
 
 class PythonQtError(RuntimeError):
-    """Error raise if no bindings could be selected."""
-    pass
+    """Error raised if no bindings could be selected."""
 
 
 class PythonQtWarning(Warning):
     """Warning if some features are not implemented in a binding."""
-    pass
 
 
 # Qt API environment variable name
@@ -110,7 +108,7 @@ if 'FORCE_QT_API' in os.environ:
     elif 'PyQt5' in sys.modules:
         API = initial_api if initial_api in PYQT5_API else 'pyqt5'
     elif 'PySide6' in sys.modules:
-       API = initial_api if initial_api in PYSIDE6_API else 'pyside6'
+        API = initial_api if initial_api in PYSIDE6_API else 'pyside6'
     elif 'PySide2' in sys.modules:
         API = initial_api if initial_api in PYSIDE2_API else 'pyside2'
 

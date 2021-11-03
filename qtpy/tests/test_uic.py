@@ -140,4 +140,4 @@ def test_load_full_uic():
     else:
         objects = ['compileUi', 'compileUiDir', 'loadUi', 'loadUiType',
                    'widgetPluginPath']
-        assert all([hasattr(uic, o) for o in objects])
+        assert all((hasattr(uic, o) for o in objects))
