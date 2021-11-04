@@ -36,21 +36,21 @@ elif PYQT5:
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 
 elif PYSIDE6:
-   from PySide6.QtCore import *
-   import PySide6.QtCore
-   __version__ = PySide6.QtCore.__version__
+    from PySide6.QtCore import *
+    import PySide6.QtCore
+    __version__ = PySide6.QtCore.__version__
 
-   # obsolete in qt6
-   Qt.BackgroundColorRole = Qt.BackgroundRole
-   Qt.TextColorRole = Qt.ForegroundRole
-   Qt.MidButton = Qt.MiddleButton
+    # obsolete in qt6
+    Qt.BackgroundColorRole = Qt.BackgroundRole
+    Qt.TextColorRole = Qt.ForegroundRole
+    Qt.MidButton = Qt.MiddleButton
 
 elif PYSIDE2:
     from PySide2.QtCore import *
 
-    try:  # may be limited to PySide-5.11a1 only 
+    try:  # may be limited to PySide-5.11a1 only
         from PySide2.QtGui import QStringListModel
-    except:
+    except Exception:
         pass
 
     import PySide2.QtCore

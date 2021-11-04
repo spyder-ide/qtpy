@@ -3,8 +3,8 @@ from qtpy import PYSIDE2
 
 @pytest.mark.skipif(PYSIDE2, reason="QtDesigner is not avalaible in PySide2")
 def test_qtdesigner():
+    """Test the qtpy.QtDesigner namespace."""
     from qtpy import QtDesigner
-    """Test the qtpy.QtDesigner namespace"""
     assert QtDesigner.QAbstractExtensionFactory is not None
     assert QtDesigner.QAbstractExtensionManager is not None
     assert QtDesigner.QDesignerActionEditorInterface is not None

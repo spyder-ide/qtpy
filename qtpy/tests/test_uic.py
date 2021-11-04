@@ -22,16 +22,20 @@ class _QComboBoxSubclass(QComboBox):
 """
 
 @contextlib.contextmanager
-def enabled_qcombobox_subclass(tmpdir):
+def enabled_qcombobox_subclass(temp_dir_path):
     """
     Context manager that sets up a temporary module with a QComboBox subclass
     and then removes it once we are done.
     """
 
-    with open(tmpdir.join('qcombobox_subclass.py').strpath, 'w') as f:
+    with open(
+            temp_dir_path / 'qcombobox_subclass.py',
+            mode='w',
+            encoding="utf-8",
+            ) as f:
         f.write(QCOMBOBOX_SUBCLASS)
 
-    sys.path.insert(0, tmpdir.strpath)
+    sys.path.insert(0, str(temp_dir_path))
 
     yield
 
@@ -106,7 +110,7 @@ def test_load_ui_type():
     os.environ.get('CI', None) is not None
     and sys.platform.startswith('linux'),
     reason="Segfaults on Linux CIs under all bindings (PYSIDE2/6 & PYQT5/6)")
-def test_load_ui_custom_auto(tmpdir):
+def test_load_ui_custom_auto(tmp_path):
     """
     Test that we can load a .ui file with custom widgets without having to
     explicitly specify a dictionary of custom widgets, even in the case of
@@ -115,7 +119,7 @@ def test_load_ui_custom_auto(tmpdir):
 
     app = get_qapp()
 
-    with enabled_qcombobox_subclass(tmpdir):
+    with enabled_qcombobox_subclass(tmp_path):
         from qcombobox_subclass import _QComboBoxSubclass
         with warnings.catch_warnings():
             warnings.filterwarnings(
@@ -136,4 +140,4 @@ def test_load_full_uic():
     else:
         objects = ['compileUi', 'compileUiDir', 'loadUi', 'loadUiType',
                    'widgetPluginPath']
-        assert all([hasattr(uic, o) for o in objects])
+        assert all((hasattr(uic, o) for o in objects))
