@@ -15,10 +15,20 @@ if PYQT6:
     from PyQt6 import QtCore
     from PyQt6.QtCore import *
     from PyQt6.QtCore import pyqtSignal as Signal
+    from PyQt6.QtCore import pyqtBoundSignal as SignalInstance
+    from PyQt6.QtCore import pyqtSlot as Slot
+    from PyQt5.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
+
+    # Map missing methods
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
     QThread.exec_ = QThread.exec
+
+    # Those are imported from `import *`
+    del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+
+    # Allow unscoped access for enums inside the QtCore module
     from .enums_compat import promote_enums
     promote_enums(QtCore)
 elif PYQT5:
