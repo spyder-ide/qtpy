@@ -17,7 +17,7 @@ if PYQT6:
     from PyQt6.QtCore import pyqtSignal as Signal
     from PyQt6.QtCore import pyqtBoundSignal as SignalInstance
     from PyQt6.QtCore import pyqtSlot as Slot
-    from PyQt5.QtCore import pyqtProperty as Property
+    from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
     # Map missing methods

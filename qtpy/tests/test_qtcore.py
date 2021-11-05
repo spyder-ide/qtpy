@@ -1,4 +1,5 @@
 import pytest
+
 from qtpy import PYQT5, PYQT6, PYSIDE2, PYQT_VERSION, QtCore
 
 """Test QtCore."""
@@ -31,9 +32,7 @@ def test_QtCore_SignalInstance():
                     reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
                            "to work with scoped enum access")
 def test_enum_access():
-    """
-    Test scoped and unscoped enum access for qtpy.QtCore.*.
-    """
+    """Test scoped and unscoped enum access for qtpy.QtCore.*."""
     assert QtCore.QAbstractAnimation.Stopped == QtCore.QAbstractAnimation.State.Stopped
     assert QtCore.QEvent.ActionAdded == QtCore.QEvent.Type.ActionAdded
     assert QtCore.Qt.AlignLeft == QtCore.Qt.AlignmentFlag.AlignLeft

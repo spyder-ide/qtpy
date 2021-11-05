@@ -37,9 +37,7 @@ def test_qmenu_functions():
                     reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
                            "to work with scoped enum access")
 def test_enum_access():
-    """
-    Test scoped and unscoped enum access for qtpy.QtWidgets.*.
-    """
+    """Test scoped and unscoped enum access for qtpy.QtWidgets.*."""
     assert QtWidgets.QFileDialog.AcceptOpen == QtWidgets.QFileDialog.AcceptMode.AcceptOpen
     assert QtWidgets.QMessageBox.InvalidRole == QtWidgets.QMessageBox.ButtonRole.InvalidRole
-    assert QtWidgets.QStyle.State_None == QtWidgets.QStyle.StateFlag.State_None  
+    assert QtWidgets.QStyle.State_None == QtWidgets.QStyle.StateFlag.State_None

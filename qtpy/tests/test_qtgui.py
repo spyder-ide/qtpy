@@ -23,11 +23,8 @@ def test_qtextdocument_functions():
                     reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
                            "to work with scoped enum access")
 def test_enum_access():
-    """
-    Test scoped and unscoped enum access for qtpy.QtWidgets.*.
-    """
+    """Test scoped and unscoped enum access for qtpy.QtWidgets.*."""
     assert QtGui.QColor.Rgb == QtGui.QColor.Spec.Rgb
     assert QtGui.QFont.AllUppercase == QtGui.QFont.Capitalization.AllUppercase
     assert QtGui.QIcon.Normal == QtGui.QIcon.Mode.Normal
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
-   
