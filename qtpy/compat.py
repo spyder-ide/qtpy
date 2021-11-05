@@ -51,7 +51,7 @@ def from_qvariant(qobj=None, pytype=None):  # analysis:ignore
 # Wrappers around QFileDialog static methods
 # =============================================================================
 def getexistingdirectory(parent=None, caption='', basedir='',
-                         options=QFileDialog.Option.ShowDirsOnly):
+                         options=QFileDialog.ShowDirsOnly):
     """Wrapper around QtGui.QFileDialog.getExistingDirectory static method
     Compatible with PyQt >=v4.4 (API #1 and #2) and PySide >=v1.0"""
     # Calling QFileDialog static method
