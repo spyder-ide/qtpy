@@ -12,23 +12,6 @@ if PYQT6:
     from . import sip
 
 
-    def promote_specific_enums(base_class, enum_classes_list, inclusion_criteria):
-        """
-        Allow access for the given enumeration classes values at base class level.
-
-        Based on:
-        https://github.com/pyqtgraph/pyqtgraph/blob/pyqtgraph-0.12.1/pyqtgraph/Qt.py#L331-L377 
-        """
-        for enum_class_name in enum_classes_list:
-            klass = getattr(base_class, enum_class_name)
-            attrib_names = [x for x in dir(klass) if inclusion_criteria(x)]
-            for attrib_name in attrib_names:
-                attrib = getattr(klass, attrib_name)
-                if not isinstance(attrib, (enum.Enum)):
-                    continue
-                setattr(base_class, attrib.name, attrib)
-
-
     def promote_enums(module):
         """
         Search enums in the given module and allow unscoped access.
