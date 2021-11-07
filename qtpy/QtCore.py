@@ -14,11 +14,19 @@ from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 if PYQT6:
     from PyQt6.QtCore import *
     from PyQt6.QtCore import pyqtSignal as Signal
+    from PyQt6.QtCore import pyqtBoundSignal as SignalInstance
+    from PyQt6.QtCore import pyqtSlot as Slot
+    from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
+    # For issue #153
+    from PyQt5.QtCore import QDateTime
+    QDateTime.toPython = QDateTime.toPyDateTime
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
     QThread.exec_ = QThread.exec
+
+    del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 
 elif PYQT5:
     from PyQt5.QtCore import *
