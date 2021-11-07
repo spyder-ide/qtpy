@@ -20,8 +20,9 @@ if PYQT6:
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
     # For issue #153
-    from PyQt5.QtCore import QDateTime
+    from PyQt6.QtCore import QDateTime
     QDateTime.toPython = QDateTime.toPyDateTime
+
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
     QThread.exec_ = QThread.exec
