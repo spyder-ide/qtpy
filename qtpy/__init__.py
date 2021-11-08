@@ -98,7 +98,7 @@ assert API in (PYQT5_API + PYQT6_API + PYSIDE2_API + PYSIDE6_API)
 
 is_old_pyqt = is_pyqt46 = False
 PYQT5 = True
-PYQT6 = PYSIDE2 = PYSIDE6 = False
+PYQT4 = PYQT6 = PYSIDE = PYSIDE2 = PYSIDE6 = False
 
 # Unless `FORCE_QT_API` is set, use previously imported Qt Python bindings
 if not os.environ.get('FORCE_QT_API'):
