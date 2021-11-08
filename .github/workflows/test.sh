@@ -43,7 +43,7 @@ fi
 
 # Build wheel of package
 git clean -xdf -e *.coverage
-pip install --upgrade build
+python -m pip install --upgrade build
 python -bb -X dev -W error -W ignore:::pyparsing -m build
 
 # Install package from built wheel
@@ -59,3 +59,8 @@ python -I -bb -X dev -W error -m pytest --cov-config ../.coveragerc --cov-append
 # Save QtPy base dir for coverage
 python -c "from pathlib import Path; import qtpy; print(Path(qtpy.__file__).parent.parent.resolve().as_posix())" > qtpy_basedir.txt
 cat qtpy_basedir.txt
+cd ..
+
+# Check package and environment
+pipx run twine check --strict dist/*
+pip check -v || ${SKIP_PIP_CHECK:-false}
