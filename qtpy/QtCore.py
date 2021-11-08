@@ -20,6 +20,10 @@ if PYQT6:
     from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
+    # For issue #153
+    from PyQt6.QtCore import QDateTime
+    QDateTime.toPython = QDateTime.toPyDateTime
+
     # Map missing methods
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
