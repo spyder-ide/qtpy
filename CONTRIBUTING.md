@@ -131,12 +131,18 @@ git pull upstream <BASE-BRANCH>
 git checkout -b <FEATURE-BRANCH>
 ```
 
-Once you've made and tested your changes, commit them with a descriptive message of 74 characters or less written in the imperative tense, with a capitalized first letter and no period at the end.
+Once you've made and tested your changes, commit them with a descriptive, unique message of 74 characters or less written in the imperative tense, with a capitalized first letter and no period at the end.
+Try to make your commit message understandable on its own, giving the reader a high-level idea of what your changes accomplished without having to dig into the diffs.
 For example:
 
 ```bash
-git commit -am "Fix bug importing package on Windows"
+git commit -am "Fix bug reading env variable when importing package on Windows"
 ```
+
+If your changes are complex (more than a few dozen lines) and can be broken into discrete steps/parts, its often a good idea to make multiple commits as you work.
+On the other hand, if your changes are fairly small (less than a dozen lines), its usually better to make them as a single commit, and then use the ``git -a --amend`` (followed by ``git push -f``, if you've already pushed your work) if you spot a bug or a reviewer requests a change.
+
+These aren't hard and fast rules, so just use your best judgment, and if there does happen to be a significant issue we'll be happy to help.
 
 
 
@@ -185,5 +191,7 @@ Where ``<FEATURE-BRANCH>`` is the name of your feature branch, e.g. ``fix-startu
 
 Finally, create a pull request to the [spyder-ide/qtpy repository](https://github.com/spyder-ide/qtpy/) on Github.
 Make sure to set the target branch to the one you based your PR off of (``master`` or ``X.x``).
+
+We'll then review your changes, and after they're ready to go, your work will become an official part of QtPy.
 
 Thanks for taking the time to read and follow this guide, and we look forward to your contributions!
