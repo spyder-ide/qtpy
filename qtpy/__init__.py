@@ -195,5 +195,5 @@ try:
     # QtDataVisualization backward compatibility (QtDataVisualization vs. QtDatavisualization)
     # Only available for Qt5 bindings > 5.9 on Windows
     from . import QtDataVisualization as QtDatavisualization
-except ImportError:
+except (ImportError, PythonQtError):
     pass
