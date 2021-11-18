@@ -79,7 +79,7 @@ Everyone is welcome to contribute!
 
 QtPy is funded thanks to the generous support of
 
-[![Quansight](https://pbs.twimg.com/profile_banners/945906846715580416/1607461712/300x100)](https://www.quansight.com/)
+[![Quansight](https://pbs.twimg.com/profile_banners/945906846715580416/1607461712/300x100)](https://www.quansight.com/)[![Numfocus](https://i2.wp.com/numfocus.org/wp-content/uploads/2017/07/NumFocus_LRG.png?fit=320%2C148&ssl=1)](https://numfocus.org/)
 
 and the donations we have received from our users around the world through [Open Collective](https://opencollective.com/spyder/):
 
