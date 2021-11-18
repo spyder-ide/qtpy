@@ -101,6 +101,9 @@ PYSIDE_API = ['pyside']
 # Names of the expected PySide2 api
 PYSIDE2_API = ['pyside2']
 
+# Names of the legacy APIs that we should warn users about
+LEGACY_APIS = PYQT4_API + PYSIDE_API
+
 # Detecting if a binding was specified by the user
 binding_specified = QT_API in os.environ
 
@@ -237,3 +240,14 @@ try:
     from . import QtDataVisualization as QtDatavisualization
 except (ImportError, PythonQtError):
     pass
+
+# Warn if using a legacy, soon to be unsupported Qt API/binding
+if API in LEGACY_APIS or initial_api in LEGACY_APIS:
+    warnings.warn(
+        "A deprecated Qt4-based binding (PyQt4/PySide) was installed, "
+        "imported or set via the 'QT_API' environment variable. "
+        "To ensure your application is still supported in QtPy 2.0, "
+        "please make sure it doesn't depend upon, import or "
+        "set the 'QT_API' env var to 'pyqt', 'pyqt4' or 'pyside'.",
+        DeprecationWarning,
+    )
