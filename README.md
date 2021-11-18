@@ -77,6 +77,10 @@ Everyone is welcome to contribute!
 
 ## Sponsors
 
-Become a sponsor to get your logo on our README on Github.
+QtPy is funded thanks to the generous support of
+
+[![Quansight](https://pbs.twimg.com/profile_banners/945906846715580416/1607461712/300x100)](https://www.quansight.com/)
+
+and the donations we have received from our users around the world through [Open Collective](https://opencollective.com/spyder/):
 
 [![Sponsors](https://opencollective.com/spyder/sponsors.svg)](https://opencollective.com/spyder#support)
