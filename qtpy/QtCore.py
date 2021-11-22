@@ -35,6 +35,7 @@ if PYQT6:
     # Allow unscoped access for enums inside the QtCore module
     from .enums_compat import promote_enums
     promote_enums(QtCore)
+    del QtCore
 elif PYQT5:
     from PyQt5.QtCore import *
     from PyQt5.QtCore import pyqtSignal as Signal

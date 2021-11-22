@@ -23,6 +23,7 @@ if PYQT6:
     # Allow unscoped access for enums inside the QtGui module
     from .enums_compat import promote_enums
     promote_enums(QtGui)
+    del QtGui
 elif PYQT5:
     from PyQt5.QtGui import *
 elif PYSIDE2:
