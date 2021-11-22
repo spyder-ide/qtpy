@@ -4,7 +4,7 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 
-from . import PYQT6, PYQT5,PythonQtError
+from . import PYQT6, PYQT5, PythonQtError
 
 if PYQT6:
     from PyQt6.sip import *

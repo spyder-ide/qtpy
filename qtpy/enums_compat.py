@@ -1,20 +1,20 @@
-#
 # Copyright © 2009- The Spyder Development Team
 # Copyright © 2012- University of North Carolina at Chapel Hill
 #                   Luke Campagnola    ('luke.campagnola@%s.com' % 'gmail')
 #                   Ogi Moore          ('ognyan.moore@%s.com' % 'gmail')
 #                   KIU Shueng Chuan   ('nixchuan@%s.com' % 'gmail')
 # Licensed under the terms of the MIT License
+
 """
 Compatibility functions for scoped and unscoped enum access.
 """
+
 from . import PYQT6
 
 if PYQT6:
     import enum
 
     from . import sip
-
 
     def promote_enums(module):
         """
