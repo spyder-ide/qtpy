@@ -8,18 +8,34 @@
 """
 Provides QtCore classes and functions.
 """
-
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
+
 if PYQT6:
+    from PyQt6 import QtCore
     from PyQt6.QtCore import *
     from PyQt6.QtCore import pyqtSignal as Signal
+    from PyQt6.QtCore import pyqtBoundSignal as SignalInstance
+    from PyQt6.QtCore import pyqtSlot as Slot
+    from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
+    # For issue #153
+    from PyQt6.QtCore import QDateTime
+    QDateTime.toPython = QDateTime.toPyDateTime
+
+    # Map missing methods
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
     QThread.exec_ = QThread.exec
 
+    # Those are imported from `import *`
+    del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+
+    # Allow unscoped access for enums inside the QtCore module
+    from .enums_compat import promote_enums
+    promote_enums(QtCore)
+    del QtCore
 elif PYQT5:
     from PyQt5.QtCore import *
     from PyQt5.QtCore import pyqtSignal as Signal

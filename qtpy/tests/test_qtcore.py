@@ -1,7 +1,8 @@
 """Test QtCore."""
 
 import pytest
-from qtpy import PYQT5, PYQT6, PYSIDE2, QtCore
+
+from qtpy import PYQT5, PYQT6, PYSIDE2, PYQT_VERSION, QtCore
 
 
 def test_qtmsghandler():
@@ -9,8 +10,6 @@ def test_qtmsghandler():
     assert QtCore.qInstallMessageHandler is not None
 
 
-@pytest.mark.skipif(not (PYQT5 or PYSIDE2),
-                    reason="Targeted to PyQt5 or PySide2")
 def test_DateTime_toPython():
     """Test QDateTime.toPython"""
     assert QtCore.QDateTime.toPython is not None
@@ -25,3 +24,16 @@ def test_QtCore_SignalInstance():
     instance = ClassWithSignal()
 
     assert isinstance(instance.signal, QtCore.SignalInstance)
+
+
+@pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
+                    reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
+                           "to work with scoped enum access")
+def test_enum_access():
+    """Test scoped and unscoped enum access for qtpy.QtCore.*."""
+    assert QtCore.QAbstractAnimation.Stopped == QtCore.QAbstractAnimation.State.Stopped
+    assert QtCore.QEvent.ActionAdded == QtCore.QEvent.Type.ActionAdded
+    assert QtCore.Qt.AlignLeft == QtCore.Qt.AlignmentFlag.AlignLeft
+    assert QtCore.Qt.Key_Return == QtCore.Qt.Key.Key_Return
+    assert QtCore.Qt.transparent == QtCore.Qt.GlobalColor.transparent
+    assert QtCore.Qt.Widget == QtCore.Qt.WindowType.Widget
