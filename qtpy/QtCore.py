@@ -61,6 +61,12 @@ elif PYSIDE6:
     Qt.TextColorRole = Qt.ForegroundRole
     Qt.MidButton = Qt.MiddleButton
 
+    # Map DeprecationWarning methods
+    QCoreApplication.exec_ = QCoreApplication.exec
+    QEventLoop.exec_ = QEventLoop.exec
+    QThread.exec_ = QThread.exec
+    QTextStreamManipulator.exec_ = QTextStreamManipulator.exec
+
 elif PYSIDE2:
     from PySide2.QtCore import *
 

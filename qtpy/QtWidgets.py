@@ -44,6 +44,11 @@ elif PYSIDE6:
     QTextEdit.tabStopWidth = QTextEdit.tabStopDistance
     QPlainTextEdit.setTabStopWidth = QPlainTextEdit.setTabStopDistance
     QPlainTextEdit.tabStopWidth = QPlainTextEdit.tabStopDistance
+
+    # Map DeprecationWarning methods
+    QApplication.exec_ = QApplication.exec
+    QDialog.exec_ = QDialog.exec
+    QMenu.exec_ = QMenu.exec
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 else:
