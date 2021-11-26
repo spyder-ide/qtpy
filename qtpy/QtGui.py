@@ -12,7 +12,7 @@ from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
 
 if PYQT6:
-    from PyQt6 import QtGui 
+    from PyQt6 import QtGui
     from PyQt6.QtGui import *
 
     # Map missing/renamed methods
@@ -31,5 +31,9 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtGui import *
     QFontMetrics.width = QFontMetrics.horizontalAdvance
+
+    # Map DeprecationWarning methods
+    QDrag.exec_ = QDrag.exec
+    QGuiApplication.exec_ = QGuiApplication.exec
 else:
     raise PythonQtError('No Qt bindings could be found')
