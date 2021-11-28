@@ -60,7 +60,9 @@ elif PYSIDE6:
     Qt.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ForegroundRole
     Qt.MidButton = Qt.MiddleButton
+    QRegExp = QRegularExpression
 
+    
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
