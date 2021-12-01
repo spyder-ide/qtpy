@@ -104,6 +104,11 @@ PYSIDE2_API = ['pyside2']
 # Names of the legacy APIs that we should warn users about
 LEGACY_APIS = PYQT4_API + PYSIDE_API
 
+# Minimum fully supported versions of Qt and the bindings
+PYQT_VERSION_MIN = '5.9.0'
+PYSIDE_VERSION_MIN = '5.12.0'
+QT_VERSION_MIN = '5.9.0'
+
 # Detecting if a binding was specified by the user
 binding_specified = QT_API in os.environ
 
@@ -241,6 +246,17 @@ try:
 except (ImportError, PythonQtError):
     pass
 
+
+def _warn_old_minor_version(name, old_version, min_version):
+    warning_message = (
+        "{name} version {old_version} is unsupported upstream and "
+        "deprecated by QtPy. To ensure your application is still supported "
+        "in QtPy 2.0, please make sure it doesn't depend upon {name} versions "
+        "older than {min_version}.".format(
+            name=name, old_version=old_version, min_version=min_version))
+    warnings.warn(warning_message, DeprecationWarning)
+
+
 # Warn if using a legacy, soon to be unsupported Qt API/binding
 if API in LEGACY_APIS or initial_api in LEGACY_APIS:
     warnings.warn(
@@ -251,3 +267,12 @@ if API in LEGACY_APIS or initial_api in LEGACY_APIS:
         "set the 'QT_API' env var to 'pyqt', 'pyqt4' or 'pyside'.",
         DeprecationWarning,
     )
+else:
+    if LooseVersion(QT_VERSION) < LooseVersion(QT_VERSION_MIN):
+        _warn_old_minor_version('Qt', QT_VERSION, QT_VERSION_MIN)
+    if PYQT_VERSION and (LooseVersion(PYQT_VERSION)
+                         < LooseVersion(PYQT_VERSION_MIN)):
+        _warn_old_minor_version('PyQt', PYQT_VERSION, PYQT_VERSION_MIN)
+    elif PYSIDE_VERSION and (LooseVersion(PYSIDE_VERSION)
+                             < LooseVersion(PYSIDE_VERSION_MIN)):
+        _warn_old_minor_version('PySide', PYSIDE_VERSION, PYSIDE_VERSION_MIN)
