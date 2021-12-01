@@ -86,6 +86,11 @@ PYSIDE2_API = ['pyside2']
 # Names of the expected PySide6 api
 PYSIDE6_API = ['pyside6']
 
+# Minimum supported versions of Qt and the bindings
+PYQT_VERSION_MIN = '5.9.0'
+PYSIDE_VERSION_MIN = '5.12.0'
+QT_VERSION_MIN = '5.9.0'
+
 # Detecting if a binding was specified by the user
 binding_specified = QT_API in os.environ
 
@@ -197,3 +202,22 @@ try:
     from . import QtDataVisualization as QtDatavisualization
 except (ImportError, PythonQtError):
     pass
+
+
+def _warn_old_minor_version(name, old_version, min_version):
+    """Warn if using a Qt or binding version no longer supported by QtPy."""
+    warning_message = (
+        "{name} version {old_version} is no longer supported upstream or "
+        "by QtPy 2.0. To ensure your application works correctly with QtPy, "
+        "please upgrade to {name} {min_version} or later.".format(
+            name=name, old_version=old_version, min_version=min_version))
+    warnings.warn(warning_message, PythonQtWarning)
+
+
+# Warn if using an End of Life, unsupported Qt API/binding
+if parse(QT_VERSION) < parse(QT_VERSION_MIN):
+    _warn_old_minor_version('Qt', QT_VERSION, QT_VERSION_MIN)
+if PYQT_VERSION and parse(PYQT_VERSION) < parse(PYQT_VERSION_MIN):
+    _warn_old_minor_version('PyQt', PYQT_VERSION, PYQT_VERSION_MIN)
+elif PYSIDE_VERSION and parse(PYSIDE_VERSION) < parse(PYSIDE_VERSION_MIN):
+    _warn_old_minor_version('PySide', PYSIDE_VERSION, PYSIDE_VERSION_MIN)
