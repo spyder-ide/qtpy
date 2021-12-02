@@ -105,6 +105,6 @@ jobs:
           COVERALLS_FLAG_NAME: ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd qtpy  # Switch to test working dir per non-src-layout hack
+          cd temp_test_dir  # Switch to test working dir per non-src-layout hack
           cat qtpy_basedir.txt
           pipx run coveralls --service=github --rcfile="../.coveragerc" --basedir="$(cat qtpy_basedir.txt)"

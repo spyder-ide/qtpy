@@ -53,13 +53,14 @@ echo dist/*.whl | xargs -I % python -bb -X dev -W error -m pip install --upgrade
 conda list
 
 # Run tests
-cd qtpy  # Hack to work around non-src layout pulling in local instead of installed package for cov
-python -I -bb -X dev -W error -m pytest --cov-config ../.coveragerc --cov-append
+mkdir -p temp_test_dir
+pushd temp_test_dir # Hack to work around non-src layout pulling in local instead of installed package for cov
+python -I -bb -X dev -W error -m pytest ../qtpy --cov-config ../.coveragerc --cov-append
 
 # Save QtPy base dir for coverage
 python -c "from pathlib import Path; import qtpy; print(Path(qtpy.__file__).parent.parent.resolve().as_posix())" > qtpy_basedir.txt
 cat qtpy_basedir.txt
-cd ..
+popd
 
 # Check package and environment
 pipx run twine check --strict dist/*
