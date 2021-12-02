@@ -105,6 +105,10 @@ is_old_pyqt = is_pyqt46 = False
 PYQT5 = True
 PYQT4 = PYQT6 = PYSIDE = PYSIDE2 = PYSIDE6 = False
 
+PYQT_VERSION = None
+PYSIDE_VERSION = None
+QT_VERSION = None
+
 # Unless `FORCE_QT_API` is set, use previously imported Qt Python bindings
 if not os.environ.get('FORCE_QT_API'):
     if 'PyQt6' in sys.modules:
@@ -120,7 +124,6 @@ if API in PYQT5_API:
     try:
         from PyQt5.QtCore import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
         from PyQt5.QtCore import QT_VERSION_STR as QT_VERSION  # analysis:ignore
-        PYSIDE_VERSION = None
 
         if sys.platform == 'darwin':
             macos_version = parse(platform.mac_ver()[0])
@@ -145,7 +148,6 @@ if API in PYQT6_API:
     try:
         from PyQt6.QtCore import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
         from PyQt6.QtCore import QT_VERSION_STR as QT_VERSION  # analysis:ignore
-        PYSIDE_VERSION = None
         PYQT5 = False
         PYQT6 = True
     except ImportError:
@@ -157,7 +159,6 @@ if API in PYSIDE2_API:
         from PySide2 import __version__ as PYSIDE_VERSION  # analysis:ignore
         from PySide2.QtCore import __version__ as QT_VERSION  # analysis:ignore
 
-        PYQT_VERSION = None
         PYQT5 = False
         PYSIDE2 = True
 
@@ -179,7 +180,6 @@ if API in PYSIDE6_API:
         from PySide6 import __version__ as PYSIDE_VERSION  # analysis:ignore
         from PySide6.QtCore import __version__ as QT_VERSION  # analysis:ignore
 
-        PYQT_VERSION = None
         PYQT5 = False
         PYSIDE6 = True
 
@@ -215,7 +215,7 @@ def _warn_old_minor_version(name, old_version, min_version):
 
 
 # Warn if using an End of Life, unsupported Qt API/binding
-if parse(QT_VERSION) < parse(QT_VERSION_MIN):
+if QT_VERSION and parse(QT_VERSION) < parse(QT_VERSION_MIN):
     _warn_old_minor_version('Qt', QT_VERSION, QT_VERSION_MIN)
 if PYQT_VERSION and parse(PYQT_VERSION) < parse(PYQT_VERSION_MIN):
     _warn_old_minor_version('PyQt', PYQT_VERSION, PYQT_VERSION_MIN)
