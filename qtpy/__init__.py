@@ -87,9 +87,13 @@ PYSIDE2_API = ['pyside2']
 PYSIDE6_API = ['pyside6']
 
 # Minimum supported versions of Qt and the bindings
-PYQT_VERSION_MIN = '5.9.0'
-PYSIDE_VERSION_MIN = '5.12.0'
-QT_VERSION_MIN = '5.9.0'
+QT5_VERSION_MIN = PYQT5_VERSION_MIN = '5.9.0'
+PYSIDE2_VERSION_MIN = '5.12.0'
+QT6_VERSION_MIN = PYQT6_VERSION_MIN = PYSIDE6_VERSION_MIN = '6.2.0'
+
+QT_VERSION_MIN = QT5_VERSION_MIN
+PYQT_VERSION_MIN = PYQT5_VERSION_MIN
+PYSIDE_VERISION_MIN = PYSIDE2_VERSION_MIN
 
 # Detecting if a binding was specified by the user
 binding_specified = QT_API in os.environ
@@ -207,17 +211,26 @@ except (ImportError, PythonQtError):
 def _warn_old_minor_version(name, old_version, min_version):
     """Warn if using a Qt or binding version no longer supported by QtPy."""
     warning_message = (
-        "{name} version {old_version} is no longer supported upstream or "
+        "{name} version {old_version} is not supported upstream or "
         "by QtPy 2.0. To ensure your application works correctly with QtPy, "
         "please upgrade to {name} {min_version} or later.".format(
             name=name, old_version=old_version, min_version=min_version))
     warnings.warn(warning_message, PythonQtWarning)
 
 
-# Warn if using an End of Life, unsupported Qt API/binding
-if QT_VERSION and parse(QT_VERSION) < parse(QT_VERSION_MIN):
-    _warn_old_minor_version('Qt', QT_VERSION, QT_VERSION_MIN)
-if PYQT_VERSION and parse(PYQT_VERSION) < parse(PYQT_VERSION_MIN):
-    _warn_old_minor_version('PyQt', PYQT_VERSION, PYQT_VERSION_MIN)
-elif PYSIDE_VERSION and parse(PYSIDE_VERSION) < parse(PYSIDE_VERSION_MIN):
-    _warn_old_minor_version('PySide', PYSIDE_VERSION, PYSIDE_VERSION_MIN)
+# Warn if using an End of Life or unsupported Qt API/binding minor version
+if QT_VERSION:
+    if parse(QT_VERSION) < parse(QT5_VERSION_MIN):
+        _warn_old_minor_version('Qt5', QT_VERSION, QT5_VERSION_MIN)
+    elif parse('6') <= parse(QT_VERSION) < parse(QT6_VERSION_MIN):
+        _warn_old_minor_version('Qt6', QT_VERSION, QT6_VERSION_MIN)
+if PYQT_VERSION:
+    if parse(PYQT_VERSION) < parse(PYQT5_VERSION_MIN):
+        _warn_old_minor_version('PyQt5', PYQT_VERSION, PYQT5_VERSION_MIN)
+    elif parse('6') <= parse(PYQT_VERSION) < parse(PYQT6_VERSION_MIN):
+        _warn_old_minor_version('PyQt6', PYQT_VERSION, PYQT6_VERSION_MIN)
+elif PYSIDE_VERSION:
+    if parse(PYSIDE_VERSION) < parse(PYSIDE2_VERSION_MIN):
+        _warn_old_minor_version('PySide2', PYSIDE_VERSION, PYSIDE2_VERSION_MIN)
+    elif parse('6') <= parse(PYSIDE_VERSION) < parse(PYSIDE6_VERSION_MIN):
+        _warn_old_minor_version('PySide6', PYSIDE_VERSION, PYSIDE6_VERSION_MIN)
