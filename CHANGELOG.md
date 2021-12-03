@@ -1,5 +1,29 @@
 # History of changes
 
+## Version 1.11.3 (2021/12/03)
+
+### Issues Closed
+
+* [Issue 284](https://github.com/spyder-ide/qtpy/issues/284) - Warn if using a deprecated and/or unsupported Qt 5 version ([PR 289](https://github.com/spyder-ide/qtpy/pull/289) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 280](https://github.com/spyder-ide/qtpy/issues/280) - import qtpy raise except when only have PyQt4 ([PR 281](https://github.com/spyder-ide/qtpy/pull/281) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 261](https://github.com/spyder-ide/qtpy/issues/261) - Add a deprecation warning for unsupported `Qt` versions and bindings (at least `Qt4`: `PyQt4` and `PySide`) ([PR 283](https://github.com/spyder-ide/qtpy/pull/283) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 293](https://github.com/spyder-ide/qtpy/pull/293) - PR: Update RELEASE.md for 1.x version, by [@dalthviz](https://github.com/dalthviz)
+* [PR 289](https://github.com/spyder-ide/qtpy/pull/289) - PR: Add warning for deprecated/EoL Qt5 & PyQt5/PySide2 versions to fix #284, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([284](https://github.com/spyder-ide/qtpy/issues/284))
+* [PR 285](https://github.com/spyder-ide/qtpy/pull/285) - PR: Import Callable and MutableMapping in py3compat for Python 2 compat, by [@davvid](https://github.com/davvid)
+* [PR 283](https://github.com/spyder-ide/qtpy/pull/283) - PR: Add a warning for developers still running legacy Qt4-based APIs, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([261](https://github.com/spyder-ide/qtpy/issues/261))
+* [PR 281](https://github.com/spyder-ide/qtpy/pull/281) - PR: Catch `PythonQtError` when trying to do alias for `QtDataVisualization` and dev version correction, by [@dalthviz](https://github.com/dalthviz) ([280](https://github.com/spyder-ide/qtpy/issues/280))
+
+In this release 5 pull requests were closed.
+
+
+----
+
+
 ## Version 1.11.2 (2021-09-23)
 
 ### Issues Closed
