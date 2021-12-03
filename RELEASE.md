@@ -1,71 +1,120 @@
+# Release Procedure
+
+In the commands below, replace `X.Y.Z` with the release version when needed.
+
+**Note**: We use `pip` instead of `conda` here even on Conda installs, to ensure we always get the latest upstream versions of the build dependencies.
+
+
 ## PyPI
 
-To release a new version of qtpy on PyPI (replacing `X.Y.Z` for the corresponding version when needed):
+To release a new version of QtPy on PyPI:
 
-* Close [GitHub milestone](https://github.com/spyder-ide/qtpy/milestones)
 
-* Update local repo with
+### Prepare
 
-      git checkout 1.x && git fetch upstream && git merge upstream/1.x
+* Close [GitHub milestone](https://github.com/spyder-ide/qtpy/milestones) and ensure all issues are resolved/moved
 
-* Clean local repo with
+* Update local repo
 
-      git clean -xfdi
+  ```bash
+  git restore . && git switch 1.x && git pull upstream 1.x
+  ```
 
-* Update `CHANGELOG.md` with
+* Clean local repo
 
-      loghub spyder-ide/qtpy -m vX.Y.Z
+  ```bash
+  git clean -xfdi
+  ```
 
-* Update `_version.py` (set release version, remove 'dev0')
 
-* Create release commit with
+### Commit
 
-      git add . && git commit -m "Release X.Y.Z"
+* Install/upgrade Loghub
 
-* Update the most important release packages with
+  ```bash
+  pip install --upgrade loghub
+  ```
 
-      pip install -U pip setuptools twine wheel
+* Update `CHANGELOG.md` using Loghub to generate the list of issues and PRs merged to add at the top of the file
 
-* Create source distribution with
+  ```bash
+  loghub -m vX.Y.Z spyder-ide/qtpy
+  ```
 
-      python setup.py sdist
+* Update `qtpy/_version.py` (set release version, remove `dev0`)
 
-* Create wheel with
+* Create release commit
 
-      python setup.py bdist_wheel
+  ```bash
+  git commit -am "Release X.Y.Z"
+  ```
 
-* Check release files with
 
-      twine check dist/*
+### Build
 
-* Upload to PyPI package files with
+* Update the packaging stack
 
-      twine upload dist/*
+  ```bash
+  python -m pip install --upgrade pip
+  pip install --upgrade --upgrade-strategy eager setuptools twine wheel
+  ```
 
-* Create release tag with
+* Build source distribution and wheel
 
-      git tag -a vX.Y.Z -m "Release X.Y.Z"
+  ```bash
+  python -bb -X dev -W error setup.py sdist bdist_wheel
+  ```
 
-* Update `_version.py` (add 'dev0' and increment minor)
+* Check distribution archives
 
-* Create `Back to work` commit with
+  ```bash
+  twine check --strict dist/*
+  ```
 
-      git add . && git commit -m "Back to work"
 
-* Merge new release commits on master with
+### Release
 
-      git checkout master && git fetch upstream && git merge upstream/master
-      git merge 1.x
-      git commit -m "Merge from 1.x: Release X.Y.Z"
+* Upload distribution packages to PyPI
 
-* Update remote repository with
+  ```bash
+  twine upload dist/*
+  ```
 
-      git push upstream master
-      git push upstream 1.x
-      git push upstream --tags
+* Create release tag
 
-## Conda-forge
+  ```bash
+  git tag -a vX.Y.Z -m "Release X.Y.Z"
+  ```
 
-To release a new version of qtpy on Conda-forge
 
-* After the release on PyPI an automatic PR in the [conda-forge feedstock repo for qtpy](https://github.com/conda-forge/qtpy-feedstock/pulls) should open. Merging this PR will update the respective conda-forge package.
+### Finalize
+
+* Update `qtpy/_version.py` (add `dev0` and increment minor)
+
+* Create `Back to work` commit
+
+  ```bash
+  git commit -am "Back to work"
+  ```
+
+* Push new release commits and tags to `1.x`
+
+  ```bash
+  git push upsteam 1.x --follow-tags
+  ```
+
+* Merge new release commits to `master`
+
+  ```bash
+  git switch master && git pull upstream master
+  git merge 1.x -m "Merge from 1.x: Release X.Y.Z"
+  git push upstream master
+  ```
+
+
+## Conda-Forge
+
+To release a new version of QtPy on Conda-Forge:
+
+* After the release on PyPI, an automatic PR in the [Conda-Forge feedstock repo for QtPy](https://github.com/conda-forge/qtpy-feedstock/pulls) should open.
+  Merging this PR will update the respective Conda-Forge package.
