@@ -37,23 +37,24 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.6', '3.9']
+        python-version: ['3.6', '3.10']
         use-conda: ['Yes', 'No']
         include:
         - os: ubuntu-latest
-          special-invocation: 'xvfb-run --auto-servernum '
+          special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
+        - python-version: '3.10'
+          skip-pyside2: true  # Skip Pyside2 on all Python 3.10 builds until it supports it
+        - use-conda: 'Yes'  # No conda packages yet for Qt6
+          skip-pyqt6: true
+          skip-pyside6: true
         - python-version: '3.6'
           use-conda: 'No'
           skip-pip-check: 'true'  # Pytest packaging issue on Python 3.6 defaults channel
-          pyside2-version: 5.12.0  # 5.12.1-5.12.6 fails on collection/segfaults on patch test
-        - os: ubuntu-latest
-          python-version: '3.6'
-          use-conda: 'No'
-          skip-pyqt6: true  # No wheels on Py 3.6 Linux CIs
+          pyside2-version: '5.12.0'  # 5.12.1-5.12.6 fails on collection/segfaults on patch test
         - os: windows-latest
-          python-version: '3.9'
+          python-version: '3.10'
           use-conda: 'No'
-          pyside2-version: 5.15  # No 5.12 wheel on Windows and Python 3.9
+          pyside2-version: '5.15'  # No 5.12 wheel on Windows and Python 3.10
         - os: windows-latest
           python-version: '3.6'
           use-conda: 'Yes'
@@ -61,7 +62,7 @@ jobs:
         - os: macos-latest
           python-version: '3.6'
           use-conda: 'No'
-          skip-pyqt6: true  # No wheels on Py 3.6 macOS CIs
+          skip-pyside6: true  # Py3.6 wheels apparently still don't work on latest macOS
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
@@ -91,13 +92,13 @@ jobs:
         if: (! matrix.skip-pyqt5)
         run: ./.github/workflows/test.sh pyqt5
       - name: Test PyQt6
-        if: always() && (! ((matrix.skip-pyqt6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Qt6/PyQt6
+        if: always() && (! (matrix.skip-pyqt6))
         run: ./.github/workflows/test.sh pyqt6
       - name: Test PySide2
         if: always() && (! (matrix.skip-pyside2))
         run: ./.github/workflows/test.sh pyside2
       - name: Test PySide6
-        if: always() && (! ((matrix.skip-pyside6) || (matrix.use-conda == 'Yes')))  # No conda packages yet for Qt6/Pyside6
+        if: always() && (! (matrix.skip-pyside6))
         run: ./.github/workflows/test.sh pyside6
       - name: Upload coverage data to coveralls.io
         shell: bash
