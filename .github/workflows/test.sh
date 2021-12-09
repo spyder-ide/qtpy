@@ -3,16 +3,11 @@
 # Activate conda properly
 eval "$(conda shell.bash hook)"
 
-# Set conda channel
-if [ "$USE_CONDA" = "No" ]; then
-    CONDA_CHANNEL_ARG="-c anaconda"
-fi
-
 # Remove any existing env
-conda remove -q -n test-env ${CONDA_CHANNEL_ARG} --all || true
+conda remove -q -n test-env --all || true
 
 # Create and activate conda environment for this test
-conda create -q -n test-env ${CONDA_CHANNEL_ARG} python=${PYTHON_VERSION} pytest pytest-cov
+conda create -q -n test-env python=${PYTHON_VERSION} pytest pytest-cov
 conda activate test-env
 
 if [ "$USE_CONDA" = "Yes" ]; then
@@ -44,10 +39,10 @@ fi
 # Build wheel of package
 git clean -xdf -e *.coverage
 python -m pip install --upgrade build
-python -bb -X dev -W error -W ignore:::pyparsing -m build
+python -bb -X dev -W error -m build
 
 # Install package from built wheel
-echo dist/*.whl | xargs -I % python -bb -X dev -W error -m pip install --upgrade %
+echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationWarning:pip._internal.locations._distutils" -W "ignore::DeprecationWarning:distutils.command.install" -m pip install --upgrade %
 
 # Print environment information
 conda list
