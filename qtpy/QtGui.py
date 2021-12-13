@@ -14,6 +14,7 @@ from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 if PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
+    QFontMetrics.width = QFontMetrics.horizontalAdvance
 
     # Map missing/renamed methods
     QDrag.exec_ = QDrag.exec
