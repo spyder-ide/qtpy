@@ -28,6 +28,8 @@ if PYQT6:
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
     QThread.exec_ = QThread.exec
+    
+    QLibraryInfo.location = QLibraryInfo.path 
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
