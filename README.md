@@ -21,10 +21,10 @@ write applications using a single API call to either PyQt or PySide.
 It provides support for PyQt5, PyQt6, PySide6, PySide2 using the Qt5 layout
 (where the QtGui module has been split into QtGui and QtWidgets).
 
-Basically, you can write your code as if you were using `PySide2/PySide6`
-but import Qt modules from `qtpy` instead of `PySide2/PySide6` (or `PyQt5/PyQt6`)
+Basically, you can write your code as if you were using PyQt or PySide directly,
+but import Qt modules from `qtpy` instead of `PyQt5`, PyQt6`, `PySide2`, or `PySide6`.
 
-Following this idea, when porting code from using different Qt bindings (`PyQt` vs `PySide`) or Qt versions (5 vs 6) QtPy can help to do this in an easier way since it allows you to incrementally do it. You can go in your project checking file by file/module by module allowing you to better handle possible incompatibilities between bindings or Qt versions while keeping your project running! Examples of this approach can be checked in projects like [`git-cola`](https://github.com/git-cola/git-cola/issues/232).
+Accordingly, when porting code between different Qt bindings (PyQt vs PySide) or Qt versions (Qt5 vs Qt6), As a compatibility layer, QtPy makes this much more painless, and allows you to easily and incrementally transition between them. QtPy handles incompatibilities and differences between bindings or Qt versions for you while keeping your project running, so you can focus more on your own code and less on keeping track of supporting every Qt version and binding. Furthermore, when you do want to upgrade or support new bindings, it allows you to update your project module by module rather than all at once.  You can check out examples of this approach in QtPy-using projects like [git-cola](https://github.com/git-cola/git-cola/issues/232).
 
 ### Attribution and acknowledgments
 
