@@ -14,7 +14,7 @@ from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 if PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *
-    from PyQt6.QtGui import QAction, QActionGroup, QShortcut
+    from PyQt6.QtGui import QAction, QActionGroup, QShortcut, QFileSystemModel
     from PyQt6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
