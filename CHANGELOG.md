@@ -1,5 +1,69 @@
 # History of changes
 
+## Version 2.0.0 (2021-12-22)
+
+### Issues Closed
+
+* [Issue 300](https://github.com/spyder-ide/qtpy/issues/300) - Release QtPy 2.0.0
+* [Issue 286](https://github.com/spyder-ide/qtpy/issues/286) - PySide6 DeprecationWarning of exec_ ([PR 287](https://github.com/spyder-ide/qtpy/pull/287) by [@kumattau](https://github.com/kumattau))
+* [Issue 274](https://github.com/spyder-ide/qtpy/issues/274) - SignalInstance, Slot, and Property for Qt6 QtCore
+* [Issue 270](https://github.com/spyder-ide/qtpy/issues/270) - Port packaging from deprecated legacy builder to current PEP 517 standards ([PR 272](https://github.com/spyder-ide/qtpy/pull/272) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 269](https://github.com/spyder-ide/qtpy/issues/269) - Add CI testing and official support for Python 3.10 ([PR 296](https://github.com/spyder-ide/qtpy/pull/296) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 267](https://github.com/spyder-ide/qtpy/issues/267) - Coveralls shows 0 coverage despite coverage report and runner output looking fine ([PR 268](https://github.com/spyder-ide/qtpy/pull/268) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 258](https://github.com/spyder-ide/qtpy/issues/258) - Compatibility with `QtWidgets.QOpenGLWidget` vs `QtOpenGLWidgets.QOpenGLWidget` ([PR 259](https://github.com/spyder-ide/qtpy/pull/259) by [@kumattau](https://github.com/kumattau))
+* [Issue 257](https://github.com/spyder-ide/qtpy/issues/257) - Check import behavior for QtCharts module ([PR 260](https://github.com/spyder-ide/qtpy/pull/260) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 253](https://github.com/spyder-ide/qtpy/issues/253) - Declare and test support up to Python 3.9 and PyQt6 ([PR 262](https://github.com/spyder-ide/qtpy/pull/262) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 250](https://github.com/spyder-ide/qtpy/issues/250) - Drop Python 2 support ([PR 251](https://github.com/spyder-ide/qtpy/pull/251) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 234](https://github.com/spyder-ide/qtpy/issues/234) - distutils.LooseVersion is being deprecated ([PR 266](https://github.com/spyder-ide/qtpy/pull/266) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 233](https://github.com/spyder-ide/qtpy/issues/233) - PyQt6 support ([PR 294](https://github.com/spyder-ide/qtpy/pull/294) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 232](https://github.com/spyder-ide/qtpy/issues/232) - Add support for `QtTextToSpeech`
+* [Issue 197](https://github.com/spyder-ide/qtpy/issues/197) - QtTest imports are incomplete ([PR 290](https://github.com/spyder-ide/qtpy/pull/290) by [@kumattau](https://github.com/kumattau))
+* [Issue 70](https://github.com/spyder-ide/qtpy/issues/70) - Add QHeaderView.setSectionResize for Qt4 layer
+* [Issue 66](https://github.com/spyder-ide/qtpy/issues/66) - Add documentation for how to run tests ([PR 277](https://github.com/spyder-ide/qtpy/pull/277) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 62](https://github.com/spyder-ide/qtpy/issues/62) - Add to the readme the importance of qtpy when migrating an application ([PR 301](https://github.com/spyder-ide/qtpy/pull/301) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 17 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 303](https://github.com/spyder-ide/qtpy/pull/303) - PR: Fix QFileSystemModel for PyQt6, by [@almarklein](https://github.com/almarklein)
+* [PR 301](https://github.com/spyder-ide/qtpy/pull/301) - PR: Update README.md adding a line for QtPy usefulness when migrating between Qt bindings/versions, by [@dalthviz](https://github.com/dalthviz) ([62](https://github.com/spyder-ide/qtpy/issues/62))
+* [PR 299](https://github.com/spyder-ide/qtpy/pull/299) - PR: 'width' needed for PyQt6, by [@stonebig](https://github.com/stonebig)
+* [PR 298](https://github.com/spyder-ide/qtpy/pull/298) - PR: Make QLibraryInfo.location work for PyQt6, by [@stonebig](https://github.com/stonebig)
+* [PR 296](https://github.com/spyder-ide/qtpy/pull/296) - PR: Add support for Python 3.10 on CIs and packaging, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([269](https://github.com/spyder-ide/qtpy/issues/269))
+* [PR 294](https://github.com/spyder-ide/qtpy/pull/294) - PR: Add minimum version check for Qt6 >=6.2.0, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([233](https://github.com/spyder-ide/qtpy/issues/233))
+* [PR 292](https://github.com/spyder-ide/qtpy/pull/292) - PR: Define Qt/binding versions at top level, fix warnings if versions not found, and fix test dir on CIs, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 291](https://github.com/spyder-ide/qtpy/pull/291) - PR: Add QtTextToSpeech Module, by [@kumattau](https://github.com/kumattau)
+* [PR 290](https://github.com/spyder-ide/qtpy/pull/290) - PR: Import all classes in QtTest module., by [@kumattau](https://github.com/kumattau) ([197](https://github.com/spyder-ide/qtpy/issues/197))
+* [PR 287](https://github.com/spyder-ide/qtpy/pull/287) - PR: Map exec_ to their non-deprecated alternatives, by [@kumattau](https://github.com/kumattau) ([286](https://github.com/spyder-ide/qtpy/issues/286))
+* [PR 282](https://github.com/spyder-ide/qtpy/pull/282) - PR: Update README sponsors section, by [@dalthviz](https://github.com/dalthviz)
+* [PR 279](https://github.com/spyder-ide/qtpy/pull/279) - PR: Add back legacy PYQT4 and PYSIDE package-level constants for compat, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 278](https://github.com/spyder-ide/qtpy/pull/278) - PR: Update gitignore, gitattributes, license, authors and security policy, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 277](https://github.com/spyder-ide/qtpy/pull/277) - PR: Add Contributing Guide based on other Spyder projects, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([66](https://github.com/spyder-ide/qtpy/issues/66))
+* [PR 276](https://github.com/spyder-ide/qtpy/pull/276) - PR: Fix regression in FORCE_QT_API behavior from merging PySide6 support, by [@tlambert03](https://github.com/tlambert03)
+* [PR 273](https://github.com/spyder-ide/qtpy/pull/273) - PR: Avoid future deprecations and decrease general technical debt, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 272](https://github.com/spyder-ide/qtpy/pull/272) - PR: Upgrade packaging to avoid legacy/deprecated behavior and follow PEP 517, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([270](https://github.com/spyder-ide/qtpy/issues/270))
+* [PR 271](https://github.com/spyder-ide/qtpy/pull/271) - PR: Unscoped enums access for PyQt6 and other missing PyQt6 compatibility changes, by [@dalthviz](https://github.com/dalthviz)
+* [PR 268](https://github.com/spyder-ide/qtpy/pull/268) - PR: Fix and improve Coveralls reporting, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([267](https://github.com/spyder-ide/qtpy/issues/267))
+* [PR 266](https://github.com/spyder-ide/qtpy/pull/266) - PR: Use modern packaging instead of deprecated distutils for version parse, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([235](https://github.com/spyder-ide/qtpy/issues/235), [234](https://github.com/spyder-ide/qtpy/issues/234))
+* [PR 264](https://github.com/spyder-ide/qtpy/pull/264) - PR: [PyQt6] Add missing tabStopWidth/setTabStopWidth same as PySide6, by [@kumattau](https://github.com/kumattau)
+* [PR 263](https://github.com/spyder-ide/qtpy/pull/263) - PR: Remove accidentally-duplicated lines of code in QtCore, by [@kumattau](https://github.com/kumattau)
+* [PR 262](https://github.com/spyder-ide/qtpy/pull/262) - PR: Unify and cleanup CI infra, improve robustness and test Python 3.9 and PyQt6, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([253](https://github.com/spyder-ide/qtpy/issues/253))
+* [PR 260](https://github.com/spyder-ide/qtpy/pull/260) - PR: Reorganize `QtCharts` module import and add missing skip validation for `QtNetworkAuth` test with `PyQt6`, by [@dalthviz](https://github.com/dalthviz) ([257](https://github.com/spyder-ide/qtpy/issues/257))
+* [PR 259](https://github.com/spyder-ide/qtpy/pull/259) - PR: [PyQt6] Add exec_/print_, and add QOpenGLWidget/QShortcut to QtWidgets, by [@kumattau](https://github.com/kumattau) ([258](https://github.com/spyder-ide/qtpy/issues/258))
+* [PR 256](https://github.com/spyder-ide/qtpy/pull/256) - PR: Fix fallback API, by [@benoit-pierre](https://github.com/benoit-pierre)
+* [PR 255](https://github.com/spyder-ide/qtpy/pull/255) - PR: Add additional Qt modules and more support and tests for PyQt6/PySide6, by [@jschueller](https://github.com/jschueller)
+* [PR 254](https://github.com/spyder-ide/qtpy/pull/254) - PR: Add QShortcut class to QtWidgets module, by [@kumattau](https://github.com/kumattau)
+* [PR 252](https://github.com/spyder-ide/qtpy/pull/252) - PR: Remove Qt4 support, by [@jschueller](https://github.com/jschueller)
+* [PR 251](https://github.com/spyder-ide/qtpy/pull/251) - PR: Drop Python 2, by [@dalthviz](https://github.com/dalthviz) ([250](https://github.com/spyder-ide/qtpy/issues/250))
+* [PR 225](https://github.com/spyder-ide/qtpy/pull/225) - PR: Add support for PySide6, by [@jschueller](https://github.com/jschueller)
+
+In this release 31 pull requests were closed.
+
+
+----
+
+
 ## Version 1.11.3 (2021/12/03)
 
 ### Issues Closed
