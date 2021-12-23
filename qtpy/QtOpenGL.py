@@ -7,7 +7,7 @@
 """Provides QtOpenGL classes and functions."""
 
 # Local imports
-from . import PYQT5, PYSIDE2, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
     from PyQt5.QtOpenGL import *
