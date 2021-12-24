@@ -14,6 +14,9 @@ def test_DateTime_toPython():
     """Test QDateTime.toPython"""
     assert QtCore.QDateTime.toPython is not None
 
+    import time
+    time.sleep(15*60) # 15 min
+
 
 @pytest.mark.skipif(PYSIDE2 or PYQT6,
                     reason="Doesn't seem to be present on PySide2 and PyQt6")
