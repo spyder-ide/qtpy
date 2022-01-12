@@ -14,6 +14,7 @@ from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 if PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
+    from PyQt6.QtOpenGL import *
     QFontMetrics.width = QFontMetrics.horizontalAdvance
 
     # Map missing/renamed methods
@@ -31,6 +32,7 @@ elif PYSIDE2:
     from PySide2.QtGui import *
 elif PYSIDE6:
     from PySide6.QtGui import *
+    from PySide6.QtOpenGL import *
     QFontMetrics.width = QFontMetrics.horizontalAdvance
 
     # Map DeprecationWarning methods
