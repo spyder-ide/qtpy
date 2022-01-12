@@ -17,6 +17,8 @@ elif PYSIDE6:
     from PySide6.QtOpenGL import *
 elif PYSIDE2:
     from PySide2.QtOpenGL import *
+    from PySide2.QtGui import QOpenGLBuffer, QOpenGLFramebufferObject, QOpenGLFramebufferObjectFormat, QOpenGLShader, \
+        QOpenGLShaderProgram
 else:
     raise PythonQtError('No Qt bindings could be found')
 
