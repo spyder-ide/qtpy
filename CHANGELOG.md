@@ -2,6 +2,12 @@
 
 ## Version 2.0.0 (2021-12-22)
 
+### New features
+
+* Add support for PyQt6 and PySide6 with Qt 6 >= 6.2.0
+* Add support for QtTextToSpeech.
+* Drop support for PyQt4, PySide and Python 2.
+
 ### Issues Closed
 
 * [Issue 300](https://github.com/spyder-ide/qtpy/issues/300) - Release QtPy 2.0.0
