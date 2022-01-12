@@ -18,7 +18,7 @@ if PYQT5:
                              QOpenGLWindow)
 elif PYQT6:
     from PyQt6.QtOpenGL import *
-    from PySide6.QtGui import (QOpenGLContext, QOpenGLContextGroup)
+    from PyQt6.QtGui import (QOpenGLContext, QOpenGLContextGroup)
 elif PYSIDE6:
     from PySide6.QtOpenGL import *
     from PySide6.QtGui import (QOpenGLContext, QOpenGLContextGroup)
