@@ -96,7 +96,11 @@ elif PYSIDE2:
 
     # Missing QtGui utility functions on Qt
     if getattr(Qt, 'mightBeRichText', None) is None:
-        from PySide2.QtGui import Qt as guiQt
-        Qt.mightBeRichText = guiQt.mightBeRichText
+        try:
+            from PySide2.QtGui import Qt as guiQt
+            Qt.mightBeRichText = guiQt.mightBeRichText
+        except ImportError:
+            # Fails with PySide2 5.12.0
+            pass
 else:
     raise PythonQtError('No Qt bindings could be found')

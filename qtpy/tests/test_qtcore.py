@@ -2,7 +2,7 @@
 
 import pytest
 
-from qtpy import PYQT5, PYQT6, PYSIDE2, PYQT_VERSION, QtCore
+from qtpy import PYQT5, PYQT6, PYSIDE2, PYQT_VERSION, PYSIDE_VERSION, QtCore
 
 
 def test_qtmsghandler():
@@ -39,6 +39,8 @@ def test_enum_access():
     assert QtCore.Qt.Widget == QtCore.Qt.WindowType.Widget
 
 
+@pytest.mark.skipif(PYSIDE2 and PYSIDE_VERSION.startswith('5.12.0'),
+                    reason="Utility functions unavailable for PySide2 5.12.0")
 def test_qtgui_namespace_mightBeRichText():
     """
     Test included elements (mightBeRichText) from module QtGui.
