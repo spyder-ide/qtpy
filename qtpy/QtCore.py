@@ -58,6 +58,11 @@ elif PYSIDE6:
     import PySide6.QtCore
     __version__ = PySide6.QtCore.__version__
 
+    # Missing QtGui utility functions on Qt
+    if getattr(Qt, 'mightBeRichText', None) is None:
+        from PySide6.QtGui import Qt as guiQt
+        Qt.mightBeRichText = guiQt.mightBeRichText
+
     # obsolete in qt6
     Qt.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ForegroundRole
@@ -79,5 +84,10 @@ elif PYSIDE2:
 
     import PySide2.QtCore
     __version__ = PySide2.QtCore.__version__
+
+    # Missing QtGui utility functions on Qt
+    if getattr(Qt, 'mightBeRichText', None) is None:
+        from PySide2.QtGui import Qt as guiQt
+        Qt.mightBeRichText = guiQt.mightBeRichText
 else:
     raise PythonQtError('No Qt bindings could be found')

@@ -37,3 +37,14 @@ def test_enum_access():
     assert QtCore.Qt.Key_Return == QtCore.Qt.Key.Key_Return
     assert QtCore.Qt.transparent == QtCore.Qt.GlobalColor.transparent
     assert QtCore.Qt.Widget == QtCore.Qt.WindowType.Widget
+
+
+@pytest.mark.skipif(PYQT5 or PYQT6,
+                    reason="Unavailable by default for PyQt")
+def test_qtgui_namespace_mightBeRichText():
+    """
+    Test included elements (mightBeRichText) from module QtGui.
+
+    See: https://doc.qt.io/qt-5/qt-sub-qtgui.html
+    """
+    assert QtCore.Qt.mightBeRichText is not None
