@@ -71,6 +71,7 @@ elif PYSIDE6:
     if getattr(Qt, 'mightBeRichText', None) is None:
         from PySide6.QtGui import Qt as guiQt
         Qt.mightBeRichText = guiQt.mightBeRichText
+        del guiQt
 
     # obsolete in qt6
     Qt.BackgroundColorRole = Qt.BackgroundRole
@@ -99,6 +100,7 @@ elif PYSIDE2:
         try:
             from PySide2.QtGui import Qt as guiQt
             Qt.mightBeRichText = guiQt.mightBeRichText
+            del guiQt
         except ImportError:
             # Fails with PySide2 5.12.0
             pass
