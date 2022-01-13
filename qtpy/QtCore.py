@@ -24,6 +24,15 @@ if PYQT6:
     from PyQt6.QtCore import QDateTime
     QDateTime.toPython = QDateTime.toPyDateTime
 
+    # For issue #311
+    # Seems like there is an error with sip. Without first
+    # trying to import `PyQt6.QtGui.Qt`
+    # Some functions like `PyQt6.QtCore.Qt.mightBeRichText` are missing
+    try:
+        from PyQt6.QtGui import Qt
+    except ImportError:
+        pass
+
     # Map missing methods
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
