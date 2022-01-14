@@ -47,6 +47,15 @@ if PYQT6:
     from .enums_compat import promote_enums
     promote_enums(QtCore)
     del QtCore
+
+    # Map missing unscoped access enum values
+    Qt.BackButton = Qt.XButton1
+    Qt.ForwardButton = Qt.XButton2
+
+    # Map Qt6 removed obsolete ItemDataRole enum values
+    Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
+    Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
+
 elif PYQT5:
     from PyQt5.QtCore import *
     from PyQt5.QtCore import pyqtSignal as Signal
@@ -73,7 +82,7 @@ elif PYSIDE6:
         Qt.mightBeRichText = guiQt.mightBeRichText
         del guiQt
 
-    # obsolete in qt6
+    # Map Qt6 removed obsolete ItemDataRole enum values
     Qt.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ForegroundRole
     Qt.MidButton = Qt.MiddleButton
