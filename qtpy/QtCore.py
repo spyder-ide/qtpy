@@ -83,9 +83,9 @@ elif PYSIDE6:
         del guiQt
 
     # Map Qt6 removed obsolete ItemDataRole enum values
-    Qt.BackgroundColorRole = Qt.BackgroundRole
-    Qt.TextColorRole = Qt.ForegroundRole
-    Qt.MidButton = Qt.MiddleButton
+    Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
+    Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
+    Qt.MidButton = Qt.MouseButton.MiddleButton = Qt.MiddleButton
 
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = QCoreApplication.exec

@@ -2,7 +2,7 @@
 
 import pytest
 
-from qtpy import PYQT5, PYQT6, PYSIDE2, PYQT_VERSION, PYSIDE_VERSION, QtCore
+from qtpy import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PYQT_VERSION, PYSIDE_VERSION, QtCore
 
 
 def test_qtmsghandler():
@@ -41,6 +41,8 @@ def test_enum_access():
     assert QtCore.Qt.XButton1 == QtCore.Qt.MouseButton.XButton1
     assert QtCore.Qt.BackgroundColorRole == QtCore.Qt.ItemDataRole.BackgroundColorRole
     assert QtCore.Qt.TextColorRole == QtCore.Qt.ItemDataRole.TextColorRole
+    if PYSIDE2 or PYSIDE6:
+        assert QtCore.Qt.MidButton == QtCore.Qt.MouseButton.MiddleButton
 
 
 @pytest.mark.skipif(PYSIDE2 and PYSIDE_VERSION.startswith('5.12.0'),
