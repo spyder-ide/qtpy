@@ -52,7 +52,7 @@ if PYQT6:
     Qt.BackButton = Qt.XButton1
     Qt.ForwardButton = Qt.XButton2
 
-    # Map Qt6 removed obsolete ItemDataRole enum values
+    # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
 
@@ -82,7 +82,7 @@ elif PYSIDE6:
         Qt.mightBeRichText = guiQt.mightBeRichText
         del guiQt
 
-    # Map Qt6 removed obsolete ItemDataRole enum values
+    # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
     Qt.MidButton = Qt.MouseButton.MiddleButton = Qt.MiddleButton
