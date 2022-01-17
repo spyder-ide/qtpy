@@ -26,8 +26,8 @@ if PYQT6:
 
     # For issue #311
     # Seems like there is an error with sip. Without first
-    # trying to import `PyQt6.QtGui.Qt`
-    # Some functions like `PyQt6.QtCore.Qt.mightBeRichText` are missing
+    # trying to import `PyQt6.QtGui.Qt`, some functions like
+    # `PyQt6.QtCore.Qt.mightBeRichText` are missing.
     try:
         from PyQt6.QtGui import Qt
     except ImportError:
