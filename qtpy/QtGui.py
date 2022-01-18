@@ -15,12 +15,12 @@ if PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
     from PyQt6.QtOpenGL import *
-    QFontMetrics.width = QFontMetrics.horizontalAdvance
+    QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
     # Map missing/renamed methods
-    QDrag.exec_ = QDrag.exec
+    QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
-    QTextDocument.print_ = QTextDocument.print
+    QTextDocument.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
 
     # Allow unscoped access for enums inside the QtGui module
     from .enums_compat import promote_enums
@@ -33,10 +33,10 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
-    QFontMetrics.width = QFontMetrics.horizontalAdvance
+    QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
     # Map DeprecationWarning methods
-    QDrag.exec_ = QDrag.exec
+    QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
 else:
     raise PythonQtError('No Qt bindings could be found')

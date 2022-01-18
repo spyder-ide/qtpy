@@ -13,15 +13,15 @@ if PYQT5:
     from PyQt5.QtSql import *
 elif PYQT6:
     from PyQt6.QtSql import *
-    QSqlDatabase.exec_ = QSqlDatabase.exec
-    QSqlQuery.exec_ = QSqlQuery.exec
-    QSqlResult.exec_ = QSqlResult.exec
+    QSqlDatabase.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QSqlQuery.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QSqlResult.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 elif PYSIDE6:
     from PySide6.QtSql import *
     # Map DeprecationWarning methods
-    QSqlDatabase.exec_ = QSqlDatabase.exec
-    QSqlQuery.exec_ = QSqlQuery.exec
-    QSqlResult.exec_ = QSqlResult.exec
+    QSqlDatabase.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QSqlQuery.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QSqlResult.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 elif PYSIDE2:
     from PySide2.QtSql import *
 else:

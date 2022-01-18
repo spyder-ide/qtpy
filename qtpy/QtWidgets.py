@@ -18,15 +18,15 @@ if PYQT6:
     from PyQt6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
-    QTextEdit.setTabStopWidth = QTextEdit.setTabStopDistance
-    QTextEdit.tabStopWidth = QTextEdit.tabStopDistance
-    QTextEdit.print_ = QTextEdit.print
-    QPlainTextEdit.setTabStopWidth = QPlainTextEdit.setTabStopDistance
-    QPlainTextEdit.tabStopWidth = QPlainTextEdit.tabStopDistance
-    QPlainTextEdit.print_ = QPlainTextEdit.print
+    QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
+    QTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QTextEdit.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
+    QPlainTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
+    QPlainTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QPlainTextEdit.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
     QApplication.exec_ = QApplication.exec
-    QDialog.exec_ = QDialog.exec
-    QMenu.exec_ = QMenu.exec
+    QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
     # Allow unscoped access for enums inside the QtWidgets module
     from .enums_compat import promote_enums
@@ -40,15 +40,15 @@ elif PYSIDE6:
     from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
-    QTextEdit.setTabStopWidth = QTextEdit.setTabStopDistance
-    QTextEdit.tabStopWidth = QTextEdit.tabStopDistance
-    QPlainTextEdit.setTabStopWidth = QPlainTextEdit.setTabStopDistance
-    QPlainTextEdit.tabStopWidth = QPlainTextEdit.tabStopDistance
+    QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
+    QTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QPlainTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
+    QPlainTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
 
     # Map DeprecationWarning methods
     QApplication.exec_ = QApplication.exec
-    QDialog.exec_ = QDialog.exec
-    QMenu.exec_ = QMenu.exec
+    QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 else:
