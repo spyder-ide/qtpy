@@ -24,6 +24,15 @@ if PYQT6:
     from PyQt6.QtCore import QDateTime
     QDateTime.toPython = QDateTime.toPyDateTime
 
+    # For issue #311
+    # Seems like there is an error with sip. Without first
+    # trying to import `PyQt6.QtGui.Qt`, some functions like
+    # `PyQt6.QtCore.Qt.mightBeRichText` are missing.
+    try:
+        from PyQt6.QtGui import Qt
+    except ImportError:
+        pass
+
     # Map missing methods
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = QEventLoop.exec
@@ -58,6 +67,12 @@ elif PYSIDE6:
     import PySide6.QtCore
     __version__ = PySide6.QtCore.__version__
 
+    # Missing QtGui utility functions on Qt
+    if getattr(Qt, 'mightBeRichText', None) is None:
+        from PySide6.QtGui import Qt as guiQt
+        Qt.mightBeRichText = guiQt.mightBeRichText
+        del guiQt
+
     # obsolete in qt6
     Qt.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ForegroundRole
@@ -79,5 +94,15 @@ elif PYSIDE2:
 
     import PySide2.QtCore
     __version__ = PySide2.QtCore.__version__
+
+    # Missing QtGui utility functions on Qt
+    if getattr(Qt, 'mightBeRichText', None) is None:
+        try:
+            from PySide2.QtGui import Qt as guiQt
+            Qt.mightBeRichText = guiQt.mightBeRichText
+            del guiQt
+        except ImportError:
+            # Fails with PySide2 5.12.0
+            pass
 else:
     raise PythonQtError('No Qt bindings could be found')

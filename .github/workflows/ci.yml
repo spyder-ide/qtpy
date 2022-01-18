@@ -17,7 +17,7 @@ jobs:
   test:
     name: Test ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    timeout-minutes: 15
     defaults:
       run:
         shell: ${{ matrix.special-invocation }}bash -l {0}
