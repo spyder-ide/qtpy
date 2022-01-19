@@ -22,7 +22,7 @@ if PYQT6:
 
     # For issue #153
     from PyQt6.QtCore import QDateTime
-    QDateTime.toPython = QDateTime.toPyDateTime
+    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
 
     # For issue #311
     # Seems like there is an error with sip. Without first
@@ -35,10 +35,10 @@ if PYQT6:
 
     # Map missing methods
     QCoreApplication.exec_ = QCoreApplication.exec
-    QEventLoop.exec_ = QEventLoop.exec
-    QThread.exec_ = QThread.exec
-    
-    QLibraryInfo.location = QLibraryInfo.path 
+    QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+
+    QLibraryInfo.location = QLibraryInfo.path
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -89,9 +89,9 @@ elif PYSIDE6:
 
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = QCoreApplication.exec
-    QEventLoop.exec_ = QEventLoop.exec
-    QThread.exec_ = QThread.exec
-    QTextStreamManipulator.exec_ = QTextStreamManipulator.exec
+    QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
 elif PYSIDE2:
     from PySide2.QtCore import *
