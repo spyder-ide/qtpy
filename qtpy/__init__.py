@@ -211,13 +211,6 @@ try:
 except (ImportError, PythonQtError):
     pass
 
-try:
-    # QtCharts backward compatibility with QtPy 1.x
-    from . import QtCharts
-    QtCharts.QtCharts = QtCharts
-except (ImportError, PythonQtError):
-    pass
-
 
 def _warn_old_minor_version(name, old_version, min_version):
     """Warn if using a Qt or binding version no longer supported by QtPy."""
