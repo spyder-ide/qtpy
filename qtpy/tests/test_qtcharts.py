@@ -8,3 +8,4 @@ def test_qtcharts():
     """Test the qtpy.QtCharts namespace"""
     from qtpy import QtCharts
     assert QtCharts.QChart is not None
+    assert QtCharts.QtCharts.QChart is not None
