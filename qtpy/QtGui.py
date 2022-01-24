@@ -33,7 +33,10 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
+
+    # Map missing/renamed methods
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
+    QGuiApplication.desktop = lambda self: self.primaryScreen()
 
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
