@@ -12,5 +12,3 @@ def test_qtprintsupport():
     assert QtPrintSupport.QPrinter is not None
     assert QtPrintSupport.QPrinterInfo is not None
     assert QtPrintSupport.QPrintPreviewWidget is not None
-	
-

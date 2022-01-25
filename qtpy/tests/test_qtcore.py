@@ -1,5 +1,9 @@
 """Test QtCore."""
 
+from datetime import datetime
+import os
+import sys
+
 import pytest
 
 from qtpy import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PYQT_VERSION, PYSIDE_VERSION, QtCore
@@ -10,9 +14,38 @@ def test_qtmsghandler():
     assert QtCore.qInstallMessageHandler is not None
 
 
-def test_DateTime_toPython():
+def test_qdatetime_toPython():
     """Test QDateTime.toPython"""
+    q_date = QtCore.QDateTime.currentDateTime()
     assert QtCore.QDateTime.toPython is not None
+    py_date = q_date.toPython()
+    assert isinstance(py_date, datetime)
+
+
+@pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
+                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+def test_qeventloop_exec_(qtbot):
+    """Test QEventLoop.exec_"""
+    assert QtCore.QEventLoop.exec_ is not None
+    event_loop = QtCore.QEventLoop(None)
+    QtCore.QTimer.singleShot(1000, event_loop.quit)
+    event_loop.exec_()
+
+
+def test_qthread_exec_():
+    """Test QThread.exec_"""
+    assert QtCore.QThread.exec_ is not None
+
+
+def test_qlibraryinfo_location():
+    """Test QLibraryInfo.location"""
+    assert QtCore.QLibraryInfo.location is not None
+    assert QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.PrefixPath) is not None
+
+
+def test_qtextstreammanipulator_exec_():
+    """Test QTextStreamManipulator.exec_"""
+    QtCore.QTextStreamManipulator.exec_ is not None
 
 
 @pytest.mark.skipif(PYSIDE2 or PYQT6,

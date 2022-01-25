@@ -7,7 +7,12 @@ eval "$(conda shell.bash hook)"
 conda remove -q -n test-env --all || true
 
 # Create and activate conda environment for this test
-conda create -q -n test-env python=${PYTHON_VERSION} pytest 'pytest-cov>=3.0.0'
+if [ "$PYQT5_QT_VERSION" = "5.9" ] || [ "$PYSIDE2_QT_VERSION" = "5.9" ] ; then
+    conda create -q -n test-env python=${PYTHON_VERSION} pytest 'pytest-cov>=3.0.0' 'pytest-qt==3.3.0'
+else
+    conda create -q -n test-env python=${PYTHON_VERSION} pytest 'pytest-cov>=3.0.0' 'pytest-qt'
+fi
+
 conda activate test-env
 
 if [ "$USE_CONDA" = "Yes" ]; then

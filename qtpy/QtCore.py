@@ -20,7 +20,7 @@ if PYQT6:
     from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
-    # For issue #153
+    # For issue #153 and updated for issue #305
     from PyQt6.QtCore import QDateTime
     QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
 
@@ -37,6 +37,7 @@ if PYQT6:
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
     QLibraryInfo.location = QLibraryInfo.path
 
@@ -64,9 +65,12 @@ elif PYQT5:
     from PyQt5.QtCore import pyqtProperty as Property
     from PyQt5.QtCore import QT_VERSION_STR as __version__
 
-    # For issue #153
+    # For issue #153 and updated for issue #305
     from PyQt5.QtCore import QDateTime
-    QDateTime.toPython = QDateTime.toPyDateTime
+    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
+
+    # Map missing methods on PyQt5 5.12
+    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
