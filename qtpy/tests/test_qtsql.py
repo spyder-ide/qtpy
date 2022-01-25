@@ -1,5 +1,8 @@
+"""Test QtSql."""
 import pytest
+
 from qtpy import QtSql
+
 
 def test_qtsql():
     """Test the qtpy.QtSql namespace"""
@@ -20,3 +23,49 @@ def test_qtsql():
 
     # Following modules are not (yet) part of any wrapper:
     # QSqlDriverCreator, QSqlDriverPlugin
+
+
+def test_qtsql_members_aliases():
+    """
+    Test aliased methods over qtpy.QtSql members including:
+
+    * qtpy.QtSql.QSqlDatabase.exec_
+    * qtpy.QtSql.QSqlQuery.exec_
+    * qtpy.QtSql.QSqlResult.exec_
+    """
+    assert QtSql.QSqlDatabase.exec_ is not None
+    assert QtSql.QSqlQuery.exec_ is not None
+    assert QtSql.QSqlResult.exec_ is not None
+
+    connection = QtSql.QSqlDatabase.addDatabase("QSQLITE")
+    assert connection.open()
+    connection.setDatabaseName("test.sqlite")
+    QtSql.QSqlDatabase.exec_(
+        connection,
+        """
+        CREATE TABLE test (
+            id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+            name VARCHAR(40) NOT NULL
+        )
+        """
+    )
+    # Created table 'test' and 'sqlite_sequence'
+    assert len(connection.tables()) == 2
+
+    insert_table_query = QtSql.QSqlQuery()
+    assert insert_table_query.exec_(
+        """
+        INSERT INTO test (name) VALUES (
+            "TESTING"
+        )
+        """
+    )
+    select_table_query = QtSql.QSqlQuery()
+    select_table_query.prepare(
+        """
+        SELECT * FROM test
+        """)
+    select_table_query.exec_()
+    record = select_table_query.record()
+    assert not record.isEmpty()
+    connection.close()
