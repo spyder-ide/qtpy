@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT_VERSION, QtCore, QtWidgets, QtPrintSupport
+from qtpy import PYQT5, PYQT_VERSION, QtCore, QtGui, QtWidgets
 
 
 @pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
@@ -14,11 +14,14 @@ def test_qtextedit_functions(qtbot):
     assert QtWidgets.QTextEdit.setTabStopWidth
     assert QtWidgets.QTextEdit.tabStopWidth
     assert QtWidgets.QTextEdit.print_
-    textedit_widget = QtWidgets.QTextEdit(None)
+    textedit_widget = QtWidgets.QTextEdit(None)    
+    qtbot.addWidget(textedit_widget)
     textedit_widget.setTabStopWidth(90)
     assert textedit_widget.tabStopWidth() == 90
-    printer = QtPrintSupport.QPrinter()
-    textedit_widget.print_(printer)
+    print_device = QtGui.QPdfWriter('test.pdf')
+    textedit_widget.print_(print_device)
+    assert os.path.exists('test.pdf')
+    os.remove('test.pdf')
 
 
 @pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
@@ -29,10 +32,13 @@ def test_qplaintextedit_functions(qtbot):
     assert QtWidgets.QPlainTextEdit.tabStopWidth
     assert QtWidgets.QPlainTextEdit.print_
     plaintextedit_widget = QtWidgets.QPlainTextEdit(None)
+    qtbot.addWidget(plaintextedit_widget)
     plaintextedit_widget.setTabStopWidth(90)
     assert plaintextedit_widget.tabStopWidth() == 90
-    printer = QtPrintSupport.QPrinter()
-    plaintextedit_widget.print_(printer)
+    print_device = QtGui.QPdfWriter('test.pdf')
+    plaintextedit_widget.print_(print_device)
+    assert os.path.exists('test.pdf')
+    os.remove('test.pdf')
 
 
 def test_qapplication_functions():
@@ -46,6 +52,7 @@ def test_qdialog_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QDialog.exec_
     dialog = QtWidgets.QDialog(None)
+    qtbot.addWidget(dialog)
     QtCore.QTimer.singleShot(100, dialog.accept)
     dialog.exec_()
 
@@ -56,6 +63,7 @@ def test_qmenu_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QMenu.exec_
     menu = QtWidgets.QMenu(None)
+    qtbot.addWidget(menu)
     QtCore.QTimer.singleShot(100, menu.close)
     menu.exec_()
 

@@ -28,7 +28,7 @@ def test_qeventloop_exec_(qtbot):
     """Test QEventLoop.exec_"""
     assert QtCore.QEventLoop.exec_ is not None
     event_loop = QtCore.QEventLoop(None)
-    QtCore.QTimer.singleShot(1000, event_loop.quit)
+    QtCore.QTimer.singleShot(100, event_loop.quit)
     event_loop.exec_()
 
 
