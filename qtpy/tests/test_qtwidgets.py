@@ -14,8 +14,7 @@ def test_qtextedit_functions(qtbot):
     assert QtWidgets.QTextEdit.setTabStopWidth
     assert QtWidgets.QTextEdit.tabStopWidth
     assert QtWidgets.QTextEdit.print_
-    textedit_widget = QtWidgets.QTextEdit(None)    
-    qtbot.addWidget(textedit_widget)
+    textedit_widget = QtWidgets.QTextEdit(None)
     textedit_widget.setTabStopWidth(90)
     assert textedit_widget.tabStopWidth() == 90
     print_device = QtGui.QPdfWriter('test.pdf')
@@ -32,7 +31,6 @@ def test_qplaintextedit_functions(qtbot):
     assert QtWidgets.QPlainTextEdit.tabStopWidth
     assert QtWidgets.QPlainTextEdit.print_
     plaintextedit_widget = QtWidgets.QPlainTextEdit(None)
-    qtbot.addWidget(plaintextedit_widget)
     plaintextedit_widget.setTabStopWidth(90)
     assert plaintextedit_widget.tabStopWidth() == 90
     print_device = QtGui.QPdfWriter('test.pdf')
@@ -55,7 +53,24 @@ def test_qdialog_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QDialog.exec_
     dialog = QtWidgets.QDialog(None)
-    qtbot.addWidget(dialog)
+    QtCore.QTimer.singleShot(100, dialog.accept)
+    dialog.exec_()
+
+
+@pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
+                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(sys.platform == 'darwin' and os.environ.get('USE_CONDA', 'Yes') == 'Yes' and
+                    sys.version_info.major == 3 and sys.version_info.minor == 6,
+                    reason="Stalls on MacOS CI when using conda and Python 3.6")
+def test_qdialog_subclass(qtbot):
+    """Test functions mapping for QtWidgets.QDialog when using a subclass"""
+    assert QtWidgets.QDialog.exec_
+    class CustomDialog(QtWidgets.QDialog):
+        def __init__(self):
+            super().__init__(None)
+            self.setWindowTitle("Testing")
+    assert CustomDialog.exec_
+    dialog = CustomDialog()
     QtCore.QTimer.singleShot(100, dialog.accept)
     dialog.exec_()
 
@@ -69,7 +84,6 @@ def test_qmenu_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QMenu.exec_
     menu = QtWidgets.QMenu(None)
-    qtbot.addWidget(menu)
     QtCore.QTimer.singleShot(100, menu.close)
     menu.exec_()
 
