@@ -1,5 +1,5 @@
 """Test QtSql."""
-import os
+import sys
 
 import pytest
 
@@ -26,8 +26,9 @@ def test_qtsql():
     # Following modules are not (yet) part of any wrapper:
     # QSqlDriverCreator, QSqlDriverPlugin
 
-@pytest.mark.skipif(os.name == 'nt' and PYSIDE2 and PYSIDE_VERSION.startswith('5.13.2'),
-                    reason="SQLite driver unavailable on PySide 5.13.2 with Windows")
+@pytest.mark.skipif(
+    sys.platform == 'win32' and PYSIDE2 and PYSIDE_VERSION.startswith('5.13'),
+    reason="SQLite driver unavailable on PySide 5.13.2 with Windows")
 def test_qtsql_members_aliases():
     """
     Test aliased methods over qtpy.QtSql members including:

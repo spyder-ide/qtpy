@@ -7,12 +7,9 @@ eval "$(conda shell.bash hook)"
 conda remove -q -n test-env --all || true
 
 # Create and activate conda environment for this test
-if [ "$PYQT5_QT_VERSION" = "5.9" -a "${1}" = "pyqt5" ] || [ "$PYSIDE2_QT_VERSION" = "5.9" -a "${1}" = "pyside2" ] ; then
-    conda create -q -n test-env python=${PYTHON_VERSION} pytest 'pytest-cov>=3.0.0' 'pytest-qt==3.3.0'
-else
-    conda create -q -n test-env python=${PYTHON_VERSION} pytest 'pytest-cov>=3.0.0' pytest-qt
-fi
-
+QT_VERSION_VAR=${1^^}_QT_VERSION
+if [ "${!QT_VERSION_VAR:0:3}" = "5.9" ]; then PYTESTQT_VERSION="=3.3.0"; fi  # pytest-qt >=4 doesn't support Qt >=5.9
+conda create -q -n test-env python=${PYTHON_VERSION} pytest 'pytest-cov>=3.0.0' pytest-qt${PYTESTQT_VERSION:-}
 conda activate test-env
 
 if [ "$USE_CONDA" = "Yes" ]; then
