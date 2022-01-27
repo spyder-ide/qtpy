@@ -6,6 +6,14 @@ import pytest
 from qtpy import PYSIDE2, PYSIDE_VERSION, QtSql
 
 
+@pytest.fixture
+def database_connection():
+    """Create a database connection"""
+    connection = QtSql.QSqlDatabase.addDatabase("QSQLITE")
+    yield connection
+    connection.close()
+
+
 def test_qtsql():
     """Test the qtpy.QtSql namespace"""
     assert QtSql.QSqlDatabase is not None
@@ -29,7 +37,7 @@ def test_qtsql():
 @pytest.mark.skipif(
     sys.platform == 'win32' and PYSIDE2 and PYSIDE_VERSION.startswith('5.13'),
     reason="SQLite driver unavailable on PySide 5.13.2 with Windows")
-def test_qtsql_members_aliases():
+def test_qtsql_members_aliases(database_connection):
     """
     Test aliased methods over qtpy.QtSql members including:
 
@@ -41,11 +49,10 @@ def test_qtsql_members_aliases():
     assert QtSql.QSqlQuery.exec_ is not None
     assert QtSql.QSqlResult.exec_ is not None
 
-    connection = QtSql.QSqlDatabase.addDatabase("QSQLITE")
-    assert connection.open()
-    connection.setDatabaseName("test.sqlite")
+    assert database_connection.open()
+    database_connection.setDatabaseName("test.sqlite")
     QtSql.QSqlDatabase.exec_(
-        connection,
+        database_connection,
         """
         CREATE TABLE test (
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
@@ -54,7 +61,7 @@ def test_qtsql_members_aliases():
         """
     )
     # Created table 'test' and 'sqlite_sequence'
-    assert len(connection.tables()) == 2
+    assert len(database_connection.tables()) == 2
 
     insert_table_query = QtSql.QSqlQuery()
     assert insert_table_query.exec_(
@@ -72,4 +79,3 @@ def test_qtsql_members_aliases():
     select_table_query.exec_()
     record = select_table_query.record()
     assert not record.isEmpty()
-    connection.close()

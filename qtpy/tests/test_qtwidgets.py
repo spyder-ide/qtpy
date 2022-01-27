@@ -9,7 +9,7 @@ from qtpy import PYQT5, PYQT_VERSION, QtCore, QtGui, QtWidgets
 
 @pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
                     reason="Fatal Python error: Aborted on Linux CI when not using conda")
-def test_qtextedit_functions(qtbot):
+def test_qtextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QTextEdit."""
     assert QtWidgets.QTextEdit.setTabStopWidth
     assert QtWidgets.QTextEdit.tabStopWidth
@@ -17,15 +17,14 @@ def test_qtextedit_functions(qtbot):
     textedit_widget = QtWidgets.QTextEdit(None)
     textedit_widget.setTabStopWidth(90)
     assert textedit_widget.tabStopWidth() == 90
-    print_device = QtGui.QPdfWriter('test.pdf')
+    print_device, output_path = pdf_writer
     textedit_widget.print_(print_device)
-    assert os.path.exists('test.pdf')
-    os.remove('test.pdf')
+    assert os.path.exists(output_path)
 
 
 @pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
                     reason="Fatal Python error: Aborted on Linux CI when not using conda")
-def test_qplaintextedit_functions(qtbot):
+def test_qplaintextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QPlainTextEdit."""
     assert QtWidgets.QPlainTextEdit.setTabStopWidth
     assert QtWidgets.QPlainTextEdit.tabStopWidth
@@ -33,10 +32,9 @@ def test_qplaintextedit_functions(qtbot):
     plaintextedit_widget = QtWidgets.QPlainTextEdit(None)
     plaintextedit_widget.setTabStopWidth(90)
     assert plaintextedit_widget.tabStopWidth() == 90
-    print_device = QtGui.QPdfWriter('test.pdf')
+    print_device, output_path = pdf_writer
     plaintextedit_widget.print_(print_device)
-    assert os.path.exists('test.pdf')
-    os.remove('test.pdf')
+    assert os.path.exists(output_path)
 
 
 def test_qapplication_functions():
@@ -86,6 +84,7 @@ def test_qmenu_functions(qtbot):
     menu = QtWidgets.QMenu(None)
     QtCore.QTimer.singleShot(100, menu.close)
     menu.exec_()
+
 
 @pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
                     reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"

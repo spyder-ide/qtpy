@@ -34,14 +34,13 @@ def test_qguiapplication_functions():
 
 @pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
                     reason="Segmentation fault/Aborted on Linux CI when not using conda")
-def test_qtextdocument_functions():
+def test_qtextdocument_functions(pdf_writer):
     """Test functions mapping for QtGui.QTextDocument."""
     assert QtGui.QTextDocument.print_ is not None
     text_document = QtGui.QTextDocument("Test")
-    print_device = QtGui.QPdfWriter('test.pdf')
+    print_device, output_path = pdf_writer
     text_document.print_(print_device)
-    assert os.path.exists('test.pdf')
-    os.remove('test.pdf')
+    assert os.path.exists(output_path)
 
 
 @pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
