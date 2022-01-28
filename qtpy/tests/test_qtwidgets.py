@@ -41,4 +41,5 @@ def test_enum_access():
     assert QtWidgets.QFileDialog.AcceptOpen == QtWidgets.QFileDialog.AcceptMode.AcceptOpen
     assert QtWidgets.QMessageBox.InvalidRole == QtWidgets.QMessageBox.ButtonRole.InvalidRole
     assert QtWidgets.QStyle.State_None == QtWidgets.QStyle.StateFlag.State_None
+    assert QtWidgets.QSlider.TicksLeft == QtWidgets.QSlider.TickPosition.TicksAbove
     assert QtWidgets.QStyle.SC_SliderGroove == QtWidgets.QStyle.SubControl.SC_SliderGroove
