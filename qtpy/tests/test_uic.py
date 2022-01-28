@@ -104,7 +104,7 @@ def test_load_ui_type():
 @pytest.mark.skipif(
     PYSIDE2 and sys.platform == "darwin"
     and sys.version_info.major == 3 and sys.version_info.minor == 9
-    and os.environ.get('USE_CONDA', 'No') == 'No',
+    and not_using_conda(),
     reason="Fails on this specific platform, at least on our CIs")
 @pytest.mark.skipif(
     os.environ.get('CI', None) is not None

@@ -1,12 +1,11 @@
 """Test QtPrintSupport."""
 
-import os
 import sys
 
 import pytest
 
 from qtpy import QtPrintSupport
-
+from qtpy.tests.utils import not_using_conda
 
 def test_qtprintsupport():
     """Test the qtpy.QtPrintSupport namespace"""
@@ -30,7 +29,7 @@ def test_qprintdialog_exec_():
     assert QtPrintSupport.QPrintDialog.exec_ is not None
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
+@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda,
                     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qprintpreviewwidget_print_(qtbot):
     """Test qtpy.QtPrintSupport.QPrintPreviewWidget print_"""

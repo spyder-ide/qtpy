@@ -1,12 +1,12 @@
 """Test QtCore."""
 
 from datetime import datetime
-import os
 import sys
 
 import pytest
 
 from qtpy import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PYQT_VERSION, PYSIDE_VERSION, QtCore
+from qtpy.tests.utils import not_using_conda
 
 
 def test_qtmsghandler():
@@ -22,7 +22,7 @@ def test_qdatetime_toPython():
     assert isinstance(py_date, datetime)
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
+@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda(),
                     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qeventloop_exec_(qtbot):
     """Test QEventLoop.exec_"""
