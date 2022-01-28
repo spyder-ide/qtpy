@@ -1,4 +1,5 @@
 """Test QtSql."""
+
 import sys
 
 import pytest
@@ -60,6 +61,7 @@ def test_qtsql_members_aliases(database_connection):
         )
         """
     )
+
     # Created table 'test' and 'sqlite_sequence'
     assert len(database_connection.tables()) == 2
 
@@ -71,6 +73,7 @@ def test_qtsql_members_aliases(database_connection):
         )
         """
     )
+
     select_table_query = QtSql.QSqlQuery()
     select_table_query.prepare(
         """

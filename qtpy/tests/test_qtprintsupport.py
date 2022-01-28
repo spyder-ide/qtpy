@@ -1,4 +1,5 @@
 """Test QtPrintSupport."""
+
 import os
 import sys
 

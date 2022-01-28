@@ -1,4 +1,5 @@
 """Test QtWidgets."""
+
 import os
 import sys
 
@@ -19,7 +20,7 @@ def test_qtextedit_functions(qtbot, pdf_writer):
     assert textedit_widget.tabStopWidth() == 90
     print_device, output_path = pdf_writer
     textedit_widget.print_(print_device)
-    assert os.path.exists(output_path)
+    assert output_path.exists()
 
 
 @pytest.mark.skipif(sys.platform.startswith('linux') and os.environ.get('USE_CONDA', 'No') == 'No',
@@ -34,7 +35,7 @@ def test_qplaintextedit_functions(qtbot, pdf_writer):
     assert plaintextedit_widget.tabStopWidth() == 90
     print_device, output_path = pdf_writer
     plaintextedit_widget.print_(print_device)
-    assert os.path.exists(output_path)
+    assert output_path.exists()
 
 
 def test_qapplication_functions():

@@ -1,4 +1,5 @@
 """Test QtGui."""
+
 import os
 import sys
 
@@ -40,7 +41,7 @@ def test_qtextdocument_functions(pdf_writer):
     text_document = QtGui.QTextDocument("Test")
     print_device, output_path = pdf_writer
     text_document.print_(print_device)
-    assert os.path.exists(output_path)
+    assert output_path.exists()
 
 
 @pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
