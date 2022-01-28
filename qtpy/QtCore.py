@@ -48,10 +48,6 @@ if PYQT6:
     promote_enums(QtCore)
     del QtCore
 
-    # Map missing unscoped access enum values
-    Qt.BackButton = Qt.XButton1
-    Qt.ForwardButton = Qt.XButton2
-
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
