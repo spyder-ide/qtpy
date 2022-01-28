@@ -37,7 +37,7 @@ def test_enum_access():
     assert QtCore.Qt.Key_Return == QtCore.Qt.Key.Key_Return
     assert QtCore.Qt.transparent == QtCore.Qt.GlobalColor.transparent
     assert QtCore.Qt.Widget == QtCore.Qt.WindowType.Widget
-    assert QtCore.Qt.BackButton == QtCore.Qt.MouseButton.XButton1
+    assert QtCore.Qt.BackButton == QtCore.Qt.MouseButton.BackButton
     assert QtCore.Qt.XButton1 == QtCore.Qt.MouseButton.XButton1
     assert QtCore.Qt.BackgroundColorRole == QtCore.Qt.ItemDataRole.BackgroundColorRole
     assert QtCore.Qt.TextColorRole == QtCore.Qt.ItemDataRole.TextColorRole
