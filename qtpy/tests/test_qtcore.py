@@ -22,8 +22,9 @@ def test_qdatetime_toPython():
     assert isinstance(py_date, datetime)
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda(),
-                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qeventloop_exec_(qtbot):
     """Test QEventLoop.exec_"""
     assert QtCore.QEventLoop.exec_ is not None

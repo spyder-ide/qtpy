@@ -29,8 +29,9 @@ def test_qprintdialog_exec_():
     assert QtPrintSupport.QPrintDialog.exec_ is not None
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda,
-                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qprintpreviewwidget_print_(qtbot):
     """Test qtpy.QtPrintSupport.QPrintPreviewWidget print_"""
     assert QtPrintSupport.QPrintPreviewWidget.print_ is not None

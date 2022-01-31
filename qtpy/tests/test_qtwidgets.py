@@ -8,8 +8,9 @@ from qtpy import PYQT5, PYQT_VERSION, QtCore, QtGui, QtWidgets
 from qtpy.tests.utils import using_conda, not_using_conda
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda(),
-                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qtextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QTextEdit."""
     assert QtWidgets.QTextEdit.setTabStopWidth
@@ -23,8 +24,9 @@ def test_qtextedit_functions(qtbot, pdf_writer):
     assert output_path.exists()
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda(),
-                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qplaintextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QPlainTextEdit."""
     assert QtWidgets.QPlainTextEdit.setTabStopWidth
@@ -43,11 +45,13 @@ def test_qapplication_functions():
     assert QtWidgets.QApplication.exec_
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda(),
-                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
-@pytest.mark.skipif(sys.platform == 'darwin' and using_conda() and
-                    sys.version_info.major == 3 and sys.version_info.minor == 6,
-                    reason="Stalls on MacOS CI when using conda and Python 3.6")
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform == 'darwin' and using_conda()
+    and sys.version_info[:2] == (3, 6),
+    reason="Stalls on macOS CI when using Conda and Python 3.6")
 def test_qdialog_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QDialog.exec_
@@ -56,11 +60,13 @@ def test_qdialog_functions(qtbot):
     dialog.exec_()
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda(),
-                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
-@pytest.mark.skipif(sys.platform == 'darwin' and using_conda() and
-                    sys.version_info.major == 3 and sys.version_info.minor == 6,
-                    reason="Stalls on MacOS CI when using conda and Python 3.6")
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform == 'darwin' and using_conda()
+    and sys.version_info[:2] == (3, 6),
+    reason="Stalls on macOS CI when using Conda and Python 3.6")
 def test_qdialog_subclass(qtbot):
     """Test functions mapping for QtWidgets.QDialog when using a subclass"""
     assert QtWidgets.QDialog.exec_
@@ -74,11 +80,13 @@ def test_qdialog_subclass(qtbot):
     dialog.exec_()
 
 
-@pytest.mark.skipif(sys.platform.startswith('linux') and not_using_conda(),
-                    reason="Fatal Python error: Aborted on Linux CI when not using conda")
-@pytest.mark.skipif(sys.platform == 'darwin' and using_conda() and
-                    sys.version_info.major == 3 and sys.version_info.minor == 6,
-                    reason="Stalls on MacOS CI when using conda and Python 3.6")
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform == 'darwin' and using_conda()
+    and sys.version_info[:2] == (3, 6),
+    reason="Stalls on macOS CI when using Conda and Python 3.6")
 def test_qmenu_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QMenu.exec_
