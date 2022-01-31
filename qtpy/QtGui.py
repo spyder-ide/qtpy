@@ -30,6 +30,10 @@ elif PYQT5:
     from PyQt5.QtGui import *
 elif PYSIDE2:
     from PySide2.QtGui import *
+    if hasattr(QFontMetrics, 'horizontalAdvance'):
+        # Needed to prevent raising a DeprecationWarning when using QFontMetrics.width
+        QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
+
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *

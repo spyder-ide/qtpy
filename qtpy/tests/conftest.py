@@ -1,5 +1,7 @@
 import os
 
+import pytest
+
 
 def pytest_configure(config):
     """Configure the test environment."""
@@ -64,3 +66,13 @@ def pytest_report_header(config):
     versions += os.linesep
 
     return versions
+
+
+@pytest.fixture
+def pdf_writer(qtbot):
+    from pathlib import Path
+    from qtpy import QtGui
+    output_path = Path('test.pdf')
+    device = QtGui.QPdfWriter(str(output_path))
+    yield device, output_path
+    output_path.unlink()
