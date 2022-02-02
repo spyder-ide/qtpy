@@ -1,5 +1,37 @@
 # History of changes
 
+## Version 2.0.1 (2022-02-02)
+
+### Issues Closed
+
+* [Issue 320](https://github.com/spyder-ide/qtpy/issues/320) - Release QtPy 2.0.1
+* [Issue 316](https://github.com/spyder-ide/qtpy/issues/316) - Tests for instance methods alias mapping fix (exec_ vs exec and others) ([PR 317](https://github.com/spyder-ide/qtpy/pull/317) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 311](https://github.com/spyder-ide/qtpy/issues/311) - `QtCore.Qt.mightBeRichText` undefined in PySide ([PR 313](https://github.com/spyder-ide/qtpy/pull/313) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 306](https://github.com/spyder-ide/qtpy/issues/306) - Qt6: missing unscoped enum values ([PR 314](https://github.com/spyder-ide/qtpy/pull/314) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 305](https://github.com/spyder-ide/qtpy/issues/305) - Qt6: exec_ vs. exec ([PR 308](https://github.com/spyder-ide/qtpy/pull/308) by [@kumattau](https://github.com/kumattau))
+* [Issue 304](https://github.com/spyder-ide/qtpy/issues/304) - Qt6: QtCharts namespace incompatibility ([PR 315](https://github.com/spyder-ide/qtpy/pull/315) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 6 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 319](https://github.com/spyder-ide/qtpy/pull/319) - PR: Promote enum aliases, by [@MatthieuDartiailh](https://github.com/MatthieuDartiailh)
+* [PR 317](https://github.com/spyder-ide/qtpy/pull/317) - PR: Add missing tests for aliased methods, by [@dalthviz](https://github.com/dalthviz) ([316](https://github.com/spyder-ide/qtpy/issues/316))
+* [PR 315](https://github.com/spyder-ide/qtpy/pull/315) - PR: Add `QtCharts` alias for backward compatibility with 1.x, by [@dalthviz](https://github.com/dalthviz) ([304](https://github.com/spyder-ide/qtpy/issues/304))
+* [PR 314](https://github.com/spyder-ide/qtpy/pull/314) - PR: Add mapping for missing enum values aliases on `QtCore.Qt`, by [@dalthviz](https://github.com/dalthviz) ([306](https://github.com/spyder-ide/qtpy/issues/306))
+* [PR 313](https://github.com/spyder-ide/qtpy/pull/313) - PR: Add missing `QtGui` utility function to `QtCore.Qt` for PySide bindings, by [@dalthviz](https://github.com/dalthviz) ([311](https://github.com/spyder-ide/qtpy/issues/311))
+* [PR 312](https://github.com/spyder-ide/qtpy/pull/312) - PR: Add "New features" section for version 2.0 to changelog, by [@ccordoba12](https://github.com/ccordoba12)
+* [PR 309](https://github.com/spyder-ide/qtpy/pull/309) - PR: Set CI job's timeout to 10 min to force a stalled test to terminate, by [@kumattau](https://github.com/kumattau)
+* [PR 308](https://github.com/spyder-ide/qtpy/pull/308) - PR: Fix mappings of instance method and slot alias (PyQt6 and PySide6), by [@kumattau](https://github.com/kumattau) ([305](https://github.com/spyder-ide/qtpy/issues/305))
+* [PR 307](https://github.com/spyder-ide/qtpy/pull/307) - PR: Add missing imports in QtOpenGL, by [@renefritze](https://github.com/renefritze)
+
+In this release 9 pull requests were closed.
+
+
+----
+
+
+
 ## Version 2.0.0 (2021-12-22)
 
 ### New features
