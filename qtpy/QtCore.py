@@ -52,6 +52,7 @@ if PYQT6:
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
+    Qt.MidButton = Qt.MouseButton.MiddleButton = Qt.MiddleButton
 
 elif PYQT5:
     from PyQt5.QtCore import *
