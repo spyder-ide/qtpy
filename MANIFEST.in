@@ -1,6 +1,7 @@
-include AUTHORS.md
-include CHANGELOG.md
-include LICENSE.txt
-include README.md
-include SECURITY.md
+include AUTHORS*
+include CHANGELOG*
+include LICENSE*
+include README*
+include SECURITY*
+include pytest.ini
 recursive-include qtpy/tests *.py *.ui
