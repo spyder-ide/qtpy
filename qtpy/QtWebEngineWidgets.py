@@ -34,11 +34,14 @@ elif PYQT6:
     from PyQt6.QtWebEngineCore import QWebEnginePage
     from PyQt6.QtWebEngineCore import QWebEngineSettings
     from PyQt6.QtWebEngineCore import QWebEngineProfile
+    from PyQt6.QtWebEngineCore import QWebEngineScript
+
 elif PYSIDE6:
     from PySide6.QtWebEngineWidgets import *
     from PySide6.QtWebEngineCore import QWebEnginePage
     from PySide6.QtWebEngineCore import QWebEngineSettings
     from PySide6.QtWebEngineCore import QWebEngineProfile
+    from PySide6.QtWebEngineCore import QWebEngineScript
 elif PYSIDE2:
     from PySide2.QtWebEngineWidgets import QWebEnginePage
     from PySide2.QtWebEngineWidgets import QWebEngineView
