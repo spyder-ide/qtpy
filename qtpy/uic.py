@@ -86,6 +86,15 @@ else:
         from PySide2.QtUiTools import QUiLoader
         try:
             from pyside2uic import compileUi
+            from pyside2uic.uiparser import UIParser
+            from xml.etree.ElementTree import Element
+            class ElemPatched(Element):
+                def getiterator(self, *args, **kwargs):
+                    return self.iter(*args, **kwargs)
+            def readResources(self, elem):
+                return self._readResources(ElemPatched(elem))
+            UIParser._readResources = UIParser.readResources
+            UIParser.readResources = readResources
         except ImportError:
             pass
 
@@ -247,6 +256,7 @@ else:
         import sys
         from io import StringIO
         from xml.etree.ElementTree import ElementTree
+        
         from . import QtWidgets
 
         # Parse the UI file
