@@ -10,3 +10,4 @@ def test_qtwebenginewidgets():
     assert QtWebEngineWidgets.QWebEnginePage is not None
     assert QtWebEngineWidgets.QWebEngineView is not None
     assert QtWebEngineWidgets.QWebEngineSettings is not None
+    assert QtWebEngineWidgets.QWebEngineScript is not None
