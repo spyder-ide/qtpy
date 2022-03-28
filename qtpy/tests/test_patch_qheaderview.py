@@ -20,9 +20,9 @@ def get_qapp(icon_path=None):
     QT_VERSION.startswith('5.15') or PYSIDE6 or PYQT6,
     reason="Segfaults with Qt >=5.15")
 @pytest.mark.skipif(
-    (PYSIDE2) and sys.version_info.major == 3 and sys.version_info.minor >= 7
+    PYSIDE2 and sys.version_info.major == 3 and sys.version_info.minor >= 7
      and (sys.platform == 'darwin' or sys.platform.startswith('linux')),
-    reason="PySide2/Python 3.7+ on Mac and Linux")
+    reason="Segfaults with PySide2 in Python 3.7+ on Mac and Linux")
 def test_patched_qheaderview():
     """
     This will test whether QHeaderView has the new methods introduced in Qt5.
