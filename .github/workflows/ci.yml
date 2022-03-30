@@ -38,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.6', '3.10']
+        python-version: ['3.7', '3.10']
         use-conda: ['Yes', 'No']
         include:
         - os: ubuntu-latest
@@ -48,22 +48,18 @@ jobs:
         - use-conda: 'Yes'  # No conda packages yet for Qt6
           skip-pyqt6: true
           skip-pyside6: true
-        - python-version: '3.6'
-          use-conda: 'No'
-          skip-pip-check: 'true'  # Pytest packaging issue on Python 3.6 defaults channel
-          pyside2-version: '5.12.0'  # 5.12.1-5.12.6 fails on collection/segfaults on patch test
         - os: windows-latest
           python-version: '3.10'
           use-conda: 'No'
           pyside2-version: '5.15'  # No 5.12 wheel on Windows and Python 3.10
         - os: windows-latest
-          python-version: '3.6'
+          python-version: '3.7'
           use-conda: 'Yes'
-          pyqt5-qt-version: '5.9'  # 5.12 is apparently unreliable here
+          pyqt5-qt-version: '5.9'
         - os: macos-latest
-          python-version: '3.6'
+          python-version: '3.7'
           use-conda: 'No'
-          skip-pyside6: true  # Py3.6 wheels apparently still don't work on latest macOS
+          skip-pyside6: true  # pytest-qt crashes on pytest startup under this environment
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2

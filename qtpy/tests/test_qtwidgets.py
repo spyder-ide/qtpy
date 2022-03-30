@@ -49,9 +49,8 @@ def test_qapplication_functions():
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
-    sys.platform == 'darwin' and using_conda()
-    and sys.version_info[:2] == (3, 6),
-    reason="Stalls on macOS CI when using Conda and Python 3.6")
+    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7")
 def test_qdialog_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QDialog.exec_
@@ -64,9 +63,8 @@ def test_qdialog_functions(qtbot):
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
-    sys.platform == 'darwin' and using_conda()
-    and sys.version_info[:2] == (3, 6),
-    reason="Stalls on macOS CI when using Conda and Python 3.6")
+    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7")
 def test_qdialog_subclass(qtbot):
     """Test functions mapping for QtWidgets.QDialog when using a subclass"""
     assert QtWidgets.QDialog.exec_
@@ -84,9 +82,8 @@ def test_qdialog_subclass(qtbot):
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
-    sys.platform == 'darwin' and using_conda()
-    and sys.version_info[:2] == (3, 6),
-    reason="Stalls on macOS CI when using Conda and Python 3.6")
+    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7")
 def test_qmenu_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QMenu.exec_
