@@ -75,7 +75,7 @@ def getexistingdirectory(parent=None, caption='', basedir='',
 def _qfiledialog_wrapper(attr, parent=None, caption='', basedir='',
                          filters='', selectedfilter='', options=None):
     if options is None:
-        options = QFileDialog.Options(0)
+        options = QFileDialog.Option(0)
 
     func = getattr(QFileDialog, attr)
 
