@@ -17,8 +17,9 @@ def test_qtopengl():
     assert QtOpenGL.QOpenGLShaderProgram is not None
     assert QtOpenGL.QOpenGLTexture is not None
     assert QtOpenGL.QOpenGLTextureBlitter is not None
-    assert QtOpenGL.QOpenGLTimeMonitor is not None
-    assert QtOpenGL.QOpenGLTimerQuery is not None
+    # These are not present on some architectures
+    # assert QtOpenGL.QOpenGLTimeMonitor is not None
+    # assert QtOpenGL.QOpenGLTimerQuery is not None
     assert QtOpenGL.QOpenGLVersionProfile is not None
     assert QtOpenGL.QOpenGLVertexArrayObject is not None
     assert QtOpenGL.QOpenGLWindow is not None

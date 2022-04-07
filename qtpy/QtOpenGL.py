@@ -16,9 +16,14 @@ if PYQT5:
         QOpenGLFramebufferObjectFormat, QOpenGLShader, QOpenGLShaderProgram,
         QOpenGLContext, QOpenGLContextGroup, QOpenGLDebugLogger,
         QOpenGLDebugMessage, QOpenGLPixelTransferOptions, QOpenGLTexture,
-        QOpenGLTextureBlitter, QOpenGLTimeMonitor, QOpenGLTimerQuery,
+        QOpenGLTextureBlitter,
         QOpenGLVersionProfile, QOpenGLVertexArrayObject, QOpenGLWindow
     )
+    # These are not present on some architectures
+    try:
+        from PyQt5.QtGui import QOpenGLTimeMonitor, QOpenGLTimerQuery
+    except ImportError:
+        pass
 elif PYQT6:
     from PyQt6.QtOpenGL import *
     from PyQt6.QtGui import (QOpenGLContext, QOpenGLContextGroup)
@@ -32,9 +37,14 @@ elif PYSIDE2:
         QOpenGLFramebufferObjectFormat, QOpenGLShader, QOpenGLShaderProgram,
         QOpenGLContext, QOpenGLContextGroup, QOpenGLDebugLogger,
         QOpenGLDebugMessage, QOpenGLPixelTransferOptions, QOpenGLTexture,
-        QOpenGLTextureBlitter, QOpenGLTimeMonitor, QOpenGLTimerQuery,
+        QOpenGLTextureBlitter,
         QOpenGLVersionProfile, QOpenGLVertexArrayObject, QOpenGLWindow
     )
+    # These are not present on some architectures
+    try:
+        from PySide2.QtGui import QOpenGLTimeMonitor, QOpenGLTimerQuery
+    except ImportError:
+        pass
 else:
     raise PythonQtError('No Qt bindings could be found')
 
