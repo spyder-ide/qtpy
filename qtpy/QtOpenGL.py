@@ -19,7 +19,7 @@ if PYQT5:
         QOpenGLTextureBlitter,
         QOpenGLVersionProfile, QOpenGLVertexArrayObject, QOpenGLWindow
     )
-    # These are not present on some architectures
+    # These are not present on some architectures such as armhf
     try:
         from PyQt5.QtGui import QOpenGLTimeMonitor, QOpenGLTimerQuery
     except ImportError:
@@ -40,7 +40,7 @@ elif PYSIDE2:
         QOpenGLTextureBlitter,
         QOpenGLVersionProfile, QOpenGLVertexArrayObject, QOpenGLWindow
     )
-    # These are not present on some architectures
+    # These are not present on some architectures such as armhf
     try:
         from PySide2.QtGui import QOpenGLTimeMonitor, QOpenGLTimerQuery
     except ImportError:

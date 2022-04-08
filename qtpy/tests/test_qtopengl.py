@@ -21,5 +21,5 @@ def test_qtopengl():
     assert QtOpenGL.QOpenGLVertexArrayObject is not None
     assert QtOpenGL.QOpenGLWindow is not None
     # We do not test for QOpenGLTimeMonitor or QOpenGLTimerQuery as
-    # they are not present on some architectures
+    # they are not present on some architectures such as armhf
 
