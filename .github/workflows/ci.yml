@@ -52,10 +52,12 @@ jobs:
           python-version: '3.10'
           use-conda: 'No'
           pyside2-version: '5.15'  # No 5.12 wheel on Windows and Python 3.10
+          pyside6-version: '6.3'
         - os: windows-latest
           python-version: '3.7'
           use-conda: 'Yes'
           pyqt5-qt-version: '5.9'
+          pyqt6-qt-version: '6.2'
         - os: macos-latest
           python-version: '3.7'
           use-conda: 'No'
