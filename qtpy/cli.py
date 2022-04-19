@@ -10,36 +10,49 @@
 
 # Standard library imports
 import argparse
-import sys
 import textwrap
 
 
-class RawDescriptionArgumentDefaultsHelpFormatter(
-    argparse.RawDescriptionHelpFormatter,
-    argparse.ArgumentDefaultsHelpFormatter,
-):
-    pass
+def generate_mypy_args():
+    """Generate a string with always-true/false args to pass to mypy."""
+    options = {False: '--always-false', True: '--always-true'}
 
+    import qtpy
 
-def cli(args=sys.argv[1:]):
-    parser = argparse.ArgumentParser(
-        description="Features in support of development with QtPy.",
-        formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
+    apis_active = {name: qtpy.API == name for name in qtpy.API_NAMES}
+    mypy_args = ' '.join(
+        f'{options[is_active]}={name.upper()}'
+        for name, is_active in apis_active.items()
     )
+    return mypy_args
 
+
+def print_mypy_args():
+    """Print the generated mypy args to stdout."""
+    print(generate_mypy_args())
+
+
+def generate_arg_parser():
+    """Generate the argument parser for the dev CLI for QtPy."""
+    parser = argparse.ArgumentParser(
+        description='Features to support development with QtPy.',
+    )
     parser.set_defaults(func=parser.print_help)
+    cli_subparsers = parser.add_subparsers(
+        title='Subcommands', help='Subcommand to run', metavar='Subcommand')
 
-    cli_subparsers = parser.add_subparsers()
-
+    # Parser for the MyPy args subcommand
     mypy_args_parser = cli_subparsers.add_parser(
         name='mypy-args',
+        help='Generate command line arguments for using mypy with QtPy.',
+        formatter_class=argparse.RawTextHelpFormatter,
         description=textwrap.dedent(
-            """\
+            """
             Generate command line arguments for using mypy with QtPy.
 
-            This will generate strings similar to the following which help guide mypy
-            through which library QtPy would have used so that mypy can get the proper
-            underlying type hints.
+            This will generate strings similar to the following
+            which help guide mypy through which library QtPy would have used
+            so that mypy can get the proper underlying type hints.
 
                 --always-false=PYQT5 --always-false=PYQT6 --always-true=PYSIDE2 --always-false=PYSIDE6
 
@@ -48,30 +61,18 @@ def cli(args=sys.argv[1:]):
                 env/bin/mypy --package mypackage $(env/bin/qtpy mypy-args)
             """
         ),
-        formatter_class=RawDescriptionArgumentDefaultsHelpFormatter,
     )
-    mypy_args_parser.set_defaults(func=mypy_args)
+    mypy_args_parser.set_defaults(func=print_mypy_args)
 
-    arguments = parser.parse_args(args=args)
-
-    reserved_parameters = {'func'}
-    cleaned = {
-        k: v
-        for k, v in vars(arguments).items()
-        if k not in reserved_parameters
-    }
-
-    arguments.func(**cleaned)
+    return parser
 
 
-def mypy_args():
-    options = {False: '--always-false', True: '--always-true'}
+def main(args=None):
+    """Run the development CLI for QtPy."""
+    parser = generate_arg_parser()
+    parsed_args = parser.parse_args(args=args)
 
-    import qtpy
-
-    apis_active = {name: qtpy.API == name for name in qtpy.API_NAMES}
-    print(' '.join(
-        f'{options[is_active]}={name.upper()}'
-        for name, is_active
-        in apis_active.items()
-    ))
+    reserved_params = {'func'}
+    cleaned_args = {key: value for key, value in vars(parsed_args).items()
+                    if key not in reserved_params}
+    parsed_args.func(**cleaned_args)
