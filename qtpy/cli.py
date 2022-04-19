@@ -56,9 +56,9 @@ def generate_arg_parser():
 
                 --always-false=PYQT5 --always-false=PYQT6 --always-true=PYSIDE2 --always-false=PYSIDE6
 
-            Use such as:
+            It can be used as follows on Bash or a similar shell:
 
-                env/bin/mypy --package mypackage $(env/bin/qtpy mypy-args)
+                mypy --package mypackage $(qtpy mypy-args)
             """
         ),
     )
