@@ -13,6 +13,12 @@ import argparse
 import textwrap
 
 
+def print_version():
+    """Print the current version of the package."""
+    import qtpy
+    print('QtPy version', qtpy.__version__)
+
+
 def generate_mypy_args():
     """Generate a string with always-true/false args to pass to mypy."""
     options = {False: '--always-false', True: '--always-true'}
@@ -38,6 +44,11 @@ def generate_arg_parser():
         description='Features to support development with QtPy.',
     )
     parser.set_defaults(func=parser.print_help)
+
+    parser.add_argument(
+        '--version', action='store_const', dest='func', const=print_version,
+        help='If passed, will print the version and exit')
+
     cli_subparsers = parser.add_subparsers(
         title='Subcommands', help='Subcommand to run', metavar='Subcommand')
 

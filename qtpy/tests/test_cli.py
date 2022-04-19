@@ -25,6 +25,16 @@ def test_cli_help_does_not_fail(subcommand):
     )
 
 
+def test_cli_version():
+    output = subprocess.run(
+        [sys.executable, '-m', 'qtpy', '--version'],
+        capture_output=True,
+        check=True,
+        encoding='utf-8',
+    )
+    assert output.stdout.strip().split()[-1] == qtpy.__version__
+
+
 def test_cli_mypy_args():
     output = subprocess.run(
         [sys.executable, '-m', 'qtpy', 'mypy-args'],
