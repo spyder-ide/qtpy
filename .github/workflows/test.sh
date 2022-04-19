@@ -29,11 +29,15 @@ else
     if [ "${1}" = "pyqt5" ]; then
         pip install pyqt5==${PYQT5_VERSION:-"5.15"}.* PyQtWebEngine==${PYQT5_VERSION:-"5.15"}.*
     elif [ "${1}" = "pyqt6" ]; then
-        pip install pyqt6==${PYQT6_VERSION:-"6.2"}.* PyQt6-WebEngine==${PYQT6_VERSION:-"6.2"}.*
+        pip install pyqt6==${PYQT6_VERSION:-"6.3"}.* PyQt6-WebEngine==${PYQT6_VERSION:-"6.3"}.* PyQt6-Qt6==${PYQT6_QT_VERSION:-"6.3"}.*
     elif [ "${1}" = "pyside2" ]; then
         pip install pyside2==${PYSIDE2_VERSION:-"5.12"}.*
     elif [ "${1}" = "pyside6" ]; then
-        pip install pyside6==${PYSIDE6_VERSION:-"6.2"}.*
+        if [ "${PYSIDE6_VERSION:-"6.3":0:3}" = "6.3" ]; then
+            pip install pyside6==${PYSIDE6_VERSION:-"6.3"}.* pyside6-addons==${PYSIDE6_VERSION:-"6.3"}.* pyside6-essentials==${PYSIDE6_VERSION:-"6.3"}.*
+        else
+            pip install pyside6==${PYSIDE6_VERSION:-"6.2"}.*
+        fi
     else
         exit 1
     fi
