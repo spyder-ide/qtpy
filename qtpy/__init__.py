@@ -101,9 +101,11 @@ binding_specified = QT_API in os.environ
 # Setting a default value for QT_API
 os.environ.setdefault(QT_API, 'pyqt5')
 
+API_NAMES = {'pyqt5': 'PyQt5', 'pyqt6': 'PyQt6',
+             'pyside2':'PySide2', 'pyside6': 'PySide6'}
 API = os.environ[QT_API].lower()
 initial_api = API
-assert API in (PYQT5_API + PYQT6_API + PYSIDE2_API + PYSIDE6_API)
+assert API in API_NAMES
 
 is_old_pyqt = is_pyqt46 = False
 QT5 = PYQT5 = True
@@ -201,8 +203,9 @@ if API != initial_api and binding_specified:
     warnings.warn('Selected binding "{}" could not be found, '
                   'using "{}"'.format(initial_api, API), RuntimeWarning)
 
-API_NAME = {'pyqt6': 'PyQt6', 'pyqt5': 'PyQt5',
-            'pyside2':'PySide2', 'pyside6': 'PySide6'}[API]
+
+# Set display name of the Qt API
+API_NAME = API_NAMES[API]
 
 try:
     # QtDataVisualization backward compatibility (QtDataVisualization vs. QtDatavisualization)

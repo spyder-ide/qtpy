@@ -71,6 +71,37 @@ conda install qtpy
 ```
 
 
+### Mypy integration
+
+A Command Line Interface (CLI) is offered to help with usage of QtPy.
+Presently, its only feature is to generate command line arguments for Mypy
+that will enable it to process the QtPy source files with the same API
+as QtPy itself would have selected.
+
+If you run
+
+```bash
+qtpy mypy-args
+```
+
+QtPy will output a string of Mypy CLI args that will reflect the currently
+selected Qt API.
+For example, in an environment where PyQt5 is installed and selected
+(or the default fallback, if no binding can be found in the environment),
+this would output the following:
+
+```text
+--always-true=PYQT5 --always-false=PYQT6 --always-false=PYSIDE2 --always-false=PYSIDE6
+```
+
+Using Bash or a similar shell, this can be injected into
+the Mypy command line invocation as follows:
+
+```bash
+mypy --package mypackage $(qtpy mypy-args)
+```
+
+
 ## Contributing
 
 Everyone is welcome to contribute!

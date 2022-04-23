@@ -5,3 +5,4 @@ include README*
 include SECURITY*
 include pytest.ini
 recursive-include qtpy/tests *.py *.ui
+include qtpy/py.typed
