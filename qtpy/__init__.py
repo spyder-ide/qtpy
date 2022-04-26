@@ -98,14 +98,13 @@ PYSIDE_VERSION_MIN = PYSIDE2_VERSION_MIN
 # Detecting if a binding was specified by the user
 binding_specified = QT_API in os.environ
 
-# Setting a default value for QT_API
-os.environ.setdefault(QT_API, 'pyqt5')
-
 API_NAMES = {'pyqt5': 'PyQt5', 'pyqt6': 'PyQt6',
              'pyside2':'PySide2', 'pyside6': 'PySide6'}
-API = os.environ[QT_API].lower()
+API = os.environ.get(QT_API, 'pyqt5').lower()
 initial_api = API
-assert API in API_NAMES
+if API not in API_NAMES:
+    raise ValueError(
+        f'Specified QT_API={repr(QT_API)} not in valid options: {API_NAMES}')
 
 is_old_pyqt = is_pyqt46 = False
 QT5 = PYQT5 = True
@@ -150,7 +149,9 @@ if API in PYQT5_API:
 
             del macos_version
     except ImportError:
-        API = os.environ['QT_API'] = 'pyqt6'
+        API = 'pyqt6'
+    else:
+        os.environ['QT_API'] = API
 
 if API in PYQT6_API:
     try:
@@ -161,7 +162,9 @@ if API in PYQT6_API:
         QT6 = PYQT6 = True
 
     except ImportError:
-        API = os.environ['QT_API'] = 'pyside2'
+        API = 'pyside2'
+    else:
+        os.environ['QT_API'] = API
 
 
 if API in PYSIDE2_API:
@@ -183,7 +186,9 @@ if API in PYSIDE2_API:
 
             del macos_version
     except ImportError:
-        API = os.environ['QT_API'] = 'pyside6'
+        API = 'pyside6'
+    else:
+        os.environ['QT_API'] = API
 
 if API in PYSIDE6_API:
     try:
@@ -194,7 +199,9 @@ if API in PYSIDE6_API:
         QT6 = PYSIDE6 = True
 
     except ImportError:
-        API = os.environ['QT_API'] = 'pyqt5'
+        API = 'pyqt5'
+    else:
+        os.environ['QT_API'] = API
 
 
 # If a correct API name is passed to QT_API and it could not be found,
