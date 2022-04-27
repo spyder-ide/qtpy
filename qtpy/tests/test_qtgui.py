@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT_VERSION, QtGui
+from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, QtGui
 from qtpy.tests.utils import not_using_conda
 
 
@@ -56,3 +56,22 @@ def test_enum_access():
     assert QtGui.QFont.AllUppercase == QtGui.QFont.Capitalization.AllUppercase
     assert QtGui.QIcon.Normal == QtGui.QIcon.Mode.Normal
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
+
+@pytest.mark.skipif(not PYSIDE2, reason="PySide2 specific test")
+def test_qtextcursor_moveposition():
+    """Test monkeypatched QTextCursor.movePosition"""
+    doc = QtGui.QTextDocument("foo bar baz")
+    cursor = QtGui.QTextCursor(doc)
+
+    assert not cursor.movePosition(QtGui.QTextCursor.Start)
+    assert cursor.movePosition(QtGui.QTextCursor.EndOfWord, mode=QtGui.QTextCursor.KeepAnchor)
+    assert cursor.selectedText() == "foo"
+
+    assert cursor.movePosition(QtGui.QTextCursor.Start)
+    assert cursor.movePosition(QtGui.QTextCursor.WordRight, n=2, mode=QtGui.QTextCursor.KeepAnchor)
+    assert cursor.selectedText() == "foo bar "
+
+    assert cursor.movePosition(QtGui.QTextCursor.Start)
+    assert cursor.position() == cursor.anchor()
+    assert cursor.movePosition(QtGui.QTextCursor.NextWord, QtGui.QTextCursor.KeepAnchor, 3)
+    assert cursor.selectedText() == "foo bar baz"
