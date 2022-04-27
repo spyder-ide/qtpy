@@ -20,7 +20,7 @@ def assert_pyside2():
     assert QtGui.QPainter is PySide2.QtGui.QPainter
     assert QtWidgets.QWidget is PySide2.QtWidgets.QWidget
     assert QtWebEngineWidgets.QWebEnginePage is PySide2.QtWebEngineWidgets.QWebEnginePage
-    assert os.environ['QT_API'] == 'PySide2'
+    assert os.environ['QT_API'] == 'pyside2'
 
 def assert_pyside6():
     """
@@ -32,7 +32,7 @@ def assert_pyside6():
     assert QtWidgets.QWidget is PySide6.QtWidgets.QWidget
     # Only valid for qt>=6.2
     # assert QtWebEngineWidgets.QWebEnginePage is PySide6.QtWebEngineCore.QWebEnginePage
-    assert os.environ['QT_API'] == 'PySide6'
+    assert os.environ['QT_API'] == 'pyside6'
 
 def assert_pyqt5():
     """
@@ -46,7 +46,7 @@ def assert_pyqt5():
         assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebEngineWidgets.QWebEnginePage
     else:
         assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebKitWidgets.QWebPage
-    assert os.environ['QT_API'] == 'PyQt5'
+    assert os.environ['QT_API'] == 'pyqt5'
 
 def assert_pyqt6():
     """
@@ -56,6 +56,7 @@ def assert_pyqt6():
     assert QtCore.QEvent is PyQt6.QtCore.QEvent
     assert QtGui.QPainter is PyQt6.QtGui.QPainter
     assert QtWidgets.QWidget is PyQt6.QtWidgets.QWidget
+    assert os.environ['QT_API'] == 'pyqt6'
 
 
 def test_qt_api():
