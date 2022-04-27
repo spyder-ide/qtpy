@@ -5,6 +5,7 @@ import subprocess
 import pytest
 
 from qtpy import QtCore, QtGui, QtWidgets, API_NAMES, PythonQtValueError
+
 try:
     # removed in qt 6.0
     from qtpy import QtWebEngineWidgets
@@ -96,7 +97,7 @@ def test_qt_api():
 @pytest.mark.parametrize('api', API_NAMES.values())
 def test_qt_api_environ(api):
     """
-    If no QT_API is specified but some Qt is imported, ensure environ is set properly
+    If no QT_API is specified but some Qt is imported, ensure QT_API is set properly.
     """
     mod = f'{api}.QtCore'
     pytest.importorskip(mod, reason=f'Requires {api}')

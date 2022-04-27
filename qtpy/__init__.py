@@ -108,7 +108,7 @@ API = os.environ.get(QT_API, 'pyqt5').lower()
 initial_api = API
 if API not in API_NAMES:
     raise PythonQtValueError(
-        f'Specified QT_API={repr(QT_API.lower())} not in valid options: '
+        f'Specified QT_API={repr(QT_API.lower())} is not in valid options: '
         f'{API_NAMES}')
 
 is_old_pyqt = is_pyqt46 = False
