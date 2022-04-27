@@ -72,6 +72,10 @@ class PythonQtWarning(Warning):
     """Warning if some features are not implemented in a binding."""
 
 
+class PythonQtValueError(ValueError):
+    """Error raised if an invalid QT_API is specified."""
+
+
 # Qt API environment variable name
 QT_API = 'QT_API'
 
@@ -99,12 +103,13 @@ PYSIDE_VERSION_MIN = PYSIDE2_VERSION_MIN
 binding_specified = QT_API in os.environ
 
 API_NAMES = {'pyqt5': 'PyQt5', 'pyqt6': 'PyQt6',
-             'pyside2':'PySide2', 'pyside6': 'PySide6'}
+             'pyside2': 'PySide2', 'pyside6': 'PySide6'}
 API = os.environ.get(QT_API, 'pyqt5').lower()
 initial_api = API
 if API not in API_NAMES:
-    raise ValueError(
-        f'Specified QT_API={repr(QT_API)} not in valid options: {API_NAMES}')
+    raise PythonQtValueError(
+        f'Specified QT_API={repr(QT_API.lower())} not in valid options: '
+        f'{API_NAMES}')
 
 is_old_pyqt = is_pyqt46 = False
 QT5 = PYQT5 = True
