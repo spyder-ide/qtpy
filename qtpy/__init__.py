@@ -156,7 +156,7 @@ if API in PYQT5_API:
     except ImportError:
         API = 'pyqt6'
     else:
-        os.environ['QT_API'] = API
+        os.environ[QT_API] = API
 
 if API in PYQT6_API:
     try:
@@ -169,7 +169,7 @@ if API in PYQT6_API:
     except ImportError:
         API = 'pyside2'
     else:
-        os.environ['QT_API'] = API
+        os.environ[QT_API] = API
 
 
 if API in PYSIDE2_API:
@@ -193,7 +193,7 @@ if API in PYSIDE2_API:
     except ImportError:
         API = 'pyside6'
     else:
-        os.environ['QT_API'] = API
+        os.environ[QT_API] = API
 
 if API in PYSIDE6_API:
     try:
@@ -206,7 +206,7 @@ if API in PYSIDE6_API:
     except ImportError:
         API = 'pyqt5'
     else:
-        os.environ['QT_API'] = API
+        os.environ[QT_API] = API
 
 
 # If a correct API name is passed to QT_API and it could not be found,
