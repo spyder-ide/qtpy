@@ -34,6 +34,32 @@ elif PYSIDE2:
         # Needed to prevent raising a DeprecationWarning when using QFontMetrics.width
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
+    # PySide2 does not accept the `mode` keyword argument in
+    # QTextCursor.movePosition() even though it is a valid optional argument
+    # as per C++ API. Fix this by monkeypatching.
+    #
+    # Notes:
+    #
+    # * The `mode` argument is called `arg__2` in PySide2 as per
+    #   QTextCursor.movePosition.__doc__ and __signature__. Using `arg__2` as
+    #   keyword argument works as intended, so does using a positional
+    #   argument. Tested with PySide2 5.15.0, 5.15.2.1 and 5.15.3; older
+    #   version, down to PySide 1, are probably affected as well [1].
+    #
+    # * PySide2 5.15.0 and 5.15.2.1 silently ignore invalid keyword arguments,
+    #   i.e. passing the `mode` keyword argument has no effect and doesn’t
+    #   raise an exception. Older versions, down to PySide 1, are probably
+    #   affected as well [1]. PySide2 5.15.3 raises an exception when `mode`or
+    #   any other invalid keyword argument is passed.
+    movePosition = QTextCursor.movePosition
+    def movePositionPatched(
+        self,
+        operation: QTextCursor.MoveOperation,
+        mode: QTextCursor.MoveMode = QTextCursor.MoveAnchor,
+        n: int = 1,
+    ) -> bool:
+        return movePosition(self, operation, mode, n)
+    QTextCursor.movePosition = movePositionPatched
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
