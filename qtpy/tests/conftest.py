@@ -21,8 +21,9 @@ def pytest_report_header(config):
     versions += 'PyQt6: '
 
     try:
-        from PyQt6 import Qt
-        versions += f"PyQt: {Qt.PYQT_VERSION_STR} - Qt: {Qt.QT_VERSION_STR}"
+        from PyQt6 import QtCore
+        versions += \
+            f"PyQt: {QtCore.PYQT_VERSION_STR} - Qt: {QtCore.QT_VERSION_STR}"
     except ImportError:
         versions += 'not installed'
     except AttributeError:

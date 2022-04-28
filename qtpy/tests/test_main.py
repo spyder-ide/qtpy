@@ -1,6 +1,11 @@
 import os
+import sys
+import subprocess
 
-from qtpy import QtCore, QtGui, QtWidgets
+import pytest
+
+from qtpy import QtCore, QtGui, QtWidgets, API_NAMES, PythonQtValueError
+
 try:
     # removed in qt 6.0
     from qtpy import QtWebEngineWidgets
@@ -16,6 +21,7 @@ def assert_pyside2():
     assert QtGui.QPainter is PySide2.QtGui.QPainter
     assert QtWidgets.QWidget is PySide2.QtWidgets.QWidget
     assert QtWebEngineWidgets.QWebEnginePage is PySide2.QtWebEngineWidgets.QWebEnginePage
+    assert os.environ['QT_API'] == 'pyside2'
 
 def assert_pyside6():
     """
@@ -27,6 +33,7 @@ def assert_pyside6():
     assert QtWidgets.QWidget is PySide6.QtWidgets.QWidget
     # Only valid for qt>=6.2
     # assert QtWebEngineWidgets.QWebEnginePage is PySide6.QtWebEngineCore.QWebEnginePage
+    assert os.environ['QT_API'] == 'pyside6'
 
 def assert_pyqt5():
     """
@@ -40,6 +47,7 @@ def assert_pyqt5():
         assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebEngineWidgets.QWebEnginePage
     else:
         assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebKitWidgets.QWebPage
+    assert os.environ['QT_API'] == 'pyqt5'
 
 def assert_pyqt6():
     """
@@ -49,6 +57,7 @@ def assert_pyqt6():
     assert QtCore.QEvent is PyQt6.QtCore.QEvent
     assert QtGui.QPainter is PyQt6.QtGui.QPainter
     assert QtWidgets.QWidget is PyQt6.QtWidgets.QWidget
+    assert os.environ['QT_API'] == 'pyqt6'
 
 
 def test_qt_api():
@@ -83,3 +92,39 @@ def test_qt_api():
                 assert_pyqt6()
         else:
             assert_pyqt5()
+
+
+@pytest.mark.parametrize('api', API_NAMES.values())
+def test_qt_api_environ(api):
+    """
+    If no QT_API is specified but some Qt is imported, ensure QT_API is set properly.
+    """
+    mod = f'{api}.QtCore'
+    pytest.importorskip(mod, reason=f'Requires {api}')
+    # clean env
+    env = os.environ.copy()
+    for key in ('QT_API', 'USE_QT_API'):
+        if key in env:
+            del env[key]
+    cmd = f"""
+import {mod}
+from qtpy import API
+import os
+print(API)
+print(os.environ['QT_API'])
+"""
+    output = subprocess.check_output([sys.executable, '-c', cmd], env=env)
+    got_api, env_qt_api = output.strip().decode('utf-8').splitlines()
+    assert got_api == api.lower()
+    assert env_qt_api == api.lower()
+    # Also ensure we raise a nice error
+    env['QT_API'] = 'bad'
+    cmd = """
+try:
+    import qtpy
+except ValueError as exc:
+    assert 'Specified QT_API' in str(exc), str(exc)
+else:
+    raise AssertionError('QtPy imported despite bad QT_API')
+"""
+    subprocess.check_call([sys.executable, '-Oc', cmd], env=env)
