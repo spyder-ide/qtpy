@@ -1,4 +1,4 @@
-# QtPy: Abstraction layer for PyQt5/PyQt6/PySide2/PySide6
+# QtPy: Abstraction layer for PyQt5/PySide2/PyQt6/PySide6
 
 [![license](https://img.shields.io/pypi/l/qtpy.svg)](./LICENSE)
 [![pypi version](https://img.shields.io/pypi/v/qtpy.svg)](https://pypi.org/project/QtPy/)
@@ -10,7 +10,7 @@
 [![Github build status](https://github.com/spyder-ide/qtpy/workflows/Tests/badge.svg)](https://github.com/spyder-ide/qtpy/actions)
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
 
-*Copyright © 2009–2021 The Spyder Development Team*
+*Copyright © 2009–2022 The Spyder Development Team*
 
 
 ## Description
@@ -22,7 +22,7 @@ It provides support for PyQt5, PyQt6, PySide6, PySide2 using the Qt5 layout
 (where the QtGui module has been split into QtGui and QtWidgets).
 
 Basically, you can write your code as if you were using PyQt or PySide directly,
-but import Qt modules from `qtpy` instead of `PyQt5`, `PyQt6`, `PySide2`, or `PySide6`.
+but import Qt modules from `qtpy` instead of `PyQt5`, `PySide2`, `PyQt6` or `PySide6`.
 
 Accordingly, when porting code between different Qt bindings (PyQt vs PySide) or Qt versions (Qt5 vs Qt6), QtPy makes this much more painless, and allows you to easily and incrementally transition between them. QtPy handles incompatibilities and differences between bindings or Qt versions for you while keeping your project running, so you can focus more on your own code and less on keeping track of supporting every Qt version and binding. Furthermore, when you do want to upgrade or support new bindings, it allows you to update your project module by module rather than all at once.  You can check out examples of this approach in projects using QtPy, like [git-cola](https://github.com/git-cola/git-cola/issues/232).
 
@@ -46,16 +46,16 @@ This project is released under the MIT license.
 
 ### Requirements
 
-You need PyQt5, PyQt6, PySide2 or PySide6 installed in your system to make use
+You need PyQt5, PySide2, PyQt6 or PySide6 installed in your system to make use
 of QtPy. If several of these packages are found, PyQt5 is used by
 default unless you set the `QT_API` environment variable.
 
 `QT_API` can take the following values:
 
 * `pyqt5` (to use PyQt5).
+* `pyside2` (to use PySide2).
 * `pyqt6` (to use PyQt6).
-* `pyside6` (to use PySide6)
-* `pyside2` (to use PySide2)
+* `pyside6` (to use PySide6).
 
 
 ### Installation
@@ -91,7 +91,7 @@ For example, in an environment where PyQt5 is installed and selected
 this would output the following:
 
 ```text
---always-true=PYQT5 --always-false=PYQT6 --always-false=PYSIDE2 --always-false=PYSIDE6
+--always-true=PYQT5 --always-false=PYSIDE2 --always-false=PYQT6 --always-false=PYSIDE6
 ```
 
 Using Bash or a similar shell, this can be injected into

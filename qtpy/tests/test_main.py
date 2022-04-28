@@ -69,27 +69,32 @@ def test_qt_api():
 
     if QT_API == 'pyqt5':
         assert_pyqt5()
-    elif QT_API == 'pyqt6':
-        assert_pyqt6()
     elif QT_API == 'pyside2':
         assert_pyside2()
+    elif QT_API == 'pyqt6':
+        assert_pyqt6()
     elif QT_API == 'pyside6':
         assert_pyside6()
     else:
         # If the tests are run locally, USE_QT_API and QT_API may not be
         # defined, but we still want to make sure qtpy is behaving sensibly.
         # We should then be loading, in order of decreasing preference, PyQt5,
-        # PyQt6, and PySide2.
+        # PySide2, PyQt6 and PySide6.
         try:
             import PyQt5
         except ImportError:
             try:
-                import PyQt6
-            except ImportError:
                 import PySide2
-                assert_pyside2()
+            except ImportError:
+                try:
+                    import PyQt6
+                except ImportError:
+                    import PySide6
+                    assert_pyside6()
+                else:
+                    assert_pyqt6()
             else:
-                assert_pyqt6()
+                assert_pyside2()
         else:
             assert_pyqt5()
 

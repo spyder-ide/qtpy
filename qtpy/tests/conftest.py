@@ -18,18 +18,6 @@ def pytest_report_header(config):
     """Insert a customized header into the test report."""
 
     versions = os.linesep
-    versions += 'PyQt6: '
-
-    try:
-        from PyQt6 import QtCore
-        versions += \
-            f"PyQt: {QtCore.PYQT_VERSION_STR} - Qt: {QtCore.QT_VERSION_STR}"
-    except ImportError:
-        versions += 'not installed'
-    except AttributeError:
-        versions += 'unknown version'
-
-    versions += os.linesep
     versions += 'PyQt5: '
 
     try:
@@ -47,6 +35,18 @@ def pytest_report_header(config):
         import PySide2
         from PySide2 import QtCore
         versions += f"PySide: {PySide2.__version__} - Qt: {QtCore.__version__}"
+    except ImportError:
+        versions += 'not installed'
+    except AttributeError:
+        versions += 'unknown version'
+
+    versions += os.linesep
+    versions += 'PyQt6: '
+
+    try:
+        from PyQt6 import QtCore
+        versions += \
+            f"PyQt: {QtCore.PYQT_VERSION_STR} - Qt: {QtCore.QT_VERSION_STR}"
     except ImportError:
         versions += 'not installed'
     except AttributeError:

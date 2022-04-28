@@ -11,8 +11,8 @@ Qt binding independent libraries or applications.
 
 If one of the APIs has already been imported, then it will be used.
 
-Otherwise, the shim will automatically select the first available API (PyQt5, PyQt6,
-PySide2 and PySide6); in that case, you can force the use of one
+Otherwise, the shim will automatically select the first available API (PyQt5, PySide2,
+PyQt6 and PySide6); in that case, you can force the use of one
 specific bindings (e.g. if your application is using one specific bindings and
 you need to use library that use QtPy) by setting up the ``QT_API`` environment
 variable.
@@ -25,14 +25,6 @@ For PyQt5, you don't have to set anything as it will be used automatically::
     >>> from qtpy import QtGui, QtWidgets, QtCore
     >>> print(QtWidgets.QWidget)
 
-PyQt6
-=====
-
-    >>> import os
-    >>> os.environ['QT_API'] = 'pyqt6'
-    >>> from qtpy import QtGui, QtWidgets, QtCore
-    >>> print(QtWidgets.QWidget)
-
 PySide2
 ======
 
@@ -41,6 +33,14 @@ packages::
 
     >>> import os
     >>> os.environ['QT_API'] = 'pyside2'
+    >>> from qtpy import QtGui, QtWidgets, QtCore
+    >>> print(QtWidgets.QWidget)
+
+PyQt6
+=====
+
+    >>> import os
+    >>> os.environ['QT_API'] = 'pyqt6'
     >>> from qtpy import QtGui, QtWidgets, QtCore
     >>> print(QtWidgets.QWidget)
 
@@ -102,8 +102,8 @@ PYSIDE_VERSION_MIN = PYSIDE2_VERSION_MIN
 # Detecting if a binding was specified by the user
 binding_specified = QT_API in os.environ
 
-API_NAMES = {'pyqt5': 'PyQt5', 'pyqt6': 'PyQt6',
-             'pyside2': 'PySide2', 'pyside6': 'PySide6'}
+API_NAMES = {'pyqt5': 'PyQt5', 'pyside2': 'PySide2',
+             'pyqt6': 'PyQt6', 'pyside6': 'PySide6'}
 API = os.environ.get(QT_API, 'pyqt5').lower()
 initial_api = API
 if API not in API_NAMES:
@@ -121,14 +121,14 @@ QT_VERSION = None
 
 # Unless `FORCE_QT_API` is set, use previously imported Qt Python bindings
 if not os.environ.get('FORCE_QT_API'):
-    if 'PyQt6' in sys.modules:
-        API = initial_api if initial_api in PYQT6_API else 'pyqt6'
-    elif 'PyQt5' in sys.modules:
+    if 'PyQt5' in sys.modules:
         API = initial_api if initial_api in PYQT5_API else 'pyqt5'
-    elif 'PySide6' in sys.modules:
-        API = initial_api if initial_api in PYSIDE6_API else 'pyside6'
     elif 'PySide2' in sys.modules:
         API = initial_api if initial_api in PYSIDE2_API else 'pyside2'
+    elif 'PyQt6' in sys.modules:
+        API = initial_api if initial_api in PYQT6_API else 'pyqt6'
+    elif 'PySide6' in sys.modules:
+        API = initial_api if initial_api in PYSIDE6_API else 'pyside6'
 
 if API in PYQT5_API:
     try:
@@ -154,23 +154,9 @@ if API in PYQT5_API:
 
             del macos_version
     except ImportError:
-        API = 'pyqt6'
-    else:
-        os.environ[QT_API] = API
-
-if API in PYQT6_API:
-    try:
-        from PyQt6.QtCore import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
-        from PyQt6.QtCore import QT_VERSION_STR as QT_VERSION  # analysis:ignore
-
-        QT5 = PYQT5 = False
-        QT6 = PYQT6 = True
-
-    except ImportError:
         API = 'pyside2'
     else:
         os.environ[QT_API] = API
-
 
 if API in PYSIDE2_API:
     try:
@@ -190,6 +176,19 @@ if API in PYSIDE2_API:
                                         "system.")
 
             del macos_version
+    except ImportError:
+        API = 'pyqt6'
+    else:
+        os.environ[QT_API] = API
+
+if API in PYQT6_API:
+    try:
+        from PyQt6.QtCore import PYQT_VERSION_STR as PYQT_VERSION  # analysis:ignore
+        from PyQt6.QtCore import QT_VERSION_STR as QT_VERSION  # analysis:ignore
+
+        QT5 = PYQT5 = False
+        QT6 = PYQT6 = True
+
     except ImportError:
         API = 'pyside6'
     else:
