@@ -46,29 +46,29 @@ def test_cli_mypy_args():
     if qtpy.PYQT5:
         expected = ' '.join([
             '--always-true=PYQT5',
+            '--always-false=PYSIDE2',
             '--always-false=PYQT6',
-            '--always-false=PYSIDE2',
-            '--always-false=PYSIDE6',
-        ])
-    elif qtpy.PYQT6:
-        expected = ' '.join([
-            '--always-false=PYQT5',
-            '--always-true=PYQT6',
-            '--always-false=PYSIDE2',
             '--always-false=PYSIDE6',
         ])
     elif qtpy.PYSIDE2:
         expected = ' '.join([
             '--always-false=PYQT5',
-            '--always-false=PYQT6',
             '--always-true=PYSIDE2',
+            '--always-false=PYQT6',
+            '--always-false=PYSIDE6',
+        ])
+    elif qtpy.PYQT6:
+        expected = ' '.join([
+            '--always-false=PYQT5',
+            '--always-false=PYSIDE2',
+            '--always-true=PYQT6',
             '--always-false=PYSIDE6',
         ])
     elif qtpy.PYSIDE6:
         expected = ' '.join([
             '--always-false=PYQT5',
-            '--always-false=PYQT6',
             '--always-false=PYSIDE2',
+            '--always-false=PYQT6',
             '--always-true=PYSIDE6',
         ])
     else:
