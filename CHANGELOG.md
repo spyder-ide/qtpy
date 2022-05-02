@@ -1,5 +1,54 @@
 # History of changes
 
+## Version 2.1.0 (2022-05-02)
+
+### New features
+
+* New CLI to get mypy arguments and check QtPy version
+
+### Important fixes
+
+* Remove Python 3.6 support
+* Fix `QT_API` environmental variable handling so new processes get the correct value when `Qt_API` is not initially set
+* Change try order for bindings in case the `QT_API` environmental variable is not set i.e `PyQt5 - PySide2 - PyQt6 - PySide6`
+
+### Issues Closed
+
+* [Issue 342](https://github.com/spyder-ide/qtpy/issues/342) - Change bindings `try order` to follow QtPy `v1.x` convention ([PR 343](https://github.com/spyder-ide/qtpy/pull/343) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 338](https://github.com/spyder-ide/qtpy/issues/338) - Release QtPy 2.1.0
+* [Issue 336](https://github.com/spyder-ide/qtpy/issues/336) - Segfaulting tests on PyQt6 + Windows on both Py3.7 and 3.10 (no conda) probably due to PyQt 6.3.0  ([PR 335](https://github.com/spyder-ide/qtpy/pull/335) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 332](https://github.com/spyder-ide/qtpy/issues/332) - Remove `QHeaderView` patch ([PR 334](https://github.com/spyder-ide/qtpy/pull/334) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 327](https://github.com/spyder-ide/qtpy/issues/327) - Missing `QtCore.Qt.MidButton` alias for `QtCore.Qt.MouseButton.MiddleButton` with PyQt6 ([PR 328](https://github.com/spyder-ide/qtpy/pull/328) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 323](https://github.com/spyder-ide/qtpy/issues/323) - Fix test suite failing at collection on Python 3.10 in Pytest 7.x ([PR 324](https://github.com/spyder-ide/qtpy/pull/324) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 297](https://github.com/spyder-ide/qtpy/issues/297) - Drop Python 3.6 support ([PR 329](https://github.com/spyder-ide/qtpy/pull/329) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 265](https://github.com/spyder-ide/qtpy/issues/265) - Investigate and (hopefully) resolve segfaults and other issues in UIC tests ([PR 335](https://github.com/spyder-ide/qtpy/pull/335) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 216](https://github.com/spyder-ide/qtpy/issues/216) - Support type hints and mypy ([PR 337](https://github.com/spyder-ide/qtpy/pull/337) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+
+In this release 9 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 343](https://github.com/spyder-ide/qtpy/pull/343) - PR: Change bindings `try order` to be `PyQt5, PySide2, PyQt6, PySide6`, by [@dalthviz](https://github.com/dalthviz) ([342](https://github.com/spyder-ide/qtpy/issues/342))
+* [PR 341](https://github.com/spyder-ide/qtpy/pull/341) - PR: Add workaround for `mode` argument in QTextCursor.movePosition (Pyside2), by [@rear1019](https://github.com/rear1019)
+* [PR 340](https://github.com/spyder-ide/qtpy/pull/340) - PR: Fix bug with environ handling, by [@larsoner](https://github.com/larsoner)
+* [PR 337](https://github.com/spyder-ide/qtpy/pull/337) - PR: Add command line support for Mypy, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([217](https://github.com/spyder-ide/qtpy/issues/217), [216](https://github.com/spyder-ide/qtpy/issues/216))
+* [PR 335](https://github.com/spyder-ide/qtpy/pull/335) - PR: Fix uic skipped tests and PyQt 6.3.0 segfaulting tests, by [@dalthviz](https://github.com/dalthviz) ([336](https://github.com/spyder-ide/qtpy/issues/336), [265](https://github.com/spyder-ide/qtpy/issues/265))
+* [PR 334](https://github.com/spyder-ide/qtpy/pull/334) - PR: Remove `QHeaderView` patch related files, by [@dalthviz](https://github.com/dalthviz) ([332](https://github.com/spyder-ide/qtpy/issues/332))
+* [PR 333](https://github.com/spyder-ide/qtpy/pull/333) - PR: Skip import of QOpenGLTime* on architectures where not available, by [@juliangilbey](https://github.com/juliangilbey)
+* [PR 331](https://github.com/spyder-ide/qtpy/pull/331) - PR: Use QFileDialog.Option to be compatiable with Qt6, by [@frmdstryr](https://github.com/frmdstryr)
+* [PR 330](https://github.com/spyder-ide/qtpy/pull/330) - PR: Fix typo in constant name, by [@eyllanesc](https://github.com/eyllanesc)
+* [PR 329](https://github.com/spyder-ide/qtpy/pull/329) - PR: Drop support for Python 3.6, by [@dalthviz](https://github.com/dalthviz) ([297](https://github.com/spyder-ide/qtpy/issues/297))
+* [PR 328](https://github.com/spyder-ide/qtpy/pull/328) - PR: Add missing `Qt.MidButton` on PyQt6, by [@dalthviz](https://github.com/dalthviz) ([327](https://github.com/spyder-ide/qtpy/issues/327))
+* [PR 326](https://github.com/spyder-ide/qtpy/pull/326) - PR: Add missing `QWebEngineScript` support for PyQt5/6 and PySide2/6, by [@EasyIsrael](https://github.com/EasyIsrael)
+* [PR 325](https://github.com/spyder-ide/qtpy/pull/325) - PR: Monkey patch `pyside2uic` `UIParser.readResources` for Python 3.9 compatibility, by [@n-elie](https://github.com/n-elie)
+* [PR 324](https://github.com/spyder-ide/qtpy/pull/324) - PR: Restrict broken Pytest versions to those not affected by the Pytest 7.0.0 import-mode=importlib behavior regression, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([323](https://github.com/spyder-ide/qtpy/issues/323))
+
+In this release 14 pull requests were closed.
+
+
+----
+
+
 ## Version 2.0.1 (2022-02-02)
 
 ### Issues Closed
