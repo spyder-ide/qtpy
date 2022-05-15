@@ -4,9 +4,11 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
-"""Provides QtWebSockets classes and functions."""
 
-# Local imports
+"""
+Provides QtWebSockets classes and functions.
+"""
+
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:

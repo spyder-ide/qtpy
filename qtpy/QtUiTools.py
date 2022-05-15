@@ -6,18 +6,18 @@
 # -----------------------------------------------------------------------------
 
 """
-Provides QtOpenGLWidgets classes and functions.
+Provides QtUiTools classes and functions.
 """
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
-    raise PythonQtError('QtTextToSpeech not implemented in PyQt5')
+    raise PythonQtError('QtUiTools not implemented in PyQt5')
 elif PYQT6:
-    from PyQt6.QtOpenGLWidgets import *
+    raise PythonQtError('QtUiTools not implemented in PyQt6')
 elif PYSIDE2:
-    raise PythonQtError('QtTextToSpeech not implemented in PySide2')
+    from PySide2.QtUiTools import *
 elif PYSIDE6:
-    from PySide6.QtOpenGLWidgets import *
+    from PySide6.QtUiTools import *
 else:
     raise PythonQtError('No Qt bindings could be found')

@@ -4,20 +4,38 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
-"""Provides Qt3DLogic classes and functions."""
 
-# Local imports
+"""
+Provides Qt3DLogic classes and functions.
+"""
+
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
-    from PyQt5.Qt3DLogic import *
+    try:
+        from PyQt5.Qt3DLogic import *
+    except ImportError as error:
+        raise PythonQtError(
+            'The Qt3DLogic module was not found. '
+            'It needs to be installed separately for PyQt5.'
+            ) from error
 elif PYQT6:
-    from PyQt6.Qt3DLogic import *
-elif PYSIDE6:
-    from PySide6.Qt3DLogic.Qt3DLogic import *
+    try:
+        from PyQt6.Qt3DLogic import *
+    except ImportError as error:
+        raise PythonQtError(
+            'The Qt3DLogic module was not found. '
+            'It needs to be installed separately for PyQt6.'
+            ) from error
 elif PYSIDE2:
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import PySide2.Qt3DLogic as __temp
+    import inspect
+    for __name in inspect.getmembers(__temp.Qt3DLogic):
+        globals()[__name[0]] = __name[1]
+elif PYSIDE6:
+    # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
+    import PySide6.Qt3DLogic as __temp
     import inspect
     for __name in inspect.getmembers(__temp.Qt3DLogic):
         globals()[__name[0]] = __name[1]

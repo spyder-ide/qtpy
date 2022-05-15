@@ -6,7 +6,7 @@
 # -----------------------------------------------------------------------------
 
 """
-Provides QtDBus classes and functions.
+Provides Linux-specific utilities
 """
 
 import platform
@@ -14,14 +14,14 @@ from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if platform.system() == 'Linux':
     if PYQT5:
-        from PyQt5.QtDBus import *
+        from PyQt5.QtX11Extras import *
     elif PYQT6:
-        from PyQt6.QtDBus import *
+        raise PythonQtError('QtX11Extras does not exist in Qt6')
     elif PYSIDE2:
-        raise PythonQtError('QtDBus not implemented in PySide2')
+        from PySide2.QtX11Extras import *
     elif PYSIDE6:
-        from PySide6.QtDBus import *
+        raise PythonQtError('QtX11Extras does not exist in Qt6')
     else:
-        raise PythonQtError("No Qt bindings could be found")
+        raise PythonQtError('No Qt bindings could be found')
 else:
-    raise PythonQtError('QtDBus does not exist on this operating system')
+    raise PythonQtError('QtX11Extras does not exist on this operating system')

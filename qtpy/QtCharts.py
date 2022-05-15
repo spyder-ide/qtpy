@@ -4,9 +4,11 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
-"""Provides QtChart classes and functions."""
 
-# Local imports
+"""
+Provides QtChart classes and functions.
+"""
+
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
@@ -27,9 +29,6 @@ elif PYQT6:
             'The QtCharts module was not found. '
             'It needs to be installed separately for PyQt6.'
             ) from error
-elif PYSIDE6:
-    from PySide6.QtCharts import *
-    from PySide6 import QtCharts
 elif PYSIDE2:
     from PySide2.QtCharts import *
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
@@ -37,5 +36,8 @@ elif PYSIDE2:
     import inspect
     for __name in inspect.getmembers(__temp.QtCharts):
         globals()[__name[0]] = __name[1]
+elif PYSIDE6:
+    from PySide6.QtCharts import *
+    from PySide6 import QtCharts
 else:
     raise PythonQtError('No Qt bindings could be found')

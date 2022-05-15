@@ -4,10 +4,12 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
-"""Provides QtMultimediaWidgets classes and functions."""
 
-# Local imports
-from . import PYSIDE2, PYSIDE6, PYQT5, PYQT6, PythonQtError
+"""
+Provides QtMultimediaWidgets classes and functions.
+"""
+
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
     from PyQt5.QtMultimediaWidgets import *

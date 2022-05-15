@@ -4,15 +4,29 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
-"""Provides QtWebEngineCore classes and functions."""
 
-# Local imports
+"""
+Provides QtWebEngineCore classes and functions.
+"""
+
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
-    from PyQt5.QtWebEngineCore import *
+    try:
+        from PyQt5.QtWebEngineCore import *
+    except ImportError as error:
+        raise PythonQtError(
+            'The QtWebEngineCore module was not found. '
+            'It needs to be installed separately for PyQt5.'
+            ) from error
 elif PYQT6:
-    from PyQt6.QtWebEngineCore import *
+    try:
+        from PyQt6.QtWebEngineCore import *
+    except ImportError as error:
+        raise PythonQtError(
+            'The QtWebEngineCore module was not found. '
+            'It needs to be installed separately for PyQt6.'
+            ) from error
 elif PYSIDE2:
     from PySide2.QtWebEngineCore import *
 elif PYSIDE6:
