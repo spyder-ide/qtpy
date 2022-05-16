@@ -15,12 +15,16 @@ if PYQT5:
     try:
         from PyQt5.Qt3DInput import *
     except ModuleNotFoundError as error:
-        raise QtModuleNotInstalledError(name='Qt3DInput', binding=API_NAME, missing_package='PyQt3D')
+        raise QtModuleNotInstalledError(
+            name='Qt3DInput', binding=API_NAME, missing_package='PyQt3D'
+        ) from error
 elif PYQT6:
     try:
         from PyQt6.Qt3DInput import *
     except ModuleNotFoundError as error:
-        raise QtModuleNotInstalledError(name='Qt3DInput', binding=API_NAME, missing_package='PyQt6-3D')
+        raise QtModuleNotInstalledError(
+            name='Qt3DInput', binding=API_NAME, missing_package='PyQt6-3D'
+        ) from error
 elif PYSIDE2:
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import PySide2.Qt3DInput as __temp

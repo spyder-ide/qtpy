@@ -20,7 +20,9 @@ if PYQT5:
         # Based on the work at https://github.com/spyder-ide/qtpy/pull/203
         from PyQt5.QtWebEngineWidgets import QWebEngineProfile
     except ModuleNotFoundError as error:
-        raise QtModuleNotInstalledError(name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQtWebEngine')
+        raise QtModuleNotInstalledError(
+            name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQtWebEngine'
+        ) from error
 elif PYQT6:
     try:
         from PyQt6.QtWebEngineWidgets import *
@@ -29,7 +31,9 @@ elif PYQT6:
         from PyQt6.QtWebEngineCore import QWebEngineProfile
         from PyQt6.QtWebEngineCore import QWebEngineScript
     except ModuleNotFoundError as error:
-        raise QtModuleNotInstalledError(name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQt6-WebEngine')
+        raise QtModuleNotInstalledError(
+            name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQt6-WebEngine'
+        ) from error
 elif PYSIDE2:
     from PySide2.QtWebEngineWidgets import QWebEnginePage
     from PySide2.QtWebEngineWidgets import QWebEngineView

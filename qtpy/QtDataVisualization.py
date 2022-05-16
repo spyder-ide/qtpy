@@ -15,12 +15,16 @@ if PYQT5:
     try:
         from PyQt5.QtDataVisualization import *
     except ModuleNotFoundError as error:
-        raise QtModuleNotInstalledError(name='QtDataVisualization', binding=API_NAME, missing_package='PyQtDataVisualization')
+        raise QtModuleNotInstalledError(
+            name='QtDataVisualization', binding=API_NAME, missing_package='PyQtDataVisualization'
+        ) from error
 elif PYQT6:
     try:
         from PyQt6.QtDataVisualization import *
     except ModuleNotFoundError as error:
-        raise QtModuleNotInstalledError(name='QtDataVisualization', binding=API_NAME, missing_package='PyQt6-DataVisualization')
+        raise QtModuleNotInstalledError(
+            name='QtDataVisualization', binding=API_NAME, missing_package='PyQt6-DataVisualization'
+        ) from error
 elif PYSIDE2:
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import PySide2.QtDataVisualization as __temp
