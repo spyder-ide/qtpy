@@ -9,26 +9,20 @@
 Provides QtChart classes and functions.
 """
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
 
 if PYQT5:
     try:
         from PyQt5.QtChart import *
         from PyQt5 import QtChart as QtCharts
-    except ImportError as error:
-        raise PythonQtError(
-            'The QtChart module was not found. '
-            'It needs to be installed separately for PyQt5.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='Qt3DCharts', binding=API_NAME, missing_package='PyQtChart')
 elif PYQT6:
     try:
         from PyQt6.QtCharts import *
         from PyQt6 import QtCharts
-    except ImportError as error:
-        raise PythonQtError(
-            'The QtCharts module was not found. '
-            'It needs to be installed separately for PyQt6.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='Qt3DCharts', binding=API_NAME, missing_package='PyQt6-Charts')
 elif PYSIDE2:
     from PySide2.QtCharts import *
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026

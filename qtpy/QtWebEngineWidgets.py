@@ -9,7 +9,7 @@
 Provides QtWebEngineWidgets classes and functions.
 """
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
 
 if PYQT5:
     try:
@@ -19,11 +19,8 @@ if PYQT5:
         from PyQt5.QtWebEngineWidgets import QWebEngineScript
         # Based on the work at https://github.com/spyder-ide/qtpy/pull/203
         from PyQt5.QtWebEngineWidgets import QWebEngineProfile
-    except ImportError as error:
-        raise PythonQtError(
-            'The QtWebEngineWidgets module was not found. '
-            'It needs to be installed separately for PyQt5.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQtWebEngine')
 elif PYQT6:
     try:
         from PyQt6.QtWebEngineWidgets import *
@@ -31,11 +28,8 @@ elif PYQT6:
         from PyQt6.QtWebEngineCore import QWebEngineSettings
         from PyQt6.QtWebEngineCore import QWebEngineProfile
         from PyQt6.QtWebEngineCore import QWebEngineScript
-    except ImportError as error:
-        raise PythonQtError(
-            'The QtWebEngineWidgets module was not found. '
-            'It needs to be installed separately for PyQt6.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQt6-WebEngine')
 elif PYSIDE2:
     from PySide2.QtWebEngineWidgets import QWebEnginePage
     from PySide2.QtWebEngineWidgets import QWebEngineView

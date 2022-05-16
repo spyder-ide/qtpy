@@ -9,24 +9,18 @@
 Provides Qt3DAnimation classes and functions.
 """
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
 
 if PYQT5:
     try:
         from PyQt5.Qt3DAnimation import *
-    except ImportError as error:
-        raise PythonQtError(
-            'The Qt3DAnimation module was not found. '
-            'It needs to be installed separately for PyQt5.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='Qt3DAnimation', binding=API_NAME, missing_package='PyQt3D')
 elif PYQT6:
     try:
         from PyQt6.Qt3DAnimation import *
-    except ImportError as error:
-        raise PythonQtError(
-            'The Qt3DAnimation module was not found. '
-            'It needs to be installed separately for PyQt6.'
-        )
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='Qt3DAnimation', binding=API_NAME, missing_package='PyQt6-3D')
 elif PYSIDE2:
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import PySide2.Qt3DAnimation as __temp

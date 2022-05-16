@@ -9,24 +9,18 @@
 Provides QtDataVisualization classes and functions.
 """
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
 
 if PYQT5:
     try:
         from PyQt5.QtDataVisualization import *
-    except ImportError as error:
-        raise PythonQtError(
-            'The QtDataVisualization module was not found. '
-            'It needs to be installed separately for PyQt5.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='QtDataVisualization', binding=API_NAME, missing_package='PyQtDataVisualization')
 elif PYQT6:
     try:
         from PyQt6.QtDataVisualization import *
-    except ImportError as error:
-        raise PythonQtError(
-            'The QtDataVisualization module was not found. '
-            'It needs to be installed separately for PyQt6.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(name='QtDataVisualization', binding=API_NAME, missing_package='PyQt6-DataVisualization')
 elif PYSIDE2:
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import PySide2.QtDataVisualization as __temp
