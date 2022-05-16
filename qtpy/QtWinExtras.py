@@ -9,10 +9,10 @@
 Provides Windows-specific utilities
 """
 
-import platform
+import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
-if platform.system() == 'Windows':
+if sys.platform == 'win32':
     if PYQT5:
         from PyQt5.QtWinExtras import *
     elif PYQT6:

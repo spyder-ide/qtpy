@@ -9,10 +9,10 @@
 Provides classes and functions specific to macOS and iOS operating systems
 """
 
-import platform
+import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
-if platform.system() == 'Darwin':
+if sys.platform == 'darwin':
     if PYQT5:
         from PyQt5.QtMacExtras import *
     elif PYQT6:

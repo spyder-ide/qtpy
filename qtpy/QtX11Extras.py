@@ -9,10 +9,10 @@
 Provides Linux-specific utilities
 """
 
-import platform
+import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
-if platform.system() == 'Linux':
+if sys.platform == 'linux':
     if PYQT5:
         from PyQt5.QtX11Extras import *
     elif PYQT6:

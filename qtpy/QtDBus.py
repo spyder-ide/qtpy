@@ -9,10 +9,10 @@
 Provides QtDBus classes and functions.
 """
 
-import platform
+import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
-if platform.system() == 'Linux':
+if sys.platform == 'linux':
     if PYQT5:
         from PyQt5.QtDBus import *
     elif PYQT6:
