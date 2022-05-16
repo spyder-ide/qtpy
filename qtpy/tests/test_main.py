@@ -43,10 +43,6 @@ def assert_pyqt5():
     assert QtCore.QEvent is PyQt5.QtCore.QEvent
     assert QtGui.QPainter is PyQt5.QtGui.QPainter
     assert QtWidgets.QWidget is PyQt5.QtWidgets.QWidget
-    if QtWebEngineWidgets.WEBENGINE:
-        assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebEngineWidgets.QWebEnginePage
-    else:
-        assert QtWebEngineWidgets.QWebEnginePage is PyQt5.QtWebKitWidgets.QWebPage
     assert os.environ['QT_API'] == 'pyqt5'
 
 def assert_pyqt6():
