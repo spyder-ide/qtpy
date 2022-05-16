@@ -76,6 +76,34 @@ class PythonQtValueError(ValueError):
     """Error raised if an invalid QT_API is specified."""
 
 
+class QtModuleNotFoundError(ModuleNotFoundError, PythonQtError):
+    """Raised when a Python Qt binding submodule is not installed/supported."""
+    _msg = 'The {name} module was not found for {binding}.'
+    _msg_extra = ''
+
+    def __init__(self, *, name, binding=None, msg=None, **msg_kwargs):
+        self.binding = binding
+        msg = msg or f'{self._msg} {self._msg_extra}'.strip()
+        msg = msg.format(name=name, binding=binding, **msg_kwargs)
+        super().__init__(msg, name=name)
+
+
+class QtBindingMissingModuleError(QtModuleNotFoundError):
+    """Raised when a module is not supported by a given binding."""
+    _msg_extra = 'It is not currently implemented in {binding}.'
+
+
+class QtModuleNotInstalledError(QtModuleNotFoundError):
+    """Raise when a module is supported by the binding, but not installed."""
+    _msg_extra = 'It must be installed separately'
+
+    def __init__(self, *, missing_package=None, **superclass_kwargs):
+        self.missing_package = missing_package
+        if missing_package is not None:
+             self._msg_extra += ' as {missing_package}.'
+        super().__init__(missing_package=missing_package, **superclass_kwargs)
+
+
 # Qt API environment variable name
 QT_API = 'QT_API'
 
