@@ -9,12 +9,12 @@
 Provides QtAxContainer classes and functions.
 """
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError, API_NAME
 
 if PYQT5:
-    raise PythonQtError('QtAxContainer not implemented in PyQt5')
+    raise QtBindingMissingModuleError(name='QtAxContainer', binding=API_NAME, missing_package='PyQt3D')
 elif PYQT6:
-    raise PythonQtError('QtAxContainer not implemented in PyQt6')
+    raise QtBindingMissingModuleError(name='QtAxContainer', binding=API_NAME, missing_package='PyQt6-3D')
 elif PYSIDE2:
     from PySide2.QtAxContainer import *
 elif PYSIDE6:
