@@ -79,7 +79,7 @@ class PythonQtValueError(ValueError):
 class QtModuleNotFoundError(ModuleNotFoundError, PythonQtError):
     """Raised when a Python Qt binding submodule is not installed/supported."""
     _msg = 'The {name} module was not found{binding}.'
-    _msg_binding = ' for {binding}`
+    _msg_binding = ' for {binding}'
     _msg_extra = ''
 
     def __init__(self, *, name, binding=None, msg=None, **msg_kwargs):
