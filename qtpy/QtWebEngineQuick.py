@@ -16,11 +16,10 @@ if PYQT5:
 elif PYQT6:
     try:
         from PyQt6.QtWebEngineQuick import *
-    except ImportError as error:
-        raise PythonQtError(
-            'The QtWebEngineQuick module was not found. '
-            'It needs to be installed separately for PyQt6.'
-            ) from error
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(
+            name='QtWebEngineQuick', binding=API_NAME, missing_package='PyQt6-WebEngine'
+        ) from error
 elif PYSIDE2:
     raise PythonQtError('QtWebEngineQuick not implemented in PySide2')
 elif PYSIDE6:
