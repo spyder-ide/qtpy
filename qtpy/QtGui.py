@@ -10,8 +10,9 @@
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
-
-if PYQT6:
+if PYQT5:
+    from PyQt5.QtGui import *
+elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
     from PyQt6.QtOpenGL import *
@@ -26,8 +27,6 @@ if PYQT6:
     from .enums_compat import promote_enums
     promote_enums(QtGui)
     del QtGui
-elif PYQT5:
-    from PyQt5.QtGui import *
 elif PYSIDE2:
     from PySide2.QtGui import *
     if hasattr(QFontMetrics, 'horizontalAdvance'):

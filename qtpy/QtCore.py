@@ -10,8 +10,25 @@
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
+if PYQT5:
+    from PyQt5.QtCore import *
+    from PyQt5.QtCore import pyqtSignal as Signal
+    from PyQt5.QtCore import pyqtBoundSignal as SignalInstance
+    from PyQt5.QtCore import pyqtSlot as Slot
+    from PyQt5.QtCore import pyqtProperty as Property
+    from PyQt5.QtCore import QT_VERSION_STR as __version__
 
-if PYQT6:
+    # For issue #153 and updated for issue #305
+    from PyQt5.QtCore import QDateTime
+    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
+
+    # Map missing methods on PyQt5 5.12
+    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+
+    # Those are imported from `import *`
+    del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+
+elif PYQT6:
     from PyQt6 import QtCore
     from PyQt6.QtCore import *
     from PyQt6.QtCore import pyqtSignal as Signal
@@ -55,23 +72,26 @@ if PYQT6:
     # Alias for MiddleButton removed in PyQt6 but available in PyQt5, PySide2 and PySide6
     Qt.MidButton = Qt.MiddleButton
 
-elif PYQT5:
-    from PyQt5.QtCore import *
-    from PyQt5.QtCore import pyqtSignal as Signal
-    from PyQt5.QtCore import pyqtBoundSignal as SignalInstance
-    from PyQt5.QtCore import pyqtSlot as Slot
-    from PyQt5.QtCore import pyqtProperty as Property
-    from PyQt5.QtCore import QT_VERSION_STR as __version__
+elif PYSIDE2:
+    from PySide2.QtCore import *
 
-    # For issue #153 and updated for issue #305
-    from PyQt5.QtCore import QDateTime
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
+    try:  # may be limited to PySide-5.11a1 only
+        from PySide2.QtGui import QStringListModel
+    except Exception:
+        pass
 
-    # Map missing methods on PyQt5 5.12
-    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    import PySide2.QtCore
+    __version__ = PySide2.QtCore.__version__
 
-    # Those are imported from `import *`
-    del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+    # Missing QtGui utility functions on Qt
+    if getattr(Qt, 'mightBeRichText', None) is None:
+        try:
+            from PySide2.QtGui import Qt as guiQt
+            Qt.mightBeRichText = guiQt.mightBeRichText
+            del guiQt
+        except ImportError:
+            # Fails with PySide2 5.12.0
+            pass
 
 elif PYSIDE6:
     from PySide6.QtCore import *
@@ -95,25 +115,5 @@ elif PYSIDE6:
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
-elif PYSIDE2:
-    from PySide2.QtCore import *
-
-    try:  # may be limited to PySide-5.11a1 only
-        from PySide2.QtGui import QStringListModel
-    except Exception:
-        pass
-
-    import PySide2.QtCore
-    __version__ = PySide2.QtCore.__version__
-
-    # Missing QtGui utility functions on Qt
-    if getattr(Qt, 'mightBeRichText', None) is None:
-        try:
-            from PySide2.QtGui import Qt as guiQt
-            Qt.mightBeRichText = guiQt.mightBeRichText
-            del guiQt
-        except ImportError:
-            # Fails with PySide2 5.12.0
-            pass
 else:
     raise PythonQtError('No Qt bindings could be found')

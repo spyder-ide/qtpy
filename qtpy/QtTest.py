@@ -10,7 +10,9 @@
 
 from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, PythonQtError
 
-if PYQT6:
+if PYQT5:
+    from PyQt5.QtTest import *
+elif PYQT6:
     from PyQt6 import QtTest
     from PyQt6.QtTest import *
 
@@ -18,11 +20,9 @@ if PYQT6:
     from .enums_compat import promote_enums
     promote_enums(QtTest)
     del QtTest
-elif PYQT5:
-    from PyQt5.QtTest import *
-elif PYSIDE6:
-    from PySide6.QtTest import *
 elif PYSIDE2:
     from PySide2.QtTest import *
+elif PYSIDE6:
+    from PySide6.QtTest import *
 else:
     raise PythonQtError('No Qt bindings could be found')
