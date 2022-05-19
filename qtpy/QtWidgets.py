@@ -1,13 +1,13 @@
-#
+# -----------------------------------------------------------------------------
 # Copyright © 2014-2015 Colin Duquesnoy
 # Copyright © 2009- The Spyder Developmet Team
 #
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
+# -----------------------------------------------------------------------------
 
-"""
-Provides widget classes and functions.
-"""
+"""Provides widget classes and functions."""
+
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 

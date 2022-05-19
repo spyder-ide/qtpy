@@ -5,9 +5,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides Qt3DRender classes and functions.
-"""
+"""Provides Qt3DRender classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
 

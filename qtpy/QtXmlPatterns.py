@@ -5,9 +5,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides QtXmlPatterns classes and functions.
-"""
+"""Provides QtXmlPatterns classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 

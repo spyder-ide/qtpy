@@ -5,9 +5,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides Windows-specific utilities
-"""
+"""Provides Windows-specific utilities"""
 
 import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError

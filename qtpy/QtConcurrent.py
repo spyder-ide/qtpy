@@ -5,9 +5,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides QtConcurrent classes and functions.
-"""
+"""Provides QtConcurrent classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 

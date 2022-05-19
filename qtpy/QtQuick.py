@@ -4,9 +4,9 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
+
 """Provides QtQuick classes and functions."""
 
-# Local imports
 from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, PythonQtError
 
 if PYQT5:

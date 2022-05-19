@@ -6,9 +6,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides QtNetwork classes and functions.
-"""
+"""Provides QtNetwork classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 

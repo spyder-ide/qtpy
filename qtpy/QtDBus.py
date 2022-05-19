@@ -5,9 +5,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides QtDBus classes and functions.
-"""
+"""Provides QtDBus classes and functions."""
 
 import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError

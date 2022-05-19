@@ -1,13 +1,13 @@
-#
+# -----------------------------------------------------------------------------
 # Copyright © 2014-2015 Colin Duquesnoy
 # Copyright © 2009- The Spyder Development Team
 #
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
+# -----------------------------------------------------------------------------
 
-"""
-Provides QtCore classes and functions.
-"""
+"""Provides QtCore classes and functions."""
+
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
 
 

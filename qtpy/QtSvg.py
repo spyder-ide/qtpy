@@ -4,6 +4,7 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
+
 """Provides QtSvg classes and functions."""
 
 # Local imports
@@ -19,4 +20,3 @@ elif PYSIDE2:
     from PySide2.QtSvg import *
 else:
     raise PythonQtError('No Qt bindings could be found')
-

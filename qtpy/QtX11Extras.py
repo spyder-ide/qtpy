@@ -5,9 +5,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides Linux-specific utilities
-"""
+"""Provides Linux-specific utilities"""
 
 import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError

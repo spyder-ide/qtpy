@@ -1,13 +1,12 @@
-#
+# -----------------------------------------------------------------------------
 # Copyright © 2014-2015 Colin Duquesnoy
 # Copyright © 2009- The Spyder development Team
 #
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
+# -----------------------------------------------------------------------------
 
-"""
-Provides QtWebEngineWidgets classes and functions.
-"""
+"""Provides QtWebEngineWidgets classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
 

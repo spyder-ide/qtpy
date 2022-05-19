@@ -5,9 +5,7 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""
-Provides classes and functions specific to macOS and iOS operating systems
-"""
+"""Provides classes and functions specific to macOS and iOS operating systems"""
 
 import sys
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError

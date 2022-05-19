@@ -4,9 +4,9 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
+
 """Provides QtOpenGL classes and functions."""
 
-# Local imports
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
 
 if PYQT5:
@@ -47,4 +47,3 @@ elif PYSIDE2:
         pass
 else:
     raise PythonQtError('No Qt bindings could be found')
-
