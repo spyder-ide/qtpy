@@ -7,14 +7,14 @@
 
 """Provides QtStateMachine classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
 if PYQT5:
-    raise PythonQtError('QtStateMachine not implemented in PyQt5')
+    raise QtBindingMissingModuleError(name='QtStateMachine')
 elif PYQT6:
-    raise PythonQtError('QtStateMachine not implemented in PyQt6')
+    raise QtBindingMissingModuleError(name='QtStateMachine')
 elif PYSIDE2:
-    raise PythonQtError('QtStateMachine not implemented in PySide2')
+    raise QtBindingMissingModuleError(name='QtStateMachine')
 elif PYSIDE6:
     from PySide6.QtStateMachine import *
 else:

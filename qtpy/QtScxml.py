@@ -7,12 +7,12 @@
 
 """Provides QtScxml classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
 if PYQT5:
-    raise PythonQtError('QtScxml not implemented in PyQt5')
+    raise QtBindingMissingModuleError(name='QtScxml')
 elif PYQT6:
-    raise PythonQtError('QtScxml not implemented in PyQt6')
+    raise QtBindingMissingModuleError(name='QtScxml')
 elif PYSIDE2:
     from PySide2.QtScxml import *
 elif PYSIDE6:

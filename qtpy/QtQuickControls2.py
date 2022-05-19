@@ -7,12 +7,12 @@
 
 """Provides QtQuickControls2 classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
 if PYQT5:
-    raise PythonQtError('QtQuickControls2 not implemented in PyQt5')
+    raise QtBindingMissingModuleError(name='QtQuickControls2')
 elif PYQT6:
-    raise PythonQtError('QtQuickControls2 not implemented in PyQt6')
+    raise QtBindingMissingModuleError(name='QtQuickControls2')
 elif PYSIDE2:
     from PySide2.QtQuickControls2 import *
 elif PYSIDE6:

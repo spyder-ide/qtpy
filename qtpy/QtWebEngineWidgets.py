@@ -8,7 +8,7 @@
 
 """Provides QtWebEngineWidgets classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError
 
 if PYQT5:
     try:
@@ -20,7 +20,7 @@ if PYQT5:
         from PyQt5.QtWebEngineWidgets import QWebEngineProfile
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
-            name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQtWebEngine'
+            name='QtWebEngineWidgets', missing_package='PyQtWebEngine'
         ) from error
 elif PYQT6:
     try:
@@ -31,7 +31,7 @@ elif PYQT6:
         from PyQt6.QtWebEngineCore import QWebEngineScript
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
-            name='QtWebEngineWidgets', binding=API_NAME, missing_package='PyQt6-WebEngine'
+            name='QtWebEngineWidgets', missing_package='PyQt6-WebEngine'
         ) from error
 elif PYSIDE2:
     from PySide2.QtWebEngineWidgets import QWebEnginePage

@@ -7,19 +7,19 @@
 
 """Provides QtWebEngineQuick classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, QtBindingMissingModuleError
 
 if PYQT5:
-    raise PythonQtError('QtWebEngineQuick not implemented in PyQt5')
+    raise QtBindingMissingModuleError(name='QtWebEngineQuick')
 elif PYQT6:
     try:
         from PyQt6.QtWebEngineQuick import *
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
-            name='QtWebEngineQuick', binding=API_NAME, missing_package='PyQt6-WebEngine'
+            name='QtWebEngineQuick', missing_package='PyQt6-WebEngine'
         ) from error
 elif PYSIDE2:
-    raise PythonQtError('QtWebEngineQuick not implemented in PySide2')
+    raise QtBindingMissingModuleError(name='QtWebEngineQuick')
 elif PYSIDE6:
     from PySide6.QtWebEngineQuick import *
 else:

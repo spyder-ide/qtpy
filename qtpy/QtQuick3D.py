@@ -7,14 +7,14 @@
 
 """Provides QtQuick3D classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
 if PYQT5:
     from PyQt5.QtQuick3D import *
 elif PYQT6:
     from PyQt6.QtQuick3D import *
 elif PYSIDE2:
-    raise PythonQtError('QtQuick3D not implemented in PySide2')
+    raise QtBindingMissingModuleError(name='QtQuick3D')
 elif PYSIDE6:
     from PySide6.QtQuick3D import *
 else:

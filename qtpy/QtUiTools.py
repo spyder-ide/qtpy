@@ -7,12 +7,12 @@
 
 """Provides QtUiTools classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
 if PYQT5:
-    raise PythonQtError('QtUiTools not implemented in PyQt5')
+    raise QtBindingMissingModuleError(name='QtUiTools')
 elif PYQT6:
-    raise PythonQtError('QtUiTools not implemented in PyQt6')
+    raise QtBindingMissingModuleError(name='QtUiTools')
 elif PYSIDE2:
     from PySide2.QtUiTools import *
 elif PYSIDE6:

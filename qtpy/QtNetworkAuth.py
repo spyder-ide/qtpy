@@ -7,24 +7,24 @@
 
 """Provides QtNetworkAuth classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, QtBindingMissingModuleError
 
 if PYQT5:
     try:
         from PyQt5.QtNetworkAuth import *
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
-            name='QtNetworkAuth', binding=API_NAME, missing_package='PyQtNetworkAuth'
+            name='QtNetworkAuth', missing_package='PyQtNetworkAuth'
         ) from error
 elif PYQT6:
     try:
         from PyQt6.QtNetworkAuth import *
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
-            name='QtNetworkAuth', binding=API_NAME, missing_package='PyQt6-NetworkAuth'
+            name='QtNetworkAuth', missing_package='PyQt6-NetworkAuth'
         ) from error
 elif PYSIDE2:
-    raise PythonQtError('QtNetworkAuth not implemented in PySide2')
+    raise QtBindingMissingModuleError(name='QtNetworkAuth')
 elif PYSIDE6:
     from PySide6.QtNetworkAuth import *
 else:

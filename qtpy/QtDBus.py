@@ -8,7 +8,7 @@
 """Provides QtDBus classes and functions."""
 
 import sys
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
 if sys.platform == 'linux':
     if PYQT5:
@@ -16,7 +16,7 @@ if sys.platform == 'linux':
     elif PYQT6:
         from PyQt6.QtDBus import *
     elif PYSIDE2:
-        raise PythonQtError('QtDBus not implemented in PySide2')
+        raise QtBindingMissingModuleError(name='QtDBus')
     elif PYSIDE6:
         from PySide6.QtDBus import *
     else:

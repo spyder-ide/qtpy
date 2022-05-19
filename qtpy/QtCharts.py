@@ -7,7 +7,7 @@
 
 """Provides QtChart classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, API_NAME
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError
 
 if PYQT5:
     try:
@@ -15,7 +15,7 @@ if PYQT5:
         from PyQt5 import QtChart as QtCharts
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
-            name='Qt3DCharts', binding=API_NAME, missing_package='PyQtChart'
+            name='Qt3DCharts', missing_package='PyQtChart'
         ) from error
 elif PYQT6:
     try:
@@ -23,7 +23,7 @@ elif PYQT6:
         from PyQt6 import QtCharts
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
-            name='Qt3DCharts', binding=API_NAME, missing_package='PyQt6-Charts'
+            name='Qt3DCharts', missing_package='PyQt6-Charts'
         ) from error
 elif PYSIDE2:
     from PySide2.QtCharts import *

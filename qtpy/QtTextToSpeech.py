@@ -7,15 +7,15 @@
 
 """Provides QtTextToSpeech classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
 if PYQT5:
     from PyQt5.QtTextToSpeech import *
 elif PYQT6:
-    raise PythonQtError('QtTextToSpeech not implemented in PyQt6')
+    raise QtBindingMissingModuleError(name='QtTextToSpeech')
 elif PYSIDE2:
     from PySide2.QtTextToSpeech import *
 elif PYSIDE6:
-    raise PythonQtError('QtTextToSpeech not implemented in PySide6')
+    raise QtBindingMissingModuleError(name='QtTextToSpeech')
 else:
     raise PythonQtError('No Qt bindings could be found')
