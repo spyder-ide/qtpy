@@ -76,6 +76,14 @@ class PythonQtValueError(ValueError):
     """Error raised if an invalid QT_API is specified."""
 
 
+class QtBindingsNotFoundError(PythonQtError):
+    """Error raised if no bindings could be selected."""
+    _msg = 'No Qt bindings could be found'
+    
+    def __init__(self):
+        super().__init__(_msg)
+
+
 class QtModuleNotFoundError(ModuleNotFoundError, PythonQtError):
     """Raised when a Python Qt binding submodule is not installed/supported."""
     _msg = 'The {name} module was not found.'
