@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, QtGui
+from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtGui
 from qtpy.tests.utils import not_using_conda
 
 
@@ -57,7 +57,7 @@ def test_enum_access():
     assert QtGui.QIcon.Normal == QtGui.QIcon.Mode.Normal
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
 
-@pytest.mark.skipif(not PYSIDE2, reason="PySide2 specific test")
+@pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
 def test_qtextcursor_moveposition():
     """Test monkeypatched QTextCursor.movePosition"""
     doc = QtGui.QTextDocument("foo bar baz")
