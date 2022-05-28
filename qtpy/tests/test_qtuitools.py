@@ -5,4 +5,3 @@ def test_qtuitools():
     QtUiTools = pytest.importorskip("qtpy.QtUiTools")
   
     assert QtUiTools.QUiLoader is not None
-    assert QtUiTools.loadUiType is not None
