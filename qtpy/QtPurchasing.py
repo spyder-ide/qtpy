@@ -7,10 +7,15 @@
 
 """Provides QtPurchasing classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError, QtModuleNotInstalledError
 
 if PYQT5:
-    from PyQt5.QtQml import *
+    try:
+        from PyQt5.QtPurchasing import *
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(
+            name='QtPurchasing', missing_package='PyQtPurchasing'
+        ) from error
 elif PYQT6:
     raise QtBindingMissingModuleError(name='QtPurchasing')
 elif PYSIDE2:
