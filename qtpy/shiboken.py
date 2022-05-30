@@ -9,9 +9,9 @@
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
 
-if PYQT6:
+if PYQT5:
     raise QtBindingMissingModuleError(name='shiboken')
-elif PYQT5:
+elif PYQT6:
     raise QtBindingMissingModuleError(name='shiboken')
 elif PYSIDE2:
     from shiboken2 import *
