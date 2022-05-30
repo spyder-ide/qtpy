@@ -8,7 +8,7 @@
 
 """Provides QtCore classes and functions."""
 
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
 if PYQT5:
     from PyQt5.QtCore import *
@@ -116,4 +116,4 @@ elif PYSIDE6:
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

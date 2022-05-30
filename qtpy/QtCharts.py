@@ -7,7 +7,7 @@
 
 """Provides QtChart classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInstalledError
 
 if PYQT5:
     try:
@@ -36,4 +36,4 @@ elif PYSIDE6:
     from PySide6.QtCharts import *
     from PySide6 import QtCharts
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

@@ -7,7 +7,7 @@
 
 """Provides QtPositioning classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
 if PYQT5:
     from PyQt5.QtPositioning import *
@@ -18,4 +18,4 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtPositioning import *
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

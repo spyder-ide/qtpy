@@ -7,7 +7,7 @@
 
 """Provides QtSql classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, QtBindingsNotFoundError
 
 if PYQT5:
     from PyQt5.QtSql import *
@@ -25,4 +25,4 @@ elif PYSIDE6:
 elif PYSIDE2:
     from PySide2.QtSql import *
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

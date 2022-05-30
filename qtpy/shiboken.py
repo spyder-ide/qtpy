@@ -7,7 +7,7 @@
 
 """Provides access to shiboken."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtBindingMissingModuleError
 
 if PYQT5:
     raise QtBindingMissingModuleError(name='shiboken')
@@ -20,4 +20,4 @@ elif PYSIDE6:
     from shiboken6 import *
     import shiboken6 as shiboken
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

@@ -7,7 +7,7 @@
 
 """Provides QtNetworkAuth classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, QtBindingMissingModuleError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInstalledError, QtBindingMissingModuleError
 
 if PYQT5:
     try:
@@ -28,4 +28,4 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtNetworkAuth import *
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

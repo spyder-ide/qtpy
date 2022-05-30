@@ -7,7 +7,7 @@
 
 """Provides QtWebEngineQuick classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError, QtBindingMissingModuleError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInstalledError, QtBindingMissingModuleError
 
 if PYQT5:
     raise QtBindingMissingModuleError(name='QtWebEngineQuick')
@@ -23,4 +23,4 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtWebEngineQuick import *
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

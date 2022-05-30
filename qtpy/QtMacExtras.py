@@ -8,7 +8,7 @@
 """Provides classes and functions specific to macOS and iOS operating systems"""
 
 import sys
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingsNotFoundError
 
 if sys.platform == 'darwin':
     if PYQT5:
@@ -20,6 +20,6 @@ if sys.platform == 'darwin':
     elif PYSIDE6:
         raise PythonQtError('QtMacExtras does not exist in Qt6')
     else:
-        raise PythonQtError('No Qt bindings could be found')
+        raise QtBindingsNotFoundError()
 else:
     raise PythonQtError('QtMacExtras does not exist on this operating system')

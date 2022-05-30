@@ -7,7 +7,7 @@
 
 """Provides Qt3DCore classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtModuleNotInstalledError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInstalledError
 
 if PYQT5:
     try:
@@ -36,4 +36,4 @@ elif PYSIDE6:
     for __name in inspect.getmembers(__temp.Qt3DCore):
         globals()[__name[0]] = __name[1]
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

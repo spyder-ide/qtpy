@@ -7,7 +7,7 @@
 
 """Provides QtPurchasing classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingMissingModuleError, QtModuleNotInstalledError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtBindingMissingModuleError, QtModuleNotInstalledError
 
 if PYQT5:
     try:
@@ -23,4 +23,4 @@ elif PYSIDE2:
 elif PYSIDE6:
     raise QtBindingMissingModuleError(name='QtPurchasing')
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

@@ -8,7 +8,7 @@
 
 """Provides QtSerialPort classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
 if PYQT5:
     from PyQt5.QtSerialPort import *
@@ -19,4 +19,4 @@ elif PYSIDE6:
 elif PYSIDE2:
     from PySide2.QtSerialPort import *
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

@@ -8,7 +8,7 @@
 
 """Provides QtGui classes and functions."""
 
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
 if PYQT5:
     from PyQt5.QtGui import *
@@ -72,4 +72,3 @@ if PYSIDE2 or PYSIDE6:
     ) -> bool:
         return movePosition(self, operation, mode, n)
     QTextCursor.movePosition = movePositionPatched
-
