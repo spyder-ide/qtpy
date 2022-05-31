@@ -41,7 +41,7 @@ elif PYSIDE6:
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()
 
 if PYSIDE2 or PYSIDE6:
     # PySide{2,6} do not accept the `mode` keyword argument in
