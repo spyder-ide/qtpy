@@ -10,11 +10,11 @@
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtBindingMissingModuleError
 
 if PYQT5:
-    raise QtBindingMissingModuleError(name='QtTextToSpeech')
+    raise QtBindingMissingModuleError(name='QtOpenGLWidgets')
 elif PYQT6:
     from PyQt6.QtOpenGLWidgets import *
 elif PYSIDE2:
-    raise QtBindingMissingModuleError(name='QtTextToSpeech')
+    raise QtBindingMissingModuleError(name='QtOpenGLWidgets')
 elif PYSIDE6:
     from PySide6.QtOpenGLWidgets import *
 else:
