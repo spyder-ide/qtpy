@@ -8,18 +8,18 @@
 """Provides Windows-specific utilities"""
 
 import sys
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingsNotFoundError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInQtVersionError, QtModuleNotInOSError
 
 if sys.platform == 'win32':
     if PYQT5:
         from PyQt5.QtWinExtras import *
     elif PYQT6:
-        raise PythonQtError('QtWinExtras does not exist in Qt6')
+        raise QtModuleNotInQtVersionError(name='QtWinExtras')
     elif PYSIDE2:
         from PySide2.QtWinExtras import *
     elif PYSIDE6:
-        raise PythonQtError('QtWinExtras does not exist in Qt6')
+        raise QtModuleNotInQtVersionError(name='QtWinExtras')
     else:
         raise QtBindingsNotFoundError()
 else:
-    raise PythonQtError('QtWinExtras does not exist on this operating system')
+    raise QtModuleNotInOSError(name='QtWinExtras')

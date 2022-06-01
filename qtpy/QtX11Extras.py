@@ -8,18 +8,18 @@
 """Provides Linux-specific utilities"""
 
 import sys
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingsNotFoundError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInQtVersionError, QtModuleNotInOSError
 
 if sys.platform == 'linux':
     if PYQT5:
         from PyQt5.QtX11Extras import *
     elif PYQT6:
-        raise PythonQtError('QtX11Extras does not exist in Qt6')
+        raise QtModuleNotInQtVersionError(name='QtX11Extras')
     elif PYSIDE2:
         from PySide2.QtX11Extras import *
     elif PYSIDE6:
-        raise PythonQtError('QtX11Extras does not exist in Qt6')
+        raise QtModuleNotInQtVersionError(name='QtX11Extras')
     else:
         raise QtBindingsNotFoundError()
 else:
-    raise PythonQtError('QtX11Extras does not exist on this operating system')
+    raise QtModuleNotInOSError(name='QtX11Extras')

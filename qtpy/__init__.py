@@ -98,6 +98,21 @@ class QtModuleNotFoundError(ModuleNotFoundError, PythonQtError):
         super().__init__(msg, name=name)
 
 
+class QtModuleNotInOSError(QtModuleNotFoundError):
+    """Raised when a module is not supported on the current operating system."""
+    _msg = '{name} does not exist on this operating system.'
+
+
+class QtModuleNotInQtVersionError(QtModuleNotFoundError):
+    """Raised when a module is not implemented in the current Qt version."""
+    _msg = '{name} does not exist in {version}.'
+    
+    def __init__(self, *, name, msg=None, **msg_kwargs):
+        global QT5, QT6
+        version = 'Qt5' if QT5 else 'Qt6'
+        super().__init__(name=name, version=version)
+
+
 class QtBindingMissingModuleError(QtModuleNotFoundError):
     """Raised when a module is not supported by a given binding."""
     _msg_extra = 'It is not currently implemented in {binding}.'

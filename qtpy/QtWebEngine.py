@@ -8,7 +8,7 @@
 
 """Provides QtWebEngine classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError, QtBindingsNotFoundError, QtModuleNotInstalledError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInQtVersionError, QtModuleNotInstalledError
 
 if PYQT5:
     try:
@@ -18,10 +18,10 @@ if PYQT5:
             name='QtWebEngine', missing_package='PyQtWebEngine'
         ) from error
 elif PYQT6:
-    raise PythonQtError('QtWebEngine does not exist in Qt6')
+    raise QtModuleNotInQtVersionError(name='QtWebEngine')
 elif PYSIDE2:
     from PySide2.QtWebEngine import *
 elif PYSIDE6:
-    raise PythonQtError('QtWebEngine does not exist in Qt6')
+    raise QtModuleNotInQtVersionError(name='QtWebEngine')
 else:
     raise QtBindingsNotFoundError()

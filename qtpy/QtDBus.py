@@ -8,7 +8,7 @@
 """Provides QtDBus classes and functions."""
 
 import sys
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtBindingMissingModuleError, QtModuleNotFoundError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtBindingMissingModuleError, QtModuleNotInOSError
 
 if PYQT5:
     from PyQt5.QtDBus import *
@@ -20,6 +20,6 @@ elif PYSIDE6:
     if sys.platform != 'win32':
         from PySide6.QtDBus import *
     else:
-        raise QtModuleNotFoundError(name='QtDBus', msg='{name} does not exist on this operating system.')
+        raise QtModuleNotInOSError(name='QtDBus')
 else:
     raise QtBindingsNotFoundError()
