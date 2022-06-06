@@ -8,7 +8,15 @@
 
 """Provides QtWebEngine classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInQtVersionError, QtModuleNotInstalledError
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+    QtModuleNotInQtVersionError,
+    QtModuleNotInstalledError,
+)
 
 if PYQT5:
     try:

@@ -8,7 +8,14 @@
 
 """Provides QtWebEngineWidgets classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInstalledError
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+    QtModuleNotInstalledError,
+)
 
 if PYQT5:
     try:
@@ -16,6 +23,7 @@ if PYQT5:
         from PyQt5.QtWebEngineWidgets import QWebEngineView
         from PyQt5.QtWebEngineWidgets import QWebEngineSettings
         from PyQt5.QtWebEngineWidgets import QWebEngineScript
+
         # Based on the work at https://github.com/spyder-ide/qtpy/pull/203
         from PyQt5.QtWebEngineWidgets import QWebEngineProfile
     except ModuleNotFoundError as error:
@@ -38,6 +46,7 @@ elif PYSIDE2:
     from PySide2.QtWebEngineWidgets import QWebEngineView
     from PySide2.QtWebEngineWidgets import QWebEngineSettings
     from PySide2.QtWebEngineWidgets import QWebEngineScript
+
     # Based on the work at https://github.com/spyder-ide/qtpy/pull/203
     from PySide2.QtWebEngineWidgets import QWebEngineProfile
 elif PYSIDE6:

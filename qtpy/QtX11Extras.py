@@ -8,7 +8,15 @@
 """Provides Linux-specific utilities"""
 
 import sys
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInQtVersionError, QtModuleNotInOSError
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+    QtModuleNotInQtVersionError,
+    QtModuleNotInOSError,
+)
 
 if sys.platform == 'linux':
     if PYQT5:

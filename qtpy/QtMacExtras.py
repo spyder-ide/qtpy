@@ -8,7 +8,15 @@
 """Provides classes and functions specific to macOS and iOS operating systems"""
 
 import sys
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInQtVersionError, QtModuleNotInOSError
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+    QtModuleNotInQtVersionError,
+    QtModuleNotInOSError,
+)
 
 if sys.platform == 'darwin':
     if PYQT5:

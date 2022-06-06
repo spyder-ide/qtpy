@@ -7,7 +7,14 @@
 
 """Provides QtLocation classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtBindingMissingModuleError
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+    QtBindingMissingModuleError,
+)
 
 if PYQT5:
     from PyQt5.QtLocation import *

@@ -18,6 +18,7 @@ elif PYQT6:
 
     # Allow unscoped access for enums inside the QtTest module
     from .enums_compat import promote_enums
+
     promote_enums(QtTest)
     del QtTest
 elif PYSIDE2:

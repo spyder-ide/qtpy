@@ -7,7 +7,14 @@
 
 """Provides QtChart classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError, QtModuleNotInstalledError
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+    QtModuleNotInstalledError,
+)
 
 if PYQT5:
     try:
@@ -27,9 +34,11 @@ elif PYQT6:
         ) from error
 elif PYSIDE2:
     from PySide2.QtCharts import *
+
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import PySide2.QtCharts as __temp
     import inspect
+
     for __name in inspect.getmembers(__temp.QtCharts):
         globals()[__name[0]] = __name[1]
 elif PYSIDE6:
