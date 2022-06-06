@@ -1,10 +1,12 @@
 import pytest
 from qtpy import PYQT5, PYSIDE2
 
+
 @pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qtlocation():
     """Test the qtpy.QtLocation namespace"""
     from qtpy import QtLocation
+
     assert QtLocation.QGeoCodeReply is not None
     assert QtLocation.QGeoCodingManager is not None
     assert QtLocation.QGeoCodingManagerEngine is not None
@@ -16,7 +18,7 @@ def test_qtlocation():
     assert QtLocation.QGeoRoutingManager is not None
     assert QtLocation.QGeoRoutingManagerEngine is not None
     assert QtLocation.QGeoServiceProvider is not None
-    #assert QtLocation.QGeoServiceProviderFactory is not None
+    # assert QtLocation.QGeoServiceProviderFactory is not None
     assert QtLocation.QPlace is not None
     assert QtLocation.QPlaceAttribute is not None
     assert QtLocation.QPlaceCategory is not None

@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_shiboken():
     """Test the qtpy.shiboken namespace"""
     shiboken = pytest.importorskip("qtpy.shiboken")

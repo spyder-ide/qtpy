@@ -1,6 +1,7 @@
 import pytest
 from qtpy import PYSIDE6, PYQT6
 
+
 def test_qtsvg():
     """Test the qtpy.QtSvg namespace"""
     from qtpy import QtSvg

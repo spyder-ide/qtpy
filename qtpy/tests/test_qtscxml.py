@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_qtscxml():
     """Test the qtpy.QtScxml namespace"""
     QtScxml = pytest.importorskip("qtpy.QtScxml")

@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_qtstatemachine():
     """Test the qtpy.QtStateMachine namespace"""
     QtStateMachine = pytest.importorskip("qtpy.QtStateMachine")

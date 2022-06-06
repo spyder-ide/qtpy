@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_qtwinextras():
     QtX11Extras = pytest.importorskip("qtpy.QtX11Extras")
 

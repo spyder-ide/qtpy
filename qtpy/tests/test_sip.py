@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_sip():
     """Test the qtpy.sip namespace"""
     sip = pytest.importorskip("qtpy.sip")

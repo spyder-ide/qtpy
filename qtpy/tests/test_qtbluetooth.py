@@ -1,6 +1,7 @@
 import pytest
 from qtpy import PYSIDE2
 
+
 def test_qtbluetooth():
     """Test the qtpy.QtBluetooth namespace"""
     QtBluetooth = pytest.importorskip("qtpy.QtBluetooth")

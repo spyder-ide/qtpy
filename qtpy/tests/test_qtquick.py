@@ -1,10 +1,12 @@
 import pytest
 from qtpy import PYQT5, PYSIDE2
 
+
 @pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qtquick():
     """Test the qtpy.QtQuick namespace"""
     from qtpy import QtQuick
+
     assert QtQuick.QQuickAsyncImageProvider is not None
     if not PYSIDE2:
         assert QtQuick.QQuickCloseEvent is not None
@@ -28,7 +30,7 @@ def test_qtquick():
         assert QtQuick.QSGFlatColorMaterial is not None
     assert QtQuick.QSGGeometry is not None
     assert QtQuick.QSGGeometryNode is not None
-    #assert QtQuick.QSGImageNode is not None
+    # assert QtQuick.QSGImageNode is not None
     if not PYSIDE2:
         assert QtQuick.QSGMaterial is not None
         assert QtQuick.QSGMaterialShader is not None
@@ -37,9 +39,9 @@ def test_qtquick():
     assert QtQuick.QSGOpacityNode is not None
     if not PYSIDE2:
         assert QtQuick.QSGOpaqueTextureMaterial is not None
-    #assert QtQuick.QSGRectangleNode is not None
-    #assert QtQuick.QSGRenderNode is not None
-    #assert QtQuick.QSGRendererInterface is not None
+    # assert QtQuick.QSGRectangleNode is not None
+    # assert QtQuick.QSGRenderNode is not None
+    # assert QtQuick.QSGRendererInterface is not None
     assert QtQuick.QSGSimpleRectNode is not None
     assert QtQuick.QSGSimpleTextureNode is not None
     assert QtQuick.QSGTexture is not None
