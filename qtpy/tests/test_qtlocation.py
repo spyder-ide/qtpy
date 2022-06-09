@@ -7,7 +7,7 @@ def test_qtlocation():
     """Test the qtpy.QtLocation namespace"""
     from qtpy import QtLocation
 
-    if PYQT5:
+    if PYSIDE2:
         assert QtLocation.QGeoServiceProviderFactory is not None
 
     assert QtLocation.QGeoCodeReply is not None
