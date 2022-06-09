@@ -8,6 +8,7 @@
 """Provides classes and functions specific to macOS and iOS operating systems"""
 
 import sys
+
 from . import (
     PYQT5,
     PYQT6,

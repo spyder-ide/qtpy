@@ -8,6 +8,7 @@
 """Provides Windows-specific utilities"""
 
 import sys
+
 from . import (
     PYQT5,
     PYQT6,

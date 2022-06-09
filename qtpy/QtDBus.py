@@ -8,6 +8,7 @@
 """Provides QtDBus classes and functions."""
 
 import sys
+
 from . import (
     PYQT5,
     PYQT6,
