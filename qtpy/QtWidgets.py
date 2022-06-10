@@ -1,17 +1,18 @@
-#
+# -----------------------------------------------------------------------------
 # Copyright © 2014-2015 Colin Duquesnoy
 # Copyright © 2009- The Spyder Developmet Team
 #
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
+# -----------------------------------------------------------------------------
 
-"""
-Provides widget classes and functions.
-"""
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+"""Provides widget classes and functions."""
 
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
-if PYQT6:
+if PYQT5:
+    from PyQt5.QtWidgets import *
+elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *
     from PyQt6.QtGui import QAction, QActionGroup, QShortcut, QFileSystemModel
@@ -32,8 +33,8 @@ if PYQT6:
     from .enums_compat import promote_enums
     promote_enums(QtWidgets)
     del QtWidgets
-elif PYQT5:
-    from PyQt5.QtWidgets import *
+elif PYSIDE2:
+    from PySide2.QtWidgets import *
 elif PYSIDE6:
     from PySide6.QtWidgets import *
     from PySide6.QtGui import QAction, QActionGroup, QShortcut
@@ -49,7 +50,5 @@ elif PYSIDE6:
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-elif PYSIDE2:
-    from PySide2.QtWidgets import *
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

@@ -1,10 +1,12 @@
 import pytest
 from qtpy import PYQT5, PYSIDE2
 
+
 @pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qtpositioning():
     """Test the qtpy.QtPositioning namespace"""
     from qtpy import QtPositioning
+
     assert QtPositioning.QGeoAddress is not None
     assert QtPositioning.QGeoAreaMonitorInfo is not None
     assert QtPositioning.QGeoAreaMonitorSource is not None

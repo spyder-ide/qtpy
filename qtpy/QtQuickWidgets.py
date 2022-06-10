@@ -4,10 +4,10 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
+
 """Provides QtQuickWidgets classes and functions."""
 
-# Local imports
-from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, PythonQtError
+from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, QtBindingsNotFoundError
 
 if PYQT5:
     from PyQt5.QtQuickWidgets import *
@@ -18,4 +18,4 @@ elif PYSIDE6:
 elif PYSIDE2:
     from PySide2.QtQuickWidgets import *
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

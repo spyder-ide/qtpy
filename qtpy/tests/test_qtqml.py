@@ -1,10 +1,12 @@
 import pytest
 from qtpy import PYQT5, PYSIDE2
 
+
 @pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qtqml():
     """Test the qtpy.QtQml namespace"""
     from qtpy import QtQml
+
     assert QtQml.QJSEngine is not None
     assert QtQml.QJSValue is not None
     assert QtQml.QJSValueIterator is not None

@@ -1,6 +1,7 @@
 import pytest
 from qtpy import PYSIDE2, PYSIDE6, PYQT5, PYQT6
 
+
 def test_qtopengl():
     """Test the qtpy.QtOpenGL namespace"""
     from qtpy import QtOpenGL
@@ -22,4 +23,3 @@ def test_qtopengl():
     assert QtOpenGL.QOpenGLWindow is not None
     # We do not test for QOpenGLTimeMonitor or QOpenGLTimerQuery as
     # they are not present on some architectures such as armhf
-

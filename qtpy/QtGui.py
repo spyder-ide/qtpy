@@ -1,17 +1,18 @@
-#
+# -----------------------------------------------------------------------------
 # Copyright © 2014-2015 Colin Duquesnoy
 # Copyright © 2009- The Spyder Development Team
 #
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
+# -----------------------------------------------------------------------------
 
-"""
-Provides QtGui classes and functions.
-"""
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, PythonQtError
+"""Provides QtGui classes and functions."""
 
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
-if PYQT6:
+if PYQT5:
+    from PyQt5.QtGui import *
+elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
     from PyQt6.QtOpenGL import *
@@ -26,8 +27,6 @@ if PYQT6:
     from .enums_compat import promote_enums
     promote_enums(QtGui)
     del QtGui
-elif PYQT5:
-    from PyQt5.QtGui import *
 elif PYSIDE2:
     from PySide2.QtGui import *
     if hasattr(QFontMetrics, 'horizontalAdvance'):
@@ -42,7 +41,7 @@ elif PYSIDE6:
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()
 
 if PYSIDE2 or PYSIDE6:
     # PySide{2,6} do not accept the `mode` keyword argument in
@@ -73,4 +72,3 @@ if PYSIDE2 or PYSIDE6:
     ) -> bool:
         return movePosition(self, operation, mode, n)
     QTextCursor.movePosition = movePositionPatched
-

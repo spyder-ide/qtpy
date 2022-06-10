@@ -5,7 +5,15 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PYQT_VERSION, PYSIDE_VERSION, QtCore
+from qtpy import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    PYQT_VERSION,
+    PYSIDE_VERSION,
+    QtCore,
+)
 from qtpy.tests.utils import not_using_conda
 
 

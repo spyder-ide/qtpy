@@ -35,9 +35,11 @@ def test_qtsql():
     # Following modules are not (yet) part of any wrapper:
     # QSqlDriverCreator, QSqlDriverPlugin
 
+
 @pytest.mark.skipif(
-    sys.platform == 'win32' and PYSIDE2 and PYSIDE_VERSION.startswith('5.13'),
-    reason="SQLite driver unavailable on PySide 5.13.2 with Windows")
+    sys.platform == "win32" and PYSIDE2 and PYSIDE_VERSION.startswith("5.13"),
+    reason="SQLite driver unavailable on PySide 5.13.2 with Windows",
+)
 def test_qtsql_members_aliases(database_connection):
     """
     Test aliased methods over qtpy.QtSql members including:
@@ -59,7 +61,7 @@ def test_qtsql_members_aliases(database_connection):
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
             name VARCHAR(40) NOT NULL
         )
-        """
+        """,
     )
 
     # Created table 'test' and 'sqlite_sequence'
@@ -78,7 +80,8 @@ def test_qtsql_members_aliases(database_connection):
     select_table_query.prepare(
         """
         SELECT * FROM test
-        """)
+        """
+    )
     select_table_query.exec_()
     record = select_table_query.record()
     assert not record.isEmpty()

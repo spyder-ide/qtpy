@@ -4,16 +4,31 @@
 # Licensed under the terms of the MIT License
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
+
 """Provides QtDBus classes and functions."""
 
-# Local imports
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, PythonQtError
+import sys
+
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+    QtBindingMissingModuleError,
+    QtModuleNotInOSError,
+)
 
 if PYQT5:
     from PyQt5.QtDBus import *
 elif PYQT6:
     from PyQt6.QtDBus import *
+elif PYSIDE2:
+    raise QtBindingMissingModuleError(name='QtDBus')
 elif PYSIDE6:
-    from PySide6.QtDBus import *
+    if sys.platform != 'win32':
+        from PySide6.QtDBus import *
+    else:
+        raise QtModuleNotInOSError(name='QtDBus')
 else:
-    raise PythonQtError('No Qt bindings could be found')
+    raise QtBindingsNotFoundError()

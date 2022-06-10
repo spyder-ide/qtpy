@@ -76,6 +76,59 @@ class PythonQtValueError(ValueError):
     """Error raised if an invalid QT_API is specified."""
 
 
+class QtBindingsNotFoundError(PythonQtError):
+    """Error raised if no bindings could be selected."""
+    _msg = 'No Qt bindings could be found'
+    
+    def __init__(self):
+        super().__init__(_msg)
+
+
+class QtModuleNotFoundError(ModuleNotFoundError, PythonQtError):
+    """Raised when a Python Qt binding submodule is not installed/supported."""
+    _msg = 'The {name} module was not found.'
+    _msg_binding = '{binding}'
+    _msg_extra = ''
+
+    def __init__(self, *, name, msg=None, **msg_kwargs):
+        global API_NAME
+        binding = self._msg_binding.format(binding=API_NAME)
+        msg = msg or f'{self._msg} {self._msg_extra}'.strip()
+        msg = msg.format(name=name, binding=binding, **msg_kwargs)
+        super().__init__(msg, name=name)
+
+
+class QtModuleNotInOSError(QtModuleNotFoundError):
+    """Raised when a module is not supported on the current operating system."""
+    _msg = '{name} does not exist on this operating system.'
+
+
+class QtModuleNotInQtVersionError(QtModuleNotFoundError):
+    """Raised when a module is not implemented in the current Qt version."""
+    _msg = '{name} does not exist in {version}.'
+    
+    def __init__(self, *, name, msg=None, **msg_kwargs):
+        global QT5, QT6
+        version = 'Qt5' if QT5 else 'Qt6'
+        super().__init__(name=name, version=version)
+
+
+class QtBindingMissingModuleError(QtModuleNotFoundError):
+    """Raised when a module is not supported by a given binding."""
+    _msg_extra = 'It is not currently implemented in {binding}.'
+
+
+class QtModuleNotInstalledError(QtModuleNotFoundError):
+    """Raise when a module is supported by the binding, but not installed."""
+    _msg_extra = 'It must be installed separately'
+
+    def __init__(self, *, missing_package=None, **superclass_kwargs):
+        self.missing_package = missing_package
+        if missing_package is not None:
+             self._msg_extra += ' as {missing_package}.'
+        super().__init__(missing_package=missing_package, **superclass_kwargs)
+
+
 # Qt API environment variable name
 QT_API = 'QT_API'
 
