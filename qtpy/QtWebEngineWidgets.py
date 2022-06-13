@@ -17,6 +17,13 @@ from . import (
     QtModuleNotInstalledError,
 )
 
+
+# To test if we are using WebEngine or WebKit
+# NOTE: This constant is imported by other projects (e.g. Spyder), so please
+# don't remove it.
+WEBENGINE = True
+
+
 if PYQT5:
     try:
         from PyQt5.QtWebEngineWidgets import QWebEnginePage
