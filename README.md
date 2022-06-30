@@ -71,7 +71,7 @@ conda install qtpy
 ```
 
 
-### Mypy integration
+### Type checker integration
 
 A Command Line Interface (CLI) is offered to help with usage of QtPy.
 Presently, its only feature is to generate command line arguments for Mypy
@@ -100,6 +100,8 @@ the Mypy command line invocation as follows:
 ```bash
 mypy --package mypackage $(qtpy mypy-args)
 ```
+
+For Pyright support and other usage notes, see [this comment](https://github.com/spyder-ide/qtpy/issues/352#issuecomment-1170684412).
 
 
 ## Contributing
