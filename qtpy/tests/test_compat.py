@@ -1,9 +1,13 @@
 """Test the compat module."""
+
 import sys
 
 import pytest
 
 from qtpy import QtWidgets, compat
+
+from qtpy.QtCore import QRectF, QSize, Qt
+from qtpy.QtGui import QBrush, QImage, QPainter
 from qtpy.tests.utils import not_using_conda
 
 
@@ -22,3 +26,13 @@ def test_isalive(qtbot):
     with qtbot.waitSignal(test_widget.destroyed):
         test_widget.deleteLater()
     assert compat.isalive(test_widget) is False
+
+
+def test_getimagebytes(qtbot):
+    """Test compat.getimagebytes"""
+    image = QImage(QSize(100, 100), QImage.Format_RGB32)
+    painter = QPainter(image)
+    painter.setBrush(QBrush(Qt.black))
+    painter.fillRect(QRectF(0, 0, 100, 100), Qt.black)
+    bytes = compat.getimagebytes(image)
+    assert len(bytes) == 100 * 100 * 4
