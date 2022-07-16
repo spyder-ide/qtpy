@@ -129,3 +129,15 @@ def getsavefilename(parent=None, caption='', basedir='', filters='',
                                 caption=caption, basedir=basedir,
                                 filters=filters, selectedfilter=selectedfilter,
                                 options=options)
+
+# =============================================================================
+def imagebytes(qimage):
+    """Get the content of a QImage as raw bytes for use in e.g. rendering."""
+    if PYQT5:
+        return qimage.bits().asstring(qimage.byteCount())
+    elif PYQT6:
+        return qimage.bits().asstring(qimage.sizeInBytes())
+    elif PYSIDE2 or PYSIDE6:
+        return qimage.bits().tobytes()
+    else:
+        raise QtBindingsNotFoundError()
