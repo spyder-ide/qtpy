@@ -7,6 +7,14 @@ Compatibility functions
 """
 import sys
 
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingsNotFoundError,
+)
+
 from .QtWidgets import QFileDialog
 
 
@@ -129,3 +137,16 @@ def getsavefilename(parent=None, caption='', basedir='', filters='',
                                 caption=caption, basedir=basedir,
                                 filters=filters, selectedfilter=selectedfilter,
                                 options=options)
+
+# =============================================================================
+def isalive(object):
+    """Wrapper around sip.isdeleted and shiboken.isValid which tests whether
+    an object is currently alive."""
+    if PYQT5 or PYQT6:
+        from . import sip
+        return not sip.isdeleted(object)
+    elif PYSIDE2 or PYSIDE6:
+        from . import shiboken
+        return shiboken.isValid(object)
+    else:
+        raise QtBindingsNotFoundError()
