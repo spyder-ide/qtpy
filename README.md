@@ -60,7 +60,7 @@ default unless you set the `QT_API` environment variable.
 
 ### Module aliases and constants
 
-* `QtCore.pyqtSignal`, `QtCore.pyqtSlot` and `QtCore.pyqtProperty` (available on PyQt5/6) are replaced by `QtCore.Signal`, `QtCore.Slot` and `QtCore.Property` following the Qt5 module layout.
+* `QtCore.pyqtSignal`, `QtCore.pyqtSlot` and `QtCore.pyqtProperty` (available on PyQt5/6) are instead exposed as `QtCore.Signal`, `QtCore.Slot` and `QtCore.Property`, respectively, following the Qt5 module layout.
 
 * The Qt version being used can be checked with `QtCore.__version__` (instead of `QtCore.QT_VERSION_STR`) as well as from `qtpy.QT_VERSION`.
 
