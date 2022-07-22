@@ -58,32 +58,25 @@ default unless you set the `QT_API` environment variable.
 * `pyside6` (to use PySide6).
 
 
-### Methods, helpers and QtPy namespace specifics
-
-As part of providing compatibility for the different Python Qt bindings available, QtPy does some modules mapping and exposes a `compat` module. Bellow you can check some elements to take into account when using QtPy.
-
-#### Module aliases and constants
+### Module aliases and constants
 
 * `QtCore.pyqtSignal`, `QtCore.pyqtSlot` and `QtCore.pyqtProperty` (available on PyQt5/6) are replaced by `QtCore.Signal`, `QtCore.Slot` and `QtCore.Property` following the Qt5 module layout.
 
 * The Qt version being used can be checked with `QtCore.__version__` (instead of `QtCore.QT_VERSION_STR`) as well as from `qtpy.QT_VERSION`.
 
-* For PyQt6 enums, unscoped enum access was added by 
-promoting the enums of the `QtCore`, `QtGui`, `QtTest` and `QtWidgets` modules.
+* For PyQt6 enums, unscoped enum access was added by promoting the enums of the `QtCore`, `QtGui`, `QtTest` and `QtWidgets` modules.
 
-* Compatibility is added between the `QtGui` and `QtOpenGL` modules for `QOpenGL*` classes.
+* Compatibility is added between the `QtGui` and `QtOpenGL` modules for the `QOpenGL*` classes.
 
-* To check the current PySide2/6 binding version you can use `qtpy.PYSIDE_VERSION`. If PySide is not being used as the binding the value returned will be `None`.
+* To check the current binding version, you can use `qtpy.PYSIDE_VERSION` for PySide2/6 and `qtpy.PYQT_VERSION` for PyQt5/6. If the respective binding is not being used, the value of its attribute will be `None`.
 
-* To check the current PyQt5/6 binding version you can use `qtpy.PYQT_VERSION`. If PyQt is not being used as the binding the value returned will be `None`.
-
-* To check the current selected binding you can use `qtpy.API_NAME`
+* To check the current selected binding, you can use `qtpy.API_NAME`
 
 * There are boolean values to check if Qt5/6, PyQt5/6 or PySide2/6 are being used: `qtpy.Qt5`, `qtpy.Qt6`, `qtpy.PYQT5`, `qtpy.PYQT6`, `qtpy.PYSIDE2` and `qtpy.PYSIDE6`. `True` if currently being used, `False` otherwise.
 
 #### Compat module
 
-In the `qtpy.compat` module you can find wrappers for `QFileDialog` static methods and sip/shiboken functions as:
+In the `qtpy.compat` module, you can find wrappers for `QFileDialog` static methods and SIP/Shiboken functions, such as:
 
 * `QFileDialog.getExistingDirectory` wrapped with `qtpy.compat.getexistingdirectory`
 
