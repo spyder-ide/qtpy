@@ -7,7 +7,7 @@
 # -----------------------------------------------------------------------------
 
 """Provides QtCore classes and functions."""
-
+from typing import TYPE_CHECKING
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
 if PYQT5:
@@ -45,10 +45,11 @@ elif PYQT6:
     # Seems like there is an error with sip. Without first
     # trying to import `PyQt6.QtGui.Qt`, some functions like
     # `PyQt6.QtCore.Qt.mightBeRichText` are missing.
-    try:
-        from PyQt6.QtGui import Qt
-    except ImportError:
-        pass
+    if not TYPE_CHECKING:
+        try:
+            from PyQt6.QtGui import Qt
+        except ImportError:
+            pass
 
     # Map missing methods
     QCoreApplication.exec_ = QCoreApplication.exec
