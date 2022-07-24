@@ -8,6 +8,7 @@
 
 """Provides QtCore classes and functions."""
 from typing import TYPE_CHECKING
+
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
 
 if PYQT5:
