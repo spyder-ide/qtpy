@@ -58,6 +58,37 @@ default unless you set the `QT_API` environment variable.
 * `pyside6` (to use PySide6).
 
 
+### Module aliases and constants
+
+* `QtCore.pyqtSignal`, `QtCore.pyqtSlot` and `QtCore.pyqtProperty` (available on PyQt5/6) are instead exposed as `QtCore.Signal`, `QtCore.Slot` and `QtCore.Property`, respectively, following the Qt5 module layout.
+
+* The Qt version being used can be checked with `QtCore.__version__` (instead of `QtCore.QT_VERSION_STR`) as well as from `qtpy.QT_VERSION`.
+
+* For PyQt6 enums, unscoped enum access was added by promoting the enums of the `QtCore`, `QtGui`, `QtTest` and `QtWidgets` modules.
+
+* Compatibility is added between the `QtGui` and `QtOpenGL` modules for the `QOpenGL*` classes.
+
+* To check the current binding version, you can use `qtpy.PYSIDE_VERSION` for PySide2/6 and `qtpy.PYQT_VERSION` for PyQt5/6. If the respective binding is not being used, the value of its attribute will be `None`.
+
+* To check the current selected binding, you can use `qtpy.API_NAME`
+
+* There are boolean values to check if Qt5/6, PyQt5/6 or PySide2/6 are being used: `qtpy.Qt5`, `qtpy.Qt6`, `qtpy.PYQT5`, `qtpy.PYQT6`, `qtpy.PYSIDE2` and `qtpy.PYSIDE6`. `True` if currently being used, `False` otherwise.
+
+#### Compat module
+
+In the `qtpy.compat` module, you can find wrappers for `QFileDialog` static methods and SIP/Shiboken functions, such as:
+
+* `QFileDialog.getExistingDirectory` wrapped with `qtpy.compat.getexistingdirectory`
+
+* `QFileDialog.getOpenFileName` wrapped with `qtpy.compat.getopenfilename`
+
+* `QFileDialog.getOpenFileNames` wrapped with `qtpy.compat.getopenfilenames`
+
+* `QFileDialog.getSaveFileName` wrapped with `qtpy.compat.getsavefilename`
+
+* `sip.isdeleted` and `shiboken.isValid` wrapped with `qtpy.compat.isalive`
+
+
 ### Installation
 
 ```bash
