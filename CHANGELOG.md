@@ -1,5 +1,33 @@
 # History of changes
 
+## Version 2.2.0 (2022-08-10)
+
+### Issues Closed
+
+* [Issue 359](https://github.com/spyder-ide/qtpy/issues/359) - Release QtPy 2.2.0
+* [Issue 352](https://github.com/spyder-ide/qtpy/issues/352) - Deprecation Warning for Enum Access ([PR 353](https://github.com/spyder-ide/qtpy/pull/353) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 351](https://github.com/spyder-ide/qtpy/issues/351) - `PySide6.QtSvgWidgets` not exposed
+* [Issue 302](https://github.com/spyder-ide/qtpy/issues/302) - Compat shiboken and sip like Qt.py ([PR 354](https://github.com/spyder-ide/qtpy/pull/354) by [@zjp](https://github.com/zjp))
+* [Issue 61](https://github.com/spyder-ide/qtpy/issues/61) - Add documentation for methods or helpers that are specific to qtpy ([PR 357](https://github.com/spyder-ide/qtpy/pull/357) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 5 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 358](https://github.com/spyder-ide/qtpy/pull/358) - PR: Fix PyQt6 typing import for Qt, by [@tlambert03](https://github.com/tlambert03)
+* [PR 357](https://github.com/spyder-ide/qtpy/pull/357) - PR: Add initial `Methods, helpers and QtPy namespace specifics` section to the README, by [@dalthviz](https://github.com/dalthviz) ([61](https://github.com/spyder-ide/qtpy/issues/61))
+* [PR 354](https://github.com/spyder-ide/qtpy/pull/354) - PR: Add wrapper around sip/shiboken isdeleted/isvalid (compat.py), by [@zjp](https://github.com/zjp) ([302](https://github.com/spyder-ide/qtpy/issues/302))
+* [PR 353](https://github.com/spyder-ide/qtpy/pull/353) - PR: Add note to readme about use with Pyright, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([352](https://github.com/spyder-ide/qtpy/issues/352))
+* [PR 350](https://github.com/spyder-ide/qtpy/pull/350) - PR: Restore `WEBENGINE` constant in `QtWebEngineWidgets`, by [@ccordoba12](https://github.com/ccordoba12)
+* [PR 346](https://github.com/spyder-ide/qtpy/pull/346) - PR: Add workaround for `mode` argument in QTextCursor.movePosition (PySide6), by [@rear1019](https://github.com/rear1019)
+* [PR 344](https://github.com/spyder-ide/qtpy/pull/344) - PR: Add missing imports and modules, by [@DaelonSuzuka](https://github.com/DaelonSuzuka)
+
+In this release 7 pull requests were closed.
+
+
+----
+
+
 ## Version 2.1.0 (2022-05-02)
 
 ### New features
