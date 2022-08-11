@@ -82,6 +82,7 @@ jobs:
            auto-activate-base: true
            auto-update-conda: true
            channels: conda-forge
+           channel-priority: strict
       - name: Print Conda info
         shell: bash -l {0}
         run: |
