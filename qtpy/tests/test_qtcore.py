@@ -1,6 +1,6 @@
 """Test QtCore."""
 
-from datetime import datetime
+from datetime import date, datetime, time
 import sys
 
 import pytest
@@ -28,6 +28,22 @@ def test_qdatetime_toPython():
     assert QtCore.QDateTime.toPython is not None
     py_date = q_date.toPython()
     assert isinstance(py_date, datetime)
+
+
+def test_qdate_toPython():
+    """Test QDate.toPython"""
+    q_date = QtCore.QDate.currentDate()
+    assert QtCore.QDate.toPython is not None
+    py_date = q_date.toPython()
+    assert isinstance(py_date, date)
+
+
+def test_qtime_toPython():
+    """Test QTime.toPython"""
+    q_time = QtCore.QTime.currentTime()
+    assert QtCore.QTime.toPython is not None
+    py_time = q_time.toPython()
+    assert isinstance(py_time, time)
 
 
 @pytest.mark.skipif(
