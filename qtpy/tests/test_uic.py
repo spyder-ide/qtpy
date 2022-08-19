@@ -61,7 +61,7 @@ def test_load_ui(qtbot):
 
 @pytest.mark.skipif(
     PYSIDE2 or PYSIDE6,
-    reason="PySide2uic not consistantly installed across platforms/versions")
+    reason="PySide2uic not consistently installed across platforms/versions")
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Segfaults on Linux when not using conda under all bindings (PYSIDE2/6 & PYQT5/6)")
