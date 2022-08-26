@@ -72,7 +72,7 @@ default unless you set the `QT_API` environment variable.
 
 * To check the current selected binding, you can use `qtpy.API_NAME`
 
-* There are boolean values to check if Qt5/6, PyQt5/6 or PySide2/6 are being used: `qtpy.Qt5`, `qtpy.Qt6`, `qtpy.PYQT5`, `qtpy.PYQT6`, `qtpy.PYSIDE2` and `qtpy.PYSIDE6`. `True` if currently being used, `False` otherwise.
+* There are boolean values to check if Qt5/6, PyQt5/6 or PySide2/6 are being used: `qtpy.QT5`, `qtpy.QT6`, `qtpy.PYQT5`, `qtpy.PYQT6`, `qtpy.PYSIDE2` and `qtpy.PYSIDE6`. `True` if currently being used, `False` otherwise.
 
 #### Compat module
 
