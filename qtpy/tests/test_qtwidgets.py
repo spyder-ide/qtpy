@@ -24,6 +24,16 @@ def test_qtextedit_functions(qtbot, pdf_writer):
     assert output_path.exists()
 
 
+def test_qlineedit_functions(qtbot, pdf_writer):
+    """Test functions mapping for QtWidgets.QLineEdit"""
+    assert QtWidgets.QLineEdit.getTextMargins
+
+
+def test_qundocommand_object(qtbot, pdf_writer):
+    """Test object aliasing for QUndoCommand"""
+    assert QtWidgets.QUndoCommand
+
+
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
