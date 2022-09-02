@@ -17,6 +17,7 @@ elif PYQT6:
     from PyQt6.QtGui import *
     from PyQt6.QtOpenGL import *
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
+    QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
     # Map missing/renamed methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
@@ -36,6 +37,7 @@ elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
+    QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
