@@ -24,12 +24,12 @@ def test_qtextedit_functions(qtbot, pdf_writer):
     assert output_path.exists()
 
 
-def test_qlineedit_functions(qtbot, pdf_writer):
+def test_qlineedit_functions():
     """Test functions mapping for QtWidgets.QLineEdit"""
     assert QtWidgets.QLineEdit.getTextMargins
 
 
-def test_qundocommand_object(qtbot, pdf_writer):
+def test_qundocommand_object():
     """Test object aliasing for QUndoCommand"""
     assert QtWidgets.QUndoCommand
 

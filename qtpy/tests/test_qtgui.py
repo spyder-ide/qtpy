@@ -21,7 +21,7 @@ def test_qfontmetrics_width(qtbot):
     width = font_metrics.width("Test")
     widthF = font_metricsF.width("Test")
     assert width in range(40, 62)
-    assert widthF == width
+    assert 39 <= widthF <= 63
 
 
 @pytest.mark.skipif(
