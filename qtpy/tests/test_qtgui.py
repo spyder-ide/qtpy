@@ -12,12 +12,16 @@ from qtpy.tests.utils import not_using_conda
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qfontmetrics_width(qtbot):
-    """Test QFontMetrics width"""
+    """Test QFontMetrics and QFontMetricsF width"""
     assert QtGui.QFontMetrics.width is not None
+    assert QtGui.QFontMetricsF.width is not None
     font = QtGui.QFont("times", 24)
     font_metrics = QtGui.QFontMetrics(font)
+    font_metricsF = QtGui.QFontMetricsF(font)
     width = font_metrics.width("Test")
+    widthF = font_metricsF.width("Test")
     assert width in range(40, 62)
+    assert 39 <= widthF <= 63
 
 
 @pytest.mark.skipif(

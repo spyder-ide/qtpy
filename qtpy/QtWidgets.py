@@ -15,7 +15,7 @@ if PYQT5:
 elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *
-    from PyQt6.QtGui import QAction, QActionGroup, QShortcut, QFileSystemModel
+    from PyQt6.QtGui import QAction, QActionGroup, QShortcut, QFileSystemModel, QUndoCommand
     from PyQt6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
@@ -28,6 +28,7 @@ elif PYQT6:
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Allow unscoped access for enums inside the QtWidgets module
     from .enums_compat import promote_enums
@@ -37,7 +38,7 @@ elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
     from PySide6.QtWidgets import *
-    from PySide6.QtGui import QAction, QActionGroup, QShortcut
+    from PySide6.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
     from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
@@ -45,6 +46,7 @@ elif PYSIDE6:
     QTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
     QPlainTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
     QPlainTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Map DeprecationWarning methods
     QApplication.exec_ = QApplication.exec
