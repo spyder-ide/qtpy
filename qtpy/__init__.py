@@ -81,7 +81,7 @@ class QtBindingsNotFoundError(PythonQtError):
     _msg = 'No Qt bindings could be found'
     
     def __init__(self):
-        super().__init__(_msg)
+        super().__init__(self._msg)
 
 
 class QtModuleNotFoundError(ModuleNotFoundError, PythonQtError):
