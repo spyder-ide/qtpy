@@ -1,5 +1,29 @@
 # History of changes
 
+## Version 2.2.1 (2022-10-03)
+
+### Issues Closed
+
+* [Issue 369](https://github.com/spyder-ide/qtpy/issues/369) - Release QtPy 2.2.1
+* [Issue 365](https://github.com/spyder-ide/qtpy/issues/365) - Additions needed for PySide6/PyQt6 support (`QFontMetricsF.width`, `QLineEdit.getTextMargins` and `QtWidgets.QUndoCommand`) ([PR 366](https://github.com/spyder-ide/qtpy/pull/366) by [@random-developer](https://github.com/random-developer))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 368](https://github.com/spyder-ide/qtpy/pull/368) - PR: Add missing `self` for `QtBindingsNotFoundError` definition, by [@dalthviz](https://github.com/dalthviz)
+* [PR 366](https://github.com/spyder-ide/qtpy/pull/366) - PR: Aliased `QUndoCommand`, provided `QLineEdit.getTextMargins()` and `QFontMetricsF.width()`, by [@random-developer](https://github.com/random-developer) ([365](https://github.com/spyder-ide/qtpy/issues/365))
+* [PR 363](https://github.com/spyder-ide/qtpy/pull/363) - PR: Fix typo in Qt flags in Readme, by [@Czaki](https://github.com/Czaki)
+* [PR 362](https://github.com/spyder-ide/qtpy/pull/362) - PR: Fix various minor typos found with Codespell, by [@luzpaz](https://github.com/luzpaz)
+* [PR 361](https://github.com/spyder-ide/qtpy/pull/361) - PR: toPython helpers for QDate and QTime, by [@bob-schumaker](https://github.com/bob-schumaker)
+* [PR 360](https://github.com/spyder-ide/qtpy/pull/360) - CI: Ensure conda-forge channel usage when testing with conda, by [@dalthviz](https://github.com/dalthviz)
+
+In this release 6 pull requests were closed.
+
+
+----
+
+
 ## Version 2.2.0 (2022-08-10)
 
 ### Issues Closed

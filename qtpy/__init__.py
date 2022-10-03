@@ -61,7 +61,7 @@ import sys
 import warnings
 
 # Version of QtPy
-__version__ = '2.3.0.dev0'
+__version__ = '2.2.1'
 
 
 class PythonQtError(RuntimeError):
