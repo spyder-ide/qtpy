@@ -2,7 +2,7 @@
 
 import pytest
 
-from qtpy import PYSIDE, PYSIDE2, Qsci
+from qtpy import PYSIDE, PYSIDE2
 
 
 @pytest.mark.skipif(
@@ -11,6 +11,7 @@ from qtpy import PYSIDE, PYSIDE2, Qsci
 )
 def test_qsci():
     """Test the qtpy.Qsci namespace"""
+    Qsci = pytest.importorskip("qtpy.Qsci")
     assert Qsci.QSCINTILLA_VERSION is not None
     assert Qsci.QSCINTILLA_VERSION_STR is not None
     assert Qsci.QsciAPIs is not None
