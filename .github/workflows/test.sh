@@ -17,7 +17,7 @@ conda activate test-env
 if [ "$USE_CONDA" = "Yes" ]; then
 
     if [ "${1}" = "pyqt5" ]; then
-        conda install -q qt=${PYQT5_QT_VERSION:-"5.12"} pyqt=${PYQT5_VERSION:-"5"}
+        conda install -q qt=${PYQT5_QT_VERSION:-"5.12"} pyqt=${PYQT5_VERSION:-"5"} qscintilla2=$QSCINTILLA_VERSION
     elif [ "${1}" = "pyside2" ]; then
         conda install -q qt=${PYSIDE2_QT_VERSION:-"5.12"} pyside2=${PYSIDE2_VERSION:-"5"}
     else
@@ -27,9 +27,9 @@ if [ "$USE_CONDA" = "Yes" ]; then
 else
 
     if [ "${1}" = "pyqt5" ]; then
-        pip install pyqt5==${PYQT5_VERSION:-"5.15"}.* PyQtWebEngine==${PYQT5_VERSION:-"5.15"}.*
+        pip install pyqt5==${PYQT5_VERSION:-"5.15"}.* PyQtWebEngine==${PYQT5_VERSION:-"5.15"}.* QScintilla==$QSCINTILLA_VERSION
     elif [ "${1}" = "pyqt6" ]; then
-        pip install pyqt6==${PYQT6_VERSION:-"6.3"}.* PyQt6-WebEngine==${PYQT6_VERSION:-"6.3"}.* PyQt6-Qt6==${PYQT6_QT_VERSION:-"6.3"}.*
+        pip install pyqt6==${PYQT6_VERSION:-"6.3"}.* PyQt6-WebEngine==${PYQT6_VERSION:-"6.3"}.* PyQt6-Qt6==${PYQT6_QT_VERSION:-"6.3"}.* PyQt6-QScintilla==$QSCINTILLA_VERSION
     elif [ "${1}" = "pyside2" ]; then
         pip install pyside2==${PYSIDE2_VERSION:-"5.12"}.*
     elif [ "${1}" = "pyside6" ]; then
