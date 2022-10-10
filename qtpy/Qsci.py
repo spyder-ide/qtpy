@@ -14,12 +14,23 @@ from . import (
     PYSIDE6,
     QtBindingsNotFoundError,
     QtBindingMissingModuleError,
+    QtModuleNotInstalledError
 )
 
 if PYQT5:
-    from PyQt5.Qsci import *
+    try:
+        from PyQt5.Qsci import *
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(
+            name='Qsci', missing_package='QScintilla'
+        ) from error
 elif PYQT6:
-    from PyQt6.Qsci import *
+    try:
+        from PyQt6.Qsci import *
+    except ModuleNotFoundError as error:
+        raise QtModuleNotInstalledError(
+            name='Qsci', missing_package='PyQt6-QScintilla'
+        ) from error
 elif PYSIDE2:
     raise QtBindingMissingModuleError(name='Qsci')
 elif PYSIDE6:

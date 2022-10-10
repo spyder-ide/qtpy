@@ -2,12 +2,13 @@
 
 import pytest
 
-from qtpy import PYSIDE, PYSIDE2
+from qtpy import PYSIDE2, PYSIDE6
+from qtpy.tests.utils import using_conda
 
 
 @pytest.mark.skipif(
-    PYSIDE or PYSIDE2,
-    reason="Qsci bindings not available under PySide and PySide 2",
+    PYSIDE2 or PYSIDE6 or using_conda(),
+    reason="Qsci bindings not available under PySide 2/6 and conda installations",
 )
 def test_qsci():
     """Test the qtpy.Qsci namespace"""
