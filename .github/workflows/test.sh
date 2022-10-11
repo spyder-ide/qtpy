@@ -27,9 +27,9 @@ if [ "$USE_CONDA" = "Yes" ]; then
 else
 
     if [ "${1}" = "pyqt5" ]; then
-        pip install pyqt5==${PYQT5_VERSION:-"5.15"}.* PyQtWebEngine==${PYQT5_VERSION:-"5.15"}.* QScintilla==$QSCINTILLA_VERSION
+        pip install pyqt5==${PYQT5_VERSION:-"5.15"}.* PyQtWebEngine==${PYQT5_VERSION:-"5.15"}.* QScintilla==${QSCINTILLA_VERSION:-"2.13"}.*
     elif [ "${1}" = "pyqt6" ]; then
-        pip install pyqt6==${PYQT6_VERSION:-"6.3"}.* PyQt6-WebEngine==${PYQT6_VERSION:-"6.3"}.* PyQt6-Qt6==${PYQT6_QT_VERSION:-"6.3"}.* PyQt6-QScintilla==$QSCINTILLA_VERSION
+        pip install pyqt6==${PYQT6_VERSION:-"6.3"}.* PyQt6-WebEngine==${PYQT6_VERSION:-"6.3"}.* PyQt6-Qt6==${PYQT6_QT_VERSION:-"6.3"}.* PyQt6-QScintilla==${QSCINTILLA_VERSION:-"2.13"}.*
     elif [ "${1}" = "pyside2" ]; then
         pip install pyside2==${PYSIDE2_VERSION:-"5.12"}.*
     elif [ "${1}" = "pyside6" ]; then

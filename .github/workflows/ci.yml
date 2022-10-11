@@ -34,7 +34,7 @@ jobs:
       PYQT6_QT_VERSION: ${{ matrix.pyqt6-qt-version }}
       PYSIDE2_QT_VERSION: ${{ matrix.pyside2-qt-version }}
       PYSIDE6_QT_VERSION: ${{ matrix.pyside6-qt-version }}
-      QSCINTILLA_VERSION: '2.13.*'
+      QSCINTILLA_VERSION: '2.13'
     strategy:
       fail-fast: false
       matrix:
