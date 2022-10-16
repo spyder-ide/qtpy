@@ -113,7 +113,7 @@ elif PYSIDE6:
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
-    Qt.MidButton = Qt.MouseButton.MiddleButton = Qt.MiddleButton
+    Qt.MidButton = Qt.MiddleButton
 
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = QCoreApplication.exec
