@@ -35,10 +35,10 @@ else
     elif [ "${1}" = "pyside2" ]; then
         pip install pyside2==${PYSIDE2_VERSION:-"5.12"}.*
     elif [ "${1}" = "pyside6" ]; then
-        if [ "${PYSIDE6_VERSION:-"6.3":0:3}" = "6.3" ]; then
-            pip install pyside6==${PYSIDE6_VERSION:-"6.3"}.* pyside6-addons==${PYSIDE6_VERSION:-"6.3"}.* pyside6-essentials==${PYSIDE6_VERSION:-"6.3"}.*
-        else
+        if [ "${PYSIDE6_VERSION:-"6.2":0:3}" = "6.2" ]; then
             pip install pyside6==${PYSIDE6_VERSION:-"6.2"}.*
+        else
+            pip install pyside6==${PYSIDE6_VERSION:-"6.3"}.* pyside6-addons==${PYSIDE6_VERSION:-"6.3"}.* pyside6-essentials==${PYSIDE6_VERSION:-"6.3"}.*
         fi
     else
         exit 1

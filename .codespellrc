@@ -1,0 +1,7 @@
+[codespell]
+builtin = clear,rare,informal,code,names
+check-filenames =
+check-hidden =
+enable-colors =
+ignore-words-list = sur
+skip = .codespellrc,.gitattributes
