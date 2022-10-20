@@ -8,7 +8,7 @@
 
 """Provides QtGui classes and functions."""
 
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
 
 if PYQT5:
     from PyQt5.QtGui import *
@@ -42,8 +42,6 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
-else:
-    raise QtBindingsNotFoundError()
 
 if PYSIDE2 or PYSIDE6:
     # PySide{2,6} do not accept the `mode` keyword argument in

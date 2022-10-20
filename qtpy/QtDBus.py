@@ -14,7 +14,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtBindingMissingModuleError,
     QtModuleNotInOSError,
 )
@@ -30,5 +29,3 @@ elif PYSIDE6:
         from PySide6.QtDBus import *
     else:
         raise QtModuleNotInOSError(name='QtDBus')
-else:
-    raise QtBindingsNotFoundError()

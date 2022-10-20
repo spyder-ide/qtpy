@@ -12,7 +12,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtModuleNotInstalledError,
 )
 
@@ -44,5 +43,3 @@ elif PYSIDE6:
 
     for __name in inspect.getmembers(__temp.Qt3DInput):
         globals()[__name[0]] = __name[1]
-else:
-    raise QtBindingsNotFoundError()

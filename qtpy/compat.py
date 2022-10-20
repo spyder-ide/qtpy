@@ -12,7 +12,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
 )
 
 from .QtWidgets import QFileDialog
@@ -148,5 +147,3 @@ def isalive(object):
     elif PYSIDE2 or PYSIDE6:
         from . import shiboken
         return shiboken.isValid(object)
-    else:
-        raise QtBindingsNotFoundError()

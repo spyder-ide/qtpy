@@ -12,7 +12,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtModuleNotInstalledError,
 )
 
@@ -40,5 +39,3 @@ elif PYSIDE2:
         globals()[__name[0]] = __name[1]
 elif PYSIDE6:
     from PySide6.QtDataVisualization import *
-else:
-    raise QtBindingsNotFoundError()

@@ -7,7 +7,7 @@
 
 """Provides QtPrintSupport classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, QtBindingsNotFoundError
+from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2
 
 if PYQT5:
     from PyQt5.QtPrintSupport import *
@@ -23,5 +23,3 @@ elif PYSIDE6:
     QPrintDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 elif PYSIDE2:
     from PySide2.QtPrintSupport import *
-else:
-    raise QtBindingsNotFoundError()

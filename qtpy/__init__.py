@@ -256,7 +256,7 @@ if API in PYSIDE6_API:
         QT6 = PYSIDE6 = True
 
     except ImportError:
-        API = 'pyqt5'
+        raise QtBindingsNotFoundError()
     else:
         os.environ[QT_API] = API
 

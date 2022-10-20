@@ -7,7 +7,7 @@
 
 """Provides QtQuickWidgets classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2, QtBindingsNotFoundError
+from . import PYQT5, PYQT6, PYSIDE6, PYSIDE2
 
 if PYQT5:
     from PyQt5.QtQuickWidgets import *
@@ -17,5 +17,3 @@ elif PYSIDE6:
     from PySide6.QtQuickWidgets import *
 elif PYSIDE2:
     from PySide2.QtQuickWidgets import *
-else:
-    raise QtBindingsNotFoundError()

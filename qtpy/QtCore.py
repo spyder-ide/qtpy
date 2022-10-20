@@ -9,7 +9,7 @@
 """Provides QtCore classes and functions."""
 from typing import TYPE_CHECKING
 
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
 
 if PYQT5:
     from PyQt5.QtCore import *
@@ -120,7 +120,4 @@ elif PYSIDE6:
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-
     QLibraryInfo.location = QLibraryInfo.path
-else:
-    raise QtBindingsNotFoundError()
