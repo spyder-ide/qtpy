@@ -121,5 +121,6 @@ elif PYSIDE6:
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
+    QLibraryInfo.location = QLibraryInfo.path
 else:
     raise QtBindingsNotFoundError()

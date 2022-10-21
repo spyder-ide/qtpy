@@ -46,9 +46,8 @@ jobs:
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
         - python-version: '3.10'
           skip-pyside2: true  # Skip Pyside2 on all Python 3.10 builds until it supports it
-        - use-conda: 'Yes'  # No conda packages yet for Qt6
+        - use-conda: 'Yes'  # No PyQt6 conda packages yet
           skip-pyqt6: true
-          skip-pyside6: true
         - os: windows-latest
           python-version: '3.10'
           use-conda: 'No'
@@ -59,6 +58,11 @@ jobs:
           use-conda: 'Yes'
           pyqt5-qt-version: '5.9'
           pyqt6-qt-version: '6.2'
+          skip-pyside6: true  # test hangs
+        - os: windows-latest
+          python-version: '3.10'
+          use-conda: 'Yes'
+          skip-pyside6: true  # test hangs
         - os: macos-latest
           python-version: '3.7'
           use-conda: 'No'
