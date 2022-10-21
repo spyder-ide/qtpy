@@ -59,6 +59,10 @@ jobs:
           pyqt5-qt-version: '5.9'
           pyqt6-qt-version: '6.2'
           skip-pyside6: true  # test hangs
+        - os: windows-latest
+          python-version: '3.10'
+          use-conda: 'Yes'
+          skip-pyside6: true  # test hangs
         - os: macos-latest
           python-version: '3.7'
           use-conda: 'No'
