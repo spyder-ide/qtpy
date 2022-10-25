@@ -79,7 +79,7 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt install libpulse-dev libegl1-mesa libopengl0
+          sudo apt install libpulse-dev libegl1-mesa libopengl0 gstreamer1.0-gl
       - name: Install Conda
         uses: conda-incubator/setup-miniconda@v2
         with:

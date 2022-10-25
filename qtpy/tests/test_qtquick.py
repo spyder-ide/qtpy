@@ -2,7 +2,6 @@ import pytest
 from qtpy import PYQT5, PYSIDE2
 
 
-@pytest.mark.skipif(not (PYQT5 or PYSIDE2), reason="Only available in Qt5 bindings")
 def test_qtquick():
     """Test the qtpy.QtQuick namespace"""
     from qtpy import QtQuick
@@ -32,11 +31,12 @@ def test_qtquick():
     assert QtQuick.QQuickTextureFactory is not None
     assert QtQuick.QQuickView is not None
     assert QtQuick.QQuickWindow is not None
-    assert QtQuick.QSGAbstractRenderer is not None
+    if PYQT5 or PYSIDE2:
+        assert QtQuick.QSGAbstractRenderer is not None
+        assert QtQuick.QSGEngine is not None
     assert QtQuick.QSGBasicGeometryNode is not None
     assert QtQuick.QSGClipNode is not None
     assert QtQuick.QSGDynamicTexture is not None
-    assert QtQuick.QSGEngine is not None
     assert QtQuick.QSGGeometry is not None
     assert QtQuick.QSGGeometryNode is not None
     assert QtQuick.QSGMaterialType is not None
