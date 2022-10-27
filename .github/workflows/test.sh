@@ -10,8 +10,8 @@ conda remove -q -n test-env --all || true
 BINDING=$(echo "$1" | tr '[:lower:]' '[:upper:]')
 QT_VERSION_VAR=${BINDING}_QT_VERSION
 # pytest-qt >=4 doesn't support Qt >=5.9
-if [ "${!QT_VERSION_VAR:0:3}" = "5.9" ]; then PYTESTQT_VERSION="=3.3.0"; fi
-conda create -q -n test-env python=${PYTHON_VERSION} "pytest>=6,!=7.0.0,!=7.0.1" "pytest-cov>=3.0.0" pytest-qt${PYTESTQT_VERSION:-} pip${PIP_VERSION:-}
+if [ "${!QT_VERSION_VAR:0:3}" = "5.9" ]; then PYTESTQT_VERSION="=3.3.0"; PYTEST_VERSION=">=6,!=7.0.0,!=7.0.1,<7.2.0"; fi
+conda create -q -n test-env python=${PYTHON_VERSION} pytest${PYTEST_VERSION:-">=6,!=7.0.0,!=7.0.1"} "pytest-cov>=3.0.0" pytest-qt${PYTESTQT_VERSION:-} pip${PIP_VERSION:-}
 conda activate test-env
 
 if [ "$USE_CONDA" = "Yes" ]; then
