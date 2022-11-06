@@ -12,17 +12,16 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtBindingMissingModuleError,
 )
 
 if PYQT5:
     raise QtBindingMissingModuleError(name='QtPdfWidgets')
 elif PYQT6:
+    # Available with version >=6.4.0
     from PyQt6.QtPdfWidgets import *
 elif PYSIDE2:
     raise QtBindingMissingModuleError(name='QtPdfWidgets')
 elif PYSIDE6:
+    # Available with version >=6.4.0
     from PySide6.QtPdfWidgets import *
-else:
-    raise QtBindingsNotFoundError()
