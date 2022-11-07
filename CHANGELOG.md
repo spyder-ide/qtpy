@@ -1,5 +1,34 @@
 # History of changes
 
+## Version 2.3.0 (2022-11-07)
+
+### Issues Closed
+
+* [Issue 384](https://github.com/spyder-ide/qtpy/issues/384) - Release QtPy 2.3.0
+* [Issue 381](https://github.com/spyder-ide/qtpy/issues/381) - Add QtPdf, QtPdfWidgets ([PR 382](https://github.com/spyder-ide/qtpy/pull/382) by [@jschueller](https://github.com/jschueller))
+* [Issue 375](https://github.com/spyder-ide/qtpy/issues/375) - Test PySide6 6.4.x ([PR 376](https://github.com/spyder-ide/qtpy/pull/376) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 373](https://github.com/spyder-ide/qtpy/issues/373) - PySide6 6.4.0 support - `AttributeError: Cannot reassign members` when aliasing enum values ([PR 374](https://github.com/spyder-ide/qtpy/pull/374) by [@astrofrog](https://github.com/astrofrog))
+* [Issue 367](https://github.com/spyder-ide/qtpy/issues/367) - Import behaviour if no Qt bindings are installed ([PR 379](https://github.com/spyder-ide/qtpy/pull/379) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 134](https://github.com/spyder-ide/qtpy/issues/134) - QScintilla Support ([PR 372](https://github.com/spyder-ide/qtpy/pull/372) by [@dgoeries](https://github.com/dgoeries))
+
+In this release 6 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 382](https://github.com/spyder-ide/qtpy/pull/382) - PR: Add `QtPdf` and `QtPdfWidgets`, by [@jschueller](https://github.com/jschueller) ([381](https://github.com/spyder-ide/qtpy/issues/381))
+* [PR 380](https://github.com/spyder-ide/qtpy/pull/380) - PR: Enable more qt6 tests, by [@jschueller](https://github.com/jschueller)
+* [PR 379](https://github.com/spyder-ide/qtpy/pull/379) - PR: Raise error when no bindings are found at `__init__`, by [@dalthviz](https://github.com/dalthviz) ([367](https://github.com/spyder-ide/qtpy/issues/367))
+* [PR 378](https://github.com/spyder-ide/qtpy/pull/378) - PR: Try PySide6 on conda, by [@jschueller](https://github.com/jschueller)
+* [PR 376](https://github.com/spyder-ide/qtpy/pull/376) - PR: Expand the CI test matrix with Qt/bindings 6.4 and fix tests with PyQt 5.9, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([375](https://github.com/spyder-ide/qtpy/issues/375))
+* [PR 374](https://github.com/spyder-ide/qtpy/pull/374) - Don't re-assign Qt.MouseButton.MiddleButton on PySide6, by [@astrofrog](https://github.com/astrofrog) ([373](https://github.com/spyder-ide/qtpy/issues/373))
+* [PR 372](https://github.com/spyder-ide/qtpy/pull/372) - PR: Add `Qsci` to the imports, by [@dgoeries](https://github.com/dgoeries) ([134](https://github.com/spyder-ide/qtpy/issues/134))
+
+In this release 7 pull requests were closed.
+
+
+----
+
+
 ## Version 2.2.1 (2022-10-03)
 
 ### Issues Closed
