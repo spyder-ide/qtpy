@@ -13,7 +13,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtModuleNotInstalledError,
 )
 
@@ -62,5 +61,3 @@ elif PYSIDE6:
     from PySide6.QtWebEngineCore import QWebEngineSettings
     from PySide6.QtWebEngineCore import QWebEngineProfile
     from PySide6.QtWebEngineCore import QWebEngineScript
-else:
-    raise QtBindingsNotFoundError()

@@ -14,7 +14,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtModuleNotInQtVersionError,
     QtModuleNotInOSError,
 )
@@ -28,7 +27,5 @@ if sys.platform == 'linux':
         from PySide2.QtX11Extras import *
     elif PYSIDE6:
         raise QtModuleNotInQtVersionError(name='QtX11Extras')
-    else:
-        raise QtBindingsNotFoundError()
 else:
     raise QtModuleNotInOSError(name='QtX11Extras')

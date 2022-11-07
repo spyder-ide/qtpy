@@ -14,7 +14,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtModuleNotInQtVersionError,
     QtModuleNotInOSError,
 )
@@ -28,7 +27,5 @@ if sys.platform == 'win32':
         from PySide2.QtWinExtras import *
     elif PYSIDE6:
         raise QtModuleNotInQtVersionError(name='QtWinExtras')
-    else:
-        raise QtBindingsNotFoundError()
 else:
     raise QtModuleNotInOSError(name='QtWinExtras')

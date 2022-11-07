@@ -12,7 +12,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtBindingMissingModuleError,
 )
 
@@ -24,5 +23,3 @@ elif PYSIDE2:
     from PySide2.QtConcurrent import *
 elif PYSIDE6:
     from PySide6.QtConcurrent import *
-else:
-    raise QtBindingsNotFoundError()

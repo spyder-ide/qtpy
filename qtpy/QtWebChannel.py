@@ -7,7 +7,7 @@
 
 """Provides QtWebChannel classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 
 if PYQT5:
     from PyQt5.QtWebChannel import *
@@ -17,5 +17,3 @@ elif PYSIDE2:
     from PySide2.QtWebChannel import *
 elif PYSIDE6:
     from PySide6.QtWebChannel import *
-else:
-    raise QtBindingsNotFoundError()

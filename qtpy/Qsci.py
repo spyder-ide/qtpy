@@ -12,7 +12,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtBindingMissingModuleError,
     QtModuleNotInstalledError
 )
@@ -35,5 +34,3 @@ elif PYSIDE2:
     raise QtBindingMissingModuleError(name='Qsci')
 elif PYSIDE6:
     raise QtBindingMissingModuleError(name='Qsci')
-else:
-    raise QtBindingsNotFoundError()

@@ -12,7 +12,6 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
-    QtBindingsNotFoundError,
     QtBindingMissingModuleError,
 )
 
@@ -26,5 +25,3 @@ elif PYSIDE2:
 elif PYSIDE6:
     from shiboken6 import *
     import shiboken6 as shiboken
-else:
-    raise QtBindingsNotFoundError()

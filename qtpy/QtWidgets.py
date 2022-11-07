@@ -8,7 +8,7 @@
 
 """Provides widget classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingsNotFoundError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 
 if PYQT5:
     from PyQt5.QtWidgets import *
@@ -52,5 +52,3 @@ elif PYSIDE6:
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-else:
-    raise QtBindingsNotFoundError()
