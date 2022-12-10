@@ -16,7 +16,6 @@ elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *
     from PyQt6.QtGui import QAction, QActionGroup, QShortcut, QFileSystemModel, QUndoCommand
-    from PyQt6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
     QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
@@ -39,7 +38,6 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtWidgets import *
     from PySide6.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
-    from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
     QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)

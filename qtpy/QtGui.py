@@ -15,7 +15,6 @@ if PYQT5:
 elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
-    from PyQt6.QtOpenGL import *
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
@@ -35,7 +34,6 @@ elif PYSIDE2:
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 elif PYSIDE6:
     from PySide6.QtGui import *
-    from PySide6.QtOpenGL import *
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
