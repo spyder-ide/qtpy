@@ -25,47 +25,54 @@ jobs:
       CI: 'True'
       PYTHON_VERSION: ${{ matrix.python-version }}
       USE_CONDA: ${{ matrix.use-conda }}
+      PYQT5_VERSION: ${{ matrix.pyqt5-version || matrix.qt5-version-default }}
+      PYQT5_QT_VERSION: ${{ matrix.pyqt5-qt-version || matrix.pyqt5-version || matrix.qt5-version-default }}
+      PYQT6_VERSION: ${{ matrix.pyqt6-version || matrix.qt6-version-default }}
+      PYQT6_QT_VERSION: ${{ matrix.pyqt6-qt-version || matrix.pyqt6-version || matrix.qt6-version-default }}
+      PYSIDE2_VERSION: ${{ matrix.pyside2-version || matrix.qt5-version-default }}
+      PYSIDE2_QT_VERSION: ${{ matrix.pyside2-qt-version || matrix.pyside2-version || matrix.qt5-version-default }}
+      PYSIDE6_VERSION: ${{ matrix.pyside6-version || matrix.qt6-version-default }}
+      PYSIDE6_QT_VERSION: ${{ matrix.pyside6-qt-version || matrix.pyside6-version || matrix.qt6-version-default }}
+      QSCINTILLA_VERSION: ${{ matrix.qscintilla-version || matrix.qscintilla-version-default }}
       SKIP_PIP_CHECK: ${{ matrix.skip-pip-check }}
-      PYQT5_VERSION: ${{ matrix.pyqt5-version }}
-      PYQT6_VERSION: ${{ matrix.pyqt6-version }}
-      PYSIDE2_VERSION: ${{ matrix.pyside2-version }}
-      PYSIDE6_VERSION: ${{ matrix.pyside6-version }}
-      PYQT5_QT_VERSION: ${{ matrix.pyqt5-qt-version }}
-      PYQT6_QT_VERSION: ${{ matrix.pyqt6-qt-version }}
-      PYSIDE2_QT_VERSION: ${{ matrix.pyside2-qt-version }}
-      PYSIDE6_QT_VERSION: ${{ matrix.pyside6-qt-version }}
-      QSCINTILLA_VERSION: '2.13'
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ['3.7', '3.10']
         use-conda: ['Yes', 'No']
+        qt5-version-default: ['5.12']
+        qt6-version-default: ['6.3']
+        qscintilla-version-default: ['2.13']
         include:
         - os: ubuntu-latest
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
         - python-version: '3.10'
-          skip-pyside2: true  # Skip Pyside2 on all Python 3.10 builds until it supports it
-        - use-conda: 'Yes'  # No PyQt6 conda packages yet
-          skip-pyqt6: true
-        - os: windows-latest
-          python-version: '3.10'
-          use-conda: 'No'
-          pyqt6-version: '6.4'  # Test upper bound
-          pyqt6-qt-version: '6.4'  # Test upper bound
-          pyside2-version: '5.15'  # No 5.12 wheel on Windows and Python 3.10
-          pyside6-version: '6.4'  # Test upper bound
-          pyside6-qt-version: '6.4'  # Test upper bound
+          skip-pyside2: true  # Skip Pyside2 on all Python 3.10 builds until/unless it supports it
+        - use-conda: 'Yes'
+          skip-pyqt6: true  # No PyQt6 conda packages yet
+          pyside2-version: '5.13'  # Conda needs 5.13+ to work reliably
+          pyside2-qt-version: '5.12'  # Conda only has 5.12 and 5.15, not 5.13
+          pyside6-version: '6.4'  # Conda only has 6.4+
+        - use-conda: 'No'
+          pyqt5-version: '5.15'  # Test with latest optional packages
         - os: windows-latest
           python-version: '3.7'
           use-conda: 'Yes'
-          pyqt5-qt-version: '5.9'
-          pyqt6-qt-version: '6.2'
-          skip-pyside6: true  # test hangs
+          pyqt5-version: '5.9'  # Test lower bound
+          pyqt6-version: '6.2'  # Test lower bound
+          skip-pyside6: true  # Test hangs
         - os: windows-latest
           python-version: '3.10'
           use-conda: 'Yes'
-          skip-pyside6: true  # test hangs
+          skip-pyside6: true  # Test hangs
+        - os: windows-latest
+          python-version: '3.10'
+          use-conda: 'No'
+          pyqt5-version: '5.15'  # Test upper bound
+          pyqt6-version: '6.4'  # Test upper bound
+          pyside2-version: '5.15'  # No 5.12 wheel on Windows and Python 3.10
+          pyside6-version: '6.4'  # Test upper bound
         - os: macos-latest
           python-version: '3.7'
           use-conda: 'No'
