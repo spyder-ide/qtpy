@@ -39,7 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.7', '3.10']
+        python-version: ['3.7', '3.11']
         use-conda: ['Yes', 'No']
         qt5-version-default: ['5.12']
         qt6-version-default: ['6.3']
@@ -47,15 +47,19 @@ jobs:
         include:
         - os: ubuntu-latest
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
-        - python-version: '3.10'
-          skip-pyside2: true  # Skip Pyside2 on all Python 3.10 builds until/unless it supports it
+        - python-version: '3.11'
+          pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
+          skip-pyside2: true  # Pyside2 doesn't support Python 3.11+ (and probably never will)
+          pyside6-version: '6.4'  # Python 3.11 needs 5.4+
         - use-conda: 'Yes'
           skip-pyqt6: true  # No PyQt6 conda packages yet
-          pyside2-version: '5.13'  # Conda needs 5.13+ to work reliably
-          pyside2-qt-version: '5.12'  # Conda only has 5.12 and 5.15, not 5.13
           pyside6-version: '6.4'  # Conda only has 6.4+
         - use-conda: 'No'
           pyqt5-version: '5.15'  # Test with latest optional packages
+        - python-version: '3.7'
+          use-conda: 'Yes'
+          pyside2-version: '5.13'  # Conda needs 5.13+ to work reliably
+          pyside2-qt-version: '5.12'  # Conda only has 5.12 and 5.15, not 5.13
         - os: windows-latest
           python-version: '3.7'
           use-conda: 'Yes'
@@ -63,16 +67,9 @@ jobs:
           pyqt6-version: '6.2'  # Test lower bound
           skip-pyside6: true  # Test hangs
         - os: windows-latest
-          python-version: '3.10'
+          python-version: '3.11'
           use-conda: 'Yes'
           skip-pyside6: true  # Test hangs
-        - os: windows-latest
-          python-version: '3.10'
-          use-conda: 'No'
-          pyqt5-version: '5.15'  # Test upper bound
-          pyqt6-version: '6.4'  # Test upper bound
-          pyside2-version: '5.15'  # No 5.12 wheel on Windows and Python 3.10
-          pyside6-version: '6.4'  # Test upper bound
         - os: macos-latest
           python-version: '3.7'
           use-conda: 'No'
