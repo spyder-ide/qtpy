@@ -50,7 +50,7 @@ jobs:
         - python-version: '3.11'
           pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
           skip-pyside2: true  # Pyside2 doesn't support Python 3.11+ (and probably never will)
-          pyside6-version: '6.4'  # Python 3.11 needs 5.4+
+          pyside6-version: '6.4'  # Python 3.11 needs 6.4+
         - use-conda: 'Yes'
           skip-pyqt6: true  # No PyQt6 conda packages yet
           pyside6-version: '6.4'  # Conda only has 6.4+
