@@ -68,6 +68,11 @@ def test_qlibraryinfo_location():
     assert QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.PrefixPath) is not None
 
 
+def test_qlibraryinfo_library_location():
+    """Test QLibraryInfo.LibraryLocation"""
+    assert QtCore.QLibraryInfo.LibraryLocation is not None
+
+
 def test_qtextstreammanipulator_exec_():
     """Test QTextStreamManipulator.exec_"""
     QtCore.QTextStreamManipulator.exec_ is not None
