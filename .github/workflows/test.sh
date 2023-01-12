@@ -22,12 +22,7 @@ conda activate test-env
 if [ "$USE_CONDA" = "Yes" ]; then
 
     if [ "${1}" = "pyqt5" ]; then
-        if [ "${PYQT5_VERSION:0:4}" = "5.15" ]; then
-            # Must specify versions individually with PyQt 5.15 to avoid compat issues with Python 3.11
-            conda install -q qt-main=${PYQT5_QT_VERSION} qt-webengine=${PYQT5_QT_VERSION} pyqt=${PYQT5_VERSION}
-        else
-            conda install -q qt=${PYQT5_QT_VERSION} pyqt=${PYQT5_VERSION}
-        fi
+        conda install -q qt=${PYQT5_QT_VERSION} pyqt=${PYQT5_VERSION}
     elif [ "${1}" = "pyside2" ]; then
         conda install -q qt=${PYSIDE2_QT_VERSION} pyside2=${PYSIDE2_VERSION}
     elif [ "${1}" = "pyside6" ]; then
