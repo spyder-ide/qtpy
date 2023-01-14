@@ -65,11 +65,11 @@ __version__ = '2.4.0.dev0'
 
 
 class PythonQtError(RuntimeError):
-    """Error raised if no bindings could be selected."""
+    """Generic error superclass for QtPy."""
 
 
-class PythonQtWarning(Warning):
-    """Warning if some features are not implemented in a binding."""
+class PythonQtWarning(RuntimeWarning):
+    """Warning class for QtPy."""
 
 
 class PythonQtValueError(ValueError):
@@ -79,7 +79,7 @@ class PythonQtValueError(ValueError):
 class QtBindingsNotFoundError(PythonQtError):
     """Error raised if no bindings could be selected."""
     _msg = 'No Qt bindings could be found'
-    
+
     def __init__(self):
         super().__init__(self._msg)
 
@@ -106,7 +106,7 @@ class QtModuleNotInOSError(QtModuleNotFoundError):
 class QtModuleNotInQtVersionError(QtModuleNotFoundError):
     """Raised when a module is not implemented in the current Qt version."""
     _msg = '{name} does not exist in {version}.'
-    
+
     def __init__(self, *, name, msg=None, **msg_kwargs):
         global QT5, QT6
         version = 'Qt5' if QT5 else 'Qt6'
@@ -264,8 +264,11 @@ if API in PYSIDE6_API:
 # If a correct API name is passed to QT_API and it could not be found,
 # switches to another and informs through the warning
 if API != initial_api and binding_specified:
-    warnings.warn('Selected binding "{}" could not be found, '
-                  'using "{}"'.format(initial_api, API), RuntimeWarning)
+    warnings.warn(
+        f'Selected binding {initial_api!r} could not be found; '
+        f'falling back to {API!r}',
+        PythonQtWarning,
+    )
 
 
 # Set display name of the Qt API
@@ -282,10 +285,10 @@ except (ImportError, PythonQtError):
 def _warn_old_minor_version(name, old_version, min_version):
     """Warn if using a Qt or binding version no longer supported by QtPy."""
     warning_message = (
-        "{name} version {old_version} is not supported by QtPy. "
-        "To ensure your application works correctly with QtPy, "
-        "please upgrade to {name} {min_version} or later.".format(
-            name=name, old_version=old_version, min_version=min_version))
+        f'{name} version {old_version} is not supported by QtPy. '
+        'To ensure your application works correctly with QtPy, '
+        f'please upgrade to {name} {min_version} or later.'
+    )
     warnings.warn(warning_message, PythonQtWarning)
 
 
