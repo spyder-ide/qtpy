@@ -157,6 +157,8 @@ binding_specified = QT_API in os.environ
 
 API_NAMES = {'pyqt5': 'PyQt5', 'pyside2': 'PySide2',
              'pyqt6': 'PyQt6', 'pyside6': 'PySide6'}
+if sys.version_info >= (3, 11):
+    API_NAMES.pop('pyside2')  # PySide2 does not support Python 3.11 and newer
 API = os.environ.get(QT_API, 'pyqt5').lower()
 initial_api = API
 if API not in API_NAMES:

@@ -44,34 +44,37 @@ def test_cli_mypy_args():
     )
 
     if qtpy.PYQT5:
-        expected = ' '.join([
+        expected = [
             '--always-true=PYQT5',
             '--always-false=PYSIDE2',
             '--always-false=PYQT6',
             '--always-false=PYSIDE6',
-        ])
+        ]
     elif qtpy.PYSIDE2:
-        expected = ' '.join([
+        expected = [
             '--always-false=PYQT5',
             '--always-true=PYSIDE2',
             '--always-false=PYQT6',
             '--always-false=PYSIDE6',
-        ])
+        ]
     elif qtpy.PYQT6:
-        expected = ' '.join([
+        expected = [
             '--always-false=PYQT5',
             '--always-false=PYSIDE2',
             '--always-true=PYQT6',
             '--always-false=PYSIDE6',
-        ])
+        ]
     elif qtpy.PYSIDE6:
-        expected = ' '.join([
+        expected = [
             '--always-false=PYQT5',
             '--always-false=PYSIDE2',
             '--always-false=PYQT6',
             '--always-true=PYSIDE6',
-        ])
+        ]
     else:
         assert False, 'No valid API to test'
 
-    assert output.stdout.strip() == expected.strip()
+    if sys.version_info >= (3, 11):
+        expected.pop(1)  # no PySide2 there
+
+    assert output.stdout.strip() == ' '.join(expected).strip()
