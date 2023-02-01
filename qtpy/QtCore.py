@@ -63,6 +63,7 @@ elif PYQT6:
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
     QLibraryInfo.location = QLibraryInfo.path
+    QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -121,3 +122,4 @@ elif PYSIDE6:
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QLibraryInfo.location = QLibraryInfo.path
+    QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
