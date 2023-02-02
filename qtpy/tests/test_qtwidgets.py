@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT_VERSION, QtCore, QtWidgets
+from qtpy import QtCore, QtWidgets
 from qtpy.tests.utils import not_using_conda
 
 
@@ -125,9 +125,6 @@ def test_qmenu_functions(qtbot):
     menu.exec()
 
 
-@pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
-                    reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
-                           "to work with scoped enum access")
 def test_enum_access():
     """Test scoped and unscoped enum access for qtpy.QtWidgets.*."""
     assert QtWidgets.QFileDialog.AcceptOpen == QtWidgets.QFileDialog.AcceptMode.AcceptOpen

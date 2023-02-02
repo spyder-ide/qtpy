@@ -9,7 +9,7 @@
 Compatibility functions for scoped and unscoped enum access.
 """
 
-from . import PYQT6
+from . import PYQT5, PYQT6
 
 if PYQT6:
     import enum
@@ -37,3 +37,24 @@ if PYQT6:
                     continue
                 for name, value in attrib.__members__.items():
                     setattr(klass, name, value)
+
+if PYQT5:
+    def demote_enums(module):
+        """
+        Search unscoped enums in the given module and allow scoped access.
+
+        Special for PyQt5==5.9.*
+        """
+        class LookUp:
+            def __init__(self, lookup_location):
+                self._ll = lookup_location
+
+            def __getattr__(self, what):
+                return getattr(self._ll, what)
+
+        for class_name in dir(module):
+            if class_name == 'Qt' or (class_name[0] == 'Q' and class_name[1].isupper()):
+                klass = getattr(module, class_name)
+                for attrib_name in dir(klass):
+                    if attrib_name[0].isupper() and type(getattr(klass, attrib_name)).__name__ == 'enum''type':
+                        setattr(klass, attrib_name, LookUp(klass))

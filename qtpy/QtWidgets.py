@@ -12,6 +12,15 @@ from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 
 if PYQT5:
     from PyQt5.QtWidgets import *
+
+    # Fix enums in PyQt5 5.9.*
+    from .enums_compat import demote_enums
+    from PyQt5.QtCore import QT_VERSION_STR as __version__
+    if PYQT5 and __version__.startswith('5.9.'):
+        from PyQt5 import QtWidgets
+        demote_enums(QtWidgets)
+        del QtWidgets
+    del __version__, demote_enums
 elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *

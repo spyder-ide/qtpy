@@ -25,25 +25,13 @@ if PYQT5:
     QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
     QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
+    # Fix enums in PyQt5 5.9.*
+    from .enums_compat import demote_enums
     if PYQT5 and __version__.startswith('5.9.'):
         from PyQt5 import QtCore
-
-        class LookUp:
-            def __init__(self, lookup_location):
-                self._ll = lookup_location
-
-            def __getattr__(self, what):
-                return getattr(self._ll, what)
-
-
-        for cn in dir(QtCore):
-            if cn == 'Qt' or (cn[0] == 'Q' and cn[1].isupper()):
-                c = getattr(QtCore, cn)
-                for e in dir(c):
-                    if e[0].isupper() and type(getattr(c, e)).__name__ == 'enum''type':
-                        setattr(c, e, LookUp(c))
-
-        del LookUp, QtCore
+        demote_enums(QtCore)
+        del QtCore
+    del demote_enums
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
