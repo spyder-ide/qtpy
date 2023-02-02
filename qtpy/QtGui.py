@@ -43,6 +43,7 @@ elif PYQT6:
     QTextDocument.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
     QColor.toTuple = lambda self: (self.red(), self.green(), self.blue(), self.alpha())
     QColor.isValidColorName = QColor.isValidColor
+    QColor.fromString = lambda name: QColor(name)
 
     # Allow unscoped access for enums inside the QtGui module
     from .enums_compat import promote_enums
