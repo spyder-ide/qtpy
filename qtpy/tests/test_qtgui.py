@@ -51,12 +51,12 @@ def test_qmouseevent_functions():
     """Test functions mapping for QtGui.QMouseEvent."""
     from qtpy import QtCore
     e = QtGui.QMouseEvent(QtCore.QEvent.Type.MouseMove,
-                          QtCore.QPoint(42, 6 * 9),
-                          QtCore.QPoint(42, 6 * 9),
+                          QtCore.QPointF(42, 6 * 9),
+                          QtCore.QPointF(42, 6 * 9),
                           QtCore.Qt.MouseButton.LeftButton,
                           QtCore.Qt.MouseButton.AllButtons,
                           QtCore.Qt.KeyboardModifier.NoModifier)
-    assert e.position() == QtCore.QPoint(42, 54)
+    assert e.position() == QtCore.QPointF(42, 54)
     assert e.pos() == e.position()
 
 
