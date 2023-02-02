@@ -42,6 +42,7 @@ elif PYQT6:
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
     QTextDocument.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
+    QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
 
     # Allow unscoped access for enums inside the QtGui module
     from .enums_compat import promote_enums
