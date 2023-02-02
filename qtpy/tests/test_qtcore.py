@@ -46,36 +46,76 @@ def test_qtime_toPython():
     assert isinstance(py_time, time)
 
 
+def test_qdatetime_toPyDateTime():
+    """Test QDateTime.toPyDateTime"""
+    q_date = QtCore.QDateTime.currentDateTime()
+    assert QtCore.QDateTime.toPyDateTime is not None
+    py_date = q_date.toPyDateTime()
+    assert isinstance(py_date, datetime)
+
+
+def test_qdate_toPyDate():
+    """Test QDate.toPyDate"""
+    q_date = QtCore.QDate.currentDate()
+    assert QtCore.QDate.toPyDate is not None
+    py_date = q_date.toPyDate()
+    assert isinstance(py_date, date)
+
+
+def test_qtime_toPyTime():
+    """Test QTime.toPyTime"""
+    q_time = QtCore.QTime.currentTime()
+    assert QtCore.QTime.toPyTime is not None
+    py_time = q_time.toPyTime()
+    assert isinstance(py_time, time)
+
+
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qeventloop_exec_(qtbot):
-    """Test QEventLoop.exec_"""
+    """Test `QEventLoop.exec_` and `QEventLoop.exec`"""
     assert QtCore.QEventLoop.exec_ is not None
+    assert QtCore.QEventLoop.exec is not None
     event_loop = QtCore.QEventLoop(None)
     QtCore.QTimer.singleShot(100, event_loop.quit)
     event_loop.exec_()
 
 
 def test_qthread_exec_():
-    """Test QThread.exec_"""
+    """Test `QThread.exec_` and `QThread.exec`"""
     assert QtCore.QThread.exec_ is not None
+    assert QtCore.QThread.exec is not None
 
 
 def test_qlibraryinfo_location():
-    """Test QLibraryInfo.location"""
+    """Test `QLibraryInfo.location` and `QLibraryInfo.LibraryLocation`"""
     assert QtCore.QLibraryInfo.location is not None
     assert QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.PrefixPath) is not None
-
-
-def test_qlibraryinfo_library_location():
-    """Test QLibraryInfo.LibraryLocation"""
     assert QtCore.QLibraryInfo.LibraryLocation is not None
 
 
+def test_qlibraryinfo_path():
+    """Test `QLibraryInfo.path` and `QLibraryInfo.LibraryPath`"""
+    assert QtCore.QLibraryInfo.path is not None
+    assert QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.PrefixPath) is not None
+    assert QtCore.QLibraryInfo.LibraryPath is not None
+
+
+def test_qlibraryinfo_path_is_location():
+    """Test `QLibraryInfo.path` is `QLibraryInfo.location`
+       and `QLibraryInfo.LibraryPath` is `QLibraryInfo.LibraryLocation`"""
+    assert (QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.PrefixPath)
+            == QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.LibraryLocation.PrefixPath))
+    assert QtCore.QLibraryInfo.LibraryPath is QtCore.QLibraryInfo.LibraryLocation
+
+
+@pytest.mark.skipif(PYQT5 or PYQT6,
+                    reason="Doesn't seem to be present on PyQt5 and PyQt6")
 def test_qtextstreammanipulator_exec_():
-    """Test QTextStreamManipulator.exec_"""
+    """Test `QTextStreamManipulator.exec_` and `QTextStreamManipulator.exec`"""
     QtCore.QTextStreamManipulator.exec_ is not None
+    QtCore.QTextStreamManipulator.exec is not None
 
 
 @pytest.mark.skipif(PYSIDE2 or PYQT6,
