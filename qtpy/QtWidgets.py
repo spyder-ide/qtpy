@@ -28,11 +28,11 @@ elif PYQT6:
     from PyQt6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
-    QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
-    QTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QTextEdit.setTabStopWidth = lambda self, width: self.setTabStopDistance(round(width))
+    QTextEdit.tabStopWidth = lambda self: round(self.tabStopDistance())
     QTextEdit.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
-    QPlainTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
-    QPlainTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QPlainTextEdit.setTabStopWidth = lambda self, width: self.setTabStopDistance(round(width))
+    QPlainTextEdit.tabStopWidth = lambda self: round(self.tabStopDistance())
     QPlainTextEdit.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
@@ -52,11 +52,11 @@ elif PYSIDE6:
     from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
     # Map missing/renamed methods
-    QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
-    QTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QTextEdit.setTabStopWidth = lambda self, width: self.setTabStopDistance(round(width))
+    QTextEdit.tabStopWidth = lambda self: round(self.tabStopDistance())
     QTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
-    QPlainTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
-    QPlainTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QPlainTextEdit.setTabStopWidth = lambda self, width: self.setTabStopDistance(round(width))
+    QPlainTextEdit.tabStopWidth = lambda self: round(self.tabStopDistance())
     QPlainTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 

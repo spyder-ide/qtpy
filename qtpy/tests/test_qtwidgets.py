@@ -15,11 +15,15 @@ def test_qtextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QTextEdit."""
     assert QtWidgets.QTextEdit.setTabStopWidth
     assert QtWidgets.QTextEdit.tabStopWidth
+    assert QtWidgets.QTextEdit.setTabStopDistance
+    assert QtWidgets.QTextEdit.tabStopDistance
     assert QtWidgets.QTextEdit.print_
     assert QtWidgets.QTextEdit.print
     textedit_widget = QtWidgets.QTextEdit(None)
     textedit_widget.setTabStopWidth(90)
     assert textedit_widget.tabStopWidth() == 90
+    textedit_widget.setTabStopDistance(89.0)
+    assert textedit_widget.tabStopDistance() == 89.0
     print_device, output_path = pdf_writer
     textedit_widget.print_(print_device)
     textedit_widget.print(print_device)
@@ -47,11 +51,15 @@ def test_qplaintextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QPlainTextEdit."""
     assert QtWidgets.QPlainTextEdit.setTabStopWidth
     assert QtWidgets.QPlainTextEdit.tabStopWidth
+    assert QtWidgets.QPlainTextEdit.setTabStopDistance
+    assert QtWidgets.QPlainTextEdit.tabStopDistance
     assert QtWidgets.QPlainTextEdit.print_
     assert QtWidgets.QPlainTextEdit.print
     plaintextedit_widget = QtWidgets.QPlainTextEdit(None)
     plaintextedit_widget.setTabStopWidth(90)
     assert plaintextedit_widget.tabStopWidth() == 90
+    plaintextedit_widget.setTabStopDistance(89.0)
+    assert plaintextedit_widget.tabStopDistance() == 89.0
     print_device, output_path = pdf_writer
     plaintextedit_widget.print_(print_device)
     plaintextedit_widget.print(print_device)
