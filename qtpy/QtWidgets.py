@@ -54,8 +54,10 @@ elif PYSIDE6:
     # Map missing/renamed methods
     QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
     QTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QPlainTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
     QPlainTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QPlainTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Map DeprecationWarning methods
