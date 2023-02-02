@@ -60,6 +60,7 @@ elif PYSIDE2:
     # Map missing/renamed methods
     QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
     QGuiApplication.exec = QGuiApplication.exec_
+    QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
