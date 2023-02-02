@@ -45,6 +45,7 @@ elif PYQT6:
     del QtWidgets
 elif PYSIDE2:
     from PySide2.QtWidgets import *
+    QApplication.exec = QApplication.exec_
 elif PYSIDE6:
     from PySide6.QtWidgets import *
     from PySide6.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand

@@ -19,8 +19,7 @@ if PYQT5:
     QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
     QColor.isValidColorName = QColor.isValidColor
     QColor.fromString = lambda name: QColor(name)
-    if not hasattr(QMouseEvent, 'position'):
-        QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
+    QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
 
     # Fix enums in PyQt5 5.9.*
     from .enums_compat import demote_enums
@@ -43,6 +42,7 @@ elif PYQT6:
     QGuiApplication.exec_ = QGuiApplication.exec
     QTextDocument.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
     QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
+    QColor.isValidColorName = QColor.isValidColor
 
     # Allow unscoped access for enums inside the QtGui module
     from .enums_compat import promote_enums
@@ -55,6 +55,10 @@ elif PYSIDE2:
     if hasattr(QFontMetrics, 'horizontalAdvance'):
         # Needed to prevent raising a DeprecationWarning when using QFontMetrics.width
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
+
+    # Map missing/renamed methods
+    QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
+    QGuiApplication.exec = QGuiApplication.exec_
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
@@ -65,6 +69,7 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
+    QMouseEvent.pos = lambda *args: QMouseEvent.position(*args)
 
 if PYSIDE2 or PYSIDE6:
     # PySide{2,6} do not accept the `mode` keyword argument in

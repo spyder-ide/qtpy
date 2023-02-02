@@ -99,6 +99,12 @@ elif PYSIDE2:
     import PySide2.QtCore
     __version__ = PySide2.QtCore.__version__
 
+    # Map missing methods
+    QCoreApplication.exec = QCoreApplication.exec_
+    QEventLoop.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
 
