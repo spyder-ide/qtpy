@@ -20,6 +20,10 @@ if PYQT5:
     QColor.isValidColorName = QColor.isValidColor
     QColor.fromString = lambda name: QColor(name)
     QMouseEvent.position = lambda *args: QMouseEvent.pos(*args).toPointF()
+    if not hasattr(QFontMetrics, 'horizontalAdvance'):
+        QFontMetrics.horizontalAdvance = lambda self, *args, **kwargs: self.width(*args, **kwargs)
+    if not hasattr(QFontMetricsF, 'horizontalAdvance'):
+        QFontMetricsF.horizontalAdvance = lambda self, *args, **kwargs: self.width(*args, **kwargs)
 
     # Fix enums in PyQt5 5.9.*
     from .enums_compat import demote_enums
