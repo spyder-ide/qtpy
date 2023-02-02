@@ -57,6 +57,7 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
+    from PySide6.QtWidgets import QFileSystemModel
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
