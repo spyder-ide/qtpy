@@ -25,6 +25,9 @@ if PYQT5:
     QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
     QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
+    QLibraryInfo.path = QLibraryInfo.location
+    QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
+
     # Map missing methods on PyQt5 5.12
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
@@ -89,6 +92,9 @@ elif PYSIDE2:
 
     import PySide2.QtCore
     __version__ = PySide2.QtCore.__version__
+
+    QLibraryInfo.path = QLibraryInfo.location
+    QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
 
     # Missing QtGui utility functions on Qt
     if getattr(Qt, 'mightBeRichText', None) is None:
