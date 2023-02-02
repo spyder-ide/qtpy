@@ -73,6 +73,8 @@ elif PYQT6:
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
+        QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
 
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
@@ -142,6 +144,10 @@ elif PYSIDE6:
     QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
     QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
     QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+
+    # Map missing methods
+    if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
+        QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
 
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
