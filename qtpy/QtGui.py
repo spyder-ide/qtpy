@@ -19,7 +19,7 @@ if PYQT5:
     QColor.toTuple = lambda self: (self.red(), self.green(), self.blue(), self.alpha())
     QColor.isValidColorName = QColor.isValidColor
     QColor.fromString = lambda name: QColor(name)
-    QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
+    QMouseEvent.position = lambda *args: QMouseEvent.pos(*args).toPointF()
 
     # Fix enums in PyQt5 5.9.*
     from .enums_compat import demote_enums
@@ -60,7 +60,7 @@ elif PYSIDE2:
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
     # Map missing/renamed methods
-    QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
+    QMouseEvent.position = lambda *args: QMouseEvent.pos(*args).toPointF()
     QGuiApplication.exec = QGuiApplication.exec_
     QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QColor.isValidColorName = QColor.isValidColor
