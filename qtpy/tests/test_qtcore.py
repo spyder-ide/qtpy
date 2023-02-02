@@ -70,6 +70,12 @@ def test_qtime_toPyTime():
     assert isinstance(py_time, time)
 
 
+def test_qpoint_toPointF():
+    """Test `QPoint.toPointF` and `QPointF.toPoint`"""
+    assert QtCore.QPoint.toPointF is not None
+    assert QtCore.QPointF.toPoint is not None
+
+
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")

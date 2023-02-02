@@ -38,6 +38,9 @@ if PYQT5:
     # Map missing methods on PyQt5 5.12
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
+    # Map missing methods
+    QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 
@@ -104,6 +107,7 @@ elif PYSIDE2:
     QEventLoop.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
