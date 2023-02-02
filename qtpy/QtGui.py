@@ -44,7 +44,8 @@ elif PYQT6:
     QColor.toTuple = lambda self: (self.red(), self.green(), self.blue(), self.alpha())
     if not hasattr(QColor, 'isValidColorName'):  # appears in Qt6.4
         QColor.isValidColorName = QColor.isValidColor
-    QColor.fromString = lambda name: QColor(name)
+    if not hasattr(QColor, 'fromString'):  # appears in Qt6.4
+        QColor.fromString = lambda name: QColor(name)
 
     # Allow unscoped access for enums inside the QtGui module
     from .enums_compat import promote_enums
@@ -63,7 +64,8 @@ elif PYSIDE2:
     QGuiApplication.exec = QGuiApplication.exec_
     QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QColor.isValidColorName = QColor.isValidColor
-    
+    QColor.fromString = lambda name: QColor(name)
+
 elif PYSIDE6:
     from PySide6.QtGui import *
     from PySide6.QtOpenGL import *
@@ -75,6 +77,8 @@ elif PYSIDE6:
     QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     if not hasattr(QColor, 'isValidColorName'):  # appears in Qt6.4
         QColor.isValidColorName = QColor.isValidColor
+    if not hasattr(QColor, 'fromString'):  # appears in Qt6.4
+        QColor.fromString = lambda name: QColor(name)
 
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
