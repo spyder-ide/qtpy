@@ -45,7 +45,11 @@ elif PYQT6:
     del QtWidgets
 elif PYSIDE2:
     from PySide2.QtWidgets import *
+
+    # Map missing/renamed methods
     QApplication.exec = QApplication.exec_
+    QTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
+    QPlainTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
 elif PYSIDE6:
     from PySide6.QtWidgets import *
     from PySide6.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
