@@ -48,6 +48,8 @@ elif PYSIDE2:
 
     # Map missing/renamed methods
     QApplication.exec = QApplication.exec_
+    QDialog.exec = QDialog.exec_
+    QMenu.exec = QMenu.exec_
     QTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QPlainTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
 elif PYSIDE6:
