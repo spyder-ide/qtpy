@@ -57,7 +57,7 @@ def test_qmouseevent_functions():
                           QtCore.Qt.MouseButton.AllButtons,
                           QtCore.Qt.KeyboardModifier.NoModifier)
     assert e.position() == QtCore.QPointF(42, 54)
-    assert e.pos() == e.position()
+    assert e.pos() == QtCore.QPoint(42, 54)
 
 
 def test_qguiapplication_functions():
