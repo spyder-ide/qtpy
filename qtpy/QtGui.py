@@ -67,6 +67,9 @@ elif PYSIDE6:
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
+    # Map missing/renamed methods
+    QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
+
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
