@@ -41,7 +41,7 @@ def test_qdrag_functions(qtbot):
 
 def test_qcolor_functions():
     """Test functions mapping for QtGui.QColor."""
-    assert QtGui.QColor('green').toTuple() == (0, 128, 0)
+    assert QtGui.QColor('green').toTuple() == (0, 128, 0, 255)
     assert QtGui.QColor.isValidColor('green')
     assert QtGui.QColor.isValidColorName('green')
     assert QtGui.QColor.fromString('#008000').isValid()

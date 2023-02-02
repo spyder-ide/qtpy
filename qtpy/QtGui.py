@@ -16,7 +16,7 @@ if PYQT5:
     from PyQt5.QtWidgets import QAction, QActionGroup, QFileSystemModel, QShortcut, QUndoCommand
 
     # Map missing/renamed methods
-    QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
+    QColor.toTuple = lambda self: (self.red(), self.green(), self.blue(), self.alpha())
     QColor.isValidColorName = QColor.isValidColor
     QColor.fromString = lambda name: QColor(name)
     QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
@@ -41,7 +41,7 @@ elif PYQT6:
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QGuiApplication.exec_ = QGuiApplication.exec
     QTextDocument.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
-    QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
+    QColor.toTuple = lambda self: (self.red(), self.green(), self.blue(), self.alpha())
     QColor.isValidColorName = QColor.isValidColor
 
     # Allow unscoped access for enums inside the QtGui module
