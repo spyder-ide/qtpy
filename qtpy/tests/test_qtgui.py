@@ -44,7 +44,7 @@ def test_qcolor_functions():
     assert QtGui.QColor('green').toTuple() == (0, 128, 0)
     assert QtGui.QColor.isValidColor('green')
     assert QtGui.QColor.isValidColorName('green')
-    assert QtGui.QColor.fromString('#ff008000') == QtGui.QColor('green')
+    assert QtGui.QColor.fromString('#008000') == QtGui.QColor('green')
 
 
 def test_qmouseevent_functions():
