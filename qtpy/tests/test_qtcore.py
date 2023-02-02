@@ -129,9 +129,6 @@ def test_QtCore_SignalInstance():
     assert isinstance(instance.signal, QtCore.SignalInstance)
 
 
-@pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
-                    reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
-                           "to work with scoped enum access")
 def test_enum_access():
     """Test scoped and unscoped enum access for qtpy.QtCore.*."""
     assert QtCore.QAbstractAnimation.Stopped == QtCore.QAbstractAnimation.State.Stopped
