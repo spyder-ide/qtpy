@@ -12,6 +12,14 @@ from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
 
 if PYQT5:
     from PyQt5.QtGui import *
+    # Backport items moved to QtGui in Qt6
+    from PyQt5.QtWidgets import QAction, QActionGroup, QFileSystemModel, QShortcut, QUndoCommand
+
+    # Map missing/renamed methods
+    if not hasattr(QColor, 'toTuple'):
+        QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
+    if not hasattr(QMouseEvent, 'position'):
+        QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
 elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
@@ -30,6 +38,8 @@ elif PYQT6:
     del QtGui
 elif PYSIDE2:
     from PySide2.QtGui import *
+    # Backport items moved to QtGui in Qt6
+    from PySide2.QtWidgets import QAction, QActionGroup, QFileSystemModel, QShortcut, QUndoCommand
     if hasattr(QFontMetrics, 'horizontalAdvance'):
         # Needed to prevent raising a DeprecationWarning when using QFontMetrics.width
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
