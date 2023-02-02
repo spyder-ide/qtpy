@@ -52,6 +52,7 @@ def test_qmouseevent_functions():
     from qtpy import QtCore
     e = QtGui.QMouseEvent(QtCore.QEvent.Type.MouseMove,
                           QtCore.QPoint(42, 6 * 9),
+                          QtCore.QPoint(42, 6 * 9),
                           QtCore.Qt.MouseButton.LeftButton,
                           QtCore.Qt.MouseButton.AllButtons,
                           QtCore.Qt.KeyboardModifier.NoModifier)
