@@ -61,6 +61,7 @@ elif PYSIDE2:
 
     # Map missing/renamed methods
     QMouseEvent.position = lambda *args: QMouseEvent.pos(*args).toPointF()
+    QDrag.exec = QDrag.exec_
     QGuiApplication.exec = QGuiApplication.exec_
     QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QColor.isValidColorName = QColor.isValidColor
