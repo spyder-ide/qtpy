@@ -20,7 +20,6 @@ if PYQT5:
     from PyQt5.QtCore import QT_VERSION_STR as __version__
 
     # For issue #153 and updated for issue #305
-    from PyQt5.QtCore import QDate, QDateTime, QTime
     QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
     QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
     QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
@@ -52,7 +51,6 @@ elif PYQT6:
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
     # For issue #153 and updated for issue #305
-    from PyQt6.QtCore import QDate, QDateTime, QTime
     QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
     QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
     QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
@@ -104,6 +102,11 @@ elif PYSIDE2:
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
 
+    # For issue #153 and updated for issue #305
+    QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+
     # Missing QtGui utility functions on Qt
     if getattr(Qt, 'mightBeRichText', None) is None:
         try:
@@ -124,6 +127,11 @@ elif PYSIDE6:
         from PySide6.QtGui import Qt as guiQt
         Qt.mightBeRichText = guiQt.mightBeRichText
         del guiQt
+
+    # For issue #153 and updated for issue #305
+    QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
 
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
