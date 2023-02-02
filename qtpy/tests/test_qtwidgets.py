@@ -4,10 +4,13 @@ import sys
 
 import pytest
 
-from qtpy import QtCore, QtWidgets
+from qtpy import PYQT5, QtCore, QtWidgets
 from qtpy.tests.utils import not_using_conda
 
 
+@pytest.mark.skipif(
+    PYQT5 and QtCore.__version__.startswith('5.9.'),
+    reason="Doesn't seem to be present on PyQt5<5.10")
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
@@ -44,6 +47,9 @@ def test_what_moved_to_qtgui_in_qt6():
     assert QtWidgets.QUndoCommand is not None
 
 
+@pytest.mark.skipif(
+    PYQT5 and QtCore.__version__.startswith('5.9.'),
+    reason="Doesn't seem to be present on PyQt5<5.10")
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
