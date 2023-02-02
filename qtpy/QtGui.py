@@ -16,8 +16,9 @@ if PYQT5:
     from PyQt5.QtWidgets import QAction, QActionGroup, QFileSystemModel, QShortcut, QUndoCommand
 
     # Map missing/renamed methods
-    if not hasattr(QColor, 'toTuple'):
-        QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
+    QColor.toTuple = lambda self: (self.red(), self.green(), self.blue())
+    QColor.isValidColorName = QColor.isValidColor
+    QColor.fromString = lambda name: QColor(name)
     if not hasattr(QMouseEvent, 'position'):
         QMouseEvent.position = lambda *args: QMouseEvent.pos(*args)
 

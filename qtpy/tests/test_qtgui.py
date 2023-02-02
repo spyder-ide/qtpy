@@ -42,6 +42,9 @@ def test_qdrag_functions(qtbot):
 def test_qcolor_functions():
     """Test functions mapping for QtGui.QColor."""
     assert QtGui.QColor('green').toTuple() == (0, 128, 0)
+    assert QtGui.QColor.isValidColor('green')
+    assert QtGui.QColor.isValidColorName('green')
+    assert QtGui.QColor.fromString('#ff008000') == QtGui.QColor('green')
 
 
 def test_qmouseevent_functions():
