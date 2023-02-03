@@ -36,7 +36,7 @@ elif PYQT6:
     QPlainTextEdit.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
     QApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QMenu.exec_ = QMenu.exec  # may be static
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Allow unscoped access for enums inside the QtWidgets module
@@ -60,7 +60,6 @@ elif PYSIDE2:
     QTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QPlainTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
 
-    del possibly_static_exec_
 elif PYSIDE6:
     from PySide6.QtWidgets import *
     from PySide6.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
@@ -78,4 +77,4 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QMenu.exec_ = QMenu.exec  # may be static
