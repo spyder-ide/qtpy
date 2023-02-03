@@ -104,7 +104,7 @@ elif PYSIDE2:
     __version__ = PySide2.QtCore.__version__
 
     # Map missing methods
-    QCoreApplication.exec = QCoreApplication.exec_
+    QCoreApplication.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QEventLoop.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
@@ -154,7 +154,7 @@ elif PYSIDE6:
     Qt.MidButton = Qt.MiddleButton
 
     # Map DeprecationWarning methods
-    QCoreApplication.exec_ = QCoreApplication.exec
+    QCoreApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)

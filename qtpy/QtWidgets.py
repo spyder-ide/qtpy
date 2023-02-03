@@ -34,7 +34,7 @@ elif PYQT6:
     QPlainTextEdit.setTabStopWidth = lambda self, width: self.setTabStopDistance(round(width))
     QPlainTextEdit.tabStopWidth = lambda self: round(self.tabStopDistance())
     QPlainTextEdit.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
-    QApplication.exec_ = QApplication.exec
+    QApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
@@ -47,9 +47,9 @@ elif PYSIDE2:
     from PySide2.QtWidgets import *
 
     # Map missing/renamed methods
-    QApplication.exec = QApplication.exec_
-    QDialog.exec = QDialog.exec_
-    QMenu.exec = QMenu.exec_
+    QApplication.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QDialog.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QMenu.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QPlainTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
 elif PYSIDE6:
@@ -67,6 +67,6 @@ elif PYSIDE6:
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Map DeprecationWarning methods
-    QApplication.exec_ = QApplication.exec
+    QApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)

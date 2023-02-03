@@ -17,7 +17,7 @@ if PYQT5:
 
     # Map missing/renamed methods
     QColor.toTuple = lambda self: (self.red(), self.green(), self.blue(), self.alpha())
-    QColor.isValidColorName = QColor.isValidColor
+    QColor.isValidColorName = lambda name: QColor.isValidColor(name)
     QColor.fromString = lambda name: QColor(name)
     QMouseEvent.position = lambda *args: QMouseEvent.pos(*args).toPointF()
     if not hasattr(QFontMetrics, 'horizontalAdvance'):
@@ -43,11 +43,11 @@ elif PYQT6:
 
     # Map missing/renamed methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QGuiApplication.exec_ = QGuiApplication.exec
+    QGuiApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextDocument.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
     QColor.toTuple = lambda self: (self.red(), self.green(), self.blue(), self.alpha())
     if not hasattr(QColor, 'isValidColorName'):  # appears in Qt6.4
-        QColor.isValidColorName = QColor.isValidColor
+        QColor.isValidColorName = lambda name: QColor.isValidColor(name)
     if not hasattr(QColor, 'fromString'):  # appears in Qt6.4
         QColor.fromString = lambda name: QColor(name)
 
@@ -65,10 +65,10 @@ elif PYSIDE2:
 
     # Map missing/renamed methods
     QMouseEvent.position = lambda *args: QMouseEvent.pos(*args).toPointF()
-    QDrag.exec = QDrag.exec_
-    QGuiApplication.exec = QGuiApplication.exec_
+    QDrag.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QGuiApplication.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
-    QColor.isValidColorName = QColor.isValidColor
+    QColor.isValidColorName = lambda name: QColor.isValidColor(name)
     QColor.fromString = lambda name: QColor(name)
 
 elif PYSIDE6:
@@ -81,13 +81,13 @@ elif PYSIDE6:
     # Map missing/renamed methods
     QTextDocument.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     if not hasattr(QColor, 'isValidColorName'):  # appears in Qt6.4
-        QColor.isValidColorName = QColor.isValidColor
+        QColor.isValidColorName = lambda name: QColor.isValidColor(name)
     if not hasattr(QColor, 'fromString'):  # appears in Qt6.4
         QColor.fromString = lambda name: QColor(name)
 
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QGuiApplication.exec_ = QGuiApplication.exec
+    QGuiApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMouseEvent.pos = lambda *args: QMouseEvent.position(*args)
 
 if PYSIDE2 or PYSIDE6:
