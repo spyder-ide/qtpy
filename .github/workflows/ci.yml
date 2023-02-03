@@ -49,7 +49,7 @@ jobs:
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
         - python-version: '3.11'
           pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
-          skip-pyside2: true  # Pyside2 doesn't support Python 3.11+ (and probably never will)
+          pyside2-version: '5.15'  # Python 3.11 needs 5.15+
           pyside6-version: '6.4'  # Python 3.11 needs 6.4+
         - use-conda: 'Yes'
           skip-pyqt6: true  # No PyQt6 conda packages yet
@@ -60,6 +60,9 @@ jobs:
           use-conda: 'Yes'
           pyside2-version: '5.13'  # Conda needs 5.13+ to work reliably
           pyside2-qt-version: '5.12'  # Conda only has 5.12 and 5.15, not 5.13
+        - python-version: '3.11'
+          use-conda: 'No'
+          skip-pyside2: true  # Pyside2 wheels don't support Python 3.11+
         - os: windows-latest
           python-version: '3.7'
           use-conda: 'Yes'
