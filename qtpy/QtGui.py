@@ -26,13 +26,13 @@ if PYQT5:
         QFontMetricsF.horizontalAdvance = lambda self, *args, **kwargs: self.width(*args, **kwargs)
 
     # Fix enums in PyQt5 5.9.*
-    from .enums_compat import demote_enums
     from PyQt5.QtCore import QT_VERSION_STR as __version__
-    if PYQT5 and __version__.startswith('5.9.'):
+    if __version__.startswith('5.9.'):
+        from .enums_compat import demote_enums
         from PyQt5 import QtGui
         demote_enums(QtGui)
-        del QtGui
-    del __version__, demote_enums
+        del QtGui, demote_enums
+    del __version__
 
 elif PYQT6:
     from PyQt6 import QtGui

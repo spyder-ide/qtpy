@@ -47,10 +47,10 @@ if PYQT5:
         """
         class LookUp:
             def __init__(self, lookup_location):
-                self._ll = lookup_location
+                self._lookup_location = lookup_location
 
             def __getattr__(self, what):
-                return getattr(self._ll, what)
+                return getattr(self._lookup_location, what)
 
         for class_name in dir(module):
             if class_name == 'Qt' or (class_name[0] == 'Q' and class_name[1].isupper()):

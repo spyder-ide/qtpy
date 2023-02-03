@@ -25,12 +25,11 @@ if PYQT5:
     QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
     # Fix enums in PyQt5 5.9.*
-    from .enums_compat import demote_enums
-    if PYQT5 and __version__.startswith('5.9.'):
+    if __version__.startswith('5.9.'):
+        from .enums_compat import demote_enums
         from PyQt5 import QtCore
         demote_enums(QtCore)
-        del QtCore
-    del demote_enums
+        del QtCore, demote_enums
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
