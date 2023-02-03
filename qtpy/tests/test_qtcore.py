@@ -1,7 +1,7 @@
 """Test QtCore."""
 
-from datetime import date, datetime, time
 import sys
+from datetime import datetime
 
 import pytest
 
@@ -9,12 +9,13 @@ from qtpy import (
     PYQT5,
     PYQT6,
     PYSIDE2,
-    PYSIDE6,
-    PYQT_VERSION,
     PYSIDE_VERSION,
     QtCore,
 )
 from qtpy.tests.utils import not_using_conda
+
+NOW = datetime.now()
+NOW = NOW.replace(microsecond=round(NOW.microsecond, -3))
 
 
 def test_qtmsghandler():
@@ -24,50 +25,44 @@ def test_qtmsghandler():
 
 def test_qdatetime_toPython():
     """Test QDateTime.toPython"""
-    q_date = QtCore.QDateTime.currentDateTime()
-    assert QtCore.QDateTime.toPython is not None
-    py_date = q_date.toPython()
-    assert isinstance(py_date, datetime)
+    q_datetime = QtCore.QDateTime(NOW)
+    py_date = q_datetime.toPython()
+    assert py_date == NOW
 
 
 def test_qdate_toPython():
     """Test QDate.toPython"""
-    q_date = QtCore.QDate.currentDate()
-    assert QtCore.QDate.toPython is not None
+    q_date = QtCore.QDateTime(NOW).date()
     py_date = q_date.toPython()
-    assert isinstance(py_date, date)
+    assert py_date == NOW.date()
 
 
 def test_qtime_toPython():
     """Test QTime.toPython"""
-    q_time = QtCore.QTime.currentTime()
-    assert QtCore.QTime.toPython is not None
+    q_time = QtCore.QDateTime(NOW).time()
     py_time = q_time.toPython()
-    assert isinstance(py_time, time)
+    assert py_time == NOW.time()
 
 
 def test_qdatetime_toPyDateTime():
     """Test QDateTime.toPyDateTime"""
-    q_date = QtCore.QDateTime.currentDateTime()
-    assert QtCore.QDateTime.toPyDateTime is not None
-    py_date = q_date.toPyDateTime()
-    assert isinstance(py_date, datetime)
+    q_datetime = QtCore.QDateTime(NOW)
+    py_date = q_datetime.toPyDateTime()
+    assert py_date == NOW
 
 
 def test_qdate_toPyDate():
     """Test QDate.toPyDate"""
-    q_date = QtCore.QDate.currentDate()
-    assert QtCore.QDate.toPyDate is not None
+    q_date = QtCore.QDateTime(NOW).date()
     py_date = q_date.toPyDate()
-    assert isinstance(py_date, date)
+    assert py_date == NOW.date()
 
 
 def test_qtime_toPyTime():
     """Test QTime.toPyTime"""
-    q_time = QtCore.QTime.currentTime()
-    assert QtCore.QTime.toPyTime is not None
+    q_time = QtCore.QDateTime(NOW).time()
     py_time = q_time.toPyTime()
-    assert isinstance(py_time, time)
+    assert py_time == NOW.time()
 
 
 def test_qpoint_toPointF():
