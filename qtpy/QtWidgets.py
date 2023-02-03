@@ -45,13 +45,16 @@ elif PYQT6:
     del QtWidgets
 elif PYSIDE2:
     from PySide2.QtWidgets import *
+    from .compat import possibly_static_exec_
 
     # Map missing/renamed methods
     QApplication.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QDialog.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
-    QMenu.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QMenu.exec = lambda *args, **kwargs: possibly_static_exec_(QMenu, *args, **kwargs)
     QTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
     QPlainTextEdit.print = lambda self, *args, **kwargs: self.print_(*args, **kwargs)
+
+    del possibly_static_exec_
 elif PYSIDE6:
     from PySide6.QtWidgets import *
     from PySide6.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand

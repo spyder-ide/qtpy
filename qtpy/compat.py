@@ -137,6 +137,7 @@ def getsavefilename(parent=None, caption='', basedir='', filters='',
                                 filters=filters, selectedfilter=selectedfilter,
                                 options=options)
 
+
 # =============================================================================
 def isalive(object):
     """Wrapper around sip.isdeleted and shiboken.isValid which tests whether
@@ -147,3 +148,13 @@ def isalive(object):
     elif PYSIDE2 or PYSIDE6:
         from . import shiboken
         return shiboken.isValid(object)
+
+
+# =============================================================================
+if PYSIDE2:
+    def possibly_static_exec_(cls, *args, **kwargs):
+        """ Call `self.exec_` when `self` is given or a static method otherwise. """
+        if isinstance(args[0], cls):
+            return args[0].exec_(*args[1:], **kwargs)
+        else:
+            return cls.exec_(*args, **kwargs)
