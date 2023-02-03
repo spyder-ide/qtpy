@@ -45,7 +45,13 @@ elif PYQT6:
     del QtWidgets
 elif PYSIDE2:
     from PySide2.QtWidgets import *
-    from .compat import possibly_static_exec_
+
+    def possibly_static_exec_(cls, *args, **kwargs):
+        """ Call `self.exec_` when `self` is given or a static method otherwise. """
+        if isinstance(args[0], cls):
+            return args[0].exec_(*args[1:], **kwargs)
+        else:
+            return cls.exec_(*args, **kwargs)
 
     # Map missing/renamed methods
     QApplication.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
