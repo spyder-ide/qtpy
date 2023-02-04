@@ -56,5 +56,5 @@ if PYQT5:
             if class_name == 'Qt' or (class_name[0] == 'Q' and class_name[1].isupper()):
                 klass = getattr(module, class_name)
                 for attrib_name in dir(klass):
-                    if attrib_name[0].isupper() and type(getattr(klass, attrib_name)).__name__ == 'enum''type':
+                    if attrib_name[0].isupper() and type(getattr(klass, attrib_name)).__name__ == 'enumtype':
                         setattr(klass, attrib_name, LookUp(klass))
