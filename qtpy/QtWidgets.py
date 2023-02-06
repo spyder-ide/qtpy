@@ -14,6 +14,8 @@ from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 def _possibly_static_exec_(cls, *args, **kwargs):
     """ Call `self.exec_` when `self` is given or a static method otherwise. """
     if isinstance(args[0], cls):
+        if len(args) == 1 and not kwargs:
+            return args[0].exec_()
         return args[0].exec_(*args[1:], **kwargs)
     else:
         return cls.exec_(*args, **kwargs)
@@ -22,6 +24,8 @@ def _possibly_static_exec_(cls, *args, **kwargs):
 def _possibly_static_exec(cls, *args, **kwargs):
     """ Call `self.exec` when `self` is given or a static method otherwise. """
     if isinstance(args[0], cls):
+        if len(args) == 1 and not kwargs:
+            return args[0].exec()
         return args[0].exec(*args[1:], **kwargs)
     else:
         return cls.exec(*args, **kwargs)
