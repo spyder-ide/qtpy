@@ -73,6 +73,8 @@ def test_qlibraryinfo_library_location():
     assert QtCore.QLibraryInfo.LibraryLocation is not None
 
 
+@pytest.mark.skipif(PYQT5 or PYQT6,
+                    reason="Doesn't seem to be present on PyQt5 and PyQt6")
 def test_qtextstreammanipulator_exec_():
     """Test QTextStreamManipulator.exec_"""
     QtCore.QTextStreamManipulator.exec_ is not None
