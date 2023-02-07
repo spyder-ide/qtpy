@@ -25,9 +25,6 @@ if PYQT5:
     QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
     QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
-    # Map missing methods on PyQt5 5.12
-    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 
@@ -60,7 +57,6 @@ elif PYQT6:
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
