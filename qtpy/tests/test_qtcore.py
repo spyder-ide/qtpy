@@ -71,6 +71,12 @@ def test_qline_toLineF():
     assert QtCore.QLineF.toLine is not None
 
 
+def test_qmargins_toMarginsF():
+    """Test `QMargins.toMarginsF` and `QMarginsF.toMargins`"""
+    assert QtCore.QMargins.toMarginsF is not None
+    assert QtCore.QMarginsF.toMargins is not None
+
+
 def test_qpoint_toPointF():
     """Test `QPoint.toPointF` and `QPointF.toPoint`"""
     assert QtCore.QPoint.toPointF is not None

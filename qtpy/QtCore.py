@@ -36,6 +36,8 @@ if PYQT5:
 
     # Map missing methods
     QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
+    QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
+                                                 float(self.right()), float(self.bottom()))
     QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
     QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
@@ -73,6 +75,9 @@ elif PYQT6:
 
     if not hasattr(QLine, 'toLineF'):  # appears in Qt6.4
         QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
+    if not hasattr(QMargins, 'toMarginsF'):  # appears in Qt6.4
+        QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
+                                                     float(self.right()), float(self.bottom()))
     if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
     if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
@@ -112,6 +117,8 @@ elif PYSIDE2:
     QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
+    QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
+                                                 float(self.right()), float(self.bottom()))
     QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
     QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
@@ -152,6 +159,9 @@ elif PYSIDE6:
     # Map missing methods
     if not hasattr(QLine, 'toLineF'):  # appears in Qt6.4
         QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
+    if not hasattr(QMargins, 'toMarginsF'):  # appears in Qt6.4
+        QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
+                                                     float(self.right()), float(self.bottom()))
     if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
     if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
