@@ -42,6 +42,18 @@ if PYQT5:
     QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
                                         float(self.width()), float(self.height()))
     QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
+    if not hasattr(QSize, 'grownBy'):  # appears in Qt5.14
+        QSize.grownBy = lambda self, margins: QSize(self.width() + margins.left() + margins.right(),
+                                                    self.height() + margins.top() + margins.bottom())
+    if not hasattr(QSize, 'shrunkBy'):  # appears in Qt5.14
+        QSize.shrunkBy = lambda self, margins: QSize(self.width() - margins.left() - margins.right(),
+                                                     self.height() - margins.top() - margins.bottom())
+    if not hasattr(QSizeF, 'grownBy'):  # appears in Qt5.14
+        QSizeF.grownBy = lambda self, margins: QSizeF(self.width() + margins.left() + margins.right(),
+                                                      self.height() + margins.top() + margins.bottom())
+    if not hasattr(QSizeF, 'shrunkBy'):  # appears in Qt5.14
+        QSizeF.shrunkBy = lambda self, margins: QSizeF(self.width() - margins.left() - margins.right(),
+                                                       self.height() - margins.top() - margins.bottom())
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -128,6 +140,18 @@ elif PYSIDE2:
     QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
                                         float(self.width()), float(self.height()))
     QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
+    if not hasattr(QSize, 'grownBy'):  # appears in Qt5.14
+        QSize.grownBy = lambda self, margins: QSize(self.width() + margins.left() + margins.right(),
+                                                    self.height() + margins.top() + margins.bottom())
+    if not hasattr(QSize, 'shrunkBy'):  # appears in Qt5.14
+        QSize.shrunkBy = lambda self, margins: QSize(self.width() - margins.left() - margins.right(),
+                                                     self.height() - margins.top() - margins.bottom())
+    if not hasattr(QSizeF, 'grownBy'):  # appears in Qt5.14
+        QSizeF.grownBy = lambda self, margins: QSizeF(self.width() + margins.left() + margins.right(),
+                                                      self.height() + margins.top() + margins.bottom())
+    if not hasattr(QSizeF, 'shrunkBy'):  # appears in Qt5.14
+        QSizeF.shrunkBy = lambda self, margins: QSizeF(self.width() - margins.left() - margins.right(),
+                                                       self.height() - margins.top() - margins.bottom())
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation

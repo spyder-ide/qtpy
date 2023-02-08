@@ -89,10 +89,18 @@ def test_qrect_toRectF():
     assert QtCore.QRectF.toRect is not None
 
 
-def test_qsize_toSizeF():
-    """Test `QSize.toSizeF` and `QSizeF.toSize`"""
+def test_qsize_functions():
+    """Test `QSize` functions"""
     assert QtCore.QSize.toSizeF is not None
+    assert QtCore.QSize.grownBy is not None
+    assert QtCore.QSize.shrunkBy is not None
+
+
+def test_qsizef_functions():
+    """Test `QSizeF` functions"""
     assert QtCore.QSizeF.toSize is not None
+    assert QtCore.QSizeF.grownBy is not None
+    assert QtCore.QSizeF.shrunkBy is not None
 
 
 @pytest.mark.skipif(
