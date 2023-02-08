@@ -129,14 +129,25 @@ def test_qdialog_subclass(qtbot):
     reason="Stalls on macOS CI with Python 3.7")
 def test_qmenu_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
-    assert QtWidgets.QMenu.exec_
     menu = QtWidgets.QMenu(None)
+
+    # test calls to `exec_` and `exec` of a `QMenu` instance
     QtCore.QTimer.singleShot(100, menu.close)
     menu.exec_()
-    assert QtWidgets.QMenu.exec
-    menu = QtWidgets.QMenu(None)
     QtCore.QTimer.singleShot(100, menu.close)
     menu.exec()
+
+    # test static calls to `QMenu.exec_` and `QMenu.exec`
+    QtCore.QTimer.singleShot(100, lambda: qtbot.keyClick(
+        QtWidgets.QApplication.widgetAt(1, 1),
+        QtCore.Qt.Key.Key_Escape)
+    )
+    QtWidgets.QMenu.exec_(menu.actions(), QtCore.QPoint(1, 1))
+    QtCore.QTimer.singleShot(100, lambda: qtbot.keyClick(
+        QtWidgets.QApplication.widgetAt(1, 1),
+        QtCore.Qt.Key.Key_Escape)
+    )
+    QtWidgets.QMenu.exec(menu.actions(), QtCore.QPoint(1, 1))
 
 
 def test_enum_access():
