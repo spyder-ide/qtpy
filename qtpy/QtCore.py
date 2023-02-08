@@ -36,6 +36,7 @@ if PYQT5:
 
     # Map missing methods
     QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -71,6 +72,8 @@ elif PYQT6:
 
     if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
+        QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
@@ -106,6 +109,7 @@ elif PYSIDE2:
     QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
@@ -144,6 +148,8 @@ elif PYSIDE6:
     # Map missing methods
     if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
+        QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.ItemDataRole.BackgroundRole

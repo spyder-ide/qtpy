@@ -71,6 +71,12 @@ def test_qpoint_toPointF():
     assert QtCore.QPointF.toPoint is not None
 
 
+def test_qsize_toSizeF():
+    """Test `QSize.toSizeF` and `QSizeF.toSize`"""
+    assert QtCore.QSize.toSizeF is not None
+    assert QtCore.QSizeF.toSize is not None
+
+
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
