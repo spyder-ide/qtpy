@@ -34,9 +34,6 @@ if PYQT5:
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
 
-    # Map missing methods on PyQt5 5.12
-    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-
     # Map missing methods
     QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
 
@@ -71,7 +68,7 @@ elif PYQT6:
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+
     if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
 
