@@ -115,8 +115,8 @@ def test_qlibraryinfo_path_is_location():
                     reason="Doesn't seem to be present on PyQt5 and PyQt6")
 def test_qtextstreammanipulator_exec_():
     """Test `QTextStreamManipulator.exec_` and `QTextStreamManipulator.exec`"""
-    QtCore.QTextStreamManipulator.exec_ is not None
-    QtCore.QTextStreamManipulator.exec is not None
+    assert QtCore.QTextStreamManipulator.exec_ is not None
+    assert QtCore.QTextStreamManipulator.exec is not None
 
 
 @pytest.mark.skipif(PYSIDE2 or PYQT6,
