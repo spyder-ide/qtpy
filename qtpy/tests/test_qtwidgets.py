@@ -88,11 +88,11 @@ def test_qdialog_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     assert QtWidgets.QDialog.exec_
     dialog = QtWidgets.QDialog(None)
-    QtCore.QTimer.singleShot(100, dialog.accept)
+    QtCore.QTimer.singleShot(1000, dialog.accept)
     dialog.exec_()
     assert QtWidgets.QDialog.exec
     dialog = QtWidgets.QDialog(None)
-    QtCore.QTimer.singleShot(100, dialog.accept)
+    QtCore.QTimer.singleShot(1000, dialog.accept)
     dialog.exec()
 
 
@@ -113,11 +113,11 @@ def test_qdialog_subclass(qtbot):
             self.setWindowTitle("Testing")
     assert CustomDialog.exec_
     dialog = CustomDialog()
-    QtCore.QTimer.singleShot(100, dialog.accept)
+    QtCore.QTimer.singleShot(1000, dialog.accept)
     dialog.exec_()
     assert CustomDialog.exec
     dialog = CustomDialog()
-    QtCore.QTimer.singleShot(100, dialog.accept)
+    QtCore.QTimer.singleShot(1000, dialog.accept)
     dialog.exec()
 
 
@@ -131,6 +131,7 @@ def test_qmenu_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
     window = QtWidgets.QMainWindow()  # required for static calls
     menu = QtWidgets.QMenu(window)
+    menu.addAction('qtpy')
     window.show()
 
     # test calls to `exec_` and `exec` of a `QMenu` instance
