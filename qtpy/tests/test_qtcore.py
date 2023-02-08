@@ -65,6 +65,12 @@ def test_qtime_toPyTime():
     assert py_time == NOW.time()
 
 
+def test_qline_toLineF():
+    """Test `QLine.toLineF` and `QLineF.toLine`"""
+    assert QtCore.QLine.toLineF is not None
+    assert QtCore.QLineF.toLine is not None
+
+
 def test_qpoint_toPointF():
     """Test `QPoint.toPointF` and `QPointF.toPoint`"""
     assert QtCore.QPoint.toPointF is not None
