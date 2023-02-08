@@ -39,6 +39,8 @@ if PYQT5:
     QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
                                                  float(self.right()), float(self.bottom()))
     QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
+                                        float(self.width()), float(self.height()))
     QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
     # Those are imported from `import *`
@@ -80,6 +82,9 @@ elif PYQT6:
                                                      float(self.right()), float(self.bottom()))
     if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    if not hasattr(QRect, 'toRectF'):  # appears in Qt6.4
+        QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
+                                            float(self.width()), float(self.height()))
     if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
         QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
@@ -120,6 +125,8 @@ elif PYSIDE2:
     QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
                                                  float(self.right()), float(self.bottom()))
     QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
+                                        float(self.width()), float(self.height()))
     QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
     QLibraryInfo.path = QLibraryInfo.location
@@ -164,6 +171,9 @@ elif PYSIDE6:
                                                      float(self.right()), float(self.bottom()))
     if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    if not hasattr(QRect, 'toRectF'):  # appears in Qt6.4
+        QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
+                                            float(self.width()), float(self.height()))
     if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
         QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 

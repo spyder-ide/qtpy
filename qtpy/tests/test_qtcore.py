@@ -83,6 +83,12 @@ def test_qpoint_toPointF():
     assert QtCore.QPointF.toPoint is not None
 
 
+def test_qrect_toRectF():
+    """Test `QRect.toRectF` and `QRectF.toRect`"""
+    assert QtCore.QRect.toRectF is not None
+    assert QtCore.QRectF.toRect is not None
+
+
 def test_qsize_toSizeF():
     """Test `QSize.toSizeF` and `QSizeF.toSize`"""
     assert QtCore.QSize.toSizeF is not None
