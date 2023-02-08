@@ -103,6 +103,12 @@ def test_qsizef_functions():
     assert QtCore.QSizeF.shrunkBy is not None
 
 
+def test_qmodelindex_functions():
+    """Test `QModelIndex` functions"""
+    assert QtCore.QModelIndex.siblingAtColumn is not None
+    assert QtCore.QModelIndex.siblingAtRow is not None
+
+
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")

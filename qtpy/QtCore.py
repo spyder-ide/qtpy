@@ -35,6 +35,10 @@ if PYQT5:
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
 
     # Map missing methods
+    if not hasattr(QModelIndex, 'siblingAtColumn'):  # appears in Qt5.11
+        QModelIndex.siblingAtColumn = lambda self, column: self.sibling(self.row(), column)
+    if not hasattr(QModelIndex, 'siblingAtRow'):  # appears in Qt5.11
+        QModelIndex.siblingAtRow = lambda self, row: self.sibling(row, self.column())
     QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
     QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
                                                  float(self.right()), float(self.bottom()))
