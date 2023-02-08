@@ -84,10 +84,10 @@ elif PYQT6:
     del QtCore
 
     # Alias deprecated ItemDataRole enum values removed in Qt6
-    Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
-    Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
-    # Alias for MiddleButton removed in PyQt6 but available in PyQt5, PySide2 and PySide6
-    Qt.MidButton = Qt.MiddleButton
+    Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.ItemDataRole.BackgroundRole
+    Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ItemDataRole.ForegroundRole
+    # Alias for MiddleButton removed in Qt6
+    Qt.MidButton = Qt.MouseButton.MidButton = Qt.MouseButton.MiddleButton
 
 elif PYSIDE2:
     from PySide2.QtCore import *
@@ -146,9 +146,10 @@ elif PYSIDE6:
         QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
 
     # Alias deprecated ItemDataRole enum values removed in Qt6
-    Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
-    Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
-    Qt.MidButton = Qt.MiddleButton
+    Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.ItemDataRole.BackgroundRole
+    Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ItemDataRole.ForegroundRole
+    # Alias for MiddleButton removed in Qt6
+    Qt.MidButton = Qt.MouseButton.MidButton = Qt.MouseButton.MiddleButton
 
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
