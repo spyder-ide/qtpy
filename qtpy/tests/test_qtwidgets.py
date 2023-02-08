@@ -129,7 +129,9 @@ def test_qdialog_subclass(qtbot):
     reason="Stalls on macOS CI with Python 3.7")
 def test_qmenu_functions(qtbot):
     """Test functions mapping for QtWidgets.QDialog."""
-    menu = QtWidgets.QMenu(None)
+    window = QtWidgets.QMainWindow()  # required for static calls
+    menu = QtWidgets.QMenu(window)
+    window.show()
 
     # test calls to `exec_` and `exec` of a `QMenu` instance
     QtCore.QTimer.singleShot(100, menu.close)
