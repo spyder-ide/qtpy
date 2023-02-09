@@ -254,3 +254,10 @@ elif PYSIDE6:
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
+
+
+if PYSIDE2 or PYSIDE6:
+    # PyQt5/PyQt6 only function
+    def qEnvironmentVariable(varName, defaultValue=''):
+        import os
+        return os.environ.get(varName, defaultValue)
