@@ -103,7 +103,7 @@ def test_qdate_functions():
 
 def test_qdatetime_YearRange():
     """Test `QDateTime.YearRange` and the access to `First` and `Last` of its"""
-    assert QtCore.QDateTime.YearRange.First < QtCore.QDateTime.YearRange.Last
+    assert QtCore.QDateTime.YearRange.First.value < QtCore.QDateTime.YearRange.Last.value
 
 
 def test_qline_toLineF():
