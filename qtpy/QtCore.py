@@ -62,6 +62,15 @@ if PYQT5:
         QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
     if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
         QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
+    if not hasattr(QDateTime, 'YearRange'):  # appears in Qt5.14
+        import enum
+
+        class _YearRange(enum.IntEnum):
+            First = -292275056
+            Last = +292278994
+
+        QDateTime.YearRange = _YearRange
+        del enum
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -164,6 +173,15 @@ elif PYSIDE2:
         QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
     if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
         QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
+    if not hasattr(QDateTime, 'YearRange'):  # appears in Qt5.14
+        import enum
+
+        class _YearRange(enum.IntEnum):
+            First = -292275056
+            Last = +292278994
+
+        QDateTime.YearRange = _YearRange
+        del enum
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation

@@ -83,6 +83,11 @@ def test_qdate_functions():
     assert q_date.endOfDay(spec, offset) == QtCore.QDateTime(q_date, QtCore.QTime(23, 59, 59, 999), spec, offset)
 
 
+def test_qdatetime_YearRange():
+    """Test `QDateTime.YearRange` and the access to `First` and `Last` of its"""
+    assert QtCore.QDateTime.YearRange.First < QtCore.QDateTime.YearRange.Last
+
+
 def test_qline_toLineF():
     """Test `QLine.toLineF` and `QLineF.toLine`"""
     assert QtCore.QLine.toLineF is not None
