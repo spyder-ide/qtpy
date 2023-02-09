@@ -7,6 +7,7 @@
 # -----------------------------------------------------------------------------
 
 """Provides QtCore classes and functions."""
+import enum
 from typing import TYPE_CHECKING
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
@@ -66,15 +67,14 @@ if PYQT5:
         QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
     if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
         QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
-    if not hasattr(QDateTime, 'YearRange'):  # appears in Qt5.14
-        import enum
+    if (not hasattr(QDateTime, 'YearRange')  # appears in Qt5.14
+            or not isinstance(QDateTime.YearRange, enum.EnumMeta)):
 
         class _YearRange(enum.IntEnum):
             First = -292275056
             Last = +292278994
 
         QDateTime.YearRange = _YearRange
-        del enum
     if not hasattr(QByteArray, 'chopped'):  # appears in Qt5.10
         QByteArray.chopped = lambda self, length: QByteArray(self.data()[:-length])
     if not hasattr(QByteArray, 'isUpper'):  # appears in Qt5.12
@@ -183,15 +183,13 @@ elif PYSIDE2:
         QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
     if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
         QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
-    if not hasattr(QDateTime, 'YearRange'):  # appears in Qt5.14
-        import enum
-
+    if (not hasattr(QDateTime, 'YearRange')  # appears in Qt5.14
+            or not isinstance(QDateTime.YearRange, enum.EnumMeta)):
         class _YearRange(enum.IntEnum):
             First = -292275056
             Last = +292278994
 
         QDateTime.YearRange = _YearRange
-        del enum
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
@@ -261,3 +259,7 @@ if PYSIDE2 or PYSIDE6:
     def qEnvironmentVariable(varName, defaultValue=''):
         import os
         return os.environ.get(varName, defaultValue)
+
+
+# clean up the imports not for export
+del enum, TYPE_CHECKING
