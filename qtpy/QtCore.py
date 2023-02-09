@@ -75,6 +75,12 @@ if PYQT5:
 
         QDateTime.YearRange = _YearRange
         del enum
+    if not hasattr(QByteArray, 'chopped'):  # appears in Qt5.10
+        QByteArray.chopped = lambda self, length: QByteArray(self.data()[:-length])
+    if not hasattr(QByteArray, 'isUpper'):  # appears in Qt5.12
+        QByteArray.isUpper = lambda self: self.data().isupper()
+    if not hasattr(QByteArray, 'isLower'):  # appears in Qt5.12
+        QByteArray.isLower = lambda self: self.data().islower()
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR

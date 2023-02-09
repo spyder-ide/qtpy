@@ -30,6 +30,17 @@ def test_qEnvironmentVariable():
     assert QtCore.qEnvironmentVariable('PATH') == os.environ.get('PATH', '')
 
 
+def test_qbytearray_functions():
+    """Text `QByteArray.chopped`, `QByteArray.isUpper`, and `QByteArray.isLower`"""
+    assert QtCore.QByteArray(b'123456789').chopped(3) == QtCore.QByteArray(b'123456')
+    assert not QtCore.QByteArray(b'spam').isUpper()
+    assert not QtCore.QByteArray(b'Spam').isUpper()
+    assert QtCore.QByteArray(b'SPAM').isUpper()
+    assert QtCore.QByteArray(b'spam').isLower()
+    assert not QtCore.QByteArray(b'Spam').isLower()
+    assert not QtCore.QByteArray(b'SPAM').isLower()
+
+
 def test_qdatetime_toPython():
     """Test QDateTime.toPython"""
     q_datetime = QtCore.QDateTime(NOW)
