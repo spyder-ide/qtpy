@@ -65,6 +65,24 @@ def test_qtime_toPyTime():
     assert py_time == NOW.time()
 
 
+def test_qdate_functions():
+    """Test `QDate.startOfDay` and `QDate.endOfDay`"""
+    q_date = QtCore.QDateTime(NOW).date()
+    time_zone = QtCore.QTimeZone(QtCore.QByteArray(b'America/Chicago'))
+    spec = QtCore.Qt.TimeSpec.UTC
+    offset = 314
+
+    assert q_date.startOfDay() == QtCore.QDateTime(q_date)
+    assert q_date.startOfDay(time_zone) == QtCore.QDateTime(q_date, QtCore.QTime(0, 0), time_zone)
+    assert q_date.startOfDay(spec) == QtCore.QDateTime(q_date, QtCore.QTime(0, 0), spec)
+    assert q_date.startOfDay(spec, offset) == QtCore.QDateTime(q_date, QtCore.QTime(0, 0), spec, offset)
+
+    assert q_date.endOfDay() == QtCore.QDateTime(q_date, QtCore.QTime(23, 59, 59, 999))
+    assert q_date.endOfDay(time_zone) == QtCore.QDateTime(q_date, QtCore.QTime(23, 59, 59, 999), time_zone)
+    assert q_date.endOfDay(spec) == QtCore.QDateTime(q_date, QtCore.QTime(23, 59, 59, 999), spec)
+    assert q_date.endOfDay(spec, offset) == QtCore.QDateTime(q_date, QtCore.QTime(23, 59, 59, 999), spec, offset)
+
+
 def test_qline_toLineF():
     """Test `QLine.toLineF` and `QLineF.toLine`"""
     assert QtCore.QLine.toLineF is not None

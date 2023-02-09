@@ -58,6 +58,10 @@ if PYQT5:
     if not hasattr(QSizeF, 'shrunkBy'):  # appears in Qt5.14
         QSizeF.shrunkBy = lambda self, margins: QSizeF(self.width() - margins.left() - margins.right(),
                                                        self.height() - margins.top() - margins.bottom())
+    if not hasattr(QDate, 'startOfDay'):  # appears in Qt5.14
+        QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
+    if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
+        QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -156,6 +160,10 @@ elif PYSIDE2:
     if not hasattr(QSizeF, 'shrunkBy'):  # appears in Qt5.14
         QSizeF.shrunkBy = lambda self, margins: QSizeF(self.width() - margins.left() - margins.right(),
                                                        self.height() - margins.top() - margins.bottom())
+    if not hasattr(QDate, 'startOfDay'):  # appears in Qt5.14
+        QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
+    if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
+        QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
