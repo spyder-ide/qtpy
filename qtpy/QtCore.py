@@ -30,6 +30,10 @@ if PYQT5:
         from PyQt5 import QtCore
         demote_enums(QtCore)
         del QtCore, demote_enums
+    if 'qEnvironmentVariable' not in locals():  # appears in Qt5.10
+        def qEnvironmentVariable(varName, defaultValue=''):
+            import os
+            return os.environ.get(varName, defaultValue)
 
     QLibraryInfo.path = QLibraryInfo.location
     QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation

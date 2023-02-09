@@ -23,6 +23,13 @@ def test_qtmsghandler():
     assert QtCore.qInstallMessageHandler is not None
 
 
+def test_qEnvironmentVariable():
+    """Test `QtCore.qEnvironmentVariable`"""
+    import os
+
+    assert QtCore.qEnvironmentVariable('PATH') == os.environ.get('PATH', '')
+
+
 def test_qdatetime_toPython():
     """Test QDateTime.toPython"""
     q_datetime = QtCore.QDateTime(NOW)
