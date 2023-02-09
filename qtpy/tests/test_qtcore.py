@@ -90,7 +90,7 @@ def test_qdate_functions():
     spec = QtCore.Qt.TimeSpec.UTC
     offset = 314
 
-    assert q_date.startOfDay() == QtCore.QDateTime(q_date)
+    assert q_date.startOfDay() == QtCore.QDateTime(q_date, QtCore.QTime(0, 0))
     assert q_date.startOfDay(time_zone) == QtCore.QDateTime(q_date, QtCore.QTime(0, 0), time_zone)
     assert q_date.startOfDay(spec) == QtCore.QDateTime(q_date, QtCore.QTime(0, 0), spec)
     assert q_date.startOfDay(spec, offset) == QtCore.QDateTime(q_date, QtCore.QTime(0, 0), spec, offset)
