@@ -103,10 +103,7 @@ def test_qdate_functions():
 
 def test_qdatetime_YearRange():
     """Test `QDateTime.YearRange` and the access to `First` and `Last` of its"""
-    import enum
-
-    if isinstance(QtCore.QDateTime.YearRange, enum.EnumMeta):
-        assert QtCore.QDateTime.YearRange.First.value < QtCore.QDateTime.YearRange.Last.value
+    assert QtCore.QDateTime.YearRange.First.value < QtCore.QDateTime.YearRange.Last.value
 
 
 def test_qline_toLineF():
