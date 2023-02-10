@@ -275,6 +275,42 @@ if (not hasattr(QLocale, 'toULong')  # Qt5 < 5.13
     QLocale.toULong = lambda self, s: self.toULongLong(s)
 
 
+if not hasattr(QRegularExpression, 'anchoredPattern'):  # Qt5<5.12
+    QRegularExpression.anchoredPattern = lambda pattern: r'\A(?:' + pattern + r')\z'
+
+if not hasattr(QRegularExpression, 'wildcardToRegularExpression'):  # Qt5<5.12
+    def _wildcardToRegularExpression(pattern: str):
+        res = r'\A(?:'
+        i = 0
+        while i < len(pattern):
+            c = pattern[i]
+            if c == '?':
+                res += '[^/]'
+            elif c == '*':
+                res += '[^/]*'
+            elif c == '[':
+                res += c
+                i += 1
+                if i >= len(pattern):
+                    break
+                if pattern[i] == '!':
+                    res += '^'
+                    i += 1
+                while i < len(pattern) and pattern[i] != ']':
+                    res += pattern[i]
+                    i += 1
+                if i >= len(pattern):
+                    break
+                res += pattern[i]
+            else:
+                res += c
+            i += 1
+        res += r')\z'
+        return res
+
+    QRegularExpression.wildcardToRegularExpression = _wildcardToRegularExpression
+
+
 if (PYQT5 or PYSIDE2) and parse(__version__) < parse('5.15'):
 
     if parse(__version__) < parse('5.10'):
