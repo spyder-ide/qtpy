@@ -259,3 +259,7 @@ if PYSIDE2 or PYSIDE6:
     def qEnvironmentVariable(varName, defaultValue=''):
         import os
         return os.environ.get(varName, defaultValue)
+
+
+# clean up the imports not for export
+del enum, TYPE_CHECKING
