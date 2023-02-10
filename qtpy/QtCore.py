@@ -289,9 +289,9 @@ if not hasattr(QRegularExpression, 'wildcardToRegularExpression'):  # Qt5<5.12
         while i < len(pattern):
             c = pattern[i]
             if c == '?':
-                res += r'[^/\]' if win else '[^/]'
+                res += r'[^/\\]' if win else '[^/]'
             elif c == '*':
-                res += r'[^/\]*' if win else '[^/]*'
+                res += r'[^/\\]*' if win else '[^/]*'
             elif c == '[':
                 res += c
                 i += 1
