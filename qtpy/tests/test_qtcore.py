@@ -10,6 +10,7 @@ from qtpy import (
     PYQT5,
     PYQT6,
     PYSIDE2,
+    PYSIDE6,
     PYSIDE_VERSION,
     QtCore,
 )
@@ -104,7 +105,7 @@ def test_qdate_functions():
 
 def test_qdatetime_YearRange():
     """Test `QDateTime.YearRange` and the access to `First` and `Last` of its"""
-    if parse(QtCore.__version__) < parse('6.4'):
+    if PYSIDE6 and parse(QtCore.__version__) < parse('6.4'):
         assert QtCore.QDateTime.YearRange.First < QtCore.QDateTime.YearRange.Last
     else:
         assert QtCore.QDateTime.YearRange.First.value < QtCore.QDateTime.YearRange.Last.value
