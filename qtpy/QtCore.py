@@ -8,6 +8,7 @@
 
 """Provides QtCore classes and functions."""
 import enum
+from packaging.version import parse
 from typing import TYPE_CHECKING
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
@@ -253,6 +254,12 @@ elif PYSIDE6:
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
 
+    # upgrade enums for PySide6<6.4
+    if parse(__version__) < parse('6.4'):
+        from .enums_compat import upgrade_enums
+
+        upgrade_enums(PySide6.QtCore)
+
 
 if PYSIDE2 or PYSIDE6:
     # PyQt5/PyQt6 only function
@@ -262,4 +269,4 @@ if PYSIDE2 or PYSIDE6:
 
 
 # clean up the imports not for export
-del enum, TYPE_CHECKING
+del enum, parse, TYPE_CHECKING
