@@ -267,7 +267,7 @@ if PYSIDE2 or PYSIDE6:
 
 if (PYQT5 or PYSIDE2) and parse(__version__) < parse('5.15'):
 
-    if parse(QtCore.QT_VERSION_STR) < parse('5.10'):
+    if parse(__version__) < parse('5.10'):
         class _Base64Option(enum.IntFlag):
             Base64Encoding = 0
             Base64UrlEncoding = 1
