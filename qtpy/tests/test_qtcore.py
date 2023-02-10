@@ -4,6 +4,7 @@ import sys
 from datetime import datetime
 
 import pytest
+from packaging.version import parse
 
 from qtpy import (
     PYQT5,
@@ -103,7 +104,10 @@ def test_qdate_functions():
 
 def test_qdatetime_YearRange():
     """Test `QDateTime.YearRange` and the access to `First` and `Last` of its"""
-    assert QtCore.QDateTime.YearRange.First.value < QtCore.QDateTime.YearRange.Last.value
+    if parse(QtCore.__version__) < parse('6.4'):
+        assert QtCore.QDateTime.YearRange.First < QtCore.QDateTime.YearRange.Last
+    else:
+        assert QtCore.QDateTime.YearRange.First.value < QtCore.QDateTime.YearRange.Last.value
 
 
 def test_qline_toLineF():
