@@ -187,8 +187,10 @@ def test_qregularexpression_wildcardToRegularExpression():
     """Test `QRegularExpression.anchoredPattern` and `QRegularExpression.wildcardToRegularExpression`"""
     assert (QtCore.QRegularExpression.anchoredPattern('c[^/]*[^/][abc][a-c][^abc][^a-c]')
             == r'\A(?:c[^/]*[^/][abc][a-c][^abc][^a-c])\z')
+    # `QRegularExpression.wildcardToRegularExpression` is platform-specific
+    win = sys.platform.startswith('win')
     assert (QtCore.QRegularExpression.wildcardToRegularExpression('c*?[abc][a-c][!abc][!a-c]')
-            == r'\A(?:c[^/]*[^/][abc][a-c][^abc][^a-c])\z')
+            == (r'\A(?:c[^/\]*[^/\][abc][a-c][^abc][^a-c])\z' if win else r'\A(?:c[^/]*[^/][abc][a-c][^abc][^a-c])\z'))
 
 
 @pytest.mark.skipif(
