@@ -280,14 +280,18 @@ if not hasattr(QRegularExpression, 'anchoredPattern'):  # Qt5<5.12
 
 if not hasattr(QRegularExpression, 'wildcardToRegularExpression'):  # Qt5<5.12
     def _wildcardToRegularExpression(pattern: str):
+        import sys
+
+        win = sys.platform.startswith('win')
+
         res = r'\A(?:'
         i = 0
         while i < len(pattern):
             c = pattern[i]
             if c == '?':
-                res += '[^/]'
+                res += r'[^/\]' if win else '[^/]'
             elif c == '*':
-                res += '[^/]*'
+                res += r'[^/\]*' if win else '[^/]*'
             elif c == '[':
                 res += c
                 i += 1
