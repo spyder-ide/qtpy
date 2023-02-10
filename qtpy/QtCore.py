@@ -10,7 +10,11 @@
 import enum
 from typing import TYPE_CHECKING
 
+from packaging.version import parse
+
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
+
+__version__ = ''
 
 if PYQT5:
     from PyQt5.QtCore import *
@@ -261,5 +265,126 @@ if PYSIDE2 or PYSIDE6:
         return os.environ.get(varName, defaultValue)
 
 
+if (PYQT5 or PYSIDE2) and parse(__version__) < parse('5.15'):
+
+    if parse(QtCore.QT_VERSION_STR) < parse('5.10'):
+        class _Base64Option(enum.IntFlag):
+            Base64Encoding = 0
+            Base64UrlEncoding = 1
+            KeepTrailingEquals = 0
+            OmitTrailingEquals = 2
+
+        QByteArray.Base64Option = _Base64Option
+
+    QByteArray.Base64Option.IgnoreBase64DecodingErrors = 0
+    QByteArray.Base64Option.AbortOnBase64DecodingErrors = 4
+
+
+    class _Base64DecodingStatus(enum.Enum):
+        Ok = 0
+        IllegalInputLength = 1
+        IllegalCharacter = 2
+        IllegalPadding = 3
+
+    QByteArray.Base64DecodingStatus = _Base64DecodingStatus
+
+
+    class FromBase64Result:
+        """\
+QByteArray.FromBase64Result()
+QByteArray.FromBase64Result(QByteArray.FromBase64Result)\
+"""
+
+        def __init__(self, decodingStatus, decoded):
+            self._decodingStatus = decodingStatus
+            self._decoded = decoded
+
+        @property
+        def decodingStatus(self):
+            return self._decodingStatus
+
+        @property
+        def decoded(self):
+            return self._decoded
+
+        def __bool__(self):
+            return self._decodingStatus == QByteArray.Base64DecodingStatus.Ok
+
+        def __eq__(self, other):
+            return self._decodingStatus == other.decodingStatus and self._decoded == other.decoded
+
+
+    def _fromBase64Encoding(base64, options=QByteArray.Base64Option.Base64Encoding):
+        import binascii
+        import string
+        from base64 import b64decode
+
+        if isinstance(base64, QByteArray):
+            base64 = base64.data()
+
+        if not base64:
+            return FromBase64Result(QByteArray.Base64DecodingStatus.Ok, QByteArray(b''))
+
+        if options & QByteArray.Base64Option.Base64UrlEncoding:
+            _urlsafe_decode_translation = bytes.maketrans(b'-_', b'+/')
+            base64 = base64.translate(_urlsafe_decode_translation)
+
+        validate = bool(options & QByteArray.Base64Option.AbortOnBase64DecodingErrors)
+
+        if options & QByteArray.Base64Option.OmitTrailingEquals:
+            if (len(base64) % 4) and base64.endswith(b'=' * (len(base64) % 4)):
+                base64 = base64[:-(len(base64) % 4)]
+        elif validate and len(base64) - len(base64.rstrip(b'=')) > 2:
+            return FromBase64Result(QByteArray.Base64DecodingStatus.IllegalPadding, QByteArray(b''))
+
+        if not validate:
+            if len(base64) % 4:  # number of data characters cannot be not a multiple of 4
+                base64 = base64[:-(len(base64) % 4)]
+            while base64:
+                try:
+                    b64decode(base64, validate=True)
+                except binascii.Error as ex:
+                    if 'Incorrect padding' in ex.args[0]:
+                        base64 += b'='
+                    elif 'Leading padding not allowed' in ex.args[0]:
+                        base64 = base64.lstrip(b'=')
+                    elif ('Discontinuous padding not allowed' in ex.args[0]
+                          or 'Excess data after padding' in ex.args[0]):
+                        base64 = base64.replace(b'=', b'', 1)
+                    elif 'Only base64 data is allowed' in ex.args[0]:
+                        if options & QByteArray.Base64Option.Base64UrlEncoding:
+                            _legal_base64_characters = (string.ascii_letters + string.digits + '-_=').encode('ascii')
+                        else:
+                            _legal_base64_characters = (string.ascii_letters + string.digits + '+/=').encode('ascii')
+                        base64 = bytes(b for b in base64 if b in _legal_base64_characters)
+                    else:
+                        break
+                else:
+                    break
+        elif len(base64) % 4:  # number of data characters cannot be not a multiple of 4
+            return FromBase64Result(QByteArray.Base64DecodingStatus.IllegalInputLength, QByteArray(b''))
+
+        try:
+            return FromBase64Result(QByteArray.Base64DecodingStatus.Ok,
+                                    QByteArray(b64decode(base64, validate=validate)))
+        except binascii.Error as ex:
+            status = QByteArray.Base64DecodingStatus.Ok
+            if 'number of data characters' in ex.args[0]:
+                status = QByteArray.Base64DecodingStatus.IllegalInputLength
+            if 'Only base64 data is allowed' in ex.args[0]:
+                status = QByteArray.Base64DecodingStatus.IllegalCharacter
+            if 'padding' in ex.args[0]:
+                status = QByteArray.Base64DecodingStatus.IllegalPadding
+            if 'Non-base64 digit found' in ex.args[0]:
+                if len(base64) - len(base64.rstrip(b'=')) > 2:
+                    status = QByteArray.Base64DecodingStatus.IllegalPadding
+                else:
+                    status = QByteArray.Base64DecodingStatus.IllegalCharacter
+            return FromBase64Result(status, QByteArray(b''))
+
+
+    QByteArray.fromBase64Encoding = _fromBase64Encoding
+
+
 # clean up the imports not for export
-del enum, TYPE_CHECKING
+del enum, TYPE_CHECKING, parse

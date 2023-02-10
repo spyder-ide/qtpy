@@ -43,6 +43,28 @@ def test_qbytearray_functions():
     assert not QtCore.QByteArray(b'SPAM').isLower()
 
 
+def test_qbytearray_base64_functions():
+    """Test `QByteArray.Base64Option`, `QByteArray.Base64DecodingStatus`, and `QByteArray.fromBase64Encoding`"""
+    # NB: store the result of `QByteArray.fromBase64Encoding` into a variable to avoid
+    #  RuntimeError: Internal C++ object (PySide2.QtCore.QByteArray) already deleted.
+    #  on PySide2>=5.15 on Python3.11
+    decoding_result = QtCore.QByteArray.fromBase64Encoding(b'MTIzNDU2Nzg5')
+    assert decoding_result.decodingStatus == QtCore.QByteArray.Base64DecodingStatus.Ok
+    assert decoding_result.decoded == QtCore.QByteArray(b'123456789')
+    decoding_result = QtCore.QByteArray.fromBase64Encoding(b'MTIzNDU2Nzg5=')
+    assert decoding_result.decodingStatus == QtCore.QByteArray.Base64DecodingStatus.Ok
+    assert decoding_result.decoded == QtCore.QByteArray(b'123456789')
+    decoding_result = QtCore.QByteArray.fromBase64Encoding(b'MTIzNDU2Nzg5=',
+                                                           QtCore.QByteArray.Base64Option.AbortOnBase64DecodingErrors)
+    assert decoding_result.decodingStatus == QtCore.QByteArray.Base64DecodingStatus.IllegalInputLength
+    decoding_result = QtCore.QByteArray.fromBase64Encoding(b'MTIzNDU2Nzg5====',
+                                                           QtCore.QByteArray.Base64Option.AbortOnBase64DecodingErrors)
+    assert decoding_result.decodingStatus == QtCore.QByteArray.Base64DecodingStatus.IllegalPadding
+    decoding_result = QtCore.QByteArray.fromBase64Encoding(b'MTIzNDU2Nzg5:-)=',
+                                                           QtCore.QByteArray.Base64Option.AbortOnBase64DecodingErrors)
+    assert decoding_result.decodingStatus == QtCore.QByteArray.Base64DecodingStatus.IllegalCharacter
+
+
 def test_qdatetime_toPython():
     """Test QDateTime.toPython"""
     q_datetime = QtCore.QDateTime(NOW)
