@@ -9,7 +9,7 @@
 Compatibility functions for scoped and unscoped enum access.
 """
 
-from . import PYQT5, PYQT6, PYSIDE6
+from . import PYQT5, PYQT6
 
 if PYQT6:
     import enum
@@ -58,20 +58,3 @@ if PYQT5:
                 for attrib_name in dir(klass):
                     if attrib_name[0].isupper() and type(getattr(klass, attrib_name)).__name__ == 'enumtype':
                         setattr(klass, attrib_name, LookUp(klass))
-
-
-if PYSIDE6:
-    def upgrade_enums(module):
-        """
-        Make enums compatible with PySide6.4.
-        """
-        import enum
-
-        for class_name in dir(module):
-            if class_name == 'Qt' or (class_name[0] == 'Q' and class_name[1].isupper()):
-                klass = getattr(module, class_name)
-                for attrib_name in dir(klass):
-                    if (attrib_name[0].isupper()
-                            and getattr(klass, attrib_name).__class__.__module__ == 'Shiboken'
-                            and getattr(klass, attrib_name).__class__.__name__ == 'EnumMeta'):
-                        setattr(klass, attrib_name, enum.IntEnum(attrib_name, getattr(klass, attrib_name).values))
