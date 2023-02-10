@@ -306,6 +306,8 @@ if not hasattr(QRegularExpression, 'wildcardToRegularExpression'):  # Qt5<5.12
                 if i >= len(pattern):
                     break
                 res += pattern[i]
+            elif c == '\\':
+                res += r'\\'
             else:
                 res += c
             i += 1
