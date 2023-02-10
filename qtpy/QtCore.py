@@ -265,6 +265,16 @@ if PYSIDE2 or PYSIDE6:
         return os.environ.get(varName, defaultValue)
 
 
+if (not hasattr(QLocale, 'toLong')  # Qt5 < 5.13
+        or isinstance(QLocale('C').toLong('42'), int)):  # all PySide6 up to 6.4.2 for now
+    # follow https://bugreports.qt.io/browse/PYSIDE-2226
+    QLocale.toLong = lambda self, s: self.toLongLong(s)
+if (not hasattr(QLocale, 'toULong')  # Qt5 < 5.13
+        or isinstance(QLocale('C').toULong('42'), int)):  # all PySide6 up to 6.4.2 for now
+    # follow https://bugreports.qt.io/browse/PYSIDE-2226
+    QLocale.toULong = lambda self, s: self.toULongLong(s)
+
+
 if (PYQT5 or PYSIDE2) and parse(__version__) < parse('5.15'):
 
     if parse(__version__) < parse('5.10'):

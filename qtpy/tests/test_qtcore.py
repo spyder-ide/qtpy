@@ -171,6 +171,12 @@ def test_qsizef_functions():
     assert QtCore.QSizeF.shrunkBy is not None
 
 
+def test_qlocale_toLong():
+    """Test `QLocale.toLong` and `QLocale.toULong`"""
+    assert QtCore.QLocale('C').toLong('42') == (42, True)
+    assert QtCore.QLocale('C').toULong('42') == (42, True)
+
+
 def test_qmodelindex_functions():
     """Test `QModelIndex` functions"""
     assert QtCore.QModelIndex.siblingAtColumn is not None
