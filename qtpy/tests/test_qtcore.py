@@ -190,7 +190,7 @@ def test_qregularexpression_wildcardToRegularExpression():
     # `QRegularExpression.wildcardToRegularExpression` is platform-specific
     win = sys.platform.startswith('win')
     assert (QtCore.QRegularExpression.wildcardToRegularExpression('c*?[abc][a-c][!abc][!a-c]\\')
-            == (r'\A(?:c[^/\\]*[^/\\][abc][a-c][^abc][^a-c]\\)\z' if win
+            == (r'\A(?:c[^/\\]*[^/\\][abc][a-c][^abc][^a-c][/\\])\z' if win
                 else r'\A(?:c[^/]*[^/][abc][a-c][^abc][^a-c]\\)\z'))
 
 
