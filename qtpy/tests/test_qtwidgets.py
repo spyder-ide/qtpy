@@ -155,10 +155,19 @@ def test_qmenu_functions(qtbot):
     QtWidgets.QMenu.exec(menu.actions(), QtCore.QPoint(1, 1))
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_QWizardPage_registerField_changedSignal():
     """Test that `changedSignal` can be a `str`"""
-    widget: QtWidgets.QWidget = QtWidgets.QWidget()
-    QtWidgets.QWizardPage().registerField('title', widget, 'windowTitle', 'widget.windowTitleChanged')
+    class Spam(QtWidgets.QWizardPage):
+        def __init__(self):
+            super().__init__()
+            self.widget = QtWidgets.QWidget(self)
+            self.registerField('title', self.widget, 'windowTitle', 'self.widget.windowTitleChanged')
+
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    Spam()
 
 
 def test_enum_access():
