@@ -42,6 +42,14 @@ if PYQT5:
         demote_enums(QtWidgets)
         del QtWidgets, demote_enums
     del __version__
+
+    # Map missing methods
+    if not hasattr(QLineEdit, 'selectionEnd'):  # appears in Qt5.10
+        QLineEdit.selectionEnd = lambda self: ((self.selectionStart() + len(self.selectedText()))
+                                               if self.selectedText() else -1)
+    if not hasattr(QLineEdit, 'selectionLength'):  # appears in Qt5.10
+        QLineEdit.selectionLength = lambda self: len(self.selectedText())
+
 elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *
