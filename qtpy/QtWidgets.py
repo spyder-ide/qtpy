@@ -50,6 +50,15 @@ if PYQT5:
     if not hasattr(QLineEdit, 'selectionLength'):  # appears in Qt5.10
         QLineEdit.selectionLength = lambda self: len(self.selectedText())
 
+    # Allow `changedSignal` to be a `str`, like in `PySide2` and `PySide6`
+    from PyQt5.QtWidgets import QWizardPage as __QWizardPage
+
+    class QWizardPage(__QWizardPage):
+        def registerField(self, name, widget, property=None, changedSignal=None) -> None:
+            if isinstance(changedSignal, str):
+                changedSignal = eval(changedSignal)
+            super().registerField(name, widget, property, changedSignal)
+
 elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *
@@ -72,6 +81,16 @@ elif PYQT6:
     from .enums_compat import promote_enums
     promote_enums(QtWidgets)
     del QtWidgets
+
+    # Allow `changedSignal` to be a `str`, like in `PySide2` and `PySide6`
+    from PyQt6.QtWidgets import QWizardPage as __QWizardPage
+
+    class QWizardPage(__QWizardPage):
+        def registerField(self, name, widget, property=None, changedSignal=None) -> None:
+            if isinstance(changedSignal, str):
+                changedSignal = eval(changedSignal)
+            super().registerField(name, widget, property, changedSignal)
+
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 
