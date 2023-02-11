@@ -36,6 +36,8 @@ def test_qtextedit_functions(qtbot, pdf_writer):
 def test_qlineedit_functions():
     """Test functions mapping for QtWidgets.QLineEdit"""
     assert QtWidgets.QLineEdit.getTextMargins
+    assert QtWidgets.QLineEdit.selectionEnd
+    assert QtWidgets.QLineEdit.selectionLength
 
 
 def test_what_moved_to_qtgui_in_qt6():
