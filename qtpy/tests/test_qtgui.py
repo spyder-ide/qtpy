@@ -47,6 +47,11 @@ def test_qcolor_functions():
     assert QtGui.QColor.fromString('#008000').isValid()
 
 
+def test_qimage_functions():
+    """Test functions mapping for QtGui.QImage."""
+    assert QtGui.QImage.sizeInBytes is not None
+
+
 def test_qmouseevent_functions():
     """Test functions mapping for QtGui.QMouseEvent."""
     from qtpy import QtCore

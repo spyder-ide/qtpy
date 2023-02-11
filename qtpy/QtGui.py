@@ -24,6 +24,8 @@ if PYQT5:
         QFontMetrics.horizontalAdvance = lambda self, *args, **kwargs: self.width(*args, **kwargs)
     if not hasattr(QFontMetricsF, 'horizontalAdvance'):
         QFontMetricsF.horizontalAdvance = lambda self, *args, **kwargs: self.width(*args, **kwargs)
+    if not hasattr(QImage, 'sizeInBytes'):  # appears in Qt5.10
+        QImage.sizeInBytes = lambda self: self.numBytes() if hasattr(self, 'numBytes') else self.byteCount()
 
     # Fix enums in PyQt5 5.9.*
     from PyQt5.QtCore import QT_VERSION_STR as __version__
