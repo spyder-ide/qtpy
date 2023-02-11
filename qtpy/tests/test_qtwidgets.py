@@ -158,9 +158,9 @@ def test_qmenu_functions(qtbot):
 def test_QWizardPage_registerField_changedSignal():
     """Test that `changedSignal` can be a `str`"""
     class Spam(QtWidgets.QWizardPage):
-        def __init__(self, parent=None):
-            super().__init__(parent)
-            self.widget = QtWidgets.QWidget()
+        def __init__(self):
+            super().__init__()
+            self.widget = QtWidgets.QWidget(self)
             self.registerField('title', self.widget, 'windowTitle', 'self.widget.windowTitleChanged')
 
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
