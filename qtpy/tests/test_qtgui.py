@@ -120,6 +120,7 @@ def test_enum_access():
     assert QtGui.QFont.AllUppercase == QtGui.QFont.Capitalization.AllUppercase
     assert QtGui.QIcon.Normal == QtGui.QIcon.Mode.Normal
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
+    assert QtGui.QColorConstants.Black == QtGui.QColorConstants.Svg.black
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
