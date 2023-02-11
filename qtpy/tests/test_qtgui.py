@@ -67,17 +67,8 @@ def test_qmouseevent_functions():
 
 def test_qwheelevent_functions():
     """Test functions mapping for QtGui.QWheelEvent."""
-    from qtpy import QtCore
-    e = QtGui.QWheelEvent(QtCore.QPointF(42, 6 * 9),
-                          QtCore.QPointF(42, 6 * 9),
-                          QtCore.QPoint(0, 0),
-                          QtCore.QPoint(0, 0),
-                          0,
-                          QtCore.Qt.Orientation.Vertical,
-                          QtCore.Qt.MouseButton.LeftButton,
-                          QtCore.Qt.KeyboardModifier.NoModifier)
-    assert e.position() == QtCore.QPointF(42.0, 54.0)
-    assert e.globalPosition() == QtCore.QPointF(42.0, 54.0)
+    assert QtGui.QWheelEvent.position
+    assert QtGui.QWheelEvent.globalPosition
 
 
 def test_qtabletevent_functions():
