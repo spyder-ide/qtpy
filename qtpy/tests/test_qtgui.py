@@ -75,6 +75,11 @@ def test_qwheelevent_functions():
     assert e.globalPosition() == QtCore.QPointF(42.0, 54.0)
 
 
+def test_qtabletevent_functions():
+    """Test functions mapping for QtGui.QTabletEvent."""
+    assert QtGui.QTabletEvent.deviceType is not None
+
+
 def test_qguiapplication_functions():
     """Test functions mapping for QtGui.QGuiApplication."""
     assert QtGui.QGuiApplication.exec_ is not None

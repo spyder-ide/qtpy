@@ -126,3 +126,5 @@ if PYQT5 or PYSIDE2:
         QWheelEvent.position = lambda self: self.posF()
     if not hasattr(QWheelEvent, 'globalPosition'):  # appears in Qt 5.14
         QWheelEvent.globalPosition = lambda self: self.globalPosF()
+    if not hasattr(QTabletEvent, 'deviceType'):  # appears in Qt 5.15
+        QTabletEvent.deviceType = lambda self: self.device()
