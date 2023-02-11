@@ -119,3 +119,10 @@ if PYSIDE2 or PYSIDE6:
     ) -> bool:
         return movePosition(self, operation, mode, n)
     QTextCursor.movePosition = movePositionPatched
+
+
+if PYQT5 or PYSIDE2:
+    if not hasattr(QWheelEvent, 'position'):  # appears in Qt 5.14
+        QWheelEvent.position = lambda self: self.posF()
+    if not hasattr(QWheelEvent, 'globalPosition'):  # appears in Qt 5.14
+        QWheelEvent.globalPosition = lambda self: self.globalPosF()

@@ -60,6 +60,21 @@ def test_qmouseevent_functions():
     assert e.pos() == QtCore.QPoint(42, 54)
 
 
+def test_qwheelevent_functions():
+    """Test functions mapping for QtGui.QWheelEvent."""
+    from qtpy import QtCore
+    e = QtGui.QWheelEvent(QtCore.QPointF(42, 6 * 9),
+                          QtCore.QPointF(42, 6 * 9),
+                          QtCore.QPoint(0, 0),
+                          QtCore.QPoint(0, 0),
+                          0,
+                          QtCore.Qt.Orientation.Vertical,
+                          QtCore.Qt.MouseButton.LeftButton,
+                          QtCore.Qt.KeyboardModifier.NoModifier)
+    assert e.position() == QtCore.QPointF(42.0, 54.0)
+    assert e.globalPosition() == QtCore.QPointF(42.0, 54.0)
+
+
 def test_qguiapplication_functions():
     """Test functions mapping for QtGui.QGuiApplication."""
     assert QtGui.QGuiApplication.exec_ is not None
