@@ -157,6 +157,7 @@ def test_qmenu_functions(qtbot):
 
 def test_QWizardPage_registerField_changedSignal():
     """Test that `changedSignal` can be a `str`"""
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
     widget: QtWidgets.QWidget = QtWidgets.QWidget()
     QtWidgets.QWizardPage().registerField('title', widget, 'windowTitle', 'widget.windowTitleChanged')
 
