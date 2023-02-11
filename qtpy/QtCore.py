@@ -78,11 +78,6 @@ elif PYQT6:
 elif PYSIDE2:
     from PySide2.QtCore import *
 
-    try:  # may be limited to PySide-5.11a1 only
-        from PySide2.QtGui import QStringListModel
-    except Exception:
-        pass
-
     import PySide2.QtCore
     __version__ = PySide2.QtCore.__version__
 
