@@ -155,6 +155,9 @@ def test_qmenu_functions(qtbot):
     QtWidgets.QMenu.exec(menu.actions(), QtCore.QPoint(1, 1))
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_QWizardPage_registerField_changedSignal():
     """Test that `changedSignal` can be a `str`"""
     class Spam(QtWidgets.QWizardPage):
