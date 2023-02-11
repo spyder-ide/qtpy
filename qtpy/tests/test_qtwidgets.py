@@ -155,6 +155,12 @@ def test_qmenu_functions(qtbot):
     QtWidgets.QMenu.exec(menu.actions(), QtCore.QPoint(1, 1))
 
 
+def test_QWizardPage_registerField_changedSignal():
+    """Test that `changedSignal` can be a `str`"""
+    widget: QtWidgets.QWidget = QtWidgets.QWidget()
+    QtWidgets.QWizardPage().registerField('title', widget, 'windowTitle', 'widget.windowTitleChanged')
+
+
 def test_enum_access():
     """Test scoped and unscoped enum access for qtpy.QtWidgets.*."""
     assert QtWidgets.QFileDialog.AcceptOpen == QtWidgets.QFileDialog.AcceptMode.AcceptOpen
