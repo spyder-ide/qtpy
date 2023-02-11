@@ -24,11 +24,6 @@ if PYQT5:
     from PyQt5.QtCore import pyqtProperty as Property
     from PyQt5.QtCore import QT_VERSION_STR as __version__
 
-    # For issue #153 and updated for issue #305
-    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
-    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
-
     # Fix enums in PyQt5 5.9.*
     if __version__.startswith('5.9.'):
         from .enums_compat import demote_enums
@@ -40,37 +35,12 @@ if PYQT5:
             import os
             return os.environ.get(varName, defaultValue)
 
-    QLibraryInfo.path = QLibraryInfo.location
-    QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
-
     # Map missing methods
     if not hasattr(QModelIndex, 'siblingAtColumn'):  # appears in Qt5.11
         QModelIndex.siblingAtColumn = lambda self, column: self.sibling(self.row(), column)
     if not hasattr(QModelIndex, 'siblingAtRow'):  # appears in Qt5.11
         QModelIndex.siblingAtRow = lambda self, row: self.sibling(row, self.column())
-    QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
-    QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
-                                                 float(self.right()), float(self.bottom()))
-    QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
-    QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
-                                        float(self.width()), float(self.height()))
-    QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
-    if not hasattr(QSize, 'grownBy'):  # appears in Qt5.14
-        QSize.grownBy = lambda self, margins: QSize(self.width() + margins.left() + margins.right(),
-                                                    self.height() + margins.top() + margins.bottom())
-    if not hasattr(QSize, 'shrunkBy'):  # appears in Qt5.14
-        QSize.shrunkBy = lambda self, margins: QSize(self.width() - margins.left() - margins.right(),
-                                                     self.height() - margins.top() - margins.bottom())
-    if not hasattr(QSizeF, 'grownBy'):  # appears in Qt5.14
-        QSizeF.grownBy = lambda self, margins: QSizeF(self.width() + margins.left() + margins.right(),
-                                                      self.height() + margins.top() + margins.bottom())
-    if not hasattr(QSizeF, 'shrunkBy'):  # appears in Qt5.14
-        QSizeF.shrunkBy = lambda self, margins: QSizeF(self.width() - margins.left() - margins.right(),
-                                                       self.height() - margins.top() - margins.bottom())
-    if not hasattr(QDate, 'startOfDay'):  # appears in Qt5.14
-        QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
-    if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
-        QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
+
     if (not hasattr(QDateTime, 'YearRange')  # appears in Qt5.14
             or not isinstance(QDateTime.YearRange, enum.EnumMeta)):
 
@@ -79,12 +49,55 @@ if PYQT5:
             Last = +292278994
 
         QDateTime.YearRange = _YearRange
+
     if not hasattr(QByteArray, 'chopped'):  # appears in Qt5.10
         QByteArray.chopped = lambda self, length: QByteArray(self.data()[:-length])
     if not hasattr(QByteArray, 'isUpper'):  # appears in Qt5.12
         QByteArray.isUpper = lambda self: self.data().isupper()
     if not hasattr(QByteArray, 'isLower'):  # appears in Qt5.12
         QByteArray.isLower = lambda self: self.data().islower()
+
+    if not hasattr(QRegularExpression, 'anchoredPattern'):  # appears in Qt5.12
+        QRegularExpression.anchoredPattern = lambda pattern: r'\A(?:' + pattern + r')\z'
+
+    if not hasattr(QRegularExpression, 'wildcardToRegularExpression'):  # appears in Qt5.12
+        def _wildcardToRegularExpression(pattern: str):
+            import sys
+
+            win = sys.platform.startswith('win')
+
+            res = r'\A(?:'
+            i = 0
+            while i < len(pattern):
+                c = pattern[i]
+                if c == '?':
+                    res += r'[^/\\]' if win else '[^/]'
+                elif c == '*':
+                    res += r'[^/\\]*' if win else '[^/]*'
+                elif c == '[':
+                    res += c
+                    i += 1
+                    if i >= len(pattern):
+                        break
+                    if pattern[i] == '!':
+                        res += '^'
+                        i += 1
+                    while i < len(pattern) and pattern[i] != ']':
+                        res += pattern[i]
+                        i += 1
+                    if i >= len(pattern):
+                        break
+                    res += pattern[i]
+                elif c == '\\':
+                    res += r'[/\\]' if win else r'\\'
+                else:
+                    res += c
+                i += 1
+            res += r')\z'
+            return res
+
+
+        QRegularExpression.wildcardToRegularExpression = _wildcardToRegularExpression
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -97,11 +110,6 @@ elif PYQT6:
     from PyQt6.QtCore import pyqtSlot as Slot
     from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
-
-    # For issue #153 and updated for issue #305
-    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
-    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
     # For issue #311
     # Seems like there is an error with sip. Without first
@@ -117,22 +125,6 @@ elif PYQT6:
     QCoreApplication.exec_ = QCoreApplication.exec
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-
-    if not hasattr(QLine, 'toLineF'):  # appears in Qt6.4
-        QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
-    if not hasattr(QMargins, 'toMarginsF'):  # appears in Qt6.4
-        QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
-                                                     float(self.right()), float(self.bottom()))
-    if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
-        QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
-    if not hasattr(QRect, 'toRectF'):  # appears in Qt6.4
-        QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
-                                            float(self.width()), float(self.height()))
-    if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
-        QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
-
-    QLibraryInfo.location = QLibraryInfo.path
-    QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
 
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
@@ -164,44 +156,15 @@ elif PYSIDE2:
     QEventLoop.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
     QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
-    QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
-    QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
-                                                 float(self.right()), float(self.bottom()))
-    QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
-    QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
-                                        float(self.width()), float(self.height()))
-    QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
-    if not hasattr(QSize, 'grownBy'):  # appears in Qt5.14
-        QSize.grownBy = lambda self, margins: QSize(self.width() + margins.left() + margins.right(),
-                                                    self.height() + margins.top() + margins.bottom())
-    if not hasattr(QSize, 'shrunkBy'):  # appears in Qt5.14
-        QSize.shrunkBy = lambda self, margins: QSize(self.width() - margins.left() - margins.right(),
-                                                     self.height() - margins.top() - margins.bottom())
-    if not hasattr(QSizeF, 'grownBy'):  # appears in Qt5.14
-        QSizeF.grownBy = lambda self, margins: QSizeF(self.width() + margins.left() + margins.right(),
-                                                      self.height() + margins.top() + margins.bottom())
-    if not hasattr(QSizeF, 'shrunkBy'):  # appears in Qt5.14
-        QSizeF.shrunkBy = lambda self, margins: QSizeF(self.width() - margins.left() - margins.right(),
-                                                       self.height() - margins.top() - margins.bottom())
-    if not hasattr(QDate, 'startOfDay'):  # appears in Qt5.14
-        QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
-    if not hasattr(QDate, 'endOfDay'):  # appears in Qt5.14
-        QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
+
     if (not hasattr(QDateTime, 'YearRange')  # appears in Qt5.14
             or not isinstance(QDateTime.YearRange, enum.EnumMeta)):
+
         class _YearRange(enum.IntEnum):
             First = -292275056
             Last = +292278994
 
         QDateTime.YearRange = _YearRange
-
-    QLibraryInfo.path = QLibraryInfo.location
-    QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
-
-    # For issue #153 and updated for issue #305
-    QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
-    QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
-    QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
 
     # Missing QtGui utility functions on Qt
     if getattr(Qt, 'mightBeRichText', None) is None:
@@ -224,25 +187,6 @@ elif PYSIDE6:
         Qt.mightBeRichText = guiQt.mightBeRichText
         del guiQt
 
-    # For issue #153 and updated for issue #305
-    QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
-    QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
-    QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
-
-    # Map missing methods
-    if not hasattr(QLine, 'toLineF'):  # appears in Qt6.4
-        QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
-    if not hasattr(QMargins, 'toMarginsF'):  # appears in Qt6.4
-        QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
-                                                     float(self.right()), float(self.bottom()))
-    if not hasattr(QPoint, 'toPointF'):  # appears in Qt6.4
-        QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
-    if not hasattr(QRect, 'toRectF'):  # appears in Qt6.4
-        QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
-                                            float(self.width()), float(self.height()))
-    if not hasattr(QSize, 'toSizeF'):  # appears in Qt6.4
-        QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
-
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.ItemDataRole.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ItemDataRole.ForegroundRole
@@ -254,15 +198,33 @@ elif PYSIDE6:
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QLibraryInfo.location = QLibraryInfo.path
-    QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
+
+
+if PYQT5 or PYQT6:
+    # For issue #153 and updated for issue #305
+    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
+    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
+    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
 
 if PYSIDE2 or PYSIDE6:
+    # For issue #153 and updated for issue #305
+    QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+
     # PyQt5/PyQt6 only function
     def qEnvironmentVariable(varName, defaultValue=''):
         import os
         return os.environ.get(varName, defaultValue)
+
+
+if PYQT5 or PYSIDE2:
+    QLibraryInfo.path = QLibraryInfo.location
+    QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
+if PYQT6 or PYSIDE6:
+    QLibraryInfo.location = QLibraryInfo.path
+    QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
 
 
 if (not hasattr(QLocale, 'toLong')  # Qt5 < 5.13
@@ -275,46 +237,17 @@ if (not hasattr(QLocale, 'toULong')  # Qt5 < 5.13
     QLocale.toULong = lambda self, s: self.toULongLong(s)
 
 
-if not hasattr(QRegularExpression, 'anchoredPattern'):  # Qt5<5.12
-    QRegularExpression.anchoredPattern = lambda pattern: r'\A(?:' + pattern + r')\z'
-
-if not hasattr(QRegularExpression, 'wildcardToRegularExpression'):  # Qt5<5.12
-    def _wildcardToRegularExpression(pattern: str):
-        import sys
-
-        win = sys.platform.startswith('win')
-
-        res = r'\A(?:'
-        i = 0
-        while i < len(pattern):
-            c = pattern[i]
-            if c == '?':
-                res += r'[^/\\]' if win else '[^/]'
-            elif c == '*':
-                res += r'[^/\\]*' if win else '[^/]*'
-            elif c == '[':
-                res += c
-                i += 1
-                if i >= len(pattern):
-                    break
-                if pattern[i] == '!':
-                    res += '^'
-                    i += 1
-                while i < len(pattern) and pattern[i] != ']':
-                    res += pattern[i]
-                    i += 1
-                if i >= len(pattern):
-                    break
-                res += pattern[i]
-            elif c == '\\':
-                res += r'[/\\]' if win else r'\\'
-            else:
-                res += c
-            i += 1
-        res += r')\z'
-        return res
-
-    QRegularExpression.wildcardToRegularExpression = _wildcardToRegularExpression
+if (PYQT5 or PYSIDE2) and parse(__version__) < parse('5.14'):
+    QSize.grownBy = lambda self, margins: QSize(self.width() + margins.left() + margins.right(),
+                                                self.height() + margins.top() + margins.bottom())
+    QSize.shrunkBy = lambda self, margins: QSize(self.width() - margins.left() - margins.right(),
+                                                 self.height() - margins.top() - margins.bottom())
+    QSizeF.grownBy = lambda self, margins: QSizeF(self.width() + margins.left() + margins.right(),
+                                                  self.height() + margins.top() + margins.bottom())
+    QSizeF.shrunkBy = lambda self, margins: QSizeF(self.width() - margins.left() - margins.right(),
+                                                   self.height() - margins.top() - margins.bottom())
+    QDate.startOfDay = lambda self, *args: QDateTime(self, QTime(0, 0), *args)
+    QDate.endOfDay = lambda self, *args: QDateTime(self, QTime(23, 59, 59, 999), *args)
 
 
 if (PYQT5 or PYSIDE2) and parse(__version__) < parse('5.15'):
@@ -436,6 +369,16 @@ QByteArray.FromBase64Result(QByteArray.FromBase64Result)\
 
 
     QByteArray.fromBase64Encoding = _fromBase64Encoding
+
+
+if (PYQT5 or PYSIDE2 or PYQT6 or PYSIDE6) and parse(__version__) < parse('6.4'):
+    QLine.toLineF = lambda self: QLineF(float(self.x1()), float(self.x2()), float(self.y1()), float(self.y2()))
+    QMargins.toMarginsF = lambda self: QMarginsF(float(self.left()), float(self.top()),
+                                                 float(self.right()), float(self.bottom()))
+    QPoint.toPointF = lambda self: QPointF(float(self.x()), float(self.y()))
+    QRect.toRectF = lambda self: QRectF(float(self.left()), float(self.top()),
+                                        float(self.width()), float(self.height()))
+    QSize.toSizeF = lambda self: QSizeF(float(self.width()), float(self.height()))
 
 
 # clean up the imports not for export
