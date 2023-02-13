@@ -61,6 +61,17 @@ def test_enum_access():
     assert QtGui.QIcon.Normal == QtGui.QIcon.Mode.Normal
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
 
+
+def test_QMouseEvent_pos_functions():
+    """Test `QMouseEvent.pos` and related functions obsolete in Qt6"""
+    assert QtGui.QMouseEvent.pos is not None
+    assert QtGui.QMouseEvent.x is not None
+    assert QtGui.QMouseEvent.y is not None
+    assert QtGui.QMouseEvent.globalPos is not None
+    assert QtGui.QMouseEvent.globalX is not None
+    assert QtGui.QMouseEvent.globalY is not None
+
+
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
 def test_qtextcursor_moveposition():
     """Test monkeypatched QTextCursor.movePosition"""

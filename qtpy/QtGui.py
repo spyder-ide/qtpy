@@ -72,3 +72,12 @@ if PYSIDE2 or PYSIDE6:
     ) -> bool:
         return movePosition(self, operation, mode, n)
     QTextCursor.movePosition = movePositionPatched
+
+# close https://github.com/spyder-ide/qtpy/issues/394
+if PYQT6 or PYSIDE6:
+    QMouseEvent.pos = lambda self: self.position().toPoint()
+    QMouseEvent.x = lambda self: self.position().toPoint().x()
+    QMouseEvent.y = lambda self: self.position().toPoint().y()
+    QMouseEvent.globalPos = lambda self: self.globalPosition().toPoint()
+    QMouseEvent.globalX = lambda self: self.globalPosition().toPoint().x()
+    QMouseEvent.globalY = lambda self: self.globalPosition().toPoint().y()
