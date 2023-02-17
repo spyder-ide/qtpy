@@ -65,6 +65,9 @@ def test_enum_access():
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
+@pytest.mark.skipif(
+    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7")
 def test_QMouseEvent_pos_functions(qtbot):
     """Test `QMouseEvent.pos` and related functions obsolete in Qt6,
        test `QMouseEvent.position` and related functions missing from Qt5"""
