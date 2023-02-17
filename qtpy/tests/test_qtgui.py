@@ -62,6 +62,9 @@ def test_enum_access():
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_QMouseEvent_pos_functions(qtbot):
     """Test `QMouseEvent.pos` and related functions obsolete in Qt6,
        test `QMouseEvent.position` and related functions missing from Qt5"""
