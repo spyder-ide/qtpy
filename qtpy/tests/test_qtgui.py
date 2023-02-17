@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtGui
+from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtCore, QtGui, QtWidgets
 from qtpy.tests.utils import not_using_conda
 
 
@@ -62,14 +62,31 @@ def test_enum_access():
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
 
 
-def test_QMouseEvent_pos_functions():
+def test_QMouseEvent_pos_functions(qtbot):
     """Test `QMouseEvent.pos` and related functions obsolete in Qt6"""
-    assert QtGui.QMouseEvent.pos is not None
-    assert QtGui.QMouseEvent.x is not None
-    assert QtGui.QMouseEvent.y is not None
-    assert QtGui.QMouseEvent.globalPos is not None
-    assert QtGui.QMouseEvent.globalX is not None
-    assert QtGui.QMouseEvent.globalY is not None
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+
+    class Window(QtWidgets.QMainWindow):
+        def mouseDoubleClickEvent(self, event: QtGui.QMouseEvent) -> None:
+            assert event.globalPos() - event.pos() == self.mapToParent(QtCore.QPoint(0, 0))
+            assert event.pos().x() == event.x()
+            assert event.pos().y() == event.y()
+            assert event.globalPos().x() == event.globalX()
+            assert event.globalPos().y() == event.globalY()
+            assert event.position().x() == event.pos().x()
+            assert event.position().y() == event.pos().y()
+            assert event.globalPosition().x() == event.globalPos().x()
+            assert event.globalPosition().y() == event.globalPos().y()
+
+            event.accept()
+
+    window = Window()
+    window.show()
+
+    QtCore.QTimer.singleShot(100, lambda: qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9)))
+    QtCore.QTimer.singleShot(200, lambda: qtbot.mouseDClick(window, QtCore.Qt.LeftButton))
+    QtCore.QTimer.singleShot(300, lambda: window.close())
+    app.exec_()
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
