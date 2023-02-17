@@ -63,8 +63,8 @@ def test_enum_access():
 
 
 def test_QMouseEvent_pos_functions(qtbot):
-    """Test `QMouseEvent.pos` and related functions obsolete in Qt6"""
-    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    """Test `QMouseEvent.pos` and related functions obsolete in Qt6,
+       test `QMouseEvent.position` and related functions missing from Qt5"""
 
     class Window(QtWidgets.QMainWindow):
         def mouseDoubleClickEvent(self, event: QtGui.QMouseEvent) -> None:
@@ -86,7 +86,6 @@ def test_QMouseEvent_pos_functions(qtbot):
     QtCore.QTimer.singleShot(100, lambda: qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9)))
     QtCore.QTimer.singleShot(200, lambda: qtbot.mouseDClick(window, QtCore.Qt.LeftButton))
     QtCore.QTimer.singleShot(300, lambda: window.close())
-    app.exec_()
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
