@@ -92,9 +92,9 @@ def test_QMouseEvent_pos_functions(qtbot):
     window.setMinimumSize(320, 240)  # ensure the window is of sufficient size
     window.show()
 
-    QtCore.QTimer.singleShot(100, lambda: qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9)))
-    QtCore.QTimer.singleShot(200, lambda: qtbot.mouseDClick(window, QtCore.Qt.LeftButton))
-    QtCore.QTimer.singleShot(300, lambda: window.close())
+    qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9))
+    qtbot.mouseDClick(window, QtCore.Qt.LeftButton)
+    QtCore.QTimer.singleShot(100, lambda: window.close())
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
