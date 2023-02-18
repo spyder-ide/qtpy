@@ -89,6 +89,7 @@ def test_QMouseEvent_pos_functions(qtbot):
             event.accept()
 
     window = Window()
+    window.setMinimumSize(320, 240)  # ensure the window is of sufficient size
     window.show()
 
     QtCore.QTimer.singleShot(100, lambda: qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9)))
