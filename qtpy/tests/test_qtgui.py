@@ -69,8 +69,10 @@ def test_enum_access():
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
 def test_QMouseEvent_pos_functions(qtbot):
-    """Test `QMouseEvent.pos` and related functions obsolete in Qt6,
-       test `QMouseEvent.position` and related functions missing from Qt5"""
+    """
+    Test `QMouseEvent.pos` and related functions removed in Qt 6,
+    and `QMouseEvent.position`, etc., missing from Qt 5.
+    """
 
     class Window(QtWidgets.QMainWindow):
         def mouseDoubleClickEvent(self, event: QtGui.QMouseEvent) -> None:
