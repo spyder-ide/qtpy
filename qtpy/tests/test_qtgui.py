@@ -8,6 +8,11 @@ from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtCore, QtGui, QtWidgets
 from qtpy.tests.utils import not_using_conda
 
 
+# This may prevent the crashes on Ubuntu with `conda=No`
+def _qapp():
+    return QtWidgets.QApplication.instance() or QtWidgets.QApplication([sys.executable, __file__])
+
+
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Fatal Python error: Aborted on Linux CI when not using conda")
@@ -62,13 +67,7 @@ def test_enum_access():
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
-@pytest.mark.skipif(
-    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
-    reason="Stalls on macOS CI with Python 3.7")
-def test_QMouseEvent_pos_functions(qtbot):
+def test_QMouseEvent_pos_functions(qtbot, app=_qapp()):
     """
     Test `QMouseEvent.pos` and related functions removed in Qt 6,
     and `QMouseEvent.position`, etc., missing from Qt 5.
