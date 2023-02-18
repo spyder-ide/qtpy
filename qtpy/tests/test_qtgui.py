@@ -94,7 +94,6 @@ def test_QMouseEvent_pos_functions(qtbot):
 
     qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9))
     qtbot.mouseDClick(window, QtCore.Qt.LeftButton)
-    QtCore.QTimer.singleShot(100, lambda: window.close())
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
