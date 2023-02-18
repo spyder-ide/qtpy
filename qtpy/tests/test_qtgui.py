@@ -4,13 +4,13 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtCore, QtGui, QtWidgets
+from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtCore, QtGui, QtWidgets, API
 from qtpy.tests.utils import not_using_conda
 
-
 # This may prevent the crashes on Ubuntu with `conda=No`
-def _qapp():
-    return QtWidgets.QApplication.instance() or QtWidgets.QApplication([sys.executable, __file__])
+from pytestqt.qt_compat import qt_api
+
+qt_api.set_qt_api(API)
 
 
 @pytest.mark.skipif(
@@ -67,7 +67,7 @@ def test_enum_access():
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
 
 
-def test_QMouseEvent_pos_functions(qtbot, app=_qapp()):
+def test_QMouseEvent_pos_functions(qtbot):
     """
     Test `QMouseEvent.pos` and related functions removed in Qt 6,
     and `QMouseEvent.position`, etc., missing from Qt 5.
