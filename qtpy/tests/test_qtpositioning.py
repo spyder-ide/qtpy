@@ -1,7 +1,12 @@
 import pytest
-from qtpy import PYQT5, PYSIDE2
 
+from qtpy import QT6
+from qtpy.tests.utils import using_conda
 
+@pytest.mark.skipif(
+    QT6 and using_conda(),
+    reason="QPositioning bindings not included in Conda qt-main >= 6.4.3.",
+)
 def test_qtpositioning():
     """Test the qtpy.QtPositioning namespace"""
     from qtpy import QtPositioning
