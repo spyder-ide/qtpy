@@ -76,7 +76,7 @@ class PythonQtValueError(ValueError):
     """Error raised if an invalid QT_API is specified."""
 
 
-class QtBindingsNotFoundError(PythonQtError):
+class QtBindingsNotFoundError(PythonQtError, ImportError):
     """Error raised if no bindings could be selected."""
     _msg = 'No Qt bindings could be found'
 
