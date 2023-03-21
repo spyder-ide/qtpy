@@ -29,9 +29,13 @@ def test_qlineedit_functions():
     assert QtWidgets.QLineEdit.getTextMargins
 
 
-def test_qundocommand_object():
-    """Test object aliasing for QUndoCommand"""
-    assert QtWidgets.QUndoCommand
+def test_what_moved_to_qtgui_in_qt6():
+    """Test that we move back what has been moved to QtGui in Qt6"""
+    assert QtWidgets.QAction is not None
+    assert QtWidgets.QActionGroup is not None
+    assert QtWidgets.QFileSystemModel is not None
+    assert QtWidgets.QShortcut is not None
+    assert QtWidgets.QUndoCommand is not None
 
 
 @pytest.mark.skipif(

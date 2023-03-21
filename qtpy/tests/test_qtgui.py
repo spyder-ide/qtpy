@@ -39,6 +39,15 @@ def test_qguiapplication_functions():
     assert QtGui.QGuiApplication.exec_ is not None
 
 
+def test_what_moved_to_qtgui_in_qt6():
+    """Test what has been moved to QtGui in Qt6"""
+    assert QtGui.QAction is not None
+    assert QtGui.QActionGroup is not None
+    assert QtGui.QFileSystemModel is not None
+    assert QtGui.QShortcut is not None
+    assert QtGui.QUndoCommand is not None
+
+
 @pytest.mark.skipif(
     sys.platform.startswith('linux') and not_using_conda(),
     reason="Segmentation fault/Aborted on Linux CI when not using conda")
