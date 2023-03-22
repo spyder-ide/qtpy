@@ -11,7 +11,7 @@
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
 
 
-MISSING_OPENGL_NAMES = {}
+_missing_optional_names = {}
 
 
 if PYQT5:
@@ -26,7 +26,7 @@ elif PYQT6:
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError:
-        MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PyQt6.QtOpenGLWidgets', 'pyopengl')
+        _missing_optional_names['QOpenGLWidget'] = ('PyQt6.QtOpenGLWidgets', 'pyopengl')
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
@@ -54,7 +54,7 @@ elif PYSIDE6:
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError:
-        MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PySide6.QtOpenGLWidgets', 'pyopengl')
+        _missing_optional_names['QOpenGLWidget'] = ('PySide6.QtOpenGLWidgets', 'pyopengl')
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
@@ -95,8 +95,8 @@ if PYSIDE2 or PYSIDE6:
 
 
 def __getattr__(name):
-    if name in MISSING_OPENGL_NAMES:
-        module, package = MISSING_OPENGL_NAMES[name]
+    if name in _missing_optional_names:
+        module, package = _missing_optional_names[name]
         raise QtModuleNotInstalledError(name=module, missing_package=package)
     else:
         raise AttributeError(f'module {__name__!r} has no attribute {name!r}')
