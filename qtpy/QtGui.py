@@ -14,7 +14,7 @@ from .utils import _getattr_missing_optional_dep
 
 _missing_optional_names = {}
 
-_QTOPENGL_NAMES = [
+_QTOPENGL_NAMES = {
     'QOpenGLBuffer',
     'QOpenGLFramebufferObject',
     'QOpenGLFramebufferObjectFormat',
@@ -30,7 +30,7 @@ _QTOPENGL_NAMES = [
     'QOpenGLVersionProfile',
     'QOpenGLVertexArrayObject',
     'QOpenGLWindow',
-]
+}
 
 
 if PYQT5:
