@@ -25,13 +25,31 @@ elif PYQT6:
     # don't raise an exception until the name is explicitly accessed.
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
-        from PyQt6.QtOpenGLWidgets import QOpenGLWidget
+        from PyQt6.QtOpenGL import *
     except ImportError as error:
-       _missing_optional_names['QOpenGLWidget'] = {
-           'name': 'PyQt6.QtOpenGLWidgets',
-           'missing_package': 'pyopengl',
-           'import_error': error,
-       }
+        names = [
+            'QOpenGLBuffer',
+            'QOpenGLFramebufferObject',
+            'QOpenGLFramebufferObjectFormat',
+            'QOpenGLShader',
+            'QOpenGLShaderProgram',
+            'QOpenGLContext',
+            'QOpenGLContextGroup',
+            'QOpenGLDebugLogger',
+            'QOpenGLDebugMessage',
+            'QOpenGLPixelTransferOptions',
+            'QOpenGLTexture',
+            'QOpenGLTextureBlitter',
+            'QOpenGLVersionProfile',
+            'QOpenGLVertexArrayObject',
+            'QOpenGLWindow',
+        ]
+        for name in names:
+            _missing_optional_names[name] = {
+                'name': 'PyQt6.QtOpenGL',
+                'missing_package': 'pyopengl',
+                'import_error': error,
+            }
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
@@ -57,13 +75,32 @@ elif PYSIDE6:
     # don't raise an exception until the name is explicitly accessed.
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
-        from PySide6.QtOpenGLWidgets import QOpenGLWidget
+        from PySide6.QtOpenGL import *
     except ImportError as error:
-       _missing_optional_names['QOpenGLWidget'] = {
-           'name': 'PySide6.QtOpenGLWidgets',
-           'missing_package': 'pyopengl',
-           'import_error': error,
-       }
+        names = [
+            'QOpenGLBuffer',
+            'QOpenGLFramebufferObject',
+            'QOpenGLFramebufferObjectFormat',
+            'QOpenGLShader',
+            'QOpenGLShaderProgram',
+            'QOpenGLContext',
+            'QOpenGLContextGroup',
+            'QOpenGLDebugLogger',
+            'QOpenGLDebugMessage',
+            'QOpenGLPixelTransferOptions',
+            'QOpenGLTexture',
+            'QOpenGLTextureBlitter',
+            'QOpenGLVersionProfile',
+            'QOpenGLVertexArrayObject',
+            'QOpenGLWindow',
+        ]
+        for name in names:
+            _missing_optional_names[name] = {
+                'name': 'PySide6.QtOpenGL',
+                'missing_package': 'pyopengl',
+                'import_error': error,
+            }
+
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
