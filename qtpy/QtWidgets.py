@@ -11,7 +11,7 @@
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
 
 
-MISSING_OPENGL_NAMES = {}
+MISSING_SYMBOL_ERRORS = {}
 
 
 if PYQT5:
@@ -28,7 +28,7 @@ elif PYQT6:
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
     except (ModuleNotFoundError, ImportError):
-        MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PyQt6.QtOpenGLWidgets', 'pyopengl')
+        MISSING_SYMBOL_ERRORS['QOpenGLWidget'] = QtModuleNotInstalledError(name='PyQt6.QtOpenGLWidgets', missing_package='pyopengl')
 
     # Map missing/renamed methods
     QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
@@ -59,7 +59,7 @@ elif PYSIDE6:
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
     except (ModuleNotFoundError, ImportError):
-        MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PySide6.QtOpenGLWidgets', 'pyopengl')
+        MISSING_SYMBOL_ERRORS['QOpenGLWidget'] = QtModuleNotInstalledError(name='PySide6.QtOpenGLWidgets', missing_package='pyopengl')
 
     # Map missing/renamed methods
     QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
@@ -75,8 +75,7 @@ elif PYSIDE6:
 
 
 def __getattr__(name):
-    if name in MISSING_OPENGL_NAMES:
-        module, package = MISSING_OPENGL_NAMES[name]
-        raise QtModuleNotInstalledError(name=module, missing_package=package)
+    if name in MISSING_SYMBOL_ERRORS:
+        raise MISSING_SYMBOL_ERRORS[name]
     else:
         raise AttributeError(f'module {__name__!r} has no attribute {name!r}')
