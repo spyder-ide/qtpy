@@ -8,13 +8,27 @@
 
 """Provides QtGui classes and functions."""
 
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
+
+
+MISSING_OPENGL_NAMES = {}
+
 
 if PYQT5:
     from PyQt5.QtGui import *
 elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
+
+    # Attempt to import QOpenGLWidget, but if that fails, don't throw an exception until the
+    # symbol is explicitly asked for
+    # this allows removing the sizeable OpenGL binaries from pyinstaller bundles, but
+    # maintains compatibility with apps that expect this symbol to be automatically imported
+    try:
+        from PyQt6.QtOpenGLWidgets import QOpenGLWidget
+    except (ModuleNotFoundError, ImportError):
+        MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PyQt6.QtOpenGLWidgets', 'pyopengl')
+
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
@@ -34,6 +48,16 @@ elif PYSIDE2:
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 elif PYSIDE6:
     from PySide6.QtGui import *
+
+    # Attempt to import QOpenGLWidget, but if that fails, don't throw an exception until the
+    # symbol is explicitly asked for
+    # this allows removing the sizeable OpenGL binaries from pyinstaller bundles, but
+    # maintains compatibility with apps that expect this symbol to be automatically imported
+    try:
+        from PySide6.QtOpenGLWidgets import QOpenGLWidget
+    except (ModuleNotFoundError, ImportError):
+        MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PySide6.QtOpenGLWidgets', 'pyopengl')
+
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
@@ -70,3 +94,11 @@ if PYSIDE2 or PYSIDE6:
     ) -> bool:
         return movePosition(self, operation, mode, n)
     QTextCursor.movePosition = movePositionPatched
+
+
+def __getattr__(name):
+    if name in MISSING_OPENGL_NAMES:
+        module, package = MISSING_OPENGL_NAMES[name]
+        raise QtModuleNotInstalledError(name=module, missing_package=package)
+    else:
+        raise AttributeError(f'module {__name__!r} has no attribute {name!r}')
