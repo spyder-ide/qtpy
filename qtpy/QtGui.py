@@ -35,6 +35,9 @@ _QTOPENGL_NAMES = {
 
 if PYQT5:
     from PyQt5.QtGui import *
+
+    # Backport items moved to QtGui in Qt6
+    from PyQt5.QtWidgets import QAction, QActionGroup, QFileSystemModel, QShortcut, QUndoCommand
 elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
@@ -66,6 +69,10 @@ elif PYQT6:
     del QtGui
 elif PYSIDE2:
     from PySide2.QtGui import *
+
+    # Backport items moved to QtGui in Qt6
+    from PySide2.QtWidgets import QAction, QActionGroup, QFileSystemModel, QShortcut, QUndoCommand
+
     if hasattr(QFontMetrics, 'horizontalAdvance'):
         # Needed to prevent raising a DeprecationWarning when using QFontMetrics.width
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
@@ -84,6 +91,9 @@ elif PYSIDE6:
                 'missing_package': 'pyopengl',
                 'import_error': error,
             }
+
+    # Backport `QFileSystemModel` moved to QtGui in Qt6
+    from PySide6.QtWidgets import QFileSystemModel
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
@@ -122,6 +132,18 @@ if PYSIDE2 or PYSIDE6:
         return movePosition(self, operation, mode, n)
     QTextCursor.movePosition = movePositionPatched
 
+# Fix https://github.com/spyder-ide/qtpy/issues/394
+if PYQT5 or PYSIDE2:
+    from qtpy.QtCore import QPointF as __QPointF
+    QMouseEvent.position = lambda self: __QPointF(float(self.x()), float(self.y()))
+    QMouseEvent.globalPosition = lambda self: __QPointF(float(self.globalX()), float(self.globalY()))
+if PYQT6 or PYSIDE6:
+    QMouseEvent.pos = lambda self: self.position().toPoint()
+    QMouseEvent.x = lambda self: self.position().toPoint().x()
+    QMouseEvent.y = lambda self: self.position().toPoint().y()
+    QMouseEvent.globalPos = lambda self: self.globalPosition().toPoint()
+    QMouseEvent.globalX = lambda self: self.globalPosition().toPoint().x()
+    QMouseEvent.globalY = lambda self: self.globalPosition().toPoint().y()
 
 def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
