@@ -9,6 +9,7 @@
 """Provides widget classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
+from .utils import _getattr_missing_optional_dep
 
 
 _missing_optional_names = {}
@@ -26,8 +27,12 @@ elif PYQT6:
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
-    except ImportError:
-        _missing_optional_names['QOpenGLWidget'] = QtModuleNotInstalledError(name='PyQt6.QtOpenGLWidgets', missing_package='pyopengl')
+    except ImportError as error:
+       _missing_optional_names['QOpenGLWidget'] = {
+           'name': 'PyQt6.QtOpenGLWidgets',
+           'missing_package': 'pyopengl',
+           'import_error': error,
+       }
 
     # Map missing/renamed methods
     QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
@@ -56,8 +61,12 @@ elif PYSIDE6:
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
-    except ImportError:
-        _missing_optional_names['QOpenGLWidget'] = QtModuleNotInstalledError(name='PySide6.QtOpenGLWidgets', missing_package='pyopengl')
+    except ImportError as error:
+       _missing_optional_names['QOpenGLWidget'] = {
+           'name': 'PySide6.QtOpenGLWidgets',
+           'missing_package': 'pyopengl',
+           'import_error': error,
+       }
 
     # Map missing/renamed methods
     QTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
@@ -73,7 +82,6 @@ elif PYSIDE6:
 
 
 def __getattr__(name):
-    if name in _missing_optional_names:
-        raise _missing_optional_names[name]
-    else:
-        raise AttributeError(f'module {__name__!r} has no attribute {name!r}')
+    """Custom getattr to chain and wrap errors due to missing optional deps."""
+    raise _getattr_missing_optional_dep(
+        name, module_name=__name__, optional_names=_missing_optional_names)
