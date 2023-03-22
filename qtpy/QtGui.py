@@ -26,7 +26,7 @@ elif PYQT6:
     # maintains compatibility with apps that expect this symbol to be automatically imported
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
-    except (ModuleNotFoundError, ImportError):
+    except ImportError:
         MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PyQt6.QtOpenGLWidgets', 'pyopengl')
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
@@ -55,7 +55,7 @@ elif PYSIDE6:
     # maintains compatibility with apps that expect this symbol to be automatically imported
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
-    except (ModuleNotFoundError, ImportError):
+    except ImportError:
         MISSING_OPENGL_NAMES['QOpenGLWidget'] = ('PySide6.QtOpenGLWidgets', 'pyopengl')
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)

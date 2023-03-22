@@ -27,7 +27,7 @@ elif PYQT6:
     # maintains compatibility with apps that expect this symbol to be automatically imported
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
-    except (ModuleNotFoundError, ImportError):
+    except ImportError:
         MISSING_SYMBOL_ERRORS['QOpenGLWidget'] = QtModuleNotInstalledError(name='PyQt6.QtOpenGLWidgets', missing_package='pyopengl')
 
     # Map missing/renamed methods
@@ -58,7 +58,7 @@ elif PYSIDE6:
     # maintains compatibility with apps that expect this symbol to be automatically imported
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
-    except (ModuleNotFoundError, ImportError):
+    except ImportError:
         MISSING_SYMBOL_ERRORS['QOpenGLWidget'] = QtModuleNotInstalledError(name='PySide6.QtOpenGLWidgets', missing_package='pyopengl')
 
     # Map missing/renamed methods
