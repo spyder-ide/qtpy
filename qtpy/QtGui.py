@@ -14,6 +14,24 @@ from .utils import _getattr_missing_optional_dep
 
 _missing_optional_names = {}
 
+_QTOPENGL_NAMES = [
+    'QOpenGLBuffer',
+    'QOpenGLFramebufferObject',
+    'QOpenGLFramebufferObjectFormat',
+    'QOpenGLShader',
+    'QOpenGLShaderProgram',
+    'QOpenGLContext',
+    'QOpenGLContextGroup',
+    'QOpenGLDebugLogger',
+    'QOpenGLDebugMessage',
+    'QOpenGLPixelTransferOptions',
+    'QOpenGLTexture',
+    'QOpenGLTextureBlitter',
+    'QOpenGLVersionProfile',
+    'QOpenGLVertexArrayObject',
+    'QOpenGLWindow',
+]
+
 
 if PYQT5:
     from PyQt5.QtGui import *
@@ -27,24 +45,7 @@ elif PYQT6:
     try:
         from PyQt6.QtOpenGL import *
     except ImportError as error:
-        names = [
-            'QOpenGLBuffer',
-            'QOpenGLFramebufferObject',
-            'QOpenGLFramebufferObjectFormat',
-            'QOpenGLShader',
-            'QOpenGLShaderProgram',
-            'QOpenGLContext',
-            'QOpenGLContextGroup',
-            'QOpenGLDebugLogger',
-            'QOpenGLDebugMessage',
-            'QOpenGLPixelTransferOptions',
-            'QOpenGLTexture',
-            'QOpenGLTextureBlitter',
-            'QOpenGLVersionProfile',
-            'QOpenGLVertexArrayObject',
-            'QOpenGLWindow',
-        ]
-        for name in names:
+        for name in _QTOPENGL_NAMES:
             _missing_optional_names[name] = {
                 'name': 'PyQt6.QtOpenGL',
                 'missing_package': 'pyopengl',
@@ -77,24 +78,7 @@ elif PYSIDE6:
     try:
         from PySide6.QtOpenGL import *
     except ImportError as error:
-        names = [
-            'QOpenGLBuffer',
-            'QOpenGLFramebufferObject',
-            'QOpenGLFramebufferObjectFormat',
-            'QOpenGLShader',
-            'QOpenGLShaderProgram',
-            'QOpenGLContext',
-            'QOpenGLContextGroup',
-            'QOpenGLDebugLogger',
-            'QOpenGLDebugMessage',
-            'QOpenGLPixelTransferOptions',
-            'QOpenGLTexture',
-            'QOpenGLTextureBlitter',
-            'QOpenGLVersionProfile',
-            'QOpenGLVertexArrayObject',
-            'QOpenGLWindow',
-        ]
-        for name in names:
+        for name in _QTOPENGL_NAMES:
             _missing_optional_names[name] = {
                 'name': 'PySide6.QtOpenGL',
                 'missing_package': 'pyopengl',
