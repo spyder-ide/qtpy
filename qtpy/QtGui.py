@@ -20,10 +20,9 @@ elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
 
-    # Attempt to import QOpenGLWidget, but if that fails, don't throw an exception until the
-    # symbol is explicitly asked for
-    # this allows removing the sizeable OpenGL binaries from pyinstaller bundles, but
-    # maintains compatibility with apps that expect this symbol to be automatically imported
+    # Attempt to import QOpenGLWidget, but if that fails,
+    # don't raise an exception until the name is explicitly accessed.
+    # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError:
@@ -49,10 +48,9 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtGui import *
 
-    # Attempt to import QOpenGLWidget, but if that fails, don't throw an exception until the
-    # symbol is explicitly asked for
-    # this allows removing the sizeable OpenGL binaries from pyinstaller bundles, but
-    # maintains compatibility with apps that expect this symbol to be automatically imported
+    # Attempt to import QOpenGLWidget, but if that fails,
+    # don't raise an exception until the name is explicitly accessed.
+    # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError:
