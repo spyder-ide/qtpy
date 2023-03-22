@@ -26,7 +26,7 @@ elif PYQT6:
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
-    except ImportError:
+    except ImportError as error:
        _missing_optional_names['QOpenGLWidget'] = {
            'name': 'PyQt6.QtOpenGLWidgets',
            'missing_package': 'pyopengl',
@@ -58,7 +58,7 @@ elif PYSIDE6:
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
-    except ImportError:
+    except ImportError as error:
        _missing_optional_names['QOpenGLWidget'] = {
            'name': 'PySide6.QtOpenGLWidgets',
            'missing_package': 'pyopengl',
