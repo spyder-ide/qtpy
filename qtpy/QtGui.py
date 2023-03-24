@@ -90,6 +90,10 @@ if PYQT5 or PYSIDE2:
     QMouseEvent.position = lambda self: __QPointF(float(self.x()), float(self.y()))
     QMouseEvent.globalPosition = lambda self: __QPointF(float(self.globalX()), float(self.globalY()))
 if PYQT6 or PYSIDE6:
+    for _class in (QNativeGestureEvent, QEnterEvent, QTabletEvent, QHoverEvent, QWheelEvent, QMouseEvent):
+        for _obsolete_function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY'):
+            if hasattr(_class, _obsolete_function):
+                delattr(_class, _obsolete_function)
     QSinglePointEvent.pos = lambda self: self.position().toPoint()
     QSinglePointEvent.x = lambda self: self.position().toPoint().x()
     QSinglePointEvent.y = lambda self: self.position().toPoint().y()
