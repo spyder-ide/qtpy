@@ -106,42 +106,11 @@ def test_QSomethingEvent_pos_functions(qtbot):
         qtbot.mouseDClick(window, QtCore.Qt.LeftButton)
 
     # the rest of the functions are not actually tested
-    assert QtGui.QNativeGestureEvent.pos is not None
-    assert QtGui.QNativeGestureEvent.x is not None
-    assert QtGui.QNativeGestureEvent.y is not None
-    assert QtGui.QNativeGestureEvent.globalPos is not None
-    assert QtGui.QNativeGestureEvent.globalX is not None
-    assert QtGui.QNativeGestureEvent.globalY is not None
-    assert QtGui.QNativeGestureEvent.position is not None
-    assert QtGui.QNativeGestureEvent.globalPosition is not None
-    assert QtGui.QEnterEvent.pos is not None
-    assert QtGui.QEnterEvent.x is not None
-    assert QtGui.QEnterEvent.y is not None
-    assert QtGui.QEnterEvent.globalPos is not None
-    assert QtGui.QEnterEvent.globalX is not None
-    assert QtGui.QEnterEvent.globalY is not None
-    assert QtGui.QEnterEvent.position is not None
-    assert QtGui.QEnterEvent.globalPosition is not None
-    assert QtGui.QTabletEvent.pos is not None
-    assert QtGui.QTabletEvent.x is not None
-    assert QtGui.QTabletEvent.y is not None
-    assert QtGui.QTabletEvent.globalPos is not None
-    assert QtGui.QTabletEvent.globalX is not None
-    assert QtGui.QTabletEvent.globalY is not None
-    assert QtGui.QTabletEvent.position is not None
-    assert QtGui.QTabletEvent.globalPosition is not None
-    assert QtGui.QHoverEvent.pos is not None
-    assert QtGui.QHoverEvent.x is not None
-    assert QtGui.QHoverEvent.y is not None
-    assert QtGui.QHoverEvent.position is not None
-    assert QtGui.QTabletEvent.pos is not None
-    assert QtGui.QTabletEvent.x is not None
-    assert QtGui.QTabletEvent.y is not None
-    assert QtGui.QTabletEvent.globalPos is not None
-    assert QtGui.QTabletEvent.globalX is not None
-    assert QtGui.QTabletEvent.globalY is not None
-    assert QtGui.QTabletEvent.position is not None
-    assert QtGui.QTabletEvent.globalPosition is not None
+    for _class in ('QNativeGestureEvent', 'QEnterEvent', 'QTabletEvent'):
+        for _function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY', 'position', 'globalPosition'):
+            assert hasattr(getattr(QtGui, _class), _function)
+    for _function in ('pos', 'x', 'y', 'position'):
+        assert hasattr(QtGui.QHoverEvent, _function)
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
