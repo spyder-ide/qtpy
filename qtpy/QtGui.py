@@ -87,14 +87,31 @@ if PYSIDE2 or PYSIDE6:
 # Fix https://github.com/spyder-ide/qtpy/issues/394
 if PYQT5 or PYSIDE2:
     from qtpy.QtCore import QPointF as __QPointF
-    QMouseEvent.position = lambda self: __QPointF(float(self.x()), float(self.y()))
+    QNativeGestureEvent.x = lambda self: self.localPos().toPoint().x()
+    QNativeGestureEvent.y = lambda self: self.localPos().toPoint().y()
+    QNativeGestureEvent.position = lambda self: self.localPos()
+    QNativeGestureEvent.globalX = lambda self: self.globalPos().x()
+    QNativeGestureEvent.globalY = lambda self: self.globalPos().y()
+    QNativeGestureEvent.globalPosition = lambda self: __QPointF(float(self.globalPos().x()),
+                                                                float(self.globalPos().y()))
+    QEnterEvent.position = lambda self: self.localPos()
+    QEnterEvent.globalPosition = lambda self: __QPointF(float(self.globalX()), float(self.globalY()))
+    QTabletEvent.position = lambda self: self.posF()
+    QTabletEvent.globalPosition = lambda self: self.globalPosF()
+    QHoverEvent.x = lambda self: self.pos().x()
+    QHoverEvent.y = lambda self: self.pos().y()
+    QHoverEvent.position = lambda self: self.posF()
+    # no `QHoverEvent.globalPosition`, `QHoverEvent.globalX`, nor `QHoverEvent.globalY` in the Qt5 docs
+    QMouseEvent.position = lambda self: self.localPos()
     QMouseEvent.globalPosition = lambda self: __QPointF(float(self.globalX()), float(self.globalY()))
 if PYQT6 or PYSIDE6:
-    for _class in (QNativeGestureEvent, QEnterEvent, QTabletEvent, QHoverEvent, QWheelEvent, QMouseEvent):
+    for _class in (QNativeGestureEvent, QEnterEvent, QTabletEvent, QHoverEvent, QMouseEvent):
         for _obsolete_function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY'):
             if hasattr(_class, _obsolete_function):
                 delattr(_class, _obsolete_function)
     QSinglePointEvent.pos = lambda self: self.position().toPoint()
+    QSinglePointEvent.posF = lambda self: self.position()
+    QSinglePointEvent.localPos = lambda self: self.position()
     QSinglePointEvent.x = lambda self: self.position().toPoint().x()
     QSinglePointEvent.y = lambda self: self.position().toPoint().y()
     QSinglePointEvent.globalPos = lambda self: self.globalPosition().toPoint()
