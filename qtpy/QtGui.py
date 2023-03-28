@@ -92,20 +92,24 @@ if PYQT5 or PYSIDE2:
     QNativeGestureEvent.position = lambda self: self.localPos()
     QNativeGestureEvent.globalX = lambda self: self.globalPos().x()
     QNativeGestureEvent.globalY = lambda self: self.globalPos().y()
-    QNativeGestureEvent.globalPosition = lambda self: __QPointF(float(self.globalPos().x()),
-                                                                float(self.globalPos().y()))
+    QNativeGestureEvent.globalPosition = lambda self: __QPointF(
+        float(self.globalPos().x()), float(self.globalPos().y()))
     QEnterEvent.position = lambda self: self.localPos()
-    QEnterEvent.globalPosition = lambda self: __QPointF(float(self.globalX()), float(self.globalY()))
+    QEnterEvent.globalPosition = lambda self: __QPointF(
+        float(self.globalX()), float(self.globalY()))
     QTabletEvent.position = lambda self: self.posF()
     QTabletEvent.globalPosition = lambda self: self.globalPosF()
     QHoverEvent.x = lambda self: self.pos().x()
     QHoverEvent.y = lambda self: self.pos().y()
     QHoverEvent.position = lambda self: self.posF()
-    # no `QHoverEvent.globalPosition`, `QHoverEvent.globalX`, nor `QHoverEvent.globalY` in the Qt5 docs
+    # No `QHoverEvent.globalPosition`, `QHoverEvent.globalX`,
+    # nor `QHoverEvent.globalY` in the Qt5 docs.
     QMouseEvent.position = lambda self: self.localPos()
-    QMouseEvent.globalPosition = lambda self: __QPointF(float(self.globalX()), float(self.globalY()))
+    QMouseEvent.globalPosition = lambda self: __QPointF(
+        float(self.globalX()), float(self.globalY()))
 if PYQT6 or PYSIDE6:
-    for _class in (QNativeGestureEvent, QEnterEvent, QTabletEvent, QHoverEvent, QMouseEvent):
+    for _class in (QNativeGestureEvent, QEnterEvent, QTabletEvent, QHoverEvent,
+                   QMouseEvent):
         for _obsolete_function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY'):
             if hasattr(_class, _obsolete_function):
                 delattr(_class, _obsolete_function)

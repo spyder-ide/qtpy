@@ -107,7 +107,8 @@ def test_QSomethingEvent_pos_functions(qtbot):
 
     # the rest of the functions are not actually tested
     for _class in ('QNativeGestureEvent', 'QEnterEvent', 'QTabletEvent'):
-        for _function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY', 'position', 'globalPosition'):
+        for _function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY',
+                          'position', 'globalPosition'):
             assert hasattr(getattr(QtGui, _class), _function)
     for _function in ('pos', 'x', 'y', 'position'):
         assert hasattr(QtGui.QHoverEvent, _function)
