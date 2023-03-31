@@ -10,9 +10,10 @@
 * [Issue 402](https://github.com/spyder-ide/qtpy/issues/402) - `QTextStreamManipulator` has no `exec` method on PyQt5/6
 * [Issue 394](https://github.com/spyder-ide/qtpy/issues/394) - Differences in QEvent subclass APIs in PyQt6 cause attribute and/or type errors
 * [Issue 390](https://github.com/spyder-ide/qtpy/issues/390) - QtBindingsNotFoundError is not raised correctly (from None) in __init__ ([PR 391](https://github.com/spyder-ide/qtpy/pull/391) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 389](https://github.com/spyder-ide/qtpy/issues/389) - Make `QtWidgets` and `QtGui` modules compatible with `PySide6`/`PyQt6` import locations for `PySide2`/`PyQt5` ([PR 410](https://github.com/spyder-ide/qtpy/pull/410) by [@StSav012](https://github.com/StSav012))
 * [Issue 386](https://github.com/spyder-ide/qtpy/issues/386) - Add official support for Python 3.11 ([PR 392](https://github.com/spyder-ide/qtpy/pull/392) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
 
-In this release 7 issues were closed.
+In this release 8 issues were closed.
 
 ### Pull Requests Merged
 
