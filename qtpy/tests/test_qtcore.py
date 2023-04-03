@@ -67,7 +67,7 @@ def test_QLibraryInfo_location_and_path():
     assert QtCore.QLibraryInfo.location is not None
     assert QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.PrefixPath) is not None
     assert QtCore.QLibraryInfo.path is not None
-    assert QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.PrefixPath) is not None
+    assert QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.PrefixPath) is not None
 
 
 def test_QLibraryInfo_LibraryLocation_and_LibraryPath():
