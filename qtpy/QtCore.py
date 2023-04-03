@@ -58,9 +58,6 @@ elif PYQT6:
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
-    QLibraryInfo.location = QLibraryInfo.path
-    QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
-
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 
@@ -112,5 +109,11 @@ elif PYSIDE6:
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+
+# Mirror https://github.com/spyder-ide/qtpy/pull/393
+if PYQT5 or PYSIDE2:
+    QLibraryInfo.path = QLibraryInfo.location
+    QLibraryInfo.LibraryPath = QLibraryInfo.LibraryLocation
+if PYQT6 or PYSIDE6:
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
