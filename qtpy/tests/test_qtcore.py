@@ -62,15 +62,18 @@ def test_qthread_exec_():
     assert QtCore.QThread.exec_ is not None
 
 
-def test_qlibraryinfo_location():
-    """Test QLibraryInfo.location"""
+def test_QLibraryInfo_location_and_path():
+    """Test `QLibraryInfo.location` and `QLibraryInfo.path`"""
     assert QtCore.QLibraryInfo.location is not None
     assert QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.PrefixPath) is not None
+    assert QtCore.QLibraryInfo.path is not None
+    assert QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.PrefixPath) is not None
 
 
-def test_qlibraryinfo_library_location():
-    """Test QLibraryInfo.LibraryLocation"""
+def test_QLibraryInfo_LibraryLocation_and_LibraryPath():
+    """Test `QLibraryInfo.LibraryLocation` and `QLibraryInfo.LibraryPath`"""
     assert QtCore.QLibraryInfo.LibraryLocation is not None
+    assert QtCore.QLibraryInfo.LibraryPath is not None
 
 
 @pytest.mark.skipif(PYQT5 or PYQT6,

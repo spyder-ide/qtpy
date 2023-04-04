@@ -77,7 +77,7 @@ def test_enum_access():
 @pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
-def test_QMouseEvent_pos_functions(qtbot):
+def test_QSomethingEvent_pos_functions(qtbot):
     """
     Test `QMouseEvent.pos` and related functions removed in Qt 6,
     and `QMouseEvent.position`, etc., missing from Qt 5.
@@ -101,8 +101,17 @@ def test_QMouseEvent_pos_functions(qtbot):
     window.setMinimumSize(320, 240)  # ensure the window is of sufficient size
     window.show()
 
-    qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9))
-    qtbot.mouseDClick(window, QtCore.Qt.LeftButton)
+    with qtbot.waitExposed(window):
+        qtbot.mouseMove(window, QtCore.QPoint(42, 6 * 9))
+        qtbot.mouseDClick(window, QtCore.Qt.LeftButton)
+
+    # the rest of the functions are not actually tested
+    for _class in ('QNativeGestureEvent', 'QEnterEvent', 'QTabletEvent'):
+        for _function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY',
+                          'position', 'globalPosition'):
+            assert hasattr(getattr(QtGui, _class), _function)
+    for _function in ('pos', 'x', 'y', 'position'):
+        assert hasattr(QtGui.QHoverEvent, _function)
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")

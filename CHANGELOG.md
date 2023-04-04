@@ -1,5 +1,42 @@
 # History of changes
 
+## Version 2.3.1 (2023-03-28)
+
+### Issues Closed
+
+* [Issue 416](https://github.com/spyder-ide/qtpy/issues/416) - Release QtPy 2.3.1
+* [Issue 412](https://github.com/spyder-ide/qtpy/issues/412) - How to catch QtBindingsNotFoundError ([PR 413](https://github.com/spyder-ide/qtpy/pull/413) by [@cbrnr](https://github.com/cbrnr))
+* [Issue 405](https://github.com/spyder-ide/qtpy/issues/405) - Remove patch that "may be limited to `PySide-5.11a1` only"
+* [Issue 402](https://github.com/spyder-ide/qtpy/issues/402) - `QTextStreamManipulator` has no `exec` method on PyQt5/6
+* [Issue 394](https://github.com/spyder-ide/qtpy/issues/394) - Differences in QEvent subclass APIs in PyQt6 cause attribute and/or type errors
+* [Issue 390](https://github.com/spyder-ide/qtpy/issues/390) - QtBindingsNotFoundError is not raised correctly (from None) in __init__ ([PR 391](https://github.com/spyder-ide/qtpy/pull/391) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+* [Issue 389](https://github.com/spyder-ide/qtpy/issues/389) - Make `QtWidgets` and `QtGui` modules compatible with `PySide6`/`PyQt6` import locations for `PySide2`/`PyQt5` ([PR 410](https://github.com/spyder-ide/qtpy/pull/410) by [@StSav012](https://github.com/StSav012))
+* [Issue 386](https://github.com/spyder-ide/qtpy/issues/386) - Add official support for Python 3.11 ([PR 392](https://github.com/spyder-ide/qtpy/pull/392) by [@CAM-Gerlach](https://github.com/CAM-Gerlach))
+
+In this release 8 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 417](https://github.com/spyder-ide/qtpy/pull/417) - PR: Add compatibility mappings between bindings for all children of `QSinglePointEvent`, by [@StSav012](https://github.com/StSav012)
+* [PR 414](https://github.com/spyder-ide/qtpy/pull/414) - PR: Skip QtPositioning tests on Conda Qt >=6.4.3 where its not included, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 413](https://github.com/spyder-ide/qtpy/pull/413) - PR: Make `QtBindingsNotFoundError` also inherit from `ImportError`, by [@cbrnr](https://github.com/cbrnr) ([412](https://github.com/spyder-ide/qtpy/issues/412))
+* [PR 410](https://github.com/spyder-ide/qtpy/pull/410) - PR: Improve compatibility for `QtWidgets` and `QtGui` modules between Qt5 and Qt6 bindings, by [@StSav012](https://github.com/StSav012)
+* [PR 408](https://github.com/spyder-ide/qtpy/pull/408) - PR: Add mappings for QMouseEvent methods, by [@StSav012](https://github.com/StSav012)
+* [PR 407](https://github.com/spyder-ide/qtpy/pull/407) - PR: Remove patch that may be limited to PySide-5.11a1 only, by [@StSav012](https://github.com/StSav012)
+* [PR 404](https://github.com/spyder-ide/qtpy/pull/404) - PR: Don't make `QTextStreamManipulator.exec_` on PyQt5/6, by [@StSav012](https://github.com/StSav012)
+* [PR 401](https://github.com/spyder-ide/qtpy/pull/401) - PR: Unskip PySide2 5.15 on Python 3.11 with Conda on CIs, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 398](https://github.com/spyder-ide/qtpy/pull/398) - PR: Make warning usage consistant and refine messages, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 397](https://github.com/spyder-ide/qtpy/pull/397) - Simplify CI script following Qt 5.15.6 feedstock update, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 393](https://github.com/spyder-ide/qtpy/pull/393) - PR: Fix `LibraryLocation` -> `LibraryPath` renaming due to deprecation with Qt6, by [@StSav012](https://github.com/StSav012)
+* [PR 392](https://github.com/spyder-ide/qtpy/pull/392) - PR: Add Python 3.11 to CIs/tags & overhaul CI config, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([386](https://github.com/spyder-ide/qtpy/issues/386))
+* [PR 391](https://github.com/spyder-ide/qtpy/pull/391) - PR: Use raise from None when raising QtBindingsNotFoundError in __init__, by [@CAM-Gerlach](https://github.com/CAM-Gerlach) ([390](https://github.com/spyder-ide/qtpy/issues/390))
+
+In this release 13 pull requests were closed.
+
+
+----
+
+
 ## Version 2.3.0 (2022-11-07)
 
 ### Issues Closed
