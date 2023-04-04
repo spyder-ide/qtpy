@@ -123,3 +123,26 @@ def test_qtextcursor_moveposition():
     assert cursor.position() == cursor.anchor()
     assert cursor.movePosition(QtGui.QTextCursor.NextWord, QtGui.QTextCursor.KeepAnchor, 3)
     assert cursor.selectedText() == "foo bar baz"
+
+
+def test_opengl_imports():
+    """Test for presence of QOpenGL* classes
+    These classes were members of QtGui in Qt5, but moved to QtOpenGL in Qt6.
+    QtPy makes them available in QtGui to maintain compatibility
+    """
+
+    assert QtGui.QOpenGLBuffer is not None
+    assert QtGui.QOpenGLContext is not None
+    assert QtGui.QOpenGLContextGroup is not None
+    assert QtGui.QOpenGLDebugLogger is not None
+    assert QtGui.QOpenGLDebugMessage is not None
+    assert QtGui.QOpenGLFramebufferObject is not None
+    assert QtGui.QOpenGLFramebufferObjectFormat is not None
+    assert QtGui.QOpenGLPixelTransferOptions is not None
+    assert QtGui.QOpenGLShader is not None
+    assert QtGui.QOpenGLShaderProgram is not None
+    assert QtGui.QOpenGLTexture is not None
+    assert QtGui.QOpenGLTextureBlitter is not None
+    assert QtGui.QOpenGLVersionProfile is not None
+    assert QtGui.QOpenGLVertexArrayObject is not None
+    assert QtGui.QOpenGLWindow is not None
