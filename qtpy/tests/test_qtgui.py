@@ -126,9 +126,11 @@ def test_qtextcursor_moveposition():
 
 
 def test_opengl_imports():
-    """Test for presence of QOpenGL* classes
+    """
+    Test for presence of QOpenGL* classes.
+
     These classes were members of QtGui in Qt5, but moved to QtOpenGL in Qt6.
-    QtPy makes them available in QtGui to maintain compatibility
+    QtPy makes them available in QtGui to maintain compatibility.
     """
 
     assert QtGui.QOpenGLBuffer is not None

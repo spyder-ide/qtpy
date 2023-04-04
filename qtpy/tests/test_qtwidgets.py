@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYSIDE2, PYQT_VERSION, QtCore, QtGui, QtWidgets
+from qtpy import PYQT5, PYQT_VERSION, QtCore, QtGui, QtWidgets
 from qtpy.tests.utils import using_conda, not_using_conda
 
 
@@ -119,8 +119,10 @@ def test_enum_access():
 
 
 def test_opengl_imports():
-    """Test for presence of QOpenGLWidget
+    """
+    Test for presence of QOpenGLWidget.
+
     QOpenGLWidget was a member of QtWidgets in Qt5, but moved to QtOpenGLWidgets in Qt6.
-    QtPy makes QOpenGLWidget available in QtWidgets to maintain compatibility
+    QtPy makes QOpenGLWidget available in QtWidgets to maintain compatibility.
     """
     assert QtWidgets.QOpenGLWidget is not None
