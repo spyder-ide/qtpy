@@ -42,7 +42,7 @@ elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
 
-    # Attempt to import QOpenGLWidget, but if that fails,
+    # Attempt to import QOpenGL* classes, but if that fails,
     # don't raise an exception until the name is explicitly accessed.
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
@@ -79,7 +79,7 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtGui import *
 
-    # Attempt to import QOpenGLWidget, but if that fails,
+    # Attempt to import QOpenGL* classes, but if that fails,
     # don't raise an exception until the name is explicitly accessed.
     # See https://github.com/spyder-ide/qtpy/pull/387/
     try:
