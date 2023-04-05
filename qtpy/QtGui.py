@@ -156,12 +156,6 @@ if PYQT5 or PYSIDE2:
     QMouseEvent.globalPosition = lambda self: __QPointF(
         float(self.globalX()), float(self.globalY()))
 if PYQT6 or PYSIDE6:
-    QMouseEvent.pos = lambda self: self.position().toPoint()
-    QMouseEvent.x = lambda self: self.position().toPoint().x()
-    QMouseEvent.y = lambda self: self.position().toPoint().y()
-    QMouseEvent.globalPos = lambda self: self.globalPosition().toPoint()
-    QMouseEvent.globalX = lambda self: self.globalPosition().toPoint().x()
-    QMouseEvent.globalY = lambda self: self.globalPosition().toPoint().y()
     for _class in (QNativeGestureEvent, QEnterEvent, QTabletEvent, QHoverEvent,
                    QMouseEvent):
         for _obsolete_function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY'):
