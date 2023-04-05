@@ -19,12 +19,6 @@ if PYQT5:
     from PyQt5.QtCore import pyqtProperty as Property
     from PyQt5.QtCore import QT_VERSION_STR as __version__
 
-    # For issue #153 and updated for issue #305
-    from PyQt5.QtCore import QDate, QDateTime, QTime
-    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
-    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
-
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 
@@ -36,12 +30,6 @@ elif PYQT6:
     from PyQt6.QtCore import pyqtSlot as Slot
     from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
-
-    # For issue #153 and updated for issue #305
-    from PyQt6.QtCore import QDate, QDateTime, QTime
-    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
-    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
     # For issue #311
     # Seems like there is an error with sip. Without first
