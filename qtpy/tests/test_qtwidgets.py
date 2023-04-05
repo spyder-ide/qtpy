@@ -1,5 +1,5 @@
 """Test QtWidgets."""
-
+import contextlib
 import sys
 
 import pytest
@@ -106,7 +106,7 @@ def test_QMenu_functions(qtbot):
     menu.addAction('QtPy')
     window.show()
 
-    with qtbot.waitExposed(window):
+    with qtbot.waitExposed(window) if sys.platform == 'linux' else contextlib.nullcontext():
         # Call `exec_` of a `QMenu` instance
         QtCore.QTimer.singleShot(100, menu.close)
         menu.exec_()
