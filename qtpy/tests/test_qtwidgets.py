@@ -90,10 +90,10 @@ def test_qdialog_subclass(qtbot):
     QtCore.QTimer.singleShot(100, dialog.accept)
     dialog.exec_()
 
-#
-# @pytest.mark.skipif(
-#     sys.platform.startswith('linux') and not_using_conda(),
-#     reason="Fatal Python error: Aborted on Linux CI when not using conda")
+
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
