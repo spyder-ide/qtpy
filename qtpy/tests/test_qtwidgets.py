@@ -98,12 +98,25 @@ def test_qdialog_subclass(qtbot):
 @pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
-def test_qmenu_functions(qtbot):
-    """Test functions mapping for QtWidgets.QDialog."""
-    assert QtWidgets.QMenu.exec_
-    menu = QtWidgets.QMenu(None)
-    QtCore.QTimer.singleShot(100, menu.close)
-    menu.exec_()
+def test_QMenu_functions(qtbot):
+    """Test functions mapping for `QtWidgets.QMenu`."""
+    # A window is required for static calls
+    window = QtWidgets.QMainWindow()
+    menu = QtWidgets.QMenu(window)
+    menu.addAction('QtPy')
+    window.show()
+
+    with qtbot.waitExposed(window):
+        # Call `exec_` of a `QMenu` instance
+        QtCore.QTimer.singleShot(100, menu.close)
+        menu.exec_()
+
+        # Call static `QMenu.exec_`
+        QtCore.QTimer.singleShot(100, lambda: qtbot.keyClick(
+            QtWidgets.QApplication.widgetAt(1, 1),
+            QtCore.Qt.Key.Key_Escape)
+        )
+        QtWidgets.QMenu.exec_(menu.actions(), QtCore.QPoint(1, 1))
 
 
 @pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
