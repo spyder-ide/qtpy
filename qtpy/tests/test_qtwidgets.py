@@ -1,5 +1,4 @@
 """Test QtWidgets."""
-import contextlib
 import sys
 
 import pytest
@@ -91,10 +90,10 @@ def test_qdialog_subclass(qtbot):
     QtCore.QTimer.singleShot(100, dialog.accept)
     dialog.exec_()
 
-
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+#
+# @pytest.mark.skipif(
+#     sys.platform.startswith('linux') and not_using_conda(),
+#     reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
@@ -106,7 +105,7 @@ def test_QMenu_functions(qtbot):
     menu.addAction('QtPy')
     window.show()
 
-    with qtbot.waitExposed(window) if sys.platform == 'linux' else contextlib.nullcontext():
+    with qtbot.waitExposed(window):
         # Call `exec_` of a `QMenu` instance
         QtCore.QTimer.singleShot(100, menu.close)
         menu.exec_()
@@ -114,7 +113,7 @@ def test_QMenu_functions(qtbot):
         # Call static `QMenu.exec_`
         QtCore.QTimer.singleShot(100, lambda: qtbot.keyClick(
             QtWidgets.QApplication.widgetAt(1, 1),
-            QtCore.Qt.Key.Key_Escape)
+            QtCore.Qt.Key_Escape)
         )
         QtWidgets.QMenu.exec_(menu.actions(), QtCore.QPoint(1, 1))
 
