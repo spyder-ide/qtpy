@@ -8,7 +8,35 @@
 
 """Provides QtGui classes and functions."""
 
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
+from .utils import getattr_missing_optional_dep
+
+
+_missing_optional_names = {}
+
+_QTOPENGL_NAMES = {
+    'QOpenGLBuffer',
+    'QOpenGLContext',
+    'QOpenGLContextGroup',
+    'QOpenGLDebugLogger',
+    'QOpenGLDebugMessage',
+    'QOpenGLFramebufferObject',
+    'QOpenGLFramebufferObjectFormat',
+    'QOpenGLPixelTransferOptions',
+    'QOpenGLShader',
+    'QOpenGLShaderProgram',
+    'QOpenGLTexture',
+    'QOpenGLTextureBlitter',
+    'QOpenGLVersionProfile',
+    'QOpenGLVertexArrayObject',
+    'QOpenGLWindow',
+}
+
+def __getattr__(name):
+    """Custom getattr to chain and wrap errors due to missing optional deps."""
+    raise getattr_missing_optional_dep(
+        name, module_name=__name__, optional_names=_missing_optional_names)
+
 
 if PYQT5:
     from PyQt5.QtGui import *
@@ -18,7 +46,20 @@ if PYQT5:
 elif PYQT6:
     from PyQt6 import QtGui
     from PyQt6.QtGui import *
-    from PyQt6.QtOpenGL import *
+
+    # Attempt to import QOpenGL* classes, but if that fails,
+    # don't raise an exception until the name is explicitly accessed.
+    # See https://github.com/spyder-ide/qtpy/pull/387/
+    try:
+        from PyQt6.QtOpenGL import *
+    except ImportError as error:
+        for name in _QTOPENGL_NAMES:
+            _missing_optional_names[name] = {
+                'name': 'PyQt6.QtOpenGL',
+                'missing_package': 'pyopengl',
+                'import_error': error,
+            }
+
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
     QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 
@@ -42,7 +83,19 @@ elif PYSIDE2:
         QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(*args, **kwargs)
 elif PYSIDE6:
     from PySide6.QtGui import *
-    from PySide6.QtOpenGL import *
+
+    # Attempt to import QOpenGL* classes, but if that fails,
+    # don't raise an exception until the name is explicitly accessed.
+    # See https://github.com/spyder-ide/qtpy/pull/387/
+    try:
+        from PySide6.QtOpenGL import *
+    except ImportError as error:
+        for name in _QTOPENGL_NAMES:
+            _missing_optional_names[name] = {
+                'name': 'PySide6.QtOpenGL',
+                'missing_package': 'pyopengl',
+                'import_error': error,
+            }
 
     # Backport `QFileSystemModel` moved to QtGui in Qt6
     from PySide6.QtWidgets import QFileSystemModel
@@ -121,3 +174,4 @@ if PYQT6 or PYSIDE6:
     QSinglePointEvent.globalPos = lambda self: self.globalPosition().toPoint()
     QSinglePointEvent.globalX = lambda self: self.globalPosition().toPoint().x()
     QSinglePointEvent.globalY = lambda self: self.globalPosition().toPoint().y()
+

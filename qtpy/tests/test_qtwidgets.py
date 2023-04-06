@@ -116,3 +116,13 @@ def test_enum_access():
     assert QtWidgets.QStyle.State_None == QtWidgets.QStyle.StateFlag.State_None
     assert QtWidgets.QSlider.TicksLeft == QtWidgets.QSlider.TickPosition.TicksAbove
     assert QtWidgets.QStyle.SC_SliderGroove == QtWidgets.QStyle.SubControl.SC_SliderGroove
+
+
+def test_opengl_imports():
+    """
+    Test for presence of QOpenGLWidget.
+
+    QOpenGLWidget was a member of QtWidgets in Qt5, but moved to QtOpenGLWidgets in Qt6.
+    QtPy makes QOpenGLWidget available in QtWidgets to maintain compatibility.
+    """
+    assert QtWidgets.QOpenGLWidget is not None
