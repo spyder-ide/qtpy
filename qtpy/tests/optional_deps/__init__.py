@@ -4,7 +4,7 @@
 # See https://github.com/spyder-ide/qtpy/pull/387/
 
 
-from qtpy.utils import _getattr_missing_optional_dep
+from qtpy.utils import getattr_missing_optional_dep
 from .optional_dep import ExampleClass
 
 
@@ -23,5 +23,5 @@ except ImportError as error:
 
 def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
-    raise _getattr_missing_optional_dep(
+    raise getattr_missing_optional_dep(
         name, module_name=__name__, optional_names=_missing_optional_names)

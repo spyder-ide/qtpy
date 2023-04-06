@@ -9,7 +9,7 @@
 """Provides QtGui classes and functions."""
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from .utils import _getattr_missing_optional_dep
+from .utils import getattr_missing_optional_dep
 
 
 _missing_optional_names = {}
@@ -31,6 +31,11 @@ _QTOPENGL_NAMES = {
     'QOpenGLVertexArrayObject',
     'QOpenGLWindow',
 }
+
+def __getattr__(name):
+    """Custom getattr to chain and wrap errors due to missing optional deps."""
+    raise getattr_missing_optional_dep(
+        name, module_name=__name__, optional_names=_missing_optional_names)
 
 
 if PYQT5:
@@ -170,7 +175,3 @@ if PYQT6 or PYSIDE6:
     QSinglePointEvent.globalX = lambda self: self.globalPosition().toPoint().x()
     QSinglePointEvent.globalY = lambda self: self.globalPosition().toPoint().y()
 
-def __getattr__(name):
-    """Custom getattr to chain and wrap errors due to missing optional deps."""
-    raise _getattr_missing_optional_dep(
-        name, module_name=__name__, optional_names=_missing_optional_names)

@@ -24,7 +24,7 @@ def _wrap_missing_optional_dep_error(
     return qtpy_error
 
 
-def _getattr_missing_optional_dep(name, module_name, optional_names):
+def getattr_missing_optional_dep(name, module_name, optional_names):
     """Wrap AttributeError in a special error if it matches."""
     attr_error = AttributeError(f'module {module_name!r} has no attribute {name!r}')
     if name in optional_names:
