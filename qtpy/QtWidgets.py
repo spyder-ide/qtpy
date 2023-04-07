@@ -64,3 +64,4 @@ elif PYSIDE6:
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda *args, **kwargs: _possibly_static_exec(QMenu, *args, **kwargs)
+
