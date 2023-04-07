@@ -14,11 +14,11 @@ from .utils import getattr_missing_optional_dep
 
 _missing_optional_names = {}
 
+
 def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
     raise getattr_missing_optional_dep(
         name, module_name=__name__, optional_names=_missing_optional_names)
-
 
 
 def _possibly_static_exec(cls, *args, **kwargs):
@@ -95,5 +95,4 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QMenu.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-
+    QMenu.exec_ = lambda *args, **kwargs: _possibly_static_exec(QMenu, *args, **kwargs)
