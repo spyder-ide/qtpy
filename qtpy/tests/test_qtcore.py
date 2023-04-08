@@ -1,5 +1,6 @@
 """Test QtCore."""
 
+import enum
 import sys
 from datetime import date, datetime, time
 
@@ -67,6 +68,21 @@ def test_qeventloop_exec_(qtbot):
 def test_qthread_exec_():
     """Test QThread.exec_"""
     assert QtCore.QThread.exec_ is not None
+
+
+def test_qenum():
+    """Test QEnum macro"""
+    class EnumTest(QtCore.QObject):
+        class Position(enum.IntEnum):
+            West = 0
+            North = 1
+            South = 2
+            East = 3
+
+        QtCore.QEnum(Position)
+
+    obj = EnumTest()
+    assert obj.metaObject().enumerator(0).name() == "Position"
 
 
 def test_QLibraryInfo_location_and_path():
