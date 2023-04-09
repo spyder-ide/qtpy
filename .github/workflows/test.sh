@@ -12,22 +12,26 @@ if [ "${!QT_VERSION_VAR:0:3}" = "5.9" ]; then
     PYTEST_VERSION=">=6,!=7.0.0,!=7.0.1,<7.2.0"
 fi
 
-mamba create -y -n test-env-${BINDING} python=${PYTHON_VERSION} pytest${PYTEST_VERSION:-">=6,!=7.0.0,!=7.0.1"} "pytest-cov>=3.0.0" pytest-qt${PYTESTQT_VERSION:-}
-conda activate test-env-${BINDING}
 
 if [ "$USE_CONDA" = "Yes" ]; then
 
     if [ "${1}" = "pyqt5" ]; then
-        mamba install -y qt=${PYQT5_QT_VERSION} pyqt=${PYQT5_VERSION}
+        QT_SPECS="qt=${PYQT5_QT_VERSION} pyqt=${PYQT5_VERSION}"
     elif [ "${1}" = "pyside2" ]; then
-        mamba install -y qt=${PYSIDE2_QT_VERSION} pyside2=${PYSIDE2_VERSION}
+        QT_SPECS="qt=${PYSIDE2_QT_VERSION} pyside2=${PYSIDE2_VERSION}"
     elif [ "${1}" = "pyside6" ]; then
-        mamba install -y qt6-main=${PYSIDE6_QT_VERSION} pyside6=${PYSIDE6_VERSION}
+        QT_SPECS="qt6-main=${PYSIDE6_QT_VERSION} pyside6=${PYSIDE6_VERSION}"
     else
         exit 1
     fi
 
-else
+fi
+
+mamba create -y -n test-env-${BINDING} python=${PYTHON_VERSION} pytest${PYTEST_VERSION:->=6,!=7.0.0,!=7.0.1} pytest-cov>=3.0.0 pytest-qt${PYTESTQT_VERSION:-} ${QT_SPECS:-}
+
+conda activate test-env-${BINDING}
+
+if [ "$USE_CONDA" = "No" ]; then
 
     if [ "${1}" = "pyqt5" ]; then
         pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.*
