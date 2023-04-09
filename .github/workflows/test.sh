@@ -1,10 +1,6 @@
 #!/bin/bash -ex
 
-# Activate conda properly
 eval "$(conda shell.bash hook)"
-
-# Remove any existing env
-conda remove -q -n test-env --all || true
 
 # Create and activate conda environment for this test
 BINDING=$(echo "$1" | tr '[:lower:]' '[:upper:]')
@@ -16,8 +12,8 @@ if [ "${!QT_VERSION_VAR:0:3}" = "5.9" ]; then
     PYTEST_VERSION=">=6,!=7.0.0,!=7.0.1,<7.2.0"
 fi
 
-conda create -q -n test-env python=${PYTHON_VERSION} pytest${PYTEST_VERSION:-">=6,!=7.0.0,!=7.0.1"} "pytest-cov>=3.0.0" pytest-qt${PYTESTQT_VERSION:-}
-conda activate test-env
+conda create -q -n test-env-${BINDING} python=${PYTHON_VERSION} pytest${PYTEST_VERSION:-">=6,!=7.0.0,!=7.0.1"} "pytest-cov>=3.0.0" pytest-qt${PYTESTQT_VERSION:-}
+conda activate test-env-${BINDING}
 
 if [ "$USE_CONDA" = "Yes" ]; then
 

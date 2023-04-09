@@ -121,7 +121,7 @@ jobs:
         if: always() && (! (matrix.skip-pyside6))
         run: ./.github/workflows/test.sh pyside6
       - name: Upload coverage data to coveralls.io
-        shell: bash
+        shell: bash -e {0}
         env:
           COVERALLS_FLAG_NAME: ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
