@@ -103,11 +103,13 @@ jobs:
            auto-update-conda: true
            channels: conda-forge
            channel-priority: strict
+           miniforge-variant: Mambaforge
+           use-mamba: true
       - name: Print Conda info
         shell: bash -l {0}
         run: |
-          conda info
-          conda list
+          mamba info
+          mamba list
       - name: Test PyQt5
         if: (! matrix.skip-pyqt5)
         run: ./.github/workflows/test.sh pyqt5
