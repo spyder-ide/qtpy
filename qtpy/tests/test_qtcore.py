@@ -26,30 +26,27 @@ def test_qtmsghandler():
     assert QtCore.qInstallMessageHandler is not None
 
 
-def test_QDateTime_toPython_and_toPyDateTime():
+@pytest.mark.parametrize('method', ['toPython', 'toPyDateTime'])
+def test_QDateTime_toPython_and_toPyDateTime(method):
     """Test `QDateTime.toPython` and `QDateTime.toPyDateTime`"""
     q_datetime = QtCore.QDateTime(NOW)
-    py_date = q_datetime.toPython()
-    assert py_date == NOW
-    py_date = q_datetime.toPyDateTime()
-    assert py_date == NOW
+    py_datetime = getattr(q_datetime, method)()
+    assert py_datetime == NOW
 
 
-def test_QDate_toPython_and_toPyDate():
+@pytest.mark.parametrize('method', ['toPython', 'toPyDate'])
+def test_QDate_toPython_and_toPyDate(method):
     """Test `QDate.toPython` and `QDate.toPyDate`"""
     q_date = QtCore.QDateTime(NOW).date()
-    py_date = q_date.toPython()
-    assert py_date == NOW.date()
-    py_date = q_date.toPyDate()
+    py_date = getattr(q_date, method)()
     assert py_date == NOW.date()
 
 
-def test_QTime_toPython_and_toPyTime():
+@pytest.mark.parametrize('method', ['toPython', 'toPyTime'])
+def test_QTime_toPython_and_toPyTime(method):
     """Test `QTime.toPython` and `QTime.toPyTime`"""
     q_time = QtCore.QDateTime(NOW).time()
-    py_time = q_time.toPython()
-    assert py_time == NOW.time()
-    py_time = q_time.toPyTime()
+    py_time = getattr(q_time, method)()
     assert py_time == NOW.time()
 
 
