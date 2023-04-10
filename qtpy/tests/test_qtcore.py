@@ -16,9 +16,9 @@ from qtpy import (
 )
 from qtpy.tests.utils import not_using_conda
 
-NOW = datetime.now()
+_now = datetime.now()
 # Make integer milliseconds; `floor` here, don't `round`!
-NOW = NOW.replace(microsecond=(NOW.microsecond // 1000 * 1000))
+NOW = _now.replace(microsecond=(_now.microsecond // 1000 * 1000))
 
 
 def test_qtmsghandler():
