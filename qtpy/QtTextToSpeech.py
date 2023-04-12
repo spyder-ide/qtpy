@@ -7,11 +7,13 @@
 
 """Provides QtTextToSpeech classes and functions."""
 
+from packaging.version import parse
 from . import (
     PYQT5,
     PYQT6,
     PYSIDE2,
     PYSIDE6,
+    PYSIDE_VERSION,
     QtBindingMissingModuleError,
 )
 
@@ -22,4 +24,7 @@ elif PYQT6:
 elif PYSIDE2:
     from PySide2.QtTextToSpeech import *
 elif PYSIDE6:
-    raise QtBindingMissingModuleError(name='QtTextToSpeech')
+    if parse(PYSIDE_VERSION) >= parse('6.5'):
+        from PySide6.QtTextToSpeech import *
+    else:
+        raise QtBindingMissingModuleError(name='QtTextToSpeech')
