@@ -34,8 +34,11 @@ def test_qdrag_functions(qtbot):
     drag.exec_()
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_QGuiApplication_exec_():
-    """Test `QtGui.QGuiApplication._exec_`"""
+    """Test `QtGui.QGuiApplication.exec_`"""
     assert QtGui.QGuiApplication.exec_ is not None
     app = QtGui.QGuiApplication.instance() or QtGui.QGuiApplication([sys.executable, __file__])
     assert app is not None

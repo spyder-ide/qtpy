@@ -53,8 +53,11 @@ def test_qplaintextedit_functions(qtbot, pdf_writer):
     assert output_path.exists()
 
 
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_QApplication_exec_():
-    """Test `QtWidgets.QApplication._exec_`"""
+    """Test `QtWidgets.QApplication.exec_`"""
     assert QtWidgets.QApplication.exec_ is not None
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([sys.executable, __file__])
     assert app is not None
