@@ -8,7 +8,7 @@
 """Provides QtTextToSpeech classes and functions."""
 
 from packaging.version import parse
-from . import (
+from qtpy import (
     PYQT5,
     PYQT6,
     PYSIDE2,
