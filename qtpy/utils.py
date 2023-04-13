@@ -34,9 +34,12 @@ def getattr_missing_optional_dep(name, module_name, optional_names):
 
 def _possibly_static_exec(cls, *args, **kwargs):
     """Call `self.exec` when `self` is given or a static method otherwise."""
+    if not args and not kwargs:
+        # A special case (`cls.exec_()`) to avoid the function resolving error
+        return cls.exec()
     if isinstance(args[0], cls):
         if len(args) == 1 and not kwargs:
-            # A special case to avoid the function resolving error
+            # A special case (`self.exec_()`) to avoid the function resolving error
             return args[0].exec()
         return args[0].exec(*args[1:], **kwargs)
     else:
