@@ -22,7 +22,7 @@ def __getattr__(name):
 
 
 def _possibly_static_exec(cls, *args, **kwargs):
-    """ Call `self.exec` when `self` is given or a static method otherwise. """
+    """Call `self.exec` when `self` is given or a static method otherwise."""
     if isinstance(args[0], cls):
         if len(args) == 1 and not kwargs:
             # A special case to avoid the function resolving error
