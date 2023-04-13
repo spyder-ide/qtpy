@@ -9,7 +9,7 @@
 """Provides QtGui classes and functions."""
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from .utils import getattr_missing_optional_dep
+from .utils import _possibly_static_exec, getattr_missing_optional_dep
 
 
 _missing_optional_names = {}
@@ -65,7 +65,7 @@ elif PYQT6:
 
     # Map missing/renamed methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QGuiApplication.exec_ = QGuiApplication.exec
+    QGuiApplication.exec_ = lambda *args, **kwargs: _possibly_static_exec(QGuiApplication, *args, **kwargs)
     QTextDocument.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
 
     # Allow unscoped access for enums inside the QtGui module
@@ -105,7 +105,7 @@ elif PYSIDE6:
 
     # Map DeprecationWarning methods
     QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QGuiApplication.exec_ = QGuiApplication.exec
+    QGuiApplication.exec_ = lambda *args, **kwargs: _possibly_static_exec(QGuiApplication, *args, **kwargs)
 
 if PYSIDE2 or PYSIDE6:
     # PySide{2,6} do not accept the `mode` keyword argument in

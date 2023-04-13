@@ -53,9 +53,17 @@ def test_qplaintextedit_functions(qtbot, pdf_writer):
     assert output_path.exists()
 
 
-def test_qapplication_functions():
-    """Test functions mapping for QtWidgets.QApplication."""
-    assert QtWidgets.QApplication.exec_
+def test_QApplication_exec_():
+    """Test `QtWidgets.QApplication._exec_`"""
+    assert QtWidgets.QApplication.exec_ is not None
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtWidgets.QApplication.instance().quit)
+    QtWidgets.QApplication.exec_()
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtWidgets.QApplication.instance().quit)
+    app.exec_()
 
 
 @pytest.mark.skipif(
