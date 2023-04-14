@@ -125,9 +125,19 @@ jobs:
       - name: Upload coverage data to coveralls.io
         shell: bash -e {0}
         env:
+          COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd temp_test_dir  # Switch to test working dir per non-src-layout hack
           cat qtpy_basedir.txt
           pipx run coveralls --service=github --rcfile="../.coveragerc" --basedir="../qtpy"
+  finish:
+    needs: test
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel-finished: true
