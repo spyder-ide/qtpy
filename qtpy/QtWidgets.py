@@ -9,7 +9,7 @@
 """Provides widget classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from .utils import _possibly_static_exec, getattr_missing_optional_dep
+from .utils import possibly_static_exec, getattr_missing_optional_dep
 
 
 _missing_optional_names = {}
@@ -47,9 +47,9 @@ elif PYQT6:
     QPlainTextEdit.setTabStopWidth = lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
     QPlainTextEdit.tabStopWidth = lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
     QPlainTextEdit.print_ = lambda self, *args, **kwargs: self.print(*args, **kwargs)
-    QApplication.exec_ = lambda *args, **kwargs: _possibly_static_exec(QApplication, *args, **kwargs)
+    QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(QApplication, *args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QMenu.exec_ = lambda *args, **kwargs: _possibly_static_exec(QMenu, *args, **kwargs)
+    QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(QMenu, *args, **kwargs)
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Allow unscoped access for enums inside the QtWidgets module
@@ -82,6 +82,6 @@ elif PYSIDE6:
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Map DeprecationWarning methods
-    QApplication.exec_ = lambda *args, **kwargs: _possibly_static_exec(QApplication, *args, **kwargs)
+    QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(QApplication, *args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QMenu.exec_ = lambda *args, **kwargs: _possibly_static_exec(QMenu, *args, **kwargs)
+    QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(QMenu, *args, **kwargs)
