@@ -130,4 +130,4 @@ jobs:
         run: |
           cd temp_test_dir  # Switch to test working dir per non-src-layout hack
           cat qtpy_basedir.txt
-          pipx run coveralls --service=github --rcfile="../.coveragerc" --basedir="$(cat qtpy_basedir.txt)"
+          pipx run coveralls --service=github --rcfile="../.coveragerc"
