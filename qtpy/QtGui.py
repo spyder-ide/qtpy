@@ -9,7 +9,7 @@
 """Provides QtGui classes and functions."""
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from .utils import possibly_static_exec, getattr_missing_optional_dep
+from .utils import possibly_static_exec
 
 
 _missing_optional_names = {}
@@ -32,8 +32,11 @@ _QTOPENGL_NAMES = {
     'QOpenGLWindow',
 }
 
+
 def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
+    from .utils import getattr_missing_optional_dep
+
     raise getattr_missing_optional_dep(
         name, module_name=__name__, optional_names=_missing_optional_names)
 
@@ -53,8 +56,8 @@ elif PYQT6:
     try:
         from PyQt6.QtOpenGL import *
     except ImportError as error:
-        for name in _QTOPENGL_NAMES:
-            _missing_optional_names[name] = {
+        for _name in _QTOPENGL_NAMES:
+            _missing_optional_names[_name] = {
                 'name': 'PyQt6.QtOpenGL',
                 'missing_package': 'pyopengl',
                 'import_error': error,
@@ -90,8 +93,8 @@ elif PYSIDE6:
     try:
         from PySide6.QtOpenGL import *
     except ImportError as error:
-        for name in _QTOPENGL_NAMES:
-            _missing_optional_names[name] = {
+        for _name in _QTOPENGL_NAMES:
+            _missing_optional_names[_name] = {
                 'name': 'PySide6.QtOpenGL',
                 'missing_package': 'pyopengl',
                 'import_error': error,
@@ -175,3 +178,6 @@ if PYQT6 or PYSIDE6:
     QSinglePointEvent.globalX = lambda self: self.globalPosition().toPoint().x()
     QSinglePointEvent.globalY = lambda self: self.globalPosition().toPoint().y()
 
+# Delete imported items, which are not the part of QtGui
+del PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
+del possibly_static_exec

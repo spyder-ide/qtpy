@@ -118,3 +118,8 @@ if PYQT5 or PYSIDE2:
 if PYQT6 or PYSIDE6:
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
+
+# Delete imported items, which are not the part of QtCore
+del TYPE_CHECKING
+del PYQT6, PYQT5, PYSIDE2, PYSIDE6
+del possibly_static_exec
