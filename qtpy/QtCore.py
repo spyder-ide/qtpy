@@ -19,12 +19,6 @@ if PYQT5:
     from PyQt5.QtCore import pyqtProperty as Property
     from PyQt5.QtCore import QT_VERSION_STR as __version__
 
-    # For issue #153 and updated for issue #305
-    from PyQt5.QtCore import QDate, QDateTime, QTime
-    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
-    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
-
     # Those are imported from `import *`
     del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
 
@@ -36,12 +30,6 @@ elif PYQT6:
     from PyQt6.QtCore import pyqtSlot as Slot
     from PyQt6.QtCore import pyqtProperty as Property
     from PyQt6.QtCore import QT_VERSION_STR as __version__
-
-    # For issue #153 and updated for issue #305
-    from PyQt6.QtCore import QDate, QDateTime, QTime
-    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
-    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
 
     # For issue #311
     # Seems like there is an error with sip. Without first
@@ -109,6 +97,16 @@ elif PYSIDE6:
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+
+# For issue #153 and updated for issue #305
+if PYQT5 or PYQT6:
+    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(*args, **kwargs)
+    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(*args, **kwargs)
+    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(*args, **kwargs)
+if PYSIDE2 or PYSIDE6:
+    QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
+    QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(*args, **kwargs)
 
 # Mirror https://github.com/spyder-ide/qtpy/pull/393
 if PYQT5 or PYSIDE2:

@@ -1,7 +1,7 @@
 """Test QtCore."""
 
-from datetime import date, datetime, time
 import sys
+from datetime import date, datetime, time
 
 import pytest
 
@@ -16,34 +16,41 @@ from qtpy import (
 )
 from qtpy.tests.utils import not_using_conda
 
+_now = datetime.now()
+# Make integer milliseconds; `floor` here, don't `round`!
+NOW = _now.replace(microsecond=(_now.microsecond // 1000 * 1000))
+
 
 def test_qtmsghandler():
     """Test qtpy.QtMsgHandler"""
     assert QtCore.qInstallMessageHandler is not None
 
 
-def test_qdatetime_toPython():
-    """Test QDateTime.toPython"""
-    q_date = QtCore.QDateTime.currentDateTime()
-    assert QtCore.QDateTime.toPython is not None
-    py_date = q_date.toPython()
-    assert isinstance(py_date, datetime)
+@pytest.mark.parametrize('method', ['toPython', 'toPyDateTime'])
+def test_QDateTime_toPython_and_toPyDateTime(method):
+    """Test `QDateTime.toPython` and `QDateTime.toPyDateTime`"""
+    q_datetime = QtCore.QDateTime(NOW)
+    py_datetime = getattr(q_datetime, method)()
+    assert isinstance(py_datetime, datetime)
+    assert py_datetime == NOW
 
 
-def test_qdate_toPython():
-    """Test QDate.toPython"""
-    q_date = QtCore.QDate.currentDate()
-    assert QtCore.QDate.toPython is not None
-    py_date = q_date.toPython()
+@pytest.mark.parametrize('method', ['toPython', 'toPyDate'])
+def test_QDate_toPython_and_toPyDate(method):
+    """Test `QDate.toPython` and `QDate.toPyDate`"""
+    q_date = QtCore.QDateTime(NOW).date()
+    py_date = getattr(q_date, method)()
     assert isinstance(py_date, date)
+    assert py_date == NOW.date()
 
 
-def test_qtime_toPython():
-    """Test QTime.toPython"""
-    q_time = QtCore.QTime.currentTime()
-    assert QtCore.QTime.toPython is not None
-    py_time = q_time.toPython()
+@pytest.mark.parametrize('method', ['toPython', 'toPyTime'])
+def test_QTime_toPython_and_toPyTime(method):
+    """Test `QTime.toPython` and `QTime.toPyTime`"""
+    q_time = QtCore.QDateTime(NOW).time()
+    py_time = getattr(q_time, method)()
     assert isinstance(py_time, time)
+    assert py_time == NOW.time()
 
 
 @pytest.mark.skipif(
