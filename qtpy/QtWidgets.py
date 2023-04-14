@@ -9,7 +9,7 @@
 """Provides widget classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from .utils import possibly_static_exec
+from .utils import possibly_static_exec, getattr_missing_optional_dep
 
 
 _missing_optional_names = {}
@@ -17,8 +17,6 @@ _missing_optional_names = {}
 
 def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
-    from .utils import getattr_missing_optional_dep
-
     raise getattr_missing_optional_dep(
         name, module_name=__name__, optional_names=_missing_optional_names)
 
@@ -87,7 +85,3 @@ elif PYSIDE6:
     QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(QApplication, *args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(QMenu, *args, **kwargs)
-
-# Delete imported items, which are not the part of QtWidgets
-del PYQT6, PYQT5, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-del possibly_static_exec
