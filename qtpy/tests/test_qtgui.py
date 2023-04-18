@@ -34,9 +34,20 @@ def test_qdrag_functions(qtbot):
     drag.exec_()
 
 
-def test_qguiapplication_functions():
-    """Test functions mapping for QtGui.QGuiApplication."""
+@pytest.mark.skipif(
+    sys.platform.startswith('linux') and not_using_conda(),
+    reason="Fatal Python error: Aborted on Linux CI when not using conda")
+def test_QGuiApplication_exec_():
+    """Test `QtGui.QGuiApplication.exec_`"""
     assert QtGui.QGuiApplication.exec_ is not None
+    app = QtGui.QGuiApplication.instance() or QtGui.QGuiApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtGui.QGuiApplication.instance().quit)
+    QtGui.QGuiApplication.exec_()
+    app = QtGui.QGuiApplication.instance() or QtGui.QGuiApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtGui.QGuiApplication.instance().quit)
+    app.exec_()
 
 
 def test_what_moved_to_qtgui_in_qt6():

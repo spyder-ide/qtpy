@@ -83,6 +83,19 @@ def test_QLibraryInfo_LibraryLocation_and_LibraryPath():
     assert QtCore.QLibraryInfo.LibraryPath is not None
 
 
+def test_QCoreApplication_exec_():
+    """Test `QtCore.QCoreApplication.exec_`"""
+    assert QtCore.QCoreApplication.exec_ is not None
+    app = QtCore.QCoreApplication.instance() or QtCore.QCoreApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtCore.QCoreApplication.instance().quit)
+    QtCore.QCoreApplication.exec_()
+    app = QtCore.QCoreApplication.instance() or QtCore.QCoreApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtCore.QCoreApplication.instance().quit)
+    app.exec_()
+
+
 @pytest.mark.skipif(PYQT5 or PYQT6,
                     reason="Doesn't seem to be present on PyQt5 and PyQt6")
 def test_qtextstreammanipulator_exec_():
