@@ -4,7 +4,7 @@
 # See https://github.com/spyder-ide/qtpy/pull/387/
 
 
-from qtpy.utils import getattr_missing_optional_dep
+from qtpy._utils import getattr_missing_optional_dep
 from .optional_dep import ExampleClass
 
 

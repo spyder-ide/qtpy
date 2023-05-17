@@ -9,7 +9,7 @@
 """Provides widget classes and functions."""
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from .utils import possibly_static_exec, getattr_missing_optional_dep
+from ._utils import possibly_static_exec, getattr_missing_optional_dep
 
 
 _missing_optional_names = {}
