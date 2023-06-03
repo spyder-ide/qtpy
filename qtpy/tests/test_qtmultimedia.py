@@ -2,6 +2,8 @@ import sys
 
 import pytest
 
+from qtpy import PYSIDE6, PYQT6
+
 
 def test_qtmultimedia():
     """Test the qtpy.QtMultimedia namespace"""
