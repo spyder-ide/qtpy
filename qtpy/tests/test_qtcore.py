@@ -53,9 +53,6 @@ def test_QTime_toPython_and_toPyTime(method):
     assert py_time == NOW.time()
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qeventloop_exec_(qtbot):
     """Test QEventLoop.exec_"""
     assert QtCore.QEventLoop.exec_ is not None

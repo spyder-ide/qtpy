@@ -8,9 +8,6 @@ from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtCore, QtGui, QtWidgets
 from qtpy.tests.utils import not_using_conda
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qfontmetrics_width(qtbot):
     """Test QFontMetrics and QFontMetricsF width"""
     assert QtGui.QFontMetrics.width is not None
@@ -24,9 +21,6 @@ def test_qfontmetrics_width(qtbot):
     assert 39 <= widthF <= 63
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qdrag_functions(qtbot):
     """Test functions mapping for QtGui.QDrag."""
     assert QtGui.QDrag.exec_ is not None
@@ -34,9 +28,6 @@ def test_qdrag_functions(qtbot):
     drag.exec_()
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_QGuiApplication_exec_():
     """Test `QtGui.QGuiApplication.exec_`"""
     assert QtGui.QGuiApplication.exec_ is not None
@@ -59,9 +50,6 @@ def test_what_moved_to_qtgui_in_qt6():
     assert QtGui.QUndoCommand is not None
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Segmentation fault/Aborted on Linux CI when not using conda")
 def test_qtextdocument_functions(pdf_writer):
     """Test functions mapping for QtGui.QTextDocument."""
     assert QtGui.QTextDocument.print_ is not None
@@ -82,9 +70,6 @@ def test_enum_access():
     assert QtGui.QImage.Format_Invalid == QtGui.QImage.Format.Format_Invalid
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
