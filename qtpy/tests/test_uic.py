@@ -12,7 +12,6 @@ if PYSIDE2:
     pytest.importorskip("pyside2uic", reason="pyside2uic not installed")
 
 from qtpy import uic
-from qtpy.tests.utils import not_using_conda
 
 
 QCOMBOBOX_SUBCLASS = """
@@ -42,9 +41,6 @@ def enabled_qcombobox_subclass(temp_dir_path):
     sys.path.pop(0)
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Segfaults on Linux when not using conda under all bindings (PYSIDE2/6 & PYQT5/6)")
 def test_load_ui(qtbot):
     """
     Make sure that the patched loadUi function behaves as expected with a
@@ -62,9 +58,6 @@ def test_load_ui(qtbot):
 @pytest.mark.skipif(
     PYSIDE2 or PYSIDE6,
     reason="PySide2uic not consistently installed across platforms/versions")
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Segfaults on Linux when not using conda under all bindings (PYSIDE2/6 & PYQT5/6)")
 def test_load_ui_type(qtbot):
     """
     Make sure that the patched loadUiType function behaves as expected with a
@@ -88,9 +81,6 @@ def test_load_ui_type(qtbot):
     assert isinstance(ui.comboBox, QComboBox)
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Segfaults on Linux when not using conda under all bindings (PYSIDE2/6 & PYQT5/6)")
 def test_load_ui_custom_auto(qtbot, tmp_path):
     """
     Test that we can load a .ui file with custom widgets without having to

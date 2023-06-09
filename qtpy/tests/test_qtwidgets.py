@@ -4,12 +4,8 @@ import sys
 import pytest
 
 from qtpy import PYQT5, PYQT_VERSION, QtCore, QtGui, QtWidgets
-from qtpy.tests.utils import using_conda, not_using_conda
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qtextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QTextEdit."""
     assert QtWidgets.QTextEdit.setTabStopWidth
@@ -37,9 +33,6 @@ def test_what_moved_to_qtgui_in_qt6():
     assert QtWidgets.QUndoCommand is not None
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qplaintextedit_functions(qtbot, pdf_writer):
     """Test functions mapping for QtWidgets.QPlainTextEdit."""
     assert QtWidgets.QPlainTextEdit.setTabStopWidth
@@ -53,9 +46,6 @@ def test_qplaintextedit_functions(qtbot, pdf_writer):
     assert output_path.exists()
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_QApplication_exec_():
     """Test `QtWidgets.QApplication.exec_`"""
     assert QtWidgets.QApplication.exec_ is not None
@@ -70,9 +60,6 @@ def test_QApplication_exec_():
 
 
 @pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
-@pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
 def test_qdialog_functions(qtbot):
@@ -83,9 +70,6 @@ def test_qdialog_functions(qtbot):
     dialog.exec_()
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")
@@ -102,9 +86,6 @@ def test_qdialog_subclass(qtbot):
     dialog.exec_()
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 @pytest.mark.skipif(
     sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7")

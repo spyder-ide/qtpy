@@ -7,10 +7,8 @@ from qtpy.tests.utils import not_using_conda
 
 @pytest.mark.skipif(
     ((sys.version_info.major == 3 and sys.version_info.minor == 7)
-    and sys.platform.startswith('win') and not not_using_conda()) 
-    or
-    (sys.platform.startswith('linux') and not_using_conda()),
-    reason="sip not included in Python3.7 on Windows, or in non-conda test suite on Linux"
+    and sys.platform.startswith('win') and not not_using_conda()),
+    reason="sip not included in Python3.7 on Windows"
 )
 def test_isalive(qtbot):
     """Test compat.isalive"""
