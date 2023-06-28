@@ -145,11 +145,11 @@ def test_opengl_imports():
 @pytest.mark.parametrize("instance", [True, False])
 def test_qfiledialog_compat(tmp_path, qtbot, keyword, instance):
     """
-    This function is testing if the decorators that renamed keyword are
-    working.
+    This function is testing if the decorators that renamed the dir/directory
+    keyword are working.
 
-    It mas stop working if the Qt bindings do some overwriting of the methods
-    in constructor. It should not happen, but we already meet that PySide team
+    It may stop working if the Qt bindings do some overwriting of the methods
+    in constructor. It should not happen, but the PySide team
     did similar things in the past (like overwriting enum module in
     PySide6==6.3.2).
 
