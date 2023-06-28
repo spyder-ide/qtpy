@@ -100,10 +100,6 @@ jobs:
           sudo apt update
           sudo apt install libpulse-dev libegl1-mesa libopengl0 gstreamer1.0-gl
       - uses: tlambert03/setup-qt-libs@v1
-      - name: Install Linux system packages
-        if: contains(matrix.os, 'ubuntu')
-        shell: bash
-        run: sudo apt install libpulse-dev libegl1-mesa libopengl0 gstreamer1.0-gl
       - name: Install Conda
         uses: conda-incubator/setup-miniconda@v2
         with:
