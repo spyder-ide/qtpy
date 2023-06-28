@@ -4,11 +4,11 @@ import sys
 from time import sleep
 
 import pytest
+from pytestqt.exceptions import TimeoutError
 
 from qtpy import PYQT5, PYQT_VERSION, QtCore, QtGui, QtWidgets, PYQT6, PYSIDE6, PYSIDE2
 from qtpy.tests.utils import using_conda, not_using_conda
 
-from pytestqt.exceptions import TimeoutError
 
 
 def test_qtextedit_functions(qtbot, pdf_writer):
@@ -136,29 +136,38 @@ def test_opengl_imports():
     """
     assert QtWidgets.QOpenGLWidget is not None
 
-@pytest.mark.skipif(sys.platform == 'darwin' and sys.version_info[:2] == (3, 7) and (PYQT5 or PYSIDE2), reason="test crashes on macOS CI with Python 3.7 with 'Illegal instruction: 4'")
+
+@pytest.mark.skipif(
+    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7) and
+    (PYQT5 or PYSIDE2),
+    reason="Crashes on macOS with Python 3.7 with 'Illegal instruction: 4'")
 @pytest.mark.parametrize("keyword", ["dir", "directory"])
 @pytest.mark.parametrize("instance", [True, False])
 def test_qfiledialog_compat(tmp_path, qtbot, keyword, instance):
     """
-    This function is testing if the decorators that renamed keyword are working.
-    It mas stop working if the Qt bindings do some overwriting of the methods in constructor. 
-    It should not happen, but we already meet that PySide team did similar things in the past 
-    (like overwriting enum module in PySide6==6.3.2).
+    This function is testing if the decorators that renamed keyword are
+    working.
+
+    It mas stop working if the Qt bindings do some overwriting of the methods
+    in constructor. It should not happen, but we already meet that PySide team
+    did similar things in the past (like overwriting enum module in
+    PySide6==6.3.2).
 
     keyword: str
         The keyword that should be used in the function call.
     instance: bool
-        If True, the function is called on the instance of the QFileDialog, otherwise on the class.
+        If True, the function is called on the instance of the QFileDialog,
+        otherwise on the class.
     """
     
     class CloseThread(QtCore.QThread):
         """
         On some implementations the `getExistingDirectory` functions starts own 
-        event loop that will not trigger QTimer started before the call. Until the
-        dialog is closed the main event loop will be stopped.
+        event loop that will not trigger QTimer started before the call. Until
+        the dialog is closed the main event loop will be stopped.
 
-        Because of this it is required to use the thread to interact with the dialog.
+        Because of this it is required to use the thread to interact with the
+        dialog.
         """
         def run(self, allow_restart=True):
             sleep(0.5)
@@ -167,10 +176,13 @@ def test_qfiledialog_compat(tmp_path, qtbot, keyword, instance):
             for dlg in app.topLevelWidgets():
                 if not isinstance(dlg, QtWidgets.QFileDialog) or dlg.isHidden():
                     continue
-                # when implement this I try to use:
-                # * dlg.close() - On Qt6 it will close the dialog, but it will not restart the main event loop
-                # * dlg.accept() - It ends with information thar `accept` and `reject` of such created dialog can not be called
-                # * accept dialog with enter - It works, but it cannot be called to early after dialog is shown
+                # "when implemented this I try to use:
+                # * dlg.close() - On Qt6 it will close the dialog, but it will
+                #   not restart the main event loop.
+                # * dlg.accept() - It ends with information thar `accept` and
+                #   `reject` of such created dialog can not be called.
+                # * accept dialog with enter - It works, but it cannot be
+                #   called to early after dialog is shown
                 qtbot.keyClick(dlg, QtCore.Qt.Key_Enter)
                 need_restart = False
             sleep(0.1)
@@ -185,7 +197,8 @@ def test_qfiledialog_compat(tmp_path, qtbot, keyword, instance):
             if need_restart:
                 self.run()
 
-    # we need to use the `DontUseNativeDialog` option to be able to interact with it from code. 
+    # We need to use the `DontUseNativeDialog` option to be able to interact
+    # with it from code. 
     try:
         opt = QtWidgets.QFileDialog.Option.DontUseNativeDialog
     except AttributeError:
@@ -205,4 +218,3 @@ def test_qfiledialog_compat(tmp_path, qtbot, keyword, instance):
     dlg = QtWidgets.QFileDialog() if instance else QtWidgets.QFileDialog
     dlg.getExistingDirectory(**kwargs)
     qtbot.waitUntil(thr.isFinished, timeout=3000)
-    
