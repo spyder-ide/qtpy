@@ -80,7 +80,7 @@ def test_QLibraryInfo_LibraryLocation_and_LibraryPath():
     assert QtCore.QLibraryInfo.LibraryPath is not None
 
 
-def test_QCoreApplication_exec_():
+def test_QCoreApplication_exec_(qapp):
     """Test `QtCore.QCoreApplication.exec_`"""
     assert QtCore.QCoreApplication.exec_ is not None
     app = QtCore.QCoreApplication.instance() or QtCore.QCoreApplication([sys.executable, __file__])
