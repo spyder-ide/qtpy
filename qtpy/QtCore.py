@@ -10,7 +10,7 @@
 from typing import TYPE_CHECKING
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
-from .utils import possibly_static_exec
+from ._utils import possibly_static_exec
 
 if PYQT5:
     from PyQt5.QtCore import *
