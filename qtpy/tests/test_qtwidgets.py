@@ -123,8 +123,8 @@ def test_QMenu_functions(qtbot):
 def test_QToolBar_functions(qtbot):
     """Test `QtWidgets.QToolBar.addAction` compatibility with Qt6 arguments' order."""
     toolbar = QtWidgets.QToolBar()
-    toolbar.addAction('QtPy with a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
-    toolbar.addAction(QtGui.QIcon(), 'QtPy with an icon and a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
+    toolbar.addAction('QtPy with a shortcut', QtGui.QKeySequence.UnknownKey)
+    toolbar.addAction(QtGui.QIcon(), 'QtPy with an icon and a shortcut', QtGui.QKeySequence.UnknownKey)
 
 
 @pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
