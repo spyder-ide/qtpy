@@ -44,3 +44,57 @@ def possibly_static_exec(cls, *args, **kwargs):
         return args[0].exec(*args[1:], **kwargs)
     else:
         return cls.exec(*args, **kwargs)
+
+
+def add_action(self, *args, old_add_action):
+    from qtpy.QtCore import QObject
+    from qtpy.QtGui import QIcon, QKeySequence
+    from qtpy.QtWidgets import QAction
+
+    action: QAction
+    icon: QIcon
+    text: str
+    shortcut: QKeySequence | QKeySequence.StandardKey | str | int
+    receiver: QObject
+    member: bytes
+    if all(isinstance(arg, t)
+           for arg, t in zip(args, [str,
+                                    (QKeySequence, QKeySequence.StandardKey, str, int),
+                                    QObject,
+                                    bytes])):
+        if len(args) == 2:
+            text, shortcut = args
+            action = old_add_action(self, text)
+            action.setShortcut(shortcut)
+        elif len(args) == 3:
+            text, shortcut, receiver = args
+            action = old_add_action(self, text, receiver)
+            action.setShortcut(shortcut)
+        elif len(args) == 4:
+            text, shortcut, receiver, member = args
+            action = old_add_action(self, text, receiver, member, shortcut)
+        else:
+            return old_add_action(self, *args)
+        return action
+    elif all(isinstance(arg, t)
+             for arg, t in zip(args, [QIcon,
+                                      str,
+                                      (QKeySequence, QKeySequence.StandardKey, str, int),
+                                      QObject,
+                                      bytes])):
+        if len(args) == 3:
+            icon, text, shortcut = args
+            action = old_add_action(self, icon, text)
+            action.setShortcut(QKeySequence(shortcut))
+        elif len(args) == 4:
+            icon, text, shortcut, receiver = args
+            action = old_add_action(self, icon, text, receiver)
+            action.setShortcut(QKeySequence(shortcut))
+        elif len(args) == 5:
+            icon, text, shortcut, receiver, member = args
+            action = old_add_action(self, icon, text, receiver, member, QKeySequence(shortcut))
+        else:
+            return old_add_action(self, *args)
+        return action
+    return old_add_action(self, *args)
+

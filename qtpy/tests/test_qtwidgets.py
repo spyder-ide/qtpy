@@ -100,6 +100,8 @@ def test_QMenu_functions(qtbot):
     window = QtWidgets.QMainWindow()
     menu = QtWidgets.QMenu(window)
     menu.addAction('QtPy')
+    menu.addAction('QtPy with a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
+    menu.addAction(QtGui.QIcon(), 'QtPy with an icon and a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
     window.show()
 
     with qtbot.waitExposed(window):
@@ -113,6 +115,16 @@ def test_QMenu_functions(qtbot):
             QtCore.Qt.Key_Escape)
         )
         QtWidgets.QMenu.exec_(menu.actions(), QtCore.QPoint(1, 1))
+
+
+@pytest.mark.skipif(
+    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7")
+def test_QToolBar_functions(qtbot):
+    """Test `QtWidgets.QToolBar.addAction` compatibility with Qt6 arguments' order."""
+    toolbar = QtWidgets.QToolBar()
+    toolbar.addAction('QtPy with a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
+    toolbar.addAction(QtGui.QIcon(), 'QtPy with an icon and a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
 
 
 @pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),

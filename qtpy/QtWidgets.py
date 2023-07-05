@@ -10,7 +10,7 @@
 from functools import wraps
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from ._utils import possibly_static_exec, getattr_missing_optional_dep
+from ._utils import add_action, possibly_static_exec, getattr_missing_optional_dep
 
 
 _missing_optional_names = {}
@@ -114,3 +114,11 @@ else:
     QFileDialog.getOpenFileName = _dir_to_directory(QFileDialog.getOpenFileName)
     QFileDialog.getOpenFileNames = _dir_to_directory(QFileDialog.getOpenFileNames)
     QFileDialog.getSaveFileName = _dir_to_directory(QFileDialog.getSaveFileName)
+
+
+# Make `addAction` compatible with Qt6
+if PYQT5 or PYSIDE2:
+    from functools import partialmethod
+
+    QMenu.addAction = partialmethod(add_action, old_add_action=QMenu.addAction)
+    QToolBar.addAction = partialmethod(add_action, old_add_action=QToolBar.addAction)
