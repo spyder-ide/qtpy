@@ -10,7 +10,7 @@
 from typing import TYPE_CHECKING
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
-from ._utils import possibly_static_exec
+from ._utils import possibly_static_exec, possibly_static_exec_
 
 if PYQT5:
     from PyQt5.QtCore import *
@@ -76,6 +76,11 @@ elif PYSIDE2:
         except ImportError:
             # Fails with PySide2 5.12.0
             pass
+
+    QCoreApplication.exec = lambda *args, **kwargs: possibly_static_exec_(QCoreApplication, *args, **kwargs)
+    QEventLoop.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
 
 elif PYSIDE6:
     from PySide6.QtCore import *

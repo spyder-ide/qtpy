@@ -44,3 +44,17 @@ def possibly_static_exec(cls, *args, **kwargs):
         return args[0].exec(*args[1:], **kwargs)
     else:
         return cls.exec(*args, **kwargs)
+
+
+def possibly_static_exec_(cls, *args, **kwargs):
+    """Call `self.exec` when `self` is given or a static method otherwise."""
+    if not args and not kwargs:
+        # A special case (`cls.exec()`) to avoid the function resolving error
+        return cls.exec_()
+    if isinstance(args[0], cls):
+        if len(args) == 1 and not kwargs:
+            # A special case (`self.exec()`) to avoid the function resolving error
+            return args[0].exec_()
+        return args[0].exec_(*args[1:], **kwargs)
+    else:
+        return cls.exec_(*args, **kwargs)
