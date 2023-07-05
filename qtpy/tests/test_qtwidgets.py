@@ -100,8 +100,8 @@ def test_QMenu_functions(qtbot):
     window = QtWidgets.QMainWindow()
     menu = QtWidgets.QMenu(window)
     menu.addAction('QtPy')
-    menu.addAction('QtPy with a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
-    menu.addAction(QtGui.QIcon(), 'QtPy with an icon and a shortcut', QtGui.QKeySequence.StandardKey.UnknownKey)
+    menu.addAction('QtPy with a shortcut', QtGui.QKeySequence.UnknownKey)
+    menu.addAction(QtGui.QIcon(), 'QtPy with an icon and a shortcut', QtGui.QKeySequence.UnknownKey)
     window.show()
 
     with qtbot.waitExposed(window):
