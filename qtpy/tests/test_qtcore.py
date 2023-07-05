@@ -53,17 +53,21 @@ def test_QTime_toPython_and_toPyTime(method):
     assert py_time == NOW.time()
 
 
-def test_qeventloop_exec_(qtbot):
-    """Test QEventLoop.exec_"""
+def test_qeventloop_exec(qtbot):
+    """Test `QEventLoop.exec_` and `QEventLoop.exec`"""
     assert QtCore.QEventLoop.exec_ is not None
+    assert QtCore.QEventLoop.exec is not None
     event_loop = QtCore.QEventLoop(None)
     QtCore.QTimer.singleShot(100, event_loop.quit)
     event_loop.exec_()
+    QtCore.QTimer.singleShot(100, event_loop.quit)
+    event_loop.exec()
 
 
-def test_qthread_exec_():
-    """Test QThread.exec_"""
+def test_qthread_exec():
+    """Test `QThread.exec_` and `QThread.exec_`"""
     assert QtCore.QThread.exec_ is not None
+    assert QtCore.QThread.exec is not None
 
 
 def test_QLibraryInfo_location_and_path():
@@ -93,11 +97,25 @@ def test_QCoreApplication_exec_(qapp):
     app.exec_()
 
 
+def test_QCoreApplication_exec(qapp):
+    """Test `QtCore.QCoreApplication.exec`"""
+    assert QtCore.QCoreApplication.exec is not None
+    app = QtCore.QCoreApplication.instance() or QtCore.QCoreApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtCore.QCoreApplication.instance().quit)
+    QtCore.QCoreApplication.exec()
+    app = QtCore.QCoreApplication.instance() or QtCore.QCoreApplication([sys.executable, __file__])
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtCore.QCoreApplication.instance().quit)
+    app.exec()
+
+
 @pytest.mark.skipif(PYQT5 or PYQT6,
                     reason="Doesn't seem to be present on PyQt5 and PyQt6")
-def test_qtextstreammanipulator_exec_():
-    """Test QTextStreamManipulator.exec_"""
-    QtCore.QTextStreamManipulator.exec_ is not None
+def test_qtextstreammanipulator_exec():
+    """Test `QTextStreamManipulator.exec_` and `QTextStreamManipulator.exec`"""
+    assert QtCore.QTextStreamManipulator.exec_ is not None
+    assert QtCore.QTextStreamManipulator.exec is not None
 
 
 @pytest.mark.skipif(PYSIDE2 or PYQT6,
