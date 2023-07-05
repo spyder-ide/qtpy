@@ -7,10 +7,13 @@
 # -----------------------------------------------------------------------------
 
 """Provides widget classes and functions."""
-from functools import wraps
+from functools import partialmethod, wraps
+
+from packaging.version import parse
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
 from ._utils import add_action, possibly_static_exec, getattr_missing_optional_dep
+from .QtCore import __version__ as _qt_version
 
 
 _missing_optional_names = {}
@@ -115,10 +118,7 @@ else:
     QFileDialog.getOpenFileNames = _dir_to_directory(QFileDialog.getOpenFileNames)
     QFileDialog.getSaveFileName = _dir_to_directory(QFileDialog.getSaveFileName)
 
-
-# Make `addAction` compatible with Qt6
-if PYQT5 or PYSIDE2:
-    from functools import partialmethod
-
+# Make `addAction` compatible with Qt6 >= 6.3
+if PYQT5 or PYSIDE2 or parse(_qt_version) < parse('6.3'):
     QMenu.addAction = partialmethod(add_action, old_add_action=QMenu.addAction)
     QToolBar.addAction = partialmethod(add_action, old_add_action=QToolBar.addAction)
