@@ -61,6 +61,7 @@ def possibly_static_exec_(cls, *args, **kwargs):
 
 
 def add_action(self, *args, old_add_action):
+    """Re-order arguments of `addAction` to backport compatibility with Qt>=6.3."""
     from qtpy.QtCore import QObject
     from qtpy.QtGui import QIcon, QKeySequence
     from qtpy.QtWidgets import QAction
