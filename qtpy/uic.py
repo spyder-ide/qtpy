@@ -81,6 +81,7 @@ else:
     if PYSIDE6:
         from PySide6.QtCore import QMetaObject
         from PySide6.QtUiTools import QUiLoader
+        from PySide6.QtUiTools import loadUiType
     elif PYSIDE2:
         from PySide2.QtCore import QMetaObject
         from PySide2.QtUiTools import QUiLoader
@@ -245,41 +246,42 @@ else:
         QMetaObject.connectSlotsByName(widget)
         return widget
 
-    def loadUiType(uifile, from_imports=False):
-        """Load a .ui file and return the generated form class and
-        the Qt base class.
+    if PYSIDE2:
+        def loadUiType(uifile, from_imports=False):
+            """Load a .ui file and return the generated form class and
+            the Qt base class.
 
-        The "loadUiType" command convert the ui file to py code
-        in-memory first and then execute it in a special frame to
-        retrieve the form_class.
+            The "loadUiType" command convert the ui file to py code
+            in-memory first and then execute it in a special frame to
+            retrieve the form_class.
 
-        Credit: https://stackoverflow.com/a/14195313/15954282
-        """
+            Credit: https://stackoverflow.com/a/14195313/15954282
+            """
 
-        import sys
-        from io import StringIO
-        from xml.etree.ElementTree import ElementTree
-        
-        from . import QtWidgets
+            import sys
+            from io import StringIO
+            from xml.etree.ElementTree import ElementTree
 
-        # Parse the UI file
-        etree = ElementTree()
-        ui = etree.parse(uifile)
+            from . import QtWidgets
 
-        widget_class = ui.find('widget').get('class')
-        form_class = ui.find('class').text
+            # Parse the UI file
+            etree = ElementTree()
+            ui = etree.parse(uifile)
 
-        with open(uifile, encoding="utf-8") as fd:
-            code_stream = StringIO()
-            frame = {}
+            widget_class = ui.find('widget').get('class')
+            form_class = ui.find('class').text
 
-            compileUi(fd, code_stream, indent=0, from_imports=from_imports)
-            pyc = compile(code_stream.getvalue(), '<string>', 'exec')
-            exec(pyc, frame)
+            with open(uifile, encoding="utf-8") as fd:
+                code_stream = StringIO()
+                frame = {}
 
-            # Fetch the base_class and form class based on their type in the
-            # xml from designer
-            form_class = frame['Ui_%s' % form_class]
-            base_class = getattr(QtWidgets, widget_class)
+                compileUi(fd, code_stream, indent=0, from_imports=from_imports)
+                pyc = compile(code_stream.getvalue(), '<string>', 'exec')
+                exec(pyc, frame)
 
-        return form_class, base_class
+                # Fetch the base_class and form class based on their type in the
+                # xml from designer
+                form_class = frame['Ui_%s' % form_class]
+                base_class = getattr(QtWidgets, widget_class)
+
+            return form_class, base_class
