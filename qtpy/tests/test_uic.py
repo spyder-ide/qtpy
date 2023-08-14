@@ -4,9 +4,11 @@ import sys
 import warnings
 
 import pytest
+from packaging.version import parse
 
-from qtpy import PYSIDE6, PYSIDE2, QtWidgets
+from qtpy import PYSIDE6, PYSIDE2, QtWidgets, PYSIDE_VERSION
 from qtpy.QtWidgets import QComboBox
+from qtpy.tests.utils import using_conda
 
 if PYSIDE2:
     pytest.importorskip("pyside2uic", reason="pyside2uic not installed")
@@ -56,8 +58,9 @@ def test_load_ui(qtbot):
 
 
 @pytest.mark.skipif(
-    PYSIDE2 or PYSIDE6,
-    reason="PySide2uic not consistently installed across platforms/versions")
+    PYSIDE6 and using_conda() and parse(PYSIDE_VERSION) < parse("6.5")
+    and (sys.platform in ("darwin", "linux")),
+    reason="pyside6-uic command not contained in all conda-forge packages.")
 def test_load_ui_type(qtbot):
     """
     Make sure that the patched loadUiType function behaves as expected with a
