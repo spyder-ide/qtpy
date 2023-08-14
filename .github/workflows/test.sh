@@ -53,11 +53,12 @@ fi
 
 # Build wheel of package
 git clean -xdf -e *.coverage
+python -m pip install --upgrade pip
 python -m pip install --upgrade build
 python -bb -X dev -W error -m build
 
 # Install package from built wheel
-echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationWarning:pip._internal.locations._distutils" -W "ignore::DeprecationWarning:distutils.command.install" -m pip install --upgrade %
+echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationWarning:pip._internal.locations._distutils" -W "ignore::DeprecationWarning:distutils.command.install" -W "ignore::DeprecationWarning:pip._internal.metadata.importlib._envs" -m pip install --upgrade %
 
 # Print environment information
 mamba list
