@@ -11,9 +11,8 @@ from functools import partialmethod, wraps
 
 from packaging.version import parse
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION as _qt_version
 from ._utils import add_action, possibly_static_exec, getattr_missing_optional_dep
-from .QtCore import __version__ as _qt_version
 
 
 _missing_optional_names = {}
