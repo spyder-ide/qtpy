@@ -10,6 +10,7 @@
 from typing import TYPE_CHECKING
 
 from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
+from ._utils import possibly_static_exec, possibly_static_exec_
 
 if PYQT5:
     from PyQt5.QtCore import *
@@ -49,7 +50,7 @@ elif PYQT6:
             pass
 
     # Map missing methods
-    QCoreApplication.exec_ = QCoreApplication.exec
+    QCoreApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(QCoreApplication, *args, **kwargs)
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
@@ -83,6 +84,11 @@ elif PYSIDE2:
             # Fails with PySide2 5.12.0
             pass
 
+    QCoreApplication.exec = lambda *args, **kwargs: possibly_static_exec_(QCoreApplication, *args, **kwargs)
+    QEventLoop.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+    QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
+
 elif PYSIDE6:
     from PySide6.QtCore import *
     import PySide6.QtCore
@@ -100,7 +106,7 @@ elif PYSIDE6:
     Qt.MidButton = Qt.MiddleButton
 
     # Map DeprecationWarning methods
-    QCoreApplication.exec_ = QCoreApplication.exec
+    QCoreApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(QCoreApplication, *args, **kwargs)
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
