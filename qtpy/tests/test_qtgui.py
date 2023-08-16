@@ -102,12 +102,18 @@ def test_QSomethingEvent_pos_functions(qtbot):
         qtbot.mouseDClick(window, QtCore.Qt.LeftButton)
 
     # the rest of the functions are not actually tested
+    # QSinglePointEvent (Qt6) child classes checks
     for _class in ('QNativeGestureEvent', 'QEnterEvent', 'QTabletEvent'):
         for _function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY',
                           'position', 'globalPosition'):
             assert hasattr(getattr(QtGui, _class), _function)
+    # QHoverEvent checks
     for _function in ('pos', 'x', 'y', 'position'):
         assert hasattr(QtGui.QHoverEvent, _function)
+    # QDropEvent and child classes checks
+    for _class in ('QDropEvent', 'QDragMoveEvent', 'QDragEnterEvent'):
+        for _function in ('pos', 'posF', 'position'):
+            assert hasattr(getattr(QtGui, _class), _function)
 
 
 @pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")

@@ -137,8 +137,8 @@ if PYSIDE2 or PYSIDE6:
         return movePosition(self, operation, mode, n)
     QTextCursor.movePosition = movePositionPatched
 
-# Fix https://github.com/spyder-ide/qtpy/issues/394
 if PYQT5 or PYSIDE2:
+    # Part of the fix for https://github.com/spyder-ide/qtpy/issues/394
     from qtpy.QtCore import QPointF as __QPointF
     QNativeGestureEvent.x = lambda self: self.localPos().toPoint().x()
     QNativeGestureEvent.y = lambda self: self.localPos().toPoint().y()
@@ -160,7 +160,11 @@ if PYQT5 or PYSIDE2:
     QMouseEvent.position = lambda self: self.localPos()
     QMouseEvent.globalPosition = lambda self: __QPointF(
         float(self.globalX()), float(self.globalY()))
+
+    # Follow similar approach for `QDropEvent` and child classes
+    QDropEvent.position = lambda self: self.posF()
 if PYQT6 or PYSIDE6:
+    # Part of the fix for https://github.com/spyder-ide/qtpy/issues/394
     for _class in (QNativeGestureEvent, QEnterEvent, QTabletEvent, QHoverEvent,
                    QMouseEvent):
         for _obsolete_function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY'):
@@ -175,3 +179,6 @@ if PYQT6 or PYSIDE6:
     QSinglePointEvent.globalX = lambda self: self.globalPosition().toPoint().x()
     QSinglePointEvent.globalY = lambda self: self.globalPosition().toPoint().y()
 
+    # Follow similar approach for `QDropEvent` and child classes
+    QDropEvent.pos = lambda self: self.position().toPoint()
+    QDropEvent.posF = lambda self: self.position()
