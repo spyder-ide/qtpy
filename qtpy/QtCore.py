@@ -58,8 +58,10 @@ elif PYQT6:
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = Qt.ItemDataRole.BackgroundColorRole = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
+
     # Alias for MiddleButton removed in PyQt6 but available in PyQt5, PySide2 and PySide6
     Qt.MidButton = Qt.MiddleButton
+
     # Add removed definition for `Qt.ItemFlags` as an alias of `Qt.ItemFlag` as PySide6 does.
     # Note that for PyQt5 and PySide2 those definitions are two different classes
     # (one is the flag definition and the other the enum definition)
