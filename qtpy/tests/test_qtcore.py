@@ -146,7 +146,6 @@ def test_enum_access():
     assert QtCore.Qt.TextColorRole == QtCore.Qt.ItemDataRole.TextColorRole
     assert QtCore.Qt.MidButton == QtCore.Qt.MouseButton.MiddleButton
 
-
 @pytest.mark.skipif(PYSIDE2 and PYSIDE_VERSION.startswith('5.12.0'),
                     reason="Utility functions unavailable for PySide2 5.12.0")
 def test_qtgui_namespace_mightBeRichText():
@@ -156,3 +155,10 @@ def test_qtgui_namespace_mightBeRichText():
     See: https://doc.qt.io/qt-5/qt-sub-qtgui.html
     """
     assert QtCore.Qt.mightBeRichText is not None
+
+
+def test_itemflags_typedef():
+    """
+    Test existence of `QFlags<ItemFlag>` typedef `ItemFlags` that was removed from PyQt6
+    """
+    assert QtCore.Qt.ItemFlags is not None
