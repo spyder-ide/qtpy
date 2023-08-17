@@ -107,9 +107,11 @@ def test_QSomethingEvent_pos_functions(qtbot):
         for _function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY',
                           'position', 'globalPosition'):
             assert hasattr(getattr(QtGui, _class), _function)
+
     # QHoverEvent checks
     for _function in ('pos', 'x', 'y', 'position'):
         assert hasattr(QtGui.QHoverEvent, _function)
+
     # QDropEvent and child classes checks
     for _class in ('QDropEvent', 'QDragMoveEvent', 'QDragEnterEvent'):
         for _function in ('pos', 'posF', 'position'):
