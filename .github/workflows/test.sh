@@ -36,7 +36,7 @@ if [ "$USE_CONDA" = "No" ]; then
     if [ "${1}" = "pyqt5" ]; then
 
         if [ "$PYQT_EXTRAS" = "Yes" ]; then
-            pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.* PyQt3D PyQtChart PyQtDataVisualization PyQtNetworkAuth PyQtPurchasing
+            pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.* PyQt3D==${PYQT5_VERSION}.* PyQtChart==${PYQT5_VERSION}.* PyQtDataVisualization==${PYQT5_VERSION}.* PyQtNetworkAuth==${PYQT5_VERSION}.* PyQtPurchasing==${PYQT5_VERSION}.*
         else
             pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.*
         fi
@@ -44,7 +44,7 @@ if [ "$USE_CONDA" = "No" ]; then
     elif [ "${1}" = "pyqt6" ]; then
 
         if [ "$PYQT_EXTRAS" = "Yes" ]; then
-            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.* PyQt6-3D PyQt6-Charts PyQt6-DataVisualization PyQt6-NetworkAuth
+            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.* PyQt6-3D==${PYQT6_VERSION}.* PyQt6-Charts==${PYQT6_VERSION}.* PyQt6-DataVisualization==${PYQT6_VERSION}.* PyQt6-NetworkAuth==${PYQT6_VERSION}.*
         else
             pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.*
         fi
