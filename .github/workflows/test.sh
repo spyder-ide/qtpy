@@ -34,9 +34,21 @@ conda activate test-env-${BINDING}
 if [ "$USE_CONDA" = "No" ]; then
 
     if [ "${1}" = "pyqt5" ]; then
-        pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.*
+
+        if [ "$PYQT_EXTRAS" = "Yes" ]; then
+            pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.* PyQt3D PyQtChart PyQtDataVisualization PyQtNetworkAuth PyQtPurchasing
+        else
+            pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.*
+        fi
+
     elif [ "${1}" = "pyqt6" ]; then
-        pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.*
+
+        if [ "$PYQT_EXTRAS" = "Yes" ]; then
+            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.* PyQt6-3D PyQt6-Charts PyQt6-DataVisualization PyQt6-NetworkAuth
+        else
+            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.*
+        fi
+
     elif [ "${1}" = "pyside2" ]; then
         pip install pyside2==${PYSIDE2_VERSION}.*
     elif [ "${1}" = "pyside6" ]; then

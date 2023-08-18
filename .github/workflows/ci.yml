@@ -38,6 +38,7 @@ jobs:
       PYSIDE6_VERSION: ${{ matrix.pyside6-version || matrix.qt6-version-default }}
       PYSIDE6_QT_VERSION: ${{ matrix.pyside6-qt-version || matrix.pyside6-version || matrix.qt6-version-default }}
       QSCINTILLA_VERSION: ${{ matrix.qscintilla-version || matrix.qscintilla-version-default }}
+      PYQT_EXTRAS: ${{ matrix.pyqt-extras || matrix.pyqt-extras-default }}
       SKIP_PIP_CHECK: ${{ matrix.skip-pip-check }}
     strategy:
       fail-fast: false
@@ -48,6 +49,7 @@ jobs:
         qt5-version-default: ['5.12']
         qt6-version-default: ['6.3']
         qscintilla-version-default: ['2.13']
+        pyqt-extras-default: ['Yes']
         include:
         - os: ubuntu-latest
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
