@@ -71,6 +71,9 @@ elif PYQT6:
     QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(QMenu, *args, **kwargs)
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
+    # Map missing flags definitions
+    QFileDialog.Options = QFileDialog.Option
+
     # Allow unscoped access for enums inside the QtWidgets module
     from .enums_compat import promote_enums
     promote_enums(QtWidgets)

@@ -155,7 +155,7 @@ def test_opengl_imports():
     reason="Crashes on macOS with Python 3.7 with 'Illegal instruction: 4'")
 @pytest.mark.parametrize("keyword", ["dir", "directory"])
 @pytest.mark.parametrize("instance", [True, False])
-def test_qfiledialog_compat(tmp_path, qtbot, keyword, instance):
+def test_qfiledialog_dir_compat(tmp_path, qtbot, keyword, instance):
     """
     This function is testing if the decorators that renamed the dir/directory
     keyword are working.
@@ -230,3 +230,10 @@ def test_qfiledialog_compat(tmp_path, qtbot, keyword, instance):
     dlg = QtWidgets.QFileDialog() if instance else QtWidgets.QFileDialog
     dlg.getExistingDirectory(**kwargs)
     qtbot.waitUntil(thr.isFinished, timeout=3000)
+
+
+def test_qfiledialog_flags_typedef():
+    """
+    Test existence of `QFlags<Option>` typedef `Options` that was removed from PyQt6
+    """
+    assert QtWidgets.QFileDialog.Options is not None
