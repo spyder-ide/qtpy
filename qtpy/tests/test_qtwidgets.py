@@ -236,4 +236,5 @@ def test_qfiledialog_flags_typedef():
     """
     Test existence of `QFlags<Option>` typedef `Options` that was removed from PyQt6
     """
-    assert QtWidgets.QFileDialog.Options is not None
+    assert QtWidgets.QFileDialog.Options is not None    
+    assert QtWidgets.QFileDialog.Options() == QtWidgets.QFileDialog.Option(0)

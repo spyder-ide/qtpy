@@ -162,3 +162,4 @@ def test_itemflags_typedef():
     Test existence of `QFlags<ItemFlag>` typedef `ItemFlags` that was removed from PyQt6
     """
     assert QtCore.Qt.ItemFlags is not None
+    assert QtCore.Qt.ItemFlags() == QtCore.Qt.ItemFlag(0)

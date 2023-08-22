@@ -62,10 +62,11 @@ elif PYQT6:
     # Alias for MiddleButton removed in PyQt6 but available in PyQt5, PySide2 and PySide6
     Qt.MidButton = Qt.MiddleButton
 
-    # Add removed definition for `Qt.ItemFlags` as an alias of `Qt.ItemFlag` as PySide6 does.
+    # Add removed definition for `Qt.ItemFlags` as an alias of `Qt.ItemFlag`
+    # passing as default value 0 in the same way PySide6 does.
     # Note that for PyQt5 and PySide2 those definitions are two different classes
     # (one is the flag definition and the other the enum definition)
-    Qt.ItemFlags = Qt.ItemFlag
+    Qt.ItemFlags = lambda value=0: Qt.ItemFlag(value)
 
 elif PYSIDE2:
     from PySide2.QtCore import *
