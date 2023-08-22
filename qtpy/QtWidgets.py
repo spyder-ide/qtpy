@@ -72,7 +72,7 @@ elif PYQT6:
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
     # Add removed definition for `QFileDialog.Options` as an alias of `QFileDialog.Option`
-    # passing as default value 0 in the same way PySide6 does.
+    # passing as default value 0 in the same way PySide6 6.5+ does.
     # Note that for PyQt5 and PySide2 those definitions are two different classes
     # (one is the flag definition and the other the enum definition)
     QFileDialog.Options = lambda value=0: QFileDialog.Option(value)
@@ -110,6 +110,10 @@ elif PYSIDE6:
     QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(QApplication, *args, **kwargs)
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(QMenu, *args, **kwargs)
+
+    # Passing as default value 0 in the same way PySide6 < 6.3.2 does for the `QFileDialog.Options` definition.
+    if parse(_qt_version) > parse('6.3'):
+        QFileDialog.Options = lambda value=0: QFileDialog.Option(value)
 
 
 if PYSIDE2 or PYSIDE6:
