@@ -44,9 +44,9 @@ if [ "$USE_CONDA" = "No" ]; then
     elif [ "${1}" = "pyqt6" ]; then
 
         if [ "$PYQT_EXTRAS" = "Yes" ]; then
-            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.* PyQt6-3D==${PYQT6_VERSION}.* PyQt6-Charts==${PYQT6_VERSION}.* PyQt6-DataVisualization==${PYQT6_VERSION}.* PyQt6-NetworkAuth==${PYQT6_VERSION}.*
+            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla PyQt6-3D==${PYQT6_VERSION}.* PyQt6-Charts==${PYQT6_VERSION}.* PyQt6-DataVisualization==${PYQT6_VERSION}.* PyQt6-NetworkAuth==${PYQT6_VERSION}.*
         else
-            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.*
+            pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.*
         fi
 
     elif [ "${1}" = "pyside2" ]; then

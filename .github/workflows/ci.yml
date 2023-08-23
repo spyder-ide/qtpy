@@ -49,14 +49,15 @@ jobs:
         qt5-version-default: ['5.12']
         qt6-version-default: ['6.3']
         qscintilla-version-default: ['2.13']
-        pyqt-extras-default: ['Yes']
+        pyqt-extras-default: ['No']
         include:
         - os: ubuntu-latest
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
         - python-version: '3.11'
           pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
           pyside2-version: '5.15'  # Python 3.11 needs 5.15+
-          pyside6-version: '6.4'  # Python 3.11 needs 6.4+
+          pyside6-version: '6.5'  # Python 3.11 needs 6.4+. Test upper bound
+          pyqt-extras: 'Yes'  # Check PyQt extras
         - use-conda: 'Yes'
           skip-pyqt6: true  # No PyQt6 conda packages yet
           pyside6-version: '6.4'  # Conda only has 6.4+ for Python <3.8
@@ -87,6 +88,7 @@ jobs:
         - os: macos-latest
           python-version: '3.7'
           use-conda: 'No'
+          pyqt-extras: 'Yes'  # Check PyQt extras
           pyqt6-version: 6.5  # Test upper bound
           pyside2-version: 5.15  # Test upper bound
     steps:
