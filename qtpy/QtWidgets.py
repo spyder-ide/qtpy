@@ -24,6 +24,12 @@ def __getattr__(name):
         name, module_name=__name__, optional_names=_missing_optional_names)
 
 def _dir_to_directory(func):
+    """
+    Helper function to manage `dir` to `directory` `QFileDialog` kwargs change.
+
+    Makes PyQt5/6 `QFileDialog` static methods accept the `dir` kwarg.
+    """
+    @staticmethod
     @wraps(func)
     def _dir_to_directory_(*args, **kwargs):
         if "dir" in kwargs:
@@ -32,6 +38,12 @@ def _dir_to_directory(func):
     return _dir_to_directory_
 
 def _directory_to_dir(func):
+    """
+    Helper function to manaje `directory` to `dir` `QFileDialog` kwargs change.
+
+    Makes PySide2/6 `QFileDialog` static methods accept the `directory` kwarg.
+    """
+    @staticmethod
     @wraps(func)
     def _directory_to_dir_(*args, **kwargs):
         if "directory" in kwargs:
