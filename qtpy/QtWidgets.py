@@ -7,12 +7,17 @@
 # -----------------------------------------------------------------------------
 
 """Provides widget classes and functions."""
-from functools import partialmethod, wraps
+from functools import partialmethod
 
 from packaging.version import parse
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION as _qt_version
-from ._utils import add_action, possibly_static_exec, getattr_missing_optional_dep
+from ._utils import (
+    add_action,
+    possibly_static_exec,
+    getattr_missing_optional_dep,
+    static_method_kwargs_wrapper
+)
 
 
 _missing_optional_names = {}
@@ -22,34 +27,6 @@ def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
     raise getattr_missing_optional_dep(
         name, module_name=__name__, optional_names=_missing_optional_names)
-
-def _dir_to_directory(func):
-    """
-    Helper function to manage `dir` to `directory` `QFileDialog` kwargs change.
-
-    Makes PyQt5/6 `QFileDialog` static methods accept the `dir` kwarg.
-    """
-    @staticmethod
-    @wraps(func)
-    def _dir_to_directory_(*args, **kwargs):
-        if "dir" in kwargs:
-            kwargs["directory"] = kwargs.pop("dir")
-        return func(*args, **kwargs)
-    return _dir_to_directory_
-
-def _directory_to_dir(func):
-    """
-    Helper function to manaje `directory` to `dir` `QFileDialog` kwargs change.
-
-    Makes PySide2/6 `QFileDialog` static methods accept the `directory` kwarg.
-    """
-    @staticmethod
-    @wraps(func)
-    def _directory_to_dir_(*args, **kwargs):
-        if "directory" in kwargs:
-            kwargs["dir"] = kwargs.pop("directory")
-        return func(*args, **kwargs)
-    return _directory_to_dir_
 
 
 if PYQT5:
@@ -129,15 +106,33 @@ elif PYSIDE6:
 
 
 if PYSIDE2 or PYSIDE6:
-    QFileDialog.getExistingDirectory = _directory_to_dir(QFileDialog.getExistingDirectory)
-    QFileDialog.getOpenFileName = _directory_to_dir(QFileDialog.getOpenFileName)
-    QFileDialog.getOpenFileNames = _directory_to_dir(QFileDialog.getOpenFileNames)
-    QFileDialog.getSaveFileName = _directory_to_dir(QFileDialog.getSaveFileName)
+    # Make PySide2/6 `QFileDialog` static methods accept the `directory` kwarg as `dir`
+    QFileDialog.getExistingDirectory = static_method_kwargs_wrapper(
+        QFileDialog.getExistingDirectory, "directory", "dir"
+    )
+    QFileDialog.getOpenFileName = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileName, "directory", "dir"
+    )
+    QFileDialog.getOpenFileNames = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileNames, "directory", "dir"
+    )
+    QFileDialog.getSaveFileName = static_method_kwargs_wrapper(
+        QFileDialog.getSaveFileName, "directory", "dir"
+    )
 else:
-    QFileDialog.getExistingDirectory = _dir_to_directory(QFileDialog.getExistingDirectory)
-    QFileDialog.getOpenFileName = _dir_to_directory(QFileDialog.getOpenFileName)
-    QFileDialog.getOpenFileNames = _dir_to_directory(QFileDialog.getOpenFileNames)
-    QFileDialog.getSaveFileName = _dir_to_directory(QFileDialog.getSaveFileName)
+    # Make PyQt5/6 `QFileDialog` static methods accept the `dir` kwarg as `directory`
+    QFileDialog.getExistingDirectory = static_method_kwargs_wrapper(
+        QFileDialog.getExistingDirectory, "dir", "directory"
+    )
+    QFileDialog.getOpenFileName = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileName, "dir", "directory"
+    )
+    QFileDialog.getOpenFileNames = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileNames, "dir", "directory"
+    )
+    QFileDialog.getSaveFileName = static_method_kwargs_wrapper(
+        QFileDialog.getSaveFileName, "dir", "directory"
+    )
 
 # Make `addAction` compatible with Qt6 >= 6.3
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse('6.3'):
