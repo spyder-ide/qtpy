@@ -56,8 +56,7 @@ jobs:
         - python-version: '3.11'
           pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
           pyside2-version: '5.15'  # Python 3.11 needs 5.15+
-          pyside6-version: '6.5'  # Python 3.11 needs 6.4+. Test upper bound
-          pyqt-extras: 'Yes'  # Check PyQt extras
+          pyside6-version: '6.4'  # Python 3.11 needs 6.4+
         - use-conda: 'Yes'
           skip-pyqt6: true  # No PyQt6 conda packages yet
           pyside6-version: '6.4'  # Conda only has 6.4+ for Python <3.8
@@ -69,6 +68,7 @@ jobs:
           pyside2-qt-version: '5.12'  # Conda only has 5.12 and 5.15, not 5.13
         - python-version: '3.11'
           use-conda: 'No'
+          pyqt-extras: 'Yes'  # Check PyQt extras
           skip-pyside2: true  # Pyside2 wheels don't support Python 3.11+
           pyside6-version: '6.5'  # Test upper bound
         - os: windows-latest
@@ -92,6 +92,21 @@ jobs:
           pyqt6-version: 6.5  # Test upper bound
           pyside2-version: 5.15  # Test upper bound
     steps:
+      - name: Check job values
+        run: |
+          echo "PYTHON_VERSION:" ${{ env.PYTHON_VERSION }}
+          echo "USE_CONDA:" ${{ env.USE_CONDA }}
+          echo "PYQT5_VERSION:" ${{ env.PYQT5_VERSION }}
+          echo "PYQT5_QT_VERSION:" ${{ env.PYQT5_QT_VERSION }}
+          echo "PYQT6_VERSION:" ${{ env.PYQT6_VERSION }}
+          echo "PYQT6_QT_VERSION:" ${{ env.PYQT6_QT_VERSION }}
+          echo "PYSIDE2_VERSION:" ${{ env.PYSIDE2_VERSION }}
+          echo "PYSIDE2_QT_VERSION:" ${{ env.PYSIDE2_QT_VERSION }}
+          echo "PYSIDE6_VERSION:" ${{ env.PYSIDE6_VERSION }}
+          echo "PYSIDE6_QT_VERSION:" ${{ env.PYSIDE6_QT_VERSION }}
+          echo "QSCINTILLA_VERSION:" ${{ env.QSCINTILLA_VERSION }}
+          echo "PYQT_EXTRAS:" ${{ env.PYQT_EXTRAS }}
+          echo "SKIP_PIP_CHECK:" ${{ env.SKIP_PIP_CHECK }}
       - name: Checkout branch
         uses: actions/checkout@v3
       - name: Setup Python
