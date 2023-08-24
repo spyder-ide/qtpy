@@ -41,14 +41,18 @@ def generate_pyright_config_json():
     """Generate Pyright config to be used in `pyrightconfig.json`."""
     apis_active = get_api_status()
 
-    return json.dumps({ "defineConstant": {name.upper(): is_active for name, is_active in apis_active.items()}})
+    return json.dumps({
+        "defineConstant": {name.upper(): is_active for name, is_active in apis_active.items()}
+    })
 
 
 def generate_pyright_config_toml():
     """Generate a Pyright config to be used in `pyproject.toml`."""
     apis_active = get_api_status()
 
-    return "[tool.pyright.defineConstant]\n" + "\n".join(f"{name.upper()} = {is_active}" for name, is_active in apis_active.items())
+    return "[tool.pyright.defineConstant]\n" + "\n".join(
+        f"{name.upper()} = {str(is_active).lower()}" for name, is_active in apis_active.items()
+    )
 
 
 def print_mypy_args():

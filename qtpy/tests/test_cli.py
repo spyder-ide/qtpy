@@ -2,6 +2,7 @@
 
 import subprocess
 import sys
+import textwrap
 
 import pytest
 
@@ -71,6 +72,67 @@ def test_cli_mypy_args():
             '--always-false=PYQT6',
             '--always-true=PYSIDE6',
         ])
+    else:
+        assert False, 'No valid API to test'
+
+    assert output.stdout.strip() == expected.strip()
+
+def test_cli_pyright_config():
+    output = subprocess.run(
+        [sys.executable, '-m', 'qtpy', 'pyright-config'],
+        capture_output=True,
+        check=True,
+        encoding='utf-8',
+    )
+
+    if qtpy.PYQT5:
+        expected = textwrap.dedent("""
+            pyrightconfig.json:
+            {"defineConstant": {"PYQT5": true, "PYSIDE2": false, "PYQT6": false, "PYSIDE6": false}}
+
+            pyproject.toml:
+            [tool.pyright.defineConstant]
+            PYQT5 = true
+            PYSIDE2 = false
+            PYQT6 = false
+            PYSIDE6 = false
+        """)
+    elif qtpy.PYSIDE2:
+        expected = textwrap.dedent("""
+            pyrightconfig.json:
+            {"defineConstant": {"PYQT5": false, "PYSIDE2": true, "PYQT6": false, "PYSIDE6": false}}
+
+            pyproject.toml:
+            [tool.pyright.defineConstant]
+            PYQT5 = false
+            PYSIDE2 = true
+            PYQT6 = false
+            PYSIDE6 = false
+        """)
+    elif qtpy.PYQT6:
+        expected = textwrap.dedent("""
+            pyrightconfig.json:
+            {"defineConstant": {"PYQT5": false, "PYSIDE2": false, "PYQT6": true, "PYSIDE6": false}}
+
+            pyproject.toml:
+            [tool.pyright.defineConstant]
+            PYQT5 = false
+            PYSIDE2 = false
+            PYQT6 = true
+            PYSIDE6 = false
+        """)
+    elif qtpy.PYSIDE6:
+        expected = textwrap.dedent("""
+            pyrightconfig.json:
+            {"defineConstant": {"PYQT5": false, "PYSIDE2": false, "PYQT6": false, "PYSIDE6": true}}
+
+            pyproject.toml:
+            [tool.pyright.defineConstant]
+            PYQT5 = false
+            PYSIDE2 = false
+            PYQT6 = false
+            PYSIDE6 = true
+        """)
     else:
         assert False, 'No valid API to test'
 
