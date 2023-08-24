@@ -9,7 +9,9 @@
 """Provides QtCore classes and functions."""
 from typing import TYPE_CHECKING
 
-from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6
+from packaging.version import parse
+
+from . import PYQT6, PYQT5, PYSIDE2, PYSIDE6, QT_VERSION as _qt_version
 from ._utils import possibly_static_exec, possibly_static_exec_
 
 if PYQT5:
@@ -69,10 +71,11 @@ elif PYQT6:
     # Alias for MiddleButton removed in PyQt6 but available in PyQt5, PySide2 and PySide6
     Qt.MidButton = Qt.MiddleButton
 
-    # Add removed definition for `Qt.ItemFlags` as an alias of `Qt.ItemFlag` as PySide6 does.
+    # Add removed definition for `Qt.ItemFlags` as an alias of `Qt.ItemFlag`
+    # passing as default value 0 in the same way PySide6 6.5+ does.
     # Note that for PyQt5 and PySide2 those definitions are two different classes
     # (one is the flag definition and the other the enum definition)
-    Qt.ItemFlags = Qt.ItemFlag
+    Qt.ItemFlags = lambda value=0: Qt.ItemFlag(value)
 
 elif PYSIDE2:
     from PySide2.QtCore import *
@@ -116,6 +119,10 @@ elif PYSIDE6:
     QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+
+    # Passing as default value 0 in the same way PySide6 6.3.2 does for the `Qt.ItemFlags` definition.
+    if parse(_qt_version) > parse('6.3'):
+        Qt.ItemFlags = lambda value=0: Qt.ItemFlag(value)
 
 # For issue #153 and updated for issue #305
 if PYQT5 or PYQT6:

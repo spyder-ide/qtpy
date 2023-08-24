@@ -7,12 +7,17 @@
 # -----------------------------------------------------------------------------
 
 """Provides widget classes and functions."""
-from functools import partialmethod, wraps
+from functools import partialmethod
 
 from packaging.version import parse
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION as _qt_version
-from ._utils import add_action, possibly_static_exec, getattr_missing_optional_dep
+from ._utils import (
+    add_action,
+    possibly_static_exec,
+    getattr_missing_optional_dep,
+    static_method_kwargs_wrapper
+)
 
 
 _missing_optional_names = {}
@@ -22,22 +27,6 @@ def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
     raise getattr_missing_optional_dep(
         name, module_name=__name__, optional_names=_missing_optional_names)
-
-def _dir_to_directory(func):
-    @wraps(func)
-    def _dir_to_directory_(*args, **kwargs):
-        if "dir" in kwargs:
-            kwargs["directory"] = kwargs.pop("dir")
-        return func(*args, **kwargs)
-    return _dir_to_directory_
-
-def _directory_to_dir(func):
-    @wraps(func)
-    def _directory_to_dir_(*args, **kwargs):
-        if "directory" in kwargs:
-            kwargs["dir"] = kwargs.pop("directory")
-        return func(*args, **kwargs)
-    return _directory_to_dir_
 
 
 if PYQT5:
@@ -71,8 +60,11 @@ elif PYQT6:
     QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(QMenu, *args, **kwargs)
     QLineEdit.getTextMargins = lambda self: (self.textMargins().left(), self.textMargins().top(), self.textMargins().right(), self.textMargins().bottom())
 
-    # Map missing flags definitions
-    QFileDialog.Options = QFileDialog.Option
+    # Add removed definition for `QFileDialog.Options` as an alias of `QFileDialog.Option`
+    # passing as default value 0 in the same way PySide6 6.5+ does.
+    # Note that for PyQt5 and PySide2 those definitions are two different classes
+    # (one is the flag definition and the other the enum definition)
+    QFileDialog.Options = lambda value=0: QFileDialog.Option(value)
 
     # Allow unscoped access for enums inside the QtWidgets module
     from .enums_compat import promote_enums
@@ -108,17 +100,39 @@ elif PYSIDE6:
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(QMenu, *args, **kwargs)
 
+    # Passing as default value 0 in the same way PySide6 < 6.3.2 does for the `QFileDialog.Options` definition.
+    if parse(_qt_version) > parse('6.3'):
+        QFileDialog.Options = lambda value=0: QFileDialog.Option(value)
+
 
 if PYSIDE2 or PYSIDE6:
-    QFileDialog.getExistingDirectory = _directory_to_dir(QFileDialog.getExistingDirectory)
-    QFileDialog.getOpenFileName = _directory_to_dir(QFileDialog.getOpenFileName)
-    QFileDialog.getOpenFileNames = _directory_to_dir(QFileDialog.getOpenFileNames)
-    QFileDialog.getSaveFileName = _directory_to_dir(QFileDialog.getSaveFileName)
+    # Make PySide2/6 `QFileDialog` static methods accept the `directory` kwarg as `dir`
+    QFileDialog.getExistingDirectory = static_method_kwargs_wrapper(
+        QFileDialog.getExistingDirectory, "directory", "dir"
+    )
+    QFileDialog.getOpenFileName = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileName, "directory", "dir"
+    )
+    QFileDialog.getOpenFileNames = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileNames, "directory", "dir"
+    )
+    QFileDialog.getSaveFileName = static_method_kwargs_wrapper(
+        QFileDialog.getSaveFileName, "directory", "dir"
+    )
 else:
-    QFileDialog.getExistingDirectory = _dir_to_directory(QFileDialog.getExistingDirectory)
-    QFileDialog.getOpenFileName = _dir_to_directory(QFileDialog.getOpenFileName)
-    QFileDialog.getOpenFileNames = _dir_to_directory(QFileDialog.getOpenFileNames)
-    QFileDialog.getSaveFileName = _dir_to_directory(QFileDialog.getSaveFileName)
+    # Make PyQt5/6 `QFileDialog` static methods accept the `dir` kwarg as `directory`
+    QFileDialog.getExistingDirectory = static_method_kwargs_wrapper(
+        QFileDialog.getExistingDirectory, "dir", "directory"
+    )
+    QFileDialog.getOpenFileName = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileName, "dir", "directory"
+    )
+    QFileDialog.getOpenFileNames = static_method_kwargs_wrapper(
+        QFileDialog.getOpenFileNames, "dir", "directory"
+    )
+    QFileDialog.getSaveFileName = static_method_kwargs_wrapper(
+        QFileDialog.getSaveFileName, "dir", "directory"
+    )
 
 # Make `addAction` compatible with Qt6 >= 6.3
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse('6.3'):
