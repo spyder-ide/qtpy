@@ -104,6 +104,11 @@ conda install qtpy
 
 ### Type checker integration
 
+Type checkers have no knowledge of installed packages, so these tools require
+additional configuration.
+
+#### Mypy
+
 A Command Line Interface (CLI) is offered to help with usage of QtPy.
 Presently, its only feature is to generate command line arguments for Mypy
 that will enable it to process the QtPy source files with the same API
@@ -132,7 +137,21 @@ the Mypy command line invocation as follows:
 mypy --package mypackage $(qtpy mypy-args)
 ```
 
-For Pyright support and other usage notes, see [this comment](https://github.com/spyder-ide/qtpy/issues/352#issuecomment-1170684412).
+#### Pyright/Pylance
+
+Instead of runtime arguments, it is required to create a config file for the project,
+called `pyrightconfig.json` or a `pyright` section in `pyproject.toml`. See [here](https://github.com/microsoft/pyright/blob/main/docs/configuration.md) for reference.
+
+If you run
+
+```bash
+qtpy pyright-config
+```
+
+you will get the necessary configs to be included in your project files. If you don't
+have them, it is recommended to create the latter.
+
+These steps are necessary for running the default VSCode's type checking.
 
 
 ## Contributing
