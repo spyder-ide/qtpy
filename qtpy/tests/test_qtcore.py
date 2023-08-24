@@ -1,20 +1,20 @@
 """Test QtCore."""
 
+import enum
 import sys
 from datetime import date, datetime, time
 
 import pytest
+from packaging.version import parse
 
 from qtpy import (
     PYQT5,
     PYQT6,
     PYSIDE2,
-    PYSIDE6,
     PYQT_VERSION,
     PYSIDE_VERSION,
     QtCore,
 )
-from qtpy.tests.utils import not_using_conda
 
 _now = datetime.now()
 # Make integer milliseconds; `floor` here, don't `round`!
@@ -68,6 +68,23 @@ def test_qthread_exec():
     """Test `QThread.exec_` and `QThread.exec_`"""
     assert QtCore.QThread.exec_ is not None
     assert QtCore.QThread.exec is not None
+
+
+@pytest.mark.skipif(PYSIDE2 and parse(PYSIDE_VERSION) < parse("5.15"),
+                    reason="QEnum macro doesn't seem to be present on PySide2 <5.15")
+def test_qenum():
+    """Test QEnum macro"""
+    class EnumTest(QtCore.QObject):
+        class Position(enum.IntEnum):
+            West = 0
+            North = 1
+            South = 2
+            East = 3
+
+        QtCore.QEnum(Position)
+
+    obj = EnumTest()
+    assert obj.metaObject().enumerator(0).name() == "Position"
 
 
 def test_QLibraryInfo_location_and_path():

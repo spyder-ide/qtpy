@@ -18,6 +18,12 @@ if PYQT5:
     from PyQt5.QtCore import pyqtBoundSignal as SignalInstance
     from PyQt5.QtCore import pyqtSlot as Slot
     from PyQt5.QtCore import pyqtProperty as Property
+    try:
+        from PyQt5.QtCore import Q_ENUM as QEnum
+        del Q_ENUM
+    except ImportError:  # fallback for Qt5.9
+        from PyQt5.QtCore import Q_ENUMS as QEnum
+        del Q_ENUMS
     from PyQt5.QtCore import QT_VERSION_STR as __version__
 
     # Those are imported from `import *`
@@ -30,6 +36,7 @@ elif PYQT6:
     from PyQt6.QtCore import pyqtBoundSignal as SignalInstance
     from PyQt6.QtCore import pyqtSlot as Slot
     from PyQt6.QtCore import pyqtProperty as Property
+    from PyQt6.QtCore import pyqtEnum as QEnum
     from PyQt6.QtCore import QT_VERSION_STR as __version__
 
     # For issue #311
@@ -48,7 +55,7 @@ elif PYQT6:
     QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 
     # Those are imported from `import *`
-    del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, QT_VERSION_STR
+    del pyqtSignal, pyqtBoundSignal, pyqtSlot, pyqtProperty, pyqtEnum, QT_VERSION_STR
 
     # Allow unscoped access for enums inside the QtCore module
     from .enums_compat import promote_enums
