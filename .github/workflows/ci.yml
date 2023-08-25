@@ -70,12 +70,13 @@ jobs:
           use-conda: 'No'
           pyqt-extras: 'Yes'  # Check PyQt extras
           skip-pyside2: true  # Pyside2 wheels don't support Python 3.11+
+          pyqt6-version: '6.5'  # Test upper bound
           pyside6-version: '6.5'  # Test upper bound
         - os: windows-latest
           python-version: '3.7'
           use-conda: 'Yes'
           pyqt5-version: '5.9'  # Test lower bound
-          skip-pyside6: true  # Test hangs
+          skip-pyside6: true  # Test hangs with 6.4. 6.5 is not available for Python 3.7
         - os: windows-latest
           python-version: '3.7'
           use-conda: 'No'
@@ -116,7 +117,7 @@ jobs:
           echo "SKIP_PYSIDE6:" ${{ matrix.skip-pyside6 }}
           echo "PYSIDE6_VERSION:" ${{ env.PYSIDE6_VERSION }}
           echo "PYSIDE6_QT_VERSION:" ${{ env.PYSIDE6_QT_VERSION }}
-          echot "---- Other"
+          echo "---- Other"
           echo "SKIP_PIP_CHECK:" ${{ env.SKIP_PIP_CHECK }}
       - name: Checkout branch
         uses: actions/checkout@v3
