@@ -5,10 +5,10 @@
 # (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
-"""Provides QtTextToSpeech classes and functions."""
+"""Provides QtSerialBus classes and functions."""
 
-from packaging.version import parse
-from qtpy import (
+from . import (
+    parse,
     PYQT5,
     PYQT6,
     PYSIDE2,
@@ -18,13 +18,13 @@ from qtpy import (
 )
 
 if PYQT5:
-    from PyQt5.QtTextToSpeech import *
+    from PyQt5.QtSerialBus import *
 elif PYQT6:
-    raise QtBindingMissingModuleError(name='QtTextToSpeech')
+    from PyQt6.QtSerialBus import *
 elif PYSIDE2:
-    from PySide2.QtTextToSpeech import *
+    from PySide2.QtSerialBus import *
 elif PYSIDE6:
     if parse(PYSIDE_VERSION) >= parse('6.5'):
-        from PySide6.QtTextToSpeech import *
+        from PySide6.QtSerialBus import *
     else:
-        raise QtBindingMissingModuleError(name='QtTextToSpeech')
+        raise QtBindingMissingModuleError(name='QtSerialBus')
