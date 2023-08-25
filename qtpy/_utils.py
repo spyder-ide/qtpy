@@ -6,6 +6,7 @@
 # -----------------------------------------------------------------------------
 
 """Provides utility functions for use by QtPy itself."""
+from functools import wraps
 
 import qtpy
 
@@ -112,3 +113,18 @@ def add_action(self, *args, old_add_action):
             return old_add_action(self, *args)
         return action
     return old_add_action(self, *args)
+
+
+def static_method_kwargs_wrapper(func, from_kwarg_name, to_kwarg_name):
+    """
+    Helper function to manage `from_kwarg_name` to `to_kwarg_name` kwargs name changes in static methods.
+
+    Makes static methods accept the `from_kwarg_name` kwarg as `to_kwarg_name`.
+    """
+    @staticmethod
+    @wraps(func)
+    def _from_kwarg_name_to_kwarg_name_(*args, **kwargs):
+        if from_kwarg_name in kwargs:
+            kwargs[to_kwarg_name] = kwargs.pop(from_kwarg_name)
+        return func(*args, **kwargs)
+    return _from_kwarg_name_to_kwarg_name_
