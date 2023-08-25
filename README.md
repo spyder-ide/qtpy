@@ -18,7 +18,7 @@
 **QtPy** is a small abstraction layer that lets you
 write applications using a single API call to either PyQt or PySide.
 
-It provides support for PyQt5, PyQt6, PySide6, PySide2 using the Qt5 layout
+It provides support for PyQt5, PySide2, PyQt6 and PySide6 using the Qt5 layout
 (where the QtGui module has been split into QtGui and QtWidgets).
 
 Basically, you can write your code as if you were using PyQt or PySide directly,
@@ -41,7 +41,7 @@ to a particular project or namespace.
 
 ### License
 
-This project is released under the MIT license.
+This project is released under the [MIT license](LICENSE.txt).
 
 
 ### Requirements
@@ -112,7 +112,7 @@ and Pyright/Pylance args/configurations).
 
 #### Mypy
 
-The `mypy-args` command enables to generate command line arguments for Mypy
+The `mypy-args` command helps you to generate command line arguments for Mypy
 that will enable it to process the QtPy source files with the same API
 as QtPy itself would have selected.
 
@@ -143,7 +143,7 @@ mypy --package mypackage $(qtpy mypy-args)
 
 In the case of Pyright, instead of runtime arguments, it is required to create a
 config file for the project, called `pyrightconfig.json` or a `pyright` section
-in `pyproject.toml`. See [here](https://github.com/microsoft/pyright/blob/main/docs/configuration.md) for reference. QtPy has for this the `pyright-config` command
+in `pyproject.toml`. See [here](https://github.com/microsoft/pyright/blob/main/docs/configuration.md) for reference. In order to set this configuration, QtPy offers the `pyright-config` command as guidance.
 
 If you run
 
@@ -152,14 +152,28 @@ qtpy pyright-config
 ```
 
 you will get the necessary configs to be included in your project files. If you don't
-have them, it is recommended to create the latter.
+have them, it is recommended to create the latter. For example, in an environment where PyQt5 is installed and selected
+(or the default fallback, if no binding can be found in the environment),
+this would output the following:
 
-**Note**: These steps are necessary for the correct usage of the default VSCode's type checking feature while using QtPy in your source code.
+```text
+pyrightconfig.json:
+{"defineConstant": {"PYQT5": true, "PYSIDE2": false, "PYQT6": false, "PYSIDE6": false}}
+
+pyproject.toml:
+[tool.pyright.defineConstant]
+PYQT5 = true
+PYSIDE2 = false
+PYQT6 = false
+PYSIDE6 = false
+```
+
+**Note**: These configurations are necessary for the correct usage of the default VSCode's type checking feature while using QtPy in your source code.
 
 
 ## Testing matrix
 
-Currently, QtPy runs tests for the different bindings on Linux, Windows and macOS, using Python 3.7 and 3.11, and installing the different bindings with `conda` and `pip`. For the PyQt bindings, we also check the installation of extra packages via `pip`.
+Currently, QtPy runs tests for the different bindings on Linux, Windows and macOS.  It test on Python 3.7 and 3.11, and install the different bindings with `conda` and `pip`. For the PyQt bindings, we also check the installation of extra packages via `pip`.
 
 Following this, the current test matrix looks something like this:
 
@@ -179,7 +193,7 @@ Following this, the current test matrix looks something like this:
 |         | PySide2         | 5.13                                       | 5.12 | 5.15               | skip (no wheels available) |
 |         | PySide6         | 6.4                                        | 6.3  | 6.5                | 6.5                        |
 
-The mentioned extra packages for the PyQT bindins are the following:
+**Note**: The mentioned extra packages for the PyQt bindings are the following:
 
 * `PyQt3D` and `PyQt6-3D`
 * `PyQtChart` and `PyQt6-Charts`
@@ -187,6 +201,7 @@ The mentioned extra packages for the PyQT bindins are the following:
 * `PyQtNetworkAuth` and `PyQt6-NetworkAuth`
 * `PyQtPurchasing`
 * `PyQtWebEngine` and `PyQt6-WebEngine` 
+* `QScintilla` and `PyQt6-QScintilla`
 
 ## Contributing
 
