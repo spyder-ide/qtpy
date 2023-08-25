@@ -84,11 +84,10 @@ jobs:
         - os: windows-latest
           python-version: '3.11'
           use-conda: 'Yes'
-          skip-pyside6: true  # Test hangs
+          pyside6-version: 6.5  # Test upper bound
         - os: macos-latest
           python-version: '3.11'
           use-conda: 'No'
-          pyqt-extras: 'Yes'  # Check PyQt extras
           pyqt6-version: 6.5  # Test upper bound
           pyside2-version: 5.15  # Test upper bound
     steps:
@@ -98,10 +97,13 @@ jobs:
           echo "OS:" ${{ matrix.os }}
           echo "PYTHON_VERSION:" ${{ env.PYTHON_VERSION }}
           echo "USE_CONDA:" ${{ env.USE_CONDA }}
+          echo "---- PyQt"
+          echo "PYQT_EXTRAS:" ${{ env.PYQT_EXTRAS }}
           echo "---- PyQt5"
           echo "SKIP_PYQT5:" ${{ matrix.skip-pyqt5 }}
           echo "PYQT5_VERSION:" ${{ env.PYQT5_VERSION }}
           echo "PYQT5_QT_VERSION:" ${{ env.PYQT5_QT_VERSION }}
+          echo "QSCINTILLA_VERSION:" ${{ env.QSCINTILLA_VERSION }}
           echo "---- PyQt6"
           echo "SKIP_PYQT6:" ${{ matrix.skip-pyqt6 }}
           echo "PYQT6_VERSION:" ${{ env.PYQT6_VERSION }}
@@ -114,8 +116,7 @@ jobs:
           echo "SKIP_PYSIDE6:" ${{ matrix.skip-pyside6 }}
           echo "PYSIDE6_VERSION:" ${{ env.PYSIDE6_VERSION }}
           echo "PYSIDE6_QT_VERSION:" ${{ env.PYSIDE6_QT_VERSION }}
-          echo "QSCINTILLA_VERSION:" ${{ env.QSCINTILLA_VERSION }}
-          echo "PYQT_EXTRAS:" ${{ env.PYQT_EXTRAS }}
+          echot "---- Other"
           echo "SKIP_PIP_CHECK:" ${{ env.SKIP_PIP_CHECK }}
       - name: Checkout branch
         uses: actions/checkout@v3
