@@ -86,7 +86,7 @@ jobs:
           use-conda: 'Yes'
           skip-pyside6: true  # Test hangs
         - os: macos-latest
-          python-version: '3.7'
+          python-version: '3.11'
           use-conda: 'No'
           pyqt-extras: 'Yes'  # Check PyQt extras
           pyqt6-version: 6.5  # Test upper bound
@@ -94,14 +94,24 @@ jobs:
     steps:
       - name: Check job values
         run: |
+          echo "---- General setup"
+          echo "OS:" ${{ matrix.os }}
           echo "PYTHON_VERSION:" ${{ env.PYTHON_VERSION }}
           echo "USE_CONDA:" ${{ env.USE_CONDA }}
+          echo "---- PyQt5"
+          echo "SKIP_PYQT5:" ${{ matrix.skip-pyqt5 }}
           echo "PYQT5_VERSION:" ${{ env.PYQT5_VERSION }}
           echo "PYQT5_QT_VERSION:" ${{ env.PYQT5_QT_VERSION }}
+          echo "---- PyQt6"
+          echo "SKIP_PYQT6:" ${{ matrix.skip-pyqt6 }}
           echo "PYQT6_VERSION:" ${{ env.PYQT6_VERSION }}
           echo "PYQT6_QT_VERSION:" ${{ env.PYQT6_QT_VERSION }}
+          echo "---- PySide2"
+          echo "SKIP_PYSIDE2:" ${{ matrix.skip-pyside2 }}
           echo "PYSIDE2_VERSION:" ${{ env.PYSIDE2_VERSION }}
           echo "PYSIDE2_QT_VERSION:" ${{ env.PYSIDE2_QT_VERSION }}
+          echo "---- PySide6"
+          echo "SKIP_PYSIDE6:" ${{ matrix.skip-pyside6 }}
           echo "PYSIDE6_VERSION:" ${{ env.PYSIDE6_VERSION }}
           echo "PYSIDE6_QT_VERSION:" ${{ env.PYSIDE6_QT_VERSION }}
           echo "QSCINTILLA_VERSION:" ${{ env.QSCINTILLA_VERSION }}
