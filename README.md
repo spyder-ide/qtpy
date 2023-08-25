@@ -179,7 +179,7 @@ Following this, the current test matrix looks something like this:
 
 |         | Python          | 3.7                                        |      | 3.11               |                            |
 |---------|-----------------|--------------------------------------------|------|--------------------|----------------------------|
-| OS      | Binding\manager | conda                                      | pip  | conda              | pip                        |
+| OS      | Binding / manager | conda                                      | pip  | conda              | pip                        |
 | Linux   | PyQt5           | 5.12                                       | 5.15 | 5.15               | 5.15 (with extras)         |
 |         | PyQt6           | skip (unavailable)                         | 6.3  | skip (unavailable) | 6.5 (with extras)          |
 |         | PySide2         | 5.13                                       | 5.12 | 5.15               | skip (no wheels available) |
@@ -205,7 +205,7 @@ Following this, the current test matrix looks something like this:
 
 ## Contributing
 
-Everyone is welcome to contribute! See the [CONTRIBUTING guide](CONTRIBUTING.md) for more details.
+Everyone is welcome to contribute! See our [Contributing guide](CONTRIBUTING.md) for more details.
 
 
 ## Sponsors
