@@ -168,12 +168,15 @@ PYQT6 = false
 PYSIDE6 = false
 ```
 
-**Note**: These configurations are necessary for the correct usage of the default VSCode's type checking feature while using QtPy in your source code.
+**Note**: These configurations are necessary for the correct usage of the default VSCode's type
+checking feature while using QtPy in your source code.
 
 
 ## Testing matrix
 
-Currently, QtPy runs tests for the different bindings on Linux, Windows and macOS.  It test on Python 3.7 and 3.11, and install the different bindings with `conda` and `pip`. For the PyQt bindings, we also check the installation of extra packages via `pip`.
+Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using
+Python 3.7 and 3.11, and installing those bindings with `conda` and `pip`. For the
+PyQt bindings, we also check the installation of extra packages via `pip`.
 
 Following this, the current test matrix looks something like this:
 
