@@ -2,7 +2,6 @@
 
 
 import pytest
-import warnings
 
 
 def test_qstandarpath():
@@ -12,8 +11,8 @@ def test_qstandarpath():
     assert QStandardPaths.StandardLocation is not None
 
     # Attributes from QDesktopServices shouldn't be in QStandardPaths
-    with pytest.raises(AttributeError) as excinfo:
-        QStandardPaths.setUrlHandler
+    with pytest.raises(AttributeError):
+        QStandardPaths.setUrlHandler  # noqa: B018
 
 
 def test_qdesktopservice():

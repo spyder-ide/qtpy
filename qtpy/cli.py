@@ -9,41 +9,47 @@
 
 # Standard library imports
 import argparse
-import textwrap
 import json
+import textwrap
 
 
 def print_version():
     """Print the current version of the package."""
     import qtpy
-    print('QtPy version', qtpy.__version__)
+
+    print("QtPy version", qtpy.__version__)
 
 
 def get_api_status():
     """Get the status of each Qt API usage."""
     import qtpy
 
-    return {name: qtpy.API == name for name in qtpy.API_NAMES}
+    return {name: name == qtpy.API for name in qtpy.API_NAMES}
+
 
 def generate_mypy_args():
     """Generate a string with always-true/false args to pass to mypy."""
-    options = {False: '--always-false', True: '--always-true'}
+    options = {False: "--always-false", True: "--always-true"}
 
     apis_active = get_api_status()
-    mypy_args = ' '.join(
-        f'{options[is_active]}={name.upper()}'
+    return " ".join(
+        f"{options[is_active]}={name.upper()}"
         for name, is_active in apis_active.items()
     )
-    return mypy_args
 
 
 def generate_pyright_config_json():
     """Generate Pyright config to be used in `pyrightconfig.json`."""
     apis_active = get_api_status()
 
-    return json.dumps({
-        "defineConstant": {name.upper(): is_active for name, is_active in apis_active.items()}
-    })
+    return json.dumps(
+        {
+            "defineConstant": {
+                name.upper(): is_active
+                for name, is_active in apis_active.items()
+            },
+        },
+    )
 
 
 def generate_pyright_config_toml():
@@ -51,7 +57,8 @@ def generate_pyright_config_toml():
     apis_active = get_api_status()
 
     return "[tool.pyright.defineConstant]\n" + "\n".join(
-        f"{name.upper()} = {str(is_active).lower()}" for name, is_active in apis_active.items()
+        f"{name.upper()} = {str(is_active).lower()}"
+        for name, is_active in apis_active.items()
     )
 
 
@@ -82,23 +89,28 @@ def print_pyright_configs():
 def generate_arg_parser():
     """Generate the argument parser for the dev CLI for QtPy."""
     parser = argparse.ArgumentParser(
-        description='Features to support development with QtPy.',
+        description="Features to support development with QtPy.",
     )
     parser.set_defaults(func=parser.print_help)
 
     parser.add_argument(
-        '--version', action='store_const', dest='func', const=print_version,
-        help='If passed, will print the version and exit',
+        "--version",
+        action="store_const",
+        dest="func",
+        const=print_version,
+        help="If passed, will print the version and exit",
     )
 
     cli_subparsers = parser.add_subparsers(
-        title='Subcommands', help='Subcommand to run', metavar='Subcommand',
+        title="Subcommands",
+        help="Subcommand to run",
+        metavar="Subcommand",
     )
 
     # Parser for the MyPy args subcommand
     mypy_args_parser = cli_subparsers.add_parser(
-        name='mypy-args',
-        help='Generate command line arguments for using mypy with QtPy.',
+        name="mypy-args",
+        help="Generate command line arguments for using mypy with QtPy.",
         formatter_class=argparse.RawTextHelpFormatter,
         description=textwrap.dedent(
             """
@@ -120,8 +132,8 @@ def generate_arg_parser():
 
     # Parser for the Pyright config subcommand
     pyright_config_parser = cli_subparsers.add_parser(
-        name='pyright-config',
-        help='Generate Pyright config for using Pyright with QtPy.',
+        name="pyright-config",
+        help="Generate Pyright config for using Pyright with QtPy.",
         formatter_class=argparse.RawTextHelpFormatter,
         description=textwrap.dedent(
             """
@@ -145,9 +157,10 @@ def main(args=None):
     parser = generate_arg_parser()
     parsed_args = parser.parse_args(args=args)
 
-    reserved_params = {'func'}
+    reserved_params = {"func"}
     cleaned_args = {
-        key: value for key, value in vars(parsed_args).items()
+        key: value
+        for key, value in vars(parsed_args).items()
         if key not in reserved_params
     }
     parsed_args.func(**cleaned_args)

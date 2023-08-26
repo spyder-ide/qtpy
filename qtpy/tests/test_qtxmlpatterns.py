@@ -1,5 +1,6 @@
 import pytest
-from qtpy import PYSIDE2, PYSIDE6, PYQT6
+
+from qtpy import PYQT6, PYSIDE2, PYSIDE6
 
 
 @pytest.mark.skipif((PYSIDE6 or PYQT6), reason="not available with qt 6.0")

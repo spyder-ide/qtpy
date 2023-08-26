@@ -1,7 +1,3 @@
-import pytest
-from qtpy import PYQT5, PYSIDE2
-
-
 def test_qtwebsockets():
     """Test the qtpy.QtWebSockets namespace"""
     from qtpy import QtWebSockets

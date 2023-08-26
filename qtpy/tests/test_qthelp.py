@@ -1,9 +1,6 @@
 """Test for QtHelp namespace."""
 
 
-import pytest
-
-
 def test_qthelp():
     """Test the qtpy.QtHelp namespace."""
     from qtpy import QtHelp

@@ -1,5 +1,4 @@
 import pytest
-from qtpy import PYQT5, PYSIDE2
 
 
 def test_qt3danimation():
