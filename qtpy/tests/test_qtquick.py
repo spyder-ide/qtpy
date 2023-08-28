@@ -1,4 +1,3 @@
-import pytest
 from qtpy import PYQT5, PYSIDE2
 
 

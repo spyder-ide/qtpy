@@ -17,6 +17,6 @@ def test_missing_optional_deps():
 
     with pytest.raises(QtModuleNotInstalledError) as excinfo:
         from .optional_deps import MissingClass
-    
-    msg = 'The optional_dep.MissingClass module was not found. It must be installed separately as test_package_please_ignore.'
+
+    msg = "The optional_dep.MissingClass module was not found. It must be installed separately as test_package_please_ignore."
     assert msg == str(excinfo.value)

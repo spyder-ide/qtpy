@@ -1,5 +1,4 @@
 import pytest
-from qtpy import PYSIDE2
 
 
 def test_qtbluetooth():

@@ -3,6 +3,7 @@ import pytest
 from qtpy import QT6
 from qtpy.tests.utils import using_conda
 
+
 @pytest.mark.skipif(
     QT6 and using_conda(),
     reason="QPositioning bindings not included in Conda qt-main >= 6.4.3.",

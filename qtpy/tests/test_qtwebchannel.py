@@ -1,7 +1,3 @@
-import pytest
-from qtpy import PYQT5, PYSIDE2
-
-
 def test_qtwebchannel():
     """Test the qtpy.QtWebChannel namespace"""
     from qtpy import QtWebChannel

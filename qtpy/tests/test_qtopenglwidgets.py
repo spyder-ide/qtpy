@@ -1,5 +1,6 @@
 import pytest
-from qtpy import PYSIDE2, PYSIDE6, PYQT5, PYQT6
+
+from qtpy import PYQT5, PYSIDE2
 
 
 @pytest.mark.skipif(PYSIDE2 or PYQT5, reason="Not available in PySide2/PyQt5")

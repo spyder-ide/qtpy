@@ -1,5 +1,4 @@
-import pytest
-from qtpy import PYQT5, PYSIDE2, PYSIDE6
+from qtpy import PYSIDE2, PYSIDE6
 
 
 def test_qtqml():
