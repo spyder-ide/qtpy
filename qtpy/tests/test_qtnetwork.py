@@ -1,5 +1,4 @@
-import pytest
-from qtpy import PYSIDE2, PYSIDE6, PYQT6, QtNetwork
+from qtpy import PYQT6, PYSIDE2, PYSIDE6, QtNetwork
 
 
 def test_qtnetwork():

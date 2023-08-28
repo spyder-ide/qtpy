@@ -1,8 +1,12 @@
 import pytest
-from qtpy import PYSIDE6, PYQT6
+
+from qtpy import PYQT6, PYSIDE6
 
 
-@pytest.mark.skipif(PYSIDE6 or PYQT6, reason="Only available in Qt<6,>=6.2 bindings")
+@pytest.mark.skipif(
+    PYSIDE6 or PYQT6,
+    reason="Only available in Qt<6,>=6.2 bindings",
+)
 def test_qtwebenginewidgets():
     """Test the qtpy.QtWebEngineWidget namespace"""
 

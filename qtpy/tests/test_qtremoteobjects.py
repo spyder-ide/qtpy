@@ -1,5 +1,4 @@
 import pytest
-from qtpy import PYSIDE2, PYSIDE6, PYQT5, PYQT6
 
 
 def test_qtremoteobjects():

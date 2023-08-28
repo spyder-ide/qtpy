@@ -1,4 +1,5 @@
 import pytest
+
 from qtpy import PYQT6, PYSIDE6
 
 

@@ -1,5 +1,6 @@
 import pytest
 from packaging.version import parse
+
 from qtpy import PYSIDE2, PYSIDE_VERSION
 
 

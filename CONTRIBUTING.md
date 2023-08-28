@@ -105,6 +105,33 @@ python -m pip install -e .[test]
 You can then import and use QtPy as normal.
 When you make changes in your local copy of the git repository, they will be reflected in your installed copy as soon as you re-run Python.
 
+### Pre-commit hooks
+
+We use [pre-commit](https://pre-commit.com/) to run some checks before each commit. To install it in local environment, run:
+
+```bash
+pip install pre-commit
+```
+
+or globally with pipx:
+
+```bash
+pipx install pre-commit
+```
+
+or from conda:
+
+```bash
+conda install -c conda-forge pre-commit
+```
+
+Then, install the pre-commit hooks with:
+
+```bash
+pre-commit install
+```
+
+If you do not want to run the hooks locally the `pre-commit.ci` workflow will run them for you on GitHub.
 
 
 ## Deciding Which Branch to Use
