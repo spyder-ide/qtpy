@@ -64,7 +64,7 @@ elif PYSIDE6:
     from PySide6.QtWebEngineCore import (
         QWebEnginePage,
         QWebEngineProfile,
-        QWebEngineScrip,
+        QWebEngineScript,
         QWebEngineSettings,
     )
     from PySide6.QtWebEngineWidgets import *
