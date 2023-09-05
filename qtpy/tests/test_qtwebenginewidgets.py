@@ -1,10 +1,14 @@
 import pytest
+from packaging import version
 
-from qtpy import PYQT6, PYSIDE6
+from qtpy import PYQT6, PYQT_VERSION, PYSIDE6, PYSIDE_VERSION
 
 
 @pytest.mark.skipif(
-    PYSIDE6 or PYQT6,
+    not (
+        (PYQT6 and version.parse(PYQT_VERSION) >= version.parse("6.2"))
+        or (PYSIDE6 and version.parse(PYSIDE_VERSION) >= version.parse("6.2"))
+    ),
     reason="Only available in Qt<6,>=6.2 bindings",
 )
 def test_qtwebenginewidgets():
