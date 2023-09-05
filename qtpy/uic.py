@@ -247,7 +247,7 @@ else:
 
     if PYSIDE2:
 
-        def loadUiType(uifile, from_imports=False):  # noqa: F811
+        def loadUiType(uifile, from_imports=False):
             """Load a .ui file and return the generated form class and
             the Qt base class.
 
