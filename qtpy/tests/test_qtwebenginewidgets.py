@@ -1,13 +1,15 @@
 import pytest
 from packaging import version
 
-from qtpy import PYQT6, PYQT_VERSION, PYSIDE6, PYSIDE_VERSION
+from qtpy import PYQT5, PYQT6, PYQT_VERSION, PYSIDE2, PYSIDE6, PYSIDE_VERSION
 
 
 @pytest.mark.skipif(
     not (
         (PYQT6 and version.parse(PYQT_VERSION) >= version.parse("6.2"))
         or (PYSIDE6 and version.parse(PYSIDE_VERSION) >= version.parse("6.2"))
+        or PYQT5
+        or PYSIDE2
     ),
     reason="Only available in Qt<6,>=6.2 bindings",
 )
