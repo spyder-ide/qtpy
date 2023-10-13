@@ -79,8 +79,6 @@ def add_action(self, *args, old_add_action):
     icon: QIcon
     text: str
     shortcut: QKeySequence | QKeySequence.StandardKey | str | int
-    receiver: QObject
-    member: bytes
 
     # if args and isinstance(args[0], QIcon):
     if any(map(lambda arg: isinstance(arg, QIcon), args[:1])):  # Better to use previous line instead of this
