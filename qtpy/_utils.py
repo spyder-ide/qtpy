@@ -90,18 +90,21 @@ def add_action(self, *args, old_add_action):
     else:
         icon = QIcon()
 
-    if all(
-        isinstance(arg, t)
-        for arg, t in zip(
-            args,
-            [
-                str,
-                (QKeySequence, QKeySequence.StandardKey, str, int),
-                QObject,
-                bytes,
-            ],
+    if (
+        all(
+            isinstance(arg, t)
+            for arg, t in zip(
+                args,
+                [
+                    str,
+                    (QKeySequence, QKeySequence.StandardKey, str, int),
+                    QObject,
+                    bytes,
+                ],
+            )
         )
-    ) and len(args) >= 2:
+        and len(args) >= 2
+    ):
         text, shortcut, *args = args
         action = old_add_action(self, icon, text, *args)
         action.setShortcut(shortcut)
