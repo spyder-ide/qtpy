@@ -81,28 +81,32 @@ def add_action(self, *args, old_add_action):
     shortcut: QKeySequence | QKeySequence.StandardKey | str | int
 
     # if args and isinstance(args[0], QIcon):
-    if any(map(lambda arg: isinstance(arg, QIcon), args[:1])):  # Better to use previous line instead of this
+    if any(
+        isinstance(arg, QIcon) for arg in args[:1]
+    ):  # Better to use previous line instead of this
         icon, *args = args
     else:
         icon = QIcon()
 
-    if all(
-        isinstance(arg, t)
-        for arg, t in zip(
-            args,
-            [
-                str,
-                (QKeySequence, QKeySequence.StandardKey, str, int),
-                QObject,
-                bytes,
-            ],
+    if (
+        all(
+            isinstance(arg, t)
+            for arg, t in zip(
+                args,
+                [
+                    str,
+                    (QKeySequence, QKeySequence.StandardKey, str, int),
+                    QObject,
+                    bytes,
+                ],
+            )
         )
+        and len(args) >= 2
     ):
-        if len(args) >= 2:
-            text, shortcut, *args = args
-            action = old_add_action(self, icon, text, *args)
-            action.setShortcut(shortcut)
-            return action
+        text, shortcut, *args = args
+        action = old_add_action(self, icon, text, *args)
+        action.setShortcut(shortcut)
+        return action
 
     return old_add_action(self, *args)
 
