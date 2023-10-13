@@ -83,7 +83,9 @@ def add_action(self, *args, old_add_action):
     member: bytes
 
     # if args and isinstance(args[0], QIcon):
-    if any(map(lambda arg: isinstance(arg, QIcon), args[:1])):  # Better to use previous line instead of this
+    if any(
+        isinstance(arg, QIcon) for arg in args[:1]
+    ):  # Better to use previous line instead of this
         icon, *args = args
     else:
         icon = QIcon()
@@ -99,12 +101,11 @@ def add_action(self, *args, old_add_action):
                 bytes,
             ],
         )
-    ):
-        if len(args) >= 2:
-            text, shortcut, *args = args
-            action = old_add_action(self, icon, text, *args)
-            action.setShortcut(shortcut)
-            return action
+    ) and len(args) >= 2:
+        text, shortcut, *args = args
+        action = old_add_action(self, icon, text, *args)
+        action.setShortcut(shortcut)
+        return action
 
     return old_add_action(self, *args)
 
