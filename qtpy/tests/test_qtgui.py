@@ -177,6 +177,22 @@ def test_qtextcursor_moveposition():
     assert cursor.selectedText() == "foo bar baz"
 
 
+@pytest.mark.skipif(
+    sys.platform == "darwin" and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7",
+)
+def test_QAction_functions(qtbot):
+    """Test `QtGui.QAction.setShortcut` compatibility with Qt6 types."""
+    action = QtGui.QAction("QtPy", None)
+    action.setShortcut(QtGui.QKeySequence.UnknownKey)
+    action.setShortcuts([QtGui.QKeySequence.UnknownKey])
+    action.setShortcuts(QtGui.QKeySequence.UnknownKey)
+    action.setShortcut(QtCore.Qt.Key.Key_F1)
+    action.setShortcuts([QtCore.Qt.Key.Key_F1])
+    # The following line is wrong even for Qt6 == 6.6:
+    # action.setShortcuts(QtCore.Qt.Key.Key_F1)
+
+
 def test_opengl_imports():
     """
     Test for presence of QOpenGL* classes.

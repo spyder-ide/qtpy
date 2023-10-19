@@ -157,22 +157,6 @@ def test_QToolBar_functions(qtbot):
 
 
 @pytest.mark.skipif(
-    sys.platform == "darwin" and sys.version_info[:2] == (3, 7),
-    reason="Stalls on macOS CI with Python 3.7",
-)
-def test_QAction_functions(qtbot):
-    """Test `QtWidgets.QAction.setShortcut` compatibility with Qt6 types."""
-    action = QtWidgets.QAction("QtPy", None)
-    action.setShortcut(QtGui.QKeySequence.UnknownKey)
-    action.setShortcuts([QtGui.QKeySequence.UnknownKey])
-    action.setShortcuts(QtGui.QKeySequence.UnknownKey)
-    action.setShortcut(QtCore.Qt.Key.Key_F1)
-    action.setShortcuts([QtCore.Qt.Key.Key_F1])
-    # The following line is wrong even for Qt6 == 6.6:
-    # action.setShortcuts(QtCore.Qt.Key.Key_F1)
-
-
-@pytest.mark.skipif(
     PYQT5 and PYQT_VERSION.startswith("5.9"),
     reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
     "to work with scoped enum access",

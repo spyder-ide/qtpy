@@ -38,7 +38,7 @@ if PYQT5:
     from PyQt5.QtWidgets import *
 elif PYQT6:
     from PyQt6 import QtWidgets
-    from PyQt6.QtGui import (
+    from qtpy.QtGui import (
         QAction,
         QActionGroup,
         QFileSystemModel,
@@ -112,7 +112,7 @@ elif PYQT6:
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
-    from PySide6.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
+    from qtpy.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
     from PySide6.QtWidgets import *
 
     # Attempt to import QOpenGLWidget, but if that fails,
@@ -250,41 +250,3 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.3"):
         QToolBar.addAction is not _toolbar_add_action
     ):
         QToolBar = _QToolBar
-
-
-# Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.3
-if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.3"):
-
-    class _QAction(QAction):
-        old_set_shortcut = QAction.setShortcut
-        old_set_shortcuts = QAction.setShortcuts
-
-        def setShortcut(self, shortcut):
-            return set_shortcut(
-                self,
-                shortcut,
-                old_set_shortcut=_QAction.old_set_shortcut,
-            )
-
-        def setShortcuts(self, shortcuts):
-            return set_shortcuts(
-                self,
-                shortcuts,
-                old_set_shortcuts=_QAction.old_set_shortcuts,
-            )
-
-    _action_set_shortcut = partialmethod(
-        set_shortcut,
-        old_set_shortcut=QAction.setShortcut,
-    )
-    _action_set_shortcuts = partialmethod(
-        set_shortcuts,
-        old_set_shortcuts=QAction.setShortcuts,
-    )
-    QAction.setShortcut = _action_set_shortcut
-    QAction.setShortcuts = _action_set_shortcuts
-    if (  # despite the two previous lines!
-        QAction.setShortcut is not _action_set_shortcut
-        or QAction.setShortcuts is not _action_set_shortcuts
-    ):
-        QAction = _QAction
