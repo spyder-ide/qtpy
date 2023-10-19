@@ -258,8 +258,8 @@ if PYQT6 or PYSIDE6:
     QDropEvent.posF = lambda self: self.position()
 
 
-# Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.3
-if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.3"):
+# Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
+if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
     from functools import partialmethod
 
     from ._utils import (
