@@ -38,6 +38,8 @@ if PYQT5:
     from PyQt5.QtWidgets import *
 elif PYQT6:
     from PyQt6 import QtWidgets
+    from PyQt6.QtWidgets import *
+
     from qtpy.QtGui import (
         QAction,
         QActionGroup,
@@ -45,7 +47,6 @@ elif PYQT6:
         QShortcut,
         QUndoCommand,
     )
-    from PyQt6.QtWidgets import *
 
     # Attempt to import QOpenGLWidget, but if that fails,
     # don't raise an exception until the name is explicitly accessed.
@@ -112,8 +113,9 @@ elif PYQT6:
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
-    from qtpy.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
     from PySide6.QtWidgets import *
+
+    from qtpy.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
 
     # Attempt to import QOpenGLWidget, but if that fails,
     # don't raise an exception until the name is explicitly accessed.

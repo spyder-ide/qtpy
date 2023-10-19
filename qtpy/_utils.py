@@ -86,7 +86,8 @@ def set_shortcuts(self, shortcuts, old_set_shortcuts):
     from qtpy.QtGui import QKeySequence
 
     if isinstance(
-        shortcuts, (QKeySequence, QKeySequence.StandardKey, Qt.Key, int, str),
+        shortcuts,
+        (QKeySequence, QKeySequence.StandardKey, Qt.Key, int, str),
     ):
         shortcuts = (shortcuts,)
 
