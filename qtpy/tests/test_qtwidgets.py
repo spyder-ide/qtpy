@@ -148,12 +148,28 @@ def test_QMenu_functions(qtbot):
 def test_QToolBar_functions(qtbot):
     """Test `QtWidgets.QToolBar.addAction` compatibility with Qt6 arguments' order."""
     toolbar = QtWidgets.QToolBar()
-    toolbar.addAction("QtPy with a shortcut", QtGui.QKeySequence.UnknownKey)
+    toolbar.addAction("QtPy with a shortcut", QtCore.Qt.Key.Key_F1)
     toolbar.addAction(
         QtGui.QIcon(),
         "QtPy with an icon and a shortcut",
         QtGui.QKeySequence.UnknownKey,
     )
+
+
+@pytest.mark.skipif(
+    sys.platform == "darwin" and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7",
+)
+def test_QAction_functions(qtbot):
+    """Test `QtWidgets.QAction.setShortcut` compatibility with Qt6 types."""
+    action = QtWidgets.QAction("QtPy", None)
+    action.setShortcut(QtGui.QKeySequence.UnknownKey)
+    action.setShortcuts([QtGui.QKeySequence.UnknownKey])
+    action.setShortcuts(QtGui.QKeySequence.UnknownKey)
+    action.setShortcut(QtCore.Qt.Key.Key_F1)
+    action.setShortcuts([QtCore.Qt.Key.Key_F1])
+    # The following line is wrong even for Qt6 == 6.6:
+    # action.setShortcuts(QtCore.Qt.Key.Key_F1)
 
 
 @pytest.mark.skipif(

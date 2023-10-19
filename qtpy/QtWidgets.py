@@ -17,6 +17,8 @@ from ._utils import (
     add_action,
     getattr_missing_optional_dep,
     possibly_static_exec,
+    set_shortcut,
+    set_shortcuts,
     static_method_kwargs_wrapper,
 )
 
@@ -210,8 +212,79 @@ else:
 
 # Make `addAction` compatible with Qt6 >= 6.3
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.3"):
-    QMenu.addAction = partialmethod(add_action, old_add_action=QMenu.addAction)
-    QToolBar.addAction = partialmethod(
+
+    class _QMenu(QMenu):
+        old_add_action = QMenu.addAction
+
+        def addAction(self, *args):
+            return add_action(
+                self,
+                *args,
+                old_add_action=_QMenu.old_add_action,
+            )
+
+    _menu_add_action = partialmethod(
+        add_action,
+        old_add_action=QMenu.addAction,
+    )
+    QMenu.addAction = _menu_add_action
+    if QMenu.addAction is not _menu_add_action:  # despite the previous line!
+        QMenu = _QMenu
+
+    class _QToolBar(QToolBar):
+        old_add_action = QToolBar.addAction
+
+        def addAction(self, *args):
+            return add_action(
+                self,
+                *args,
+                old_add_action=_QToolBar.old_add_action,
+            )
+
+    _toolbar_add_action = partialmethod(
         add_action,
         old_add_action=QToolBar.addAction,
     )
+    QToolBar.addAction = _toolbar_add_action
+    if (  # despite the previous line!
+        QToolBar.addAction is not _toolbar_add_action
+    ):
+        QToolBar = _QToolBar
+
+
+# Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.3
+if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.3"):
+
+    class _QAction(QAction):
+        old_set_shortcut = QAction.setShortcut
+        old_set_shortcuts = QAction.setShortcuts
+
+        def setShortcut(self, shortcut):
+            return set_shortcut(
+                self,
+                shortcut,
+                old_set_shortcut=_QAction.old_set_shortcut,
+            )
+
+        def setShortcuts(self, shortcuts):
+            return set_shortcuts(
+                self,
+                shortcuts,
+                old_set_shortcuts=_QAction.old_set_shortcuts,
+            )
+
+    _action_set_shortcut = partialmethod(
+        set_shortcut,
+        old_set_shortcut=QAction.setShortcut,
+    )
+    _action_set_shortcuts = partialmethod(
+        set_shortcuts,
+        old_set_shortcuts=QAction.setShortcuts,
+    )
+    QAction.setShortcut = _action_set_shortcut
+    QAction.setShortcuts = _action_set_shortcuts
+    if (  # despite the two previous lines!
+        QAction.setShortcut is not _action_set_shortcut
+        or QAction.setShortcuts is not _action_set_shortcuts
+    ):
+        QAction = _QAction
