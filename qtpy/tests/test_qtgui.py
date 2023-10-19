@@ -187,10 +187,10 @@ def test_QAction_functions(qtbot):
     action.setShortcut(QtGui.QKeySequence.UnknownKey)
     action.setShortcuts([QtGui.QKeySequence.UnknownKey])
     action.setShortcuts(QtGui.QKeySequence.UnknownKey)
-    action.setShortcut(QtCore.Qt.Key.Key_F1)
-    action.setShortcuts([QtCore.Qt.Key.Key_F1])
+    action.setShortcut(QtCore.Qt.Key_F1)
+    action.setShortcuts([QtCore.Qt.Key_F1])
     # The following line is wrong even for Qt6 == 6.6:
-    # action.setShortcuts(QtCore.Qt.Key.Key_F1)
+    # action.setShortcuts(QtCore.Qt.Key_F1)
 
 
 def test_opengl_imports():
