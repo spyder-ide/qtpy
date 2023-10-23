@@ -1,5 +1,26 @@
 # History of changes
 
+## Version 2.4.1 (2023-10-23)
+
+### Issues Closed
+
+* [Issue 462](https://github.com/spyder-ide/qtpy/issues/462) - Release QtPy 2.4.1
+* [Issue 458](https://github.com/spyder-ide/qtpy/issues/458) - Typo causes failed QWebEngineScript with PySide6
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 459](https://github.com/spyder-ide/qtpy/pull/459) - [pre-commit.ci] pre-commit autoupdate, by [@pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci)
+* [PR 456](https://github.com/spyder-ide/qtpy/pull/456) - [pre-commit.ci] pre-commit autoupdate, by [@pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci)
+* [PR 455](https://github.com/spyder-ide/qtpy/pull/455) - PR: Fix bug when importing from `PySide6.QtWebEngineCore/QtWebEngineWidgets` (`QWebEngineScrip` vs `QWebEngineScript`) , by [@damonlynch](https://github.com/damonlynch)
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
 ## Version 2.4.0 (2023-08-29)
 
 ### Issues Closed
