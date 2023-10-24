@@ -14,6 +14,7 @@ from packaging.version import parse
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 from . import QT_VERSION as _qt_version
 from ._utils import (
+    add_action,
     getattr_missing_optional_dep,
     possibly_static_exec,
     static_method_kwargs_wrapper,
@@ -211,7 +212,6 @@ else:
 
 # Make `addAction` compatible with Qt6 >= 6.4
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
-    from ._utils import add_action
 
     class _QMenu(QMenu):
         old_add_action = QMenu.addAction

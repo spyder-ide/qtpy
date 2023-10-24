@@ -8,12 +8,19 @@
 
 """Provides QtGui classes and functions."""
 
+from functools import partialmethod
 
 from packaging.version import parse
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 from . import QT_VERSION as _qt_version
-from ._utils import getattr_missing_optional_dep, possibly_static_exec
+from ._utils import (
+    getattr_missing_optional_dep,
+    possibly_static_exec,
+    set_shortcut,
+    set_shortcuts,
+)
+
 
 _missing_optional_names = {}
 
@@ -260,12 +267,6 @@ if PYQT6 or PYSIDE6:
 
 # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
-    from functools import partialmethod
-
-    from ._utils import (
-        set_shortcut,
-        set_shortcuts,
-    )
 
     class _QAction(QAction):
         old_set_shortcut = QAction.setShortcut
