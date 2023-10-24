@@ -37,14 +37,14 @@ if PYQT5:
 elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtWidgets import *
-
-    from qtpy.QtGui import (
-        QAction,
+    from PyQt6.QtGui import (
         QActionGroup,
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
     )
+
+    from qtpy.QtGui import QAction  # See spyder-ide/qtpy#461
 
     # Attempt to import QOpenGLWidget, but if that fails,
     # don't raise an exception until the name is explicitly accessed.
@@ -112,8 +112,9 @@ elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
     from PySide6.QtWidgets import *
+    from PySide6.QtGui import QActionGroup, QShortcut, QUndoCommand
 
-    from qtpy.QtGui import QAction, QActionGroup, QShortcut, QUndoCommand
+    from qtpy.QtGui import QAction  # See spyder-ide/qtpy#461
 
     # Attempt to import QOpenGLWidget, but if that fails,
     # don't raise an exception until the name is explicitly accessed.
