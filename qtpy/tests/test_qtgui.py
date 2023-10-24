@@ -198,7 +198,7 @@ def test_QAction_functions(qtbot):
 
 
 @pytest.mark.skipif(
-    parse(QT_VERSION) < parse('6.5.0'),
+    parse(QT_VERSION) < parse("6.5.0"),
     reason="Qt6 >= 6.5 specific test",
 )
 @pytest.mark.skipif(

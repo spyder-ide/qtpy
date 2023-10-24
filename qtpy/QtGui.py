@@ -21,7 +21,6 @@ from ._utils import (
     set_shortcuts,
 )
 
-
 _missing_optional_names = {}
 
 _QTOPENGL_NAMES = {

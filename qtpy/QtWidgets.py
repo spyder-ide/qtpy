@@ -36,13 +36,13 @@ if PYQT5:
     from PyQt5.QtWidgets import *
 elif PYQT6:
     from PyQt6 import QtWidgets
-    from PyQt6.QtWidgets import *
     from PyQt6.QtGui import (
         QActionGroup,
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
     )
+    from PyQt6.QtWidgets import *
 
     from qtpy.QtGui import QAction  # See spyder-ide/qtpy#461
 
@@ -111,8 +111,8 @@ elif PYQT6:
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
-    from PySide6.QtWidgets import *
     from PySide6.QtGui import QActionGroup, QShortcut, QUndoCommand
+    from PySide6.QtWidgets import *
 
     from qtpy.QtGui import QAction  # See spyder-ide/qtpy#461
 
