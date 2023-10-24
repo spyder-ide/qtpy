@@ -189,7 +189,8 @@ def test_QAction_functions(qtbot):
     action.setShortcuts(QtGui.QKeySequence.UnknownKey)
     action.setShortcut(QtCore.Qt.Key_F1)
     action.setShortcuts([QtCore.Qt.Key_F1])
-    # The following line is wrong even for Qt6 == 6.6:
+    # The following line is wrong even for Qt6 == 6.6.
+    # Don't test the function with a single `QtCore.Qt.Key` argument.
     # action.setShortcuts(QtCore.Qt.Key_F1)
 
 
