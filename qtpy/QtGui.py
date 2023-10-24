@@ -295,7 +295,8 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
     )
     QAction.setShortcut = _action_set_shortcut
     QAction.setShortcuts = _action_set_shortcuts
-    if (  # despite the two previous lines!
+    # Despite the two previous lines!
+    if (
         QAction.setShortcut is not _action_set_shortcut
         or QAction.setShortcuts is not _action_set_shortcuts
     ):

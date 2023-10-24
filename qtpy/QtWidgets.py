@@ -228,7 +228,8 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
         old_add_action=QMenu.addAction,
     )
     QMenu.addAction = _menu_add_action
-    if QMenu.addAction is not _menu_add_action:  # despite the previous line!
+    # Despite the previous line!
+    if QMenu.addAction is not _menu_add_action:
         QMenu = _QMenu
 
     class _QToolBar(QToolBar):
@@ -246,7 +247,6 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
         old_add_action=QToolBar.addAction,
     )
     QToolBar.addAction = _toolbar_add_action
-    if (  # despite the previous line!
-        QToolBar.addAction is not _toolbar_add_action
-    ):
+    # Despite the previous line!
+    if QToolBar.addAction is not _toolbar_add_action:
         QToolBar = _QToolBar
