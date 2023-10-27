@@ -167,11 +167,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           debug: true
   finish:
+    name: Finish Coveralls
     needs: test
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
-    - name: Coveralls Finished
+    - name: Mark Coveralls finished
       uses: coverallsapp/github-action@v2
       with:
         parallel-finished: true
