@@ -31,4 +31,12 @@ else:
     raise QtModuleNotInOSError(name="QtWinExtras")
 
 # Clean up the namespace
-del PYQT5, PYQT6, PYSIDE2, PYSIDE6
+del (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtModuleNotInOSError,
+    QtModuleNotInQtVersionError,
+)
+del sys
