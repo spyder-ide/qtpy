@@ -1,9 +1,7 @@
 """Test QtMultimediaWidgets."""
 
-import pytest
 
 from qtpy import PYQT5, PYSIDE2
-from qtpy.tests.utils import using_conda
 
 
 def test_qtmultimediawidgets():

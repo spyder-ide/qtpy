@@ -73,14 +73,14 @@ def test_qtsql_members_aliases(database_connection):
         INSERT INTO test (name) VALUES (
             "TESTING"
         )
-        """
+        """,
     )
 
     select_table_query = QtSql.QSqlQuery()
     select_table_query.prepare(
         """
         SELECT * FROM test
-        """
+        """,
     )
     select_table_query.exec_()
     record = select_table_query.record()

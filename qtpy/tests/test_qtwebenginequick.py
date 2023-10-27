@@ -1,5 +1,6 @@
 import pytest
-from qtpy import PYQT5, PYQT6, PYSIDE2, PYSIDE6
+
+from qtpy import PYQT5, PYSIDE2
 
 
 @pytest.mark.skipif(PYQT5 or PYSIDE2, reason="Only available in Qt6 bindings")

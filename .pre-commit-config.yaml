@@ -1,297 +1,36 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
-
-minimum_pre_commit_version: '2.10.0'
-
-default_language_version:
-  python: python3
-
-default_stages: [commit]
-
-
 repos:
-# Meta checks
-- repo: meta
-  hooks:
-  - id: check-useless-excludes
+-   repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 23.9.1
+    hooks:
+    - id: black
+      pass_filenames: true
+      exclude: _vendor|vendored|examples
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.292
+    hooks:
+      - id: ruff
+        exclude: _vendor|vendored
+-   repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.27.0
+    hooks:
+      - id: check-github-workflows
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    - id: check-json
+    - id: check-yaml
+    - id: check-toml
+    - id: check-merge-conflict
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+      exclude: .*\.md
+    - id: debug-statements
+    - id: mixed-line-ending
+-   repo: https://github.com/asottile/setup-cfg-fmt
+    rev: v2.5.0
+    hooks:
+    - id: setup-cfg-fmt
+      args: ["--include-version-classifiers", "--max-py-version", "3.11", "--min-py-version", "3.7"]
 
-# General fixers
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
-  hooks:
-  - id: trailing-whitespace
-    name: Trim trailing whitespace
-    exclude_types: [svg]
-  - id: mixed-line-ending
-    name: Normalize mixed line endings
-    args: [--fix=lf]
-    exclude_types: [batch]
-  - id: end-of-file-fixer
-    name: Fix end of files
-    exclude_types: [svg]
-  - id: fix-byte-order-marker
-    name: Remove Unicode BOM
-
-
-# More general fixers
-- repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.3.0
-  hooks:
-  - id: remove-tabs
-    name: Replace tabs with spaces
-    types: [text]
-    exclude_types: [svg, batch]
-    args: [--whitespaces-count, '4']
-
-
-# Check and fix spelling
-- repo: https://github.com/codespell-project/codespell
-  rev: v2.1.0
-  hooks:
-  # Define separate hooks for checking and correcting spelling errors
-  # since codespell doesn't print verbose output when writing changes
-  - id: codespell
-    name: Check spelling
-    exclude: '\.codespellrc|\.gitattributes'
-  - id: codespell
-    name: Fix spelling
-    exclude: '\.codespellrc|\.gitattributes'
-    args: [--write-changes]
-
-# Lint and fix CSS with stylelint
-- repo: https://github.com/awebdeveloper/pre-commit-stylelint
-  rev: '0.0.2'
-  hooks:
-  - id: stylelint
-    name: Lint and fix CSS (stylelint)
-    args: [--fix, --color, --maxWarnings, '0']
-    additional_dependencies:
-    - 'stylelint@14.9.1'
-    - 'stylelint-config-standard@26.0.0'
-    - 'stylelint-csstree-validator@2.0.0'
-    - 'stylelint-declaration-block-no-ignored-properties@2.5.0'
-    - 'stylelint-no-unsupported-browser-features@5.0.3'
-    - 'stylelint-order@5.0.0'
-
-# Lint CSS with CSSlint
-- repo: https://github.com/pre-commit/mirrors-csslint
-  rev: v1.0.5
-  hooks:
-  - id: csslint
-    name: Check CSS (CSSlint)
-
-# Pretty-format INI
-- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.4.0
-  hooks:
-  - id: pretty-format-ini
-    name: Format INI
-    types: [ini]
-    args: [--autofix]
-
-# Check JSON
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
-  hooks:
-  - id: check-json
-    name: Check JSON
-
-# Add doctoc to Markdown
-- repo: https://github.com/thlorenz/doctoc
-  rev: v2.2.0
-  hooks:
-  - id: doctoc
-    name: Generate Markdown ToCs
-    args: [--maxlevel, '3', --update-only]
-
-# Lint Markdown
-- repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.32.1
-  hooks:
-  - id: markdownlint
-    name: Lint Markdown
-    args: [--fix]
-
-# Format packaging
-- repo: https://github.com/asottile/setup-cfg-fmt
-  rev: v1.17.0
-  hooks:
-  - id: setup-cfg-fmt
-    name: Format packaging with setup-cfg-fmt
-
-# Check packaging
-- repo: https://github.com/regebro/pyroma
-  rev: '3.2'
-  hooks:
-  - id: pyroma
-
-# Fix Python
-- repo: https://github.com/asottile/pyupgrade
-  rev: v2.24.0
-  hooks:
-  - id: pyupgrade
-    name: Fix Python with Pyupgrade
-    args: ['--py37-plus', '--keep-runtime-typing']
-
-# Check Python
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
-  hooks:
-  - id: check-ast
-    name: Check Python
-
-- repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.9.0
-  hooks:
-  - id: python-check-mock-methods
-    name: Check for bad mock methods
-  - id: python-no-log-warn
-    name: Check for logger.warn
-
-# Format Python
-- repo: https://github.com/psf/black
-  rev: '21.7b0'
-  hooks:
-  - id: black
-    name: Format Python with Black
-
-- repo: https://github.com/asottile/add-trailing-comma
-  rev: v2.1.0
-  hooks:
-  - id: add-trailing-comma
-    args: [--py36-plus]
-
-- repo: https://github.com/pycqa/isort
-  rev: '5.9.3'
-  hooks:
-  - id: isort
-    name: Format Python imports with isort
-
-# Lint Python
-- repo: https://github.com/pycqa/flake8
-  rev: '4.0.1'
-  hooks:
-  - id: flake8
-    name: Lint Python with Flake8
-    exclude: '\bworkshops\b'
-
-- repo: https://github.com/pycqa/pylint
-  rev: v2.14.5
-  hooks:
-  - id: pylint
-    name: Lint Python with Pylint
-    exclude: '\bworkshops\b'
-
-# Check Python dependencies
-- repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-  rev: v1.3.0
-  hooks:
-  - id: python-safety-dependencies-check
-    name: Run Safety check on dependencies
-    files: 'requirements*.txt'
-
-# Check RST
-- repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.9.0
-  hooks:
-  - id: rst-backticks
-    name: Check RST backticks
-  - id: rst-directive-colons
-    name: Check RST directive colons
-  - id: rst-inline-touching-normal
-    name: Check RST inline touching normal
-
-# Lint RST
-- repo: https://github.com/sphinx-contrib/sphinx-lint
-  rev: 'v0.6.1'
-  hooks:
-  - id: sphinx-lint
-    name: Lint RST
-    args: [--enable, all, --disable, line-too-long]
-
-# Check TOML and XML
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
-  hooks:
-  - id: check-toml
-    name: Check TOML
-  - id: check-xml
-    name: Check XML
-
-# Pretty-format YAML
-- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.4.0
-  hooks:
-  - id: pretty-format-yaml
-    name: Format YAML
-    exclude: '\bworkshops\b'
-    args: [--autofix, --indent, '2', --preserve-quotes]
-
-# Check YAML
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
-  hooks:
-  - id: check-yaml
-    name: Check YAML
-
-# Lint YAML
-- repo: https://github.com/adrienverge/yamllint.git
-  rev: v1.27.1
-  hooks:
-  - id: yamllint
-    name: Lint YAML
-    types: [yaml]
-    args: [-s, -f, colored]
-
-# Replace CRLF with LF post-prettify
-- repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.3.0
-  hooks:
-  - id: remove-crlf
-    name: Replace CRLFs with LF
-    types: [text]
-    exclude_types: [batch, svg]
-
-
-# General checkers
-
-- repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.9.0
-  hooks:
-  - id: text-unicode-replacement-char
-    name: Check for Unicode replacement chars
-
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.3.0
-  hooks:
-  - id: check-added-large-files
-    name: Check for added large files
-    args: [--maxkb=1025]
-  - id: check-case-conflict
-    name: Check for case conflicts
-  - id: check-executables-have-shebangs
-    name: Check that executables have shebangs
-    exclude: 'pre\-commit\-config\.yaml'
-  - id: check-shebang-scripts-are-executable
-    name: Check that shebangs are executable
-    exclude: 'pre\-commit\-config\.yaml'
-  - id: check-merge-conflict
-    name: Check for merge conflicts
-
-
-# Commit message hooks #
-
-# Check that commit message follows basic rules
-- repo: https://github.com/jorisroovers/gitlint
-  rev: v0.17.0
-  hooks:
-  - id: gitlint
-    name: Check commit message
-
-# Check commit message spelling
-- repo: https://github.com/codespell-project/codespell
-  rev: v2.1.0
-  hooks:
-  - id: codespell
-    name: Check commit message spelling
-    stages: [commit-msg]
+ci:
+    autoupdate_schedule: monthly

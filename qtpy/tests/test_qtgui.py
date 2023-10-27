@@ -4,13 +4,18 @@ import sys
 
 import pytest
 
-from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtCore, QtGui, QtWidgets
+from qtpy import (
+    PYQT5,
+    PYQT_VERSION,
+    PYSIDE2,
+    PYSIDE6,
+    QtCore,
+    QtGui,
+    QtWidgets,
+)
 from qtpy.tests.utils import not_using_conda
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qfontmetrics_width(qtbot):
     """Test QFontMetrics and QFontMetricsF width"""
     assert QtGui.QFontMetrics.width is not None
@@ -24,9 +29,6 @@ def test_qfontmetrics_width(qtbot):
     assert 39 <= widthF <= 63
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
 def test_qdrag_functions(qtbot):
     """Test functions mapping for QtGui.QDrag."""
     assert QtGui.QDrag.exec_ is not None
@@ -34,9 +36,21 @@ def test_qdrag_functions(qtbot):
     drag.exec_()
 
 
-def test_qguiapplication_functions():
-    """Test functions mapping for QtGui.QGuiApplication."""
+def test_QGuiApplication_exec_():
+    """Test `QtGui.QGuiApplication.exec_`"""
     assert QtGui.QGuiApplication.exec_ is not None
+    app = QtGui.QGuiApplication.instance() or QtGui.QGuiApplication(
+        [sys.executable, __file__],
+    )
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtGui.QGuiApplication.instance().quit)
+    QtGui.QGuiApplication.exec_()
+    app = QtGui.QGuiApplication.instance() or QtGui.QGuiApplication(
+        [sys.executable, __file__],
+    )
+    assert app is not None
+    QtCore.QTimer.singleShot(100, QtGui.QGuiApplication.instance().quit)
+    app.exec_()
 
 
 def test_what_moved_to_qtgui_in_qt6():
@@ -48,9 +62,6 @@ def test_what_moved_to_qtgui_in_qt6():
     assert QtGui.QUndoCommand is not None
 
 
-@pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Segmentation fault/Aborted on Linux CI when not using conda")
 def test_qtextdocument_functions(pdf_writer):
     """Test functions mapping for QtGui.QTextDocument."""
     assert QtGui.QTextDocument.print_ is not None
@@ -60,9 +71,11 @@ def test_qtextdocument_functions(pdf_writer):
     assert output_path.exists()
 
 
-@pytest.mark.skipif(PYQT5 and PYQT_VERSION.startswith('5.9'),
-                    reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
-                           "to work with scoped enum access")
+@pytest.mark.skipif(
+    PYQT5 and PYQT_VERSION.startswith("5.9"),
+    reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
+    "to work with scoped enum access",
+)
 def test_enum_access():
     """Test scoped and unscoped enum access for qtpy.QtWidgets.*."""
     assert QtGui.QColor.Rgb == QtGui.QColor.Spec.Rgb
@@ -72,11 +85,9 @@ def test_enum_access():
 
 
 @pytest.mark.skipif(
-    sys.platform.startswith('linux') and not_using_conda(),
-    reason="Fatal Python error: Aborted on Linux CI when not using conda")
-@pytest.mark.skipif(
-    sys.platform == 'darwin' and sys.version_info[:2] == (3, 7),
-    reason="Stalls on macOS CI with Python 3.7")
+    sys.platform == "darwin" and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7",
+)
 def test_QSomethingEvent_pos_functions(qtbot):
     """
     Test `QMouseEvent.pos` and related functions removed in Qt 6,
@@ -85,7 +96,9 @@ def test_QSomethingEvent_pos_functions(qtbot):
 
     class Window(QtWidgets.QMainWindow):
         def mouseDoubleClickEvent(self, event: QtGui.QMouseEvent) -> None:
-            assert event.globalPos() - event.pos() == self.mapToParent(QtCore.QPoint(0, 0))
+            assert event.globalPos() - event.pos() == self.mapToParent(
+                QtCore.QPoint(0, 0),
+            )
             assert event.pos().x() == event.x()
             assert event.pos().y() == event.y()
             assert event.globalPos().x() == event.globalX()
@@ -106,31 +119,61 @@ def test_QSomethingEvent_pos_functions(qtbot):
         qtbot.mouseDClick(window, QtCore.Qt.LeftButton)
 
     # the rest of the functions are not actually tested
-    for _class in ('QNativeGestureEvent', 'QEnterEvent', 'QTabletEvent'):
-        for _function in ('pos', 'x', 'y', 'globalPos', 'globalX', 'globalY',
-                          'position', 'globalPosition'):
+    # QSinglePointEvent (Qt6) child classes checks
+    for _class in ("QNativeGestureEvent", "QEnterEvent", "QTabletEvent"):
+        for _function in (
+            "pos",
+            "x",
+            "y",
+            "globalPos",
+            "globalX",
+            "globalY",
+            "position",
+            "globalPosition",
+        ):
             assert hasattr(getattr(QtGui, _class), _function)
-    for _function in ('pos', 'x', 'y', 'position'):
+
+    # QHoverEvent checks
+    for _function in ("pos", "x", "y", "position"):
         assert hasattr(QtGui.QHoverEvent, _function)
 
+    # QDropEvent and child classes checks
+    for _class in ("QDropEvent", "QDragMoveEvent", "QDragEnterEvent"):
+        for _function in ("pos", "posF", "position"):
+            assert hasattr(getattr(QtGui, _class), _function)
 
-@pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide{2,6} specific test")
+
+@pytest.mark.skipif(
+    not (PYSIDE2 or PYSIDE6),
+    reason="PySide{2,6} specific test",
+)
 def test_qtextcursor_moveposition():
     """Test monkeypatched QTextCursor.movePosition"""
     doc = QtGui.QTextDocument("foo bar baz")
     cursor = QtGui.QTextCursor(doc)
 
     assert not cursor.movePosition(QtGui.QTextCursor.Start)
-    assert cursor.movePosition(QtGui.QTextCursor.EndOfWord, mode=QtGui.QTextCursor.KeepAnchor)
+    assert cursor.movePosition(
+        QtGui.QTextCursor.EndOfWord,
+        mode=QtGui.QTextCursor.KeepAnchor,
+    )
     assert cursor.selectedText() == "foo"
 
     assert cursor.movePosition(QtGui.QTextCursor.Start)
-    assert cursor.movePosition(QtGui.QTextCursor.WordRight, n=2, mode=QtGui.QTextCursor.KeepAnchor)
+    assert cursor.movePosition(
+        QtGui.QTextCursor.WordRight,
+        n=2,
+        mode=QtGui.QTextCursor.KeepAnchor,
+    )
     assert cursor.selectedText() == "foo bar "
 
     assert cursor.movePosition(QtGui.QTextCursor.Start)
     assert cursor.position() == cursor.anchor()
-    assert cursor.movePosition(QtGui.QTextCursor.NextWord, QtGui.QTextCursor.KeepAnchor, 3)
+    assert cursor.movePosition(
+        QtGui.QTextCursor.NextWord,
+        QtGui.QTextCursor.KeepAnchor,
+        3,
+    )
     assert cursor.selectedText() == "foo bar baz"
 
 

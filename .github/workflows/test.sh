@@ -34,9 +34,39 @@ conda activate test-env-${BINDING}
 if [ "$USE_CONDA" = "No" ]; then
 
     if [ "${1}" = "pyqt5" ]; then
-        pip install pyqt5==${PYQT5_VERSION}.* PyQtWebEngine==${PYQT5_VERSION}.* QScintilla==${QSCINTILLA_VERSION}.*
+
+        if [ "$PYQT_EXTRAS" = "Yes" ]; then
+            pip install pyqt5==${PYQT5_VERSION}.* \
+            PyQtWebEngine==${PYQT5_VERSION}.* \
+            QScintilla==${QSCINTILLA_VERSION}.* \
+            PyQt3D==${PYQT5_VERSION}.* \
+            PyQtChart==${PYQT5_VERSION}.* \
+            PyQtDataVisualization==${PYQT5_VERSION}.* \
+            PyQtNetworkAuth==${PYQT5_VERSION}.* \
+            PyQtPurchasing==${PYQT5_VERSION}.*
+        else
+            pip install pyqt5==${PYQT5_VERSION}.* \
+            PyQtWebEngine==${PYQT5_VERSION}.* \
+            QScintilla==${QSCINTILLA_VERSION}.*
+        fi
+
     elif [ "${1}" = "pyqt6" ]; then
-        pip install pyqt6==${PYQT6_VERSION}.* PyQt6-WebEngine==${PYQT6_VERSION}.* PyQt6-Qt6==${PYQT6_QT_VERSION}.* PyQt6-QScintilla==${QSCINTILLA_VERSION}.*
+
+        if [ "$PYQT_EXTRAS" = "Yes" ]; then
+            pip install pyqt6==${PYQT6_VERSION}.* \
+            PyQt6-WebEngine==${PYQT6_VERSION}.* \
+            PyQt6-Qt6==${PYQT6_QT_VERSION}.* \
+            PyQt6-QScintilla \
+            PyQt6-3D==${PYQT6_VERSION}.* \
+            PyQt6-Charts==${PYQT6_VERSION}.* \
+            PyQt6-DataVisualization==${PYQT6_VERSION}.* \
+            PyQt6-NetworkAuth==${PYQT6_VERSION}.*
+        else
+            pip install pyqt6==${PYQT6_VERSION}.* \
+            PyQt6-WebEngine==${PYQT6_VERSION}.* \
+            PyQt6-Qt6==${PYQT6_QT_VERSION}.*
+        fi
+
     elif [ "${1}" = "pyside2" ]; then
         pip install pyside2==${PYSIDE2_VERSION}.*
     elif [ "${1}" = "pyside6" ]; then
@@ -53,11 +83,12 @@ fi
 
 # Build wheel of package
 git clean -xdf -e *.coverage
+python -m pip install --upgrade pip
 python -m pip install --upgrade build
 python -bb -X dev -W error -m build
 
 # Install package from built wheel
-echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationWarning:pip._internal.locations._distutils" -W "ignore::DeprecationWarning:distutils.command.install" -m pip install --upgrade %
+echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationWarning:pip._internal.locations._distutils" -W "ignore::DeprecationWarning:distutils.command.install" -W "ignore::DeprecationWarning:pip._internal.metadata.importlib._envs" -m pip install --upgrade %
 
 # Print environment information
 mamba list

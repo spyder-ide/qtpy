@@ -1,5 +1,6 @@
 import pytest
-from qtpy import PYSIDE6, PYQT6
+
+from qtpy import PYQT6, PYSIDE6
 
 
 def test_qtsvg():
