@@ -49,11 +49,11 @@ def possibly_static_exec(cls, *args, **kwargs):
             # A special case (`self.exec_()`) to avoid the function resolving error
             return args[0].exec()
         return args[0].exec(*args[1:], **kwargs)
-    else:
-        if not args and not kwargs:
-            # A special case (`cls.exec_()`) to avoid the function resolving error
-            return cls.exec()
-        return cls.exec(*args, **kwargs)
+
+    if not args and not kwargs:
+        # A special case (`cls.exec_()`) to avoid the function resolving error
+        return cls.exec()
+    return cls.exec(*args, **kwargs)
 
 
 def possibly_static_exec_(cls, *args, **kwargs):
@@ -63,11 +63,11 @@ def possibly_static_exec_(cls, *args, **kwargs):
             # A special case (`self.exec_()`) to avoid the function resolving error
             return args[0].exec_()
         return args[0].exec_(*args[1:], **kwargs)
-    else:
-        if not args and not kwargs:
-            # A special case (`cls.exec_()`) to avoid the function resolving error
-            return cls.exec_()
-        return cls.exec_(*args, **kwargs)
+
+    if not args and not kwargs:
+        # A special case (`cls.exec_()`) to avoid the function resolving error
+        return cls.exec_()
+    return cls.exec_(*args, **kwargs)
 
 
 def add_action(self, *args, old_add_action):

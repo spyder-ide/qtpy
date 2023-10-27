@@ -13,8 +13,14 @@ from typing import TYPE_CHECKING
 
 from packaging.version import parse
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
-from . import QT_VERSION as _qt_version
+from . import (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QT_VERSION,
+    QtBindingsNotFoundError,
+)
 from ._utils import possibly_static_exec, possibly_static_exec_
 
 if PYQT5:
@@ -157,7 +163,7 @@ elif PYSIDE6:
     QTextStreamManipulator.exec_ = partialmethod(QTextStreamManipulator.exec)
 
     # Passing as default value 0 in the same way PySide6 6.3.2 does for the `Qt.ItemFlags` definition.
-    if parse(_qt_version) > parse("6.3"):
+    if parse(QT_VERSION) > parse("6.3"):
         Qt.ItemFlags = lambda value=0: Qt.ItemFlag(value)
 
 # For issue #153 and updated for issue #305
@@ -180,15 +186,14 @@ if PYQT6 or PYSIDE6:
 
 # If something is imported, `__version__` ought to be defined.
 try:
-    __version__
-except NameError:
-    raise ImportError("No Qt binding loaded")
+    assert __version__
+except (NameError, AssertionError):
+    raise QtBindingsNotFoundError from None
 
 # Clean up the namespace
-del PYQT5, PYQT6, PYSIDE2, PYSIDE6
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION
 del TYPE_CHECKING
 del contextlib
 del partial, partialmethod
 del parse
-del _qt_version
 del possibly_static_exec, possibly_static_exec_
