@@ -23,4 +23,4 @@ elif PYSIDE6:
     from PySide6.QtAxContainer import *
 
 # Clean up the namespace
-del PYQT5, PYQT6, PYSIDE2, PYSIDE6
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingMissingModuleError
