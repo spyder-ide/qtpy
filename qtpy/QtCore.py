@@ -191,7 +191,14 @@ except (NameError, AssertionError):
     raise QtBindingsNotFoundError from None
 
 # Clean up the namespace
-del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION
+del (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QT_VERSION,
+    QtBindingsNotFoundError,
+)
 del TYPE_CHECKING
 del contextlib
 del partial, partialmethod
