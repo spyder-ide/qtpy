@@ -152,7 +152,7 @@ def test_namespace_not_polluted():
                 "QNoPicking",
                 "QRenderCapabilities",
                 "QShaderImage",
-            }
+            },
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide2/6:

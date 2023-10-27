@@ -58,7 +58,9 @@ elif PYQT6:
     # Map missing methods
     QCoreApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QCoreApplication, *args, **kwargs,
+            QCoreApplication,
+            *args,
+            **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -113,7 +115,9 @@ elif PYSIDE2:
 
     QCoreApplication.exec = partial(
         lambda *args, _function, **kwargs: _function(
-            QCoreApplication, *args, **kwargs,
+            QCoreApplication,
+            *args,
+            **kwargs,
         ),
         _function=possibly_static_exec_,
     )
@@ -142,7 +146,9 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QCoreApplication, *args, **kwargs,
+            QCoreApplication,
+            *args,
+            **kwargs,
         ),
         _function=possibly_static_exec,
     )

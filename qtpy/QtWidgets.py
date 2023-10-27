@@ -70,7 +70,9 @@ elif PYQT6:
     QPlainTextEdit.print_ = partialmethod(QPlainTextEdit.print)
     QApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QApplication, *args, **kwargs,
+            QApplication,
+            *args,
+            **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -132,7 +134,9 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QApplication, *args, **kwargs,
+            QApplication,
+            *args,
+            **kwargs,
         ),
         _function=possibly_static_exec,
     )

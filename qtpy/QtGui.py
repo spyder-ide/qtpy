@@ -87,7 +87,9 @@ elif PYQT6:
     QDrag.exec_ = partialmethod(QDrag.exec)
     QGuiApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QGuiApplication, *args, **kwargs,
+            QGuiApplication,
+            *args,
+            **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -139,7 +141,9 @@ elif PYSIDE6:
     QDrag.exec_ = partialmethod(QDrag.exec)
     QGuiApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QGuiApplication, *args, **kwargs,
+            QGuiApplication,
+            *args,
+            **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -190,11 +194,13 @@ if PYQT5 or PYSIDE2:
     QNativeGestureEvent.globalX = lambda self: self.globalPos().x()
     QNativeGestureEvent.globalY = lambda self: self.globalPos().y()
     QNativeGestureEvent.globalPosition = partialmethod(
-        to_q_point_f, get_point_method="globalPos",
+        to_q_point_f,
+        get_point_method="globalPos",
     )
     QEnterEvent.position = lambda self: self.localPos()
     QEnterEvent.globalPosition = partialmethod(
-        to_q_point_f, get_point_method="globalPos",
+        to_q_point_f,
+        get_point_method="globalPos",
     )
     QTabletEvent.position = lambda self: self.posF()
     QTabletEvent.globalPosition = lambda self: self.globalPosF()
@@ -205,7 +211,8 @@ if PYQT5 or PYSIDE2:
     # nor `QHoverEvent.globalY` in the Qt5 docs.
     QMouseEvent.position = lambda self: self.localPos()
     QMouseEvent.globalPosition = partialmethod(
-        to_q_point_f, get_point_method="globalPos",
+        to_q_point_f,
+        get_point_method="globalPos",
     )
 
     # Follow similar approach for `QDropEvent` and child classes
