@@ -34,7 +34,7 @@ def test_namespace_not_polluted():
 
     extra_members = (
         frozenset(object.__dir__(qtpy_module))
-        - frozenset(dir(original_module))
+        - frozenset(object.__dir__(original_module))
         - frozenset(
             # These are unavoidable:
             [
@@ -50,7 +50,63 @@ def test_namespace_not_polluted():
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide:
-            [*dir(object), "QAbstractAxis", "QAbstractBarSeries", "QAbstractSeries", "QAreaLegendMarker", "QAreaSeries", "QBarCategoryAxis", "QBarLegendMarker", "QBarModelMapper", "QBarSeries", "QBarSet", "QBoxPlotLegendMarker", "QBoxPlotModelMapper", "QBoxPlotSeries", "QBoxSet", "QCandlestickLegendMarker", "QCandlestickModelMapper", "QCandlestickSeries", "QCandlestickSet", "QCategoryAxis", "QChart", "QChartView", "QDateTimeAxis", "QHBarModelMapper", "QHBoxPlotModelMapper", "QHCandlestickModelMapper", "QHPieModelMapper", "QHXYModelMapper", "QHorizontalBarSeries", "QHorizontalPercentBarSeries", "QHorizontalStackedBarSeries", "QLegend", "QLegendMarker", "QLineSeries", "QLogValueAxis", "QPercentBarSeries", "QPieLegendMarker", "QPieModelMapper", "QPieSeries", "QPieSlice", "QPolarChart", "QScatterSeries", "QSplineSeries", "QStackedBarSeries", "QVBarModelMapper", "QVBoxPlotModelMapper", "QVCandlestickModelMapper", "QVPieModelMapper", "QVXYModelMapper", "QValueAxis", "QXYLegendMarker", "QXYModelMapper", "QXYSeries", "__annotations__", "__dict__", "__module__"],
+            {
+                "QAbstractAxis",
+                "QAbstractBarSeries",
+                "QAbstractSeries",
+                "QAreaLegendMarker",
+                "QAreaSeries",
+                "QBarCategoryAxis",
+                "QBarLegendMarker",
+                "QBarModelMapper",
+                "QBarSeries",
+                "QBarSet",
+                "QBoxPlotLegendMarker",
+                "QBoxPlotModelMapper",
+                "QBoxPlotSeries",
+                "QBoxSet",
+                "QCandlestickLegendMarker",
+                "QCandlestickModelMapper",
+                "QCandlestickSeries",
+                "QCandlestickSet",
+                "QCategoryAxis",
+                "QChart",
+                "QChartView",
+                "QDateTimeAxis",
+                "QHBarModelMapper",
+                "QHBoxPlotModelMapper",
+                "QHCandlestickModelMapper",
+                "QHPieModelMapper",
+                "QHXYModelMapper",
+                "QHorizontalBarSeries",
+                "QHorizontalPercentBarSeries",
+                "QHorizontalStackedBarSeries",
+                "QLegend",
+                "QLegendMarker",
+                "QLineSeries",
+                "QLogValueAxis",
+                "QPercentBarSeries",
+                "QPieLegendMarker",
+                "QPieModelMapper",
+                "QPieSeries",
+                "QPieSlice",
+                "QPolarChart",
+                "QScatterSeries",
+                "QSplineSeries",
+                "QStackedBarSeries",
+                "QVBarModelMapper",
+                "QVBoxPlotModelMapper",
+                "QVCandlestickModelMapper",
+                "QVPieModelMapper",
+                "QVXYModelMapper",
+                "QValueAxis",
+                "QXYLegendMarker",
+                "QXYModelMapper",
+                "QXYSeries",
+                "__annotations__",
+                "__dict__",
+                "__module__",
+            },
         )
     )
     assert not extra_members

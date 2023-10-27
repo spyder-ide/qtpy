@@ -103,7 +103,7 @@ def test_namespace_not_polluted():
 
     extra_members = (
         frozenset(object.__dir__(qtpy_module))
-        - frozenset(dir(original_module))
+        - frozenset(object.__dir__(original_module))
         - frozenset(
             # These are unavoidable:
             [
@@ -112,8 +112,48 @@ def test_namespace_not_polluted():
             ],
         )
         - frozenset(
-            # These don't show up in `dir()` when on PySide:
-            [*dir(object), "Q3DBars", "Q3DCamera", "Q3DInputHandler", "Q3DLight", "Q3DObject", "Q3DScatter", "Q3DScene", "Q3DSurface", "Q3DTheme", "QAbstract3DAxis", "QAbstract3DGraph", "QAbstract3DInputHandler", "QAbstract3DSeries", "QAbstractDataProxy", "QBar3DSeries", "QBarDataItem", "QBarDataProxy", "QCategory3DAxis", "QCustom3DItem", "QCustom3DLabel", "QCustom3DVolume", "QHeightMapSurfaceDataProxy", "QItemModelBarDataProxy", "QItemModelScatterDataProxy", "QItemModelSurfaceDataProxy", "QLogValue3DAxisFormatter", "QScatter3DSeries", "QScatterDataItem", "QScatterDataProxy", "QSurface3DSeries", "QSurfaceDataItem", "QSurfaceDataProxy", "QTouch3DInputHandler", "QValue3DAxis", "QValue3DAxisFormatter", "__annotations__", "__dict__", "__module__", "qDefaultSurfaceFormat"],
+            # These don't show up in `dir()` when on PySide6:
+            {
+                "Q3DBars",
+                "Q3DCamera",
+                "Q3DInputHandler",
+                "Q3DLight",
+                "Q3DObject",
+                "Q3DScatter",
+                "Q3DScene",
+                "Q3DSurface",
+                "Q3DTheme",
+                "QAbstract3DAxis",
+                "QAbstract3DGraph",
+                "QAbstract3DInputHandler",
+                "QAbstract3DSeries",
+                "QAbstractDataProxy",
+                "QBar3DSeries",
+                "QBarDataItem",
+                "QBarDataProxy",
+                "QCategory3DAxis",
+                "QCustom3DItem",
+                "QCustom3DLabel",
+                "QCustom3DVolume",
+                "QHeightMapSurfaceDataProxy",
+                "QItemModelBarDataProxy",
+                "QItemModelScatterDataProxy",
+                "QItemModelSurfaceDataProxy",
+                "QLogValue3DAxisFormatter",
+                "QScatter3DSeries",
+                "QScatterDataItem",
+                "QScatterDataProxy",
+                "QSurface3DSeries",
+                "QSurfaceDataItem",
+                "QSurfaceDataProxy",
+                "QTouch3DInputHandler",
+                "QValue3DAxis",
+                "QValue3DAxisFormatter",
+                "__annotations__",
+                "__dict__",
+                "__module__",
+                "qDefaultSurfaceFormat",
+            },
         )
     )
     assert not extra_members

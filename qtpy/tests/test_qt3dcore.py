@@ -62,7 +62,7 @@ def test_namespace_not_polluted():
 
     extra_members = (
         frozenset(object.__dir__(qtpy_module))
-        - frozenset(dir(original_module))
+        - frozenset(object.__dir__(original_module))
         - frozenset(
             # These are unavoidable:
             [
@@ -72,7 +72,58 @@ def test_namespace_not_polluted():
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide:
-            [*dir(object), "AllChanges", "CallbackTriggered", "ChangeFlag", "ChangeFlags", "CommandRequested", "ComponentAdded", "ComponentRemoved", "NodeCreated", "NodeDeleted", "PropertyUpdated", "PropertyValueAdded", "PropertyValueRemoved", "QAbstractAspect", "QAbstractSkeleton", "QArmature", "QAspectEngine", "QAspectJob", "QBackendNode", "QComponent", "QComponentAddedChange", "QComponentRemovedChange", "QDynamicPropertyUpdatedChange", "QEntity", "QJoint", "QNode", "QNodeCommand", "QNodeCreatedChangeBase", "QNodeDestroyedChange", "QNodeId", "QNodeIdTypePair", "QPropertyNodeAddedChange", "QPropertyNodeRemovedChange", "QPropertyUpdatedChange", "QPropertyUpdatedChangeBase", "QPropertyValueAddedChange", "QPropertyValueAddedChangeBase", "QPropertyValueRemovedChange", "QPropertyValueRemovedChangeBase", "QSceneChange", "QSkeleton", "QSkeletonLoader", "QStaticPropertyUpdatedChangeBase", "QStaticPropertyValueAddedChangeBase", "QStaticPropertyValueRemovedChangeBase", "QTransform", "__annotations__", "__dict__", "__module__", "qHash", "qIdForNode"],
+            {
+                "AllChanges",
+                "CallbackTriggered",
+                "ChangeFlag",
+                "ChangeFlags",
+                "CommandRequested",
+                "ComponentAdded",
+                "ComponentRemoved",
+                "NodeCreated",
+                "NodeDeleted",
+                "PropertyUpdated",
+                "PropertyValueAdded",
+                "PropertyValueRemoved",
+                "QAbstractAspect",
+                "QAbstractSkeleton",
+                "QArmature",
+                "QAspectEngine",
+                "QAspectJob",
+                "QBackendNode",
+                "QComponent",
+                "QComponentAddedChange",
+                "QComponentRemovedChange",
+                "QDynamicPropertyUpdatedChange",
+                "QEntity",
+                "QJoint",
+                "QNode",
+                "QNodeCommand",
+                "QNodeCreatedChangeBase",
+                "QNodeDestroyedChange",
+                "QNodeId",
+                "QNodeIdTypePair",
+                "QPropertyNodeAddedChange",
+                "QPropertyNodeRemovedChange",
+                "QPropertyUpdatedChange",
+                "QPropertyUpdatedChangeBase",
+                "QPropertyValueAddedChange",
+                "QPropertyValueAddedChangeBase",
+                "QPropertyValueRemovedChange",
+                "QPropertyValueRemovedChangeBase",
+                "QSceneChange",
+                "QSkeleton",
+                "QSkeletonLoader",
+                "QStaticPropertyUpdatedChangeBase",
+                "QStaticPropertyValueAddedChangeBase",
+                "QStaticPropertyValueRemovedChangeBase",
+                "QTransform",
+                "__annotations__",
+                "__dict__",
+                "__module__",
+                "qHash",
+                "qIdForNode",
+            },
         )
     )
     assert not extra_members

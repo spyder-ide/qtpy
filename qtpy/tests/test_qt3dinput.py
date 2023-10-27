@@ -46,7 +46,7 @@ def test_namespace_not_polluted():
 
     extra_members = (
         frozenset(object.__dir__(qtpy_module))
-        - frozenset(dir(original_module))
+        - frozenset(object.__dir__(original_module))
         - frozenset(
             # These are unavoidable:
             [
@@ -56,7 +56,33 @@ def test_namespace_not_polluted():
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide:
-            [*dir(object), "QAbstractActionInput", "QAbstractAxisInput", "QAbstractPhysicalDevice", "QAction", "QActionInput", "QAnalogAxisInput", "QAxis", "QAxisAccumulator", "QAxisSetting", "QButtonAxisInput", "QInputAspect", "QInputChord", "QInputSequence", "QInputSettings", "QKeyEvent", "QKeyboardDevice", "QKeyboardHandler", "QLogicalDevice", "QMouseDevice", "QMouseEvent", "QMouseHandler", "QWheelEvent", "__annotations__", "__dict__", "__module__"],
+            {
+                "QAbstractActionInput",
+                "QAbstractAxisInput",
+                "QAbstractPhysicalDevice",
+                "QAction",
+                "QActionInput",
+                "QAnalogAxisInput",
+                "QAxis",
+                "QAxisAccumulator",
+                "QAxisSetting",
+                "QButtonAxisInput",
+                "QInputAspect",
+                "QInputChord",
+                "QInputSequence",
+                "QInputSettings",
+                "QKeyEvent",
+                "QKeyboardDevice",
+                "QKeyboardHandler",
+                "QLogicalDevice",
+                "QMouseDevice",
+                "QMouseEvent",
+                "QMouseHandler",
+                "QWheelEvent",
+                "__annotations__",
+                "__dict__",
+                "__module__",
+            },
         )
     )
     assert not extra_members
