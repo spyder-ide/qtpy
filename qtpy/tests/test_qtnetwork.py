@@ -1,4 +1,8 @@
-from qtpy import PYQT6, PYSIDE2, PYSIDE6, QtNetwork
+# coding=utf-8
+import importlib
+from types import ModuleType
+
+from qtpy import API_NAME, PYQT6, PYSIDE2, PYSIDE6, QtNetwork
 
 
 def test_qtnetwork():
@@ -38,3 +42,24 @@ def test_qtnetwork():
     assert QtNetwork.QSslError is not None
     assert QtNetwork.QSslKey is not None
     assert QtNetwork.QSslSocket is not None
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtNetwork
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace('qtpy', API_NAME)
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ]
+        )
+    )
+    assert not extra_members

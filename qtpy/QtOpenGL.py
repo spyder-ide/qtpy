@@ -64,3 +64,7 @@ elif PYSIDE2:
     # These are not present on some architectures such as armhf
     with contextlib.suppress(ImportError):
         from PySide2.QtGui import QOpenGLTimeMonitor, QOpenGLTimerQuery
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6
+del contextlib

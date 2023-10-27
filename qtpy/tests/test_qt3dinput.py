@@ -1,4 +1,10 @@
+# coding=utf-8
+import importlib
+from types import ModuleType
+
 import pytest
+
+from qtpy import API_NAME
 
 
 def test_qt3dinput():
@@ -27,3 +33,55 @@ def test_qt3dinput():
     assert Qt3DInput.QAction is not None
     assert Qt3DInput.QAbstractPhysicalDevice is not None
     assert Qt3DInput.QAxisSetting is not None
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = pytest.importorskip("qtpy.Qt3DInput")
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace('qtpy', API_NAME)
+    )
+
+    extra_members = (
+        frozenset(object.__dir__(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ]
+        )
+        - frozenset(
+            # These don't show up in `dir()` when on PySide:
+            dir(object)
+            + [
+                "QAbstractActionInput",
+                "QAbstractAxisInput",
+                "QAbstractPhysicalDevice",
+                "QAction",
+                "QActionInput",
+                "QAnalogAxisInput",
+                "QAxis",
+                "QAxisAccumulator",
+                "QAxisSetting",
+                "QButtonAxisInput",
+                "QInputAspect",
+                "QInputChord",
+                "QInputSequence",
+                "QInputSettings",
+                "QKeyEvent",
+                "QKeyboardDevice",
+                "QKeyboardHandler",
+                "QLogicalDevice",
+                "QMouseDevice",
+                "QMouseEvent",
+                "QMouseHandler",
+                "QWheelEvent",
+                "__annotations__",
+                "__dict__",
+                "__module__",
+            ]
+        )
+    )
+    assert not extra_members

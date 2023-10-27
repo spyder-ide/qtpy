@@ -7,7 +7,7 @@
 # -----------------------------------------------------------------------------
 
 """Provides widget classes and functions."""
-from functools import partialmethod
+from functools import partial, partialmethod
 
 from packaging.version import parse
 
@@ -15,21 +15,23 @@ from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 from . import QT_VERSION as _qt_version
 from ._utils import (
     add_action,
-    getattr_missing_optional_dep,
     possibly_static_exec,
     static_method_kwargs_wrapper,
 )
 
-_missing_optional_names = {}
-
 
 def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
+    from ._utils import getattr_missing_optional_dep
+
     raise getattr_missing_optional_dep(
         name,
         module_name=__name__,
-        optional_names=_missing_optional_names,
+        optional_names=getattr(__getattr__, "_missing_optional_names"),
     )
+
+
+setattr(__getattr__, "_missing_optional_names", dict())
 
 
 if PYQT5:
@@ -51,43 +53,31 @@ elif PYQT6:
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError as error:
-        _missing_optional_names["QOpenGLWidget"] = {
+        getattr(__getattr__, "_missing_optional_names")["QOpenGLWidget"] = {
             "name": "PyQt6.QtOpenGLWidgets",
             "missing_package": "pyopengl",
             "import_error": error,
         }
 
     # Map missing/renamed methods
-    QTextEdit.setTabStopWidth = (
-        lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
+    QTextEdit.setTabStopWidth = partialmethod(QTextEdit.setTabStopDistance)
+    QTextEdit.tabStopWidth = partialmethod(QTextEdit.tabStopDistance)
+    QTextEdit.print_ = partialmethod(QTextEdit.print)
+    QPlainTextEdit.setTabStopWidth = partialmethod(
+        QPlainTextEdit.setTabStopDistance
     )
-    QTextEdit.tabStopWidth = (
-        lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
+    QPlainTextEdit.tabStopWidth = partialmethod(QPlainTextEdit.tabStopDistance)
+    QPlainTextEdit.print_ = partialmethod(QPlainTextEdit.print)
+    QApplication.exec_ = partial(
+        lambda *args, _function, **kwargs: _function(
+            QApplication, *args, **kwargs
+        ),
+        _function=possibly_static_exec,
     )
-    QTextEdit.print_ = lambda self, *args, **kwargs: self.print(
-        *args,
-        **kwargs,
-    )
-    QPlainTextEdit.setTabStopWidth = (
-        lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
-    )
-    QPlainTextEdit.tabStopWidth = (
-        lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
-    )
-    QPlainTextEdit.print_ = lambda self, *args, **kwargs: self.print(
-        *args,
-        **kwargs,
-    )
-    QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QApplication,
-        *args,
-        **kwargs,
-    )
-    QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QMenu,
-        *args,
-        **kwargs,
+    QDialog.exec_ = partialmethod(QDialog.exec)
+    QMenu.exec_ = partialmethod(
+        lambda *args, _function, **kwargs: _function(QMenu, *args, **kwargs),
+        _function=possibly_static_exec,
     )
     QLineEdit.getTextMargins = lambda self: (
         self.textMargins().left(),
@@ -106,7 +96,7 @@ elif PYQT6:
     from .enums_compat import promote_enums
 
     promote_enums(QtWidgets)
-    del QtWidgets
+    del QtWidgets, promote_enums
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
@@ -119,25 +109,19 @@ elif PYSIDE6:
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError as error:
-        _missing_optional_names["QOpenGLWidget"] = {
+        getattr(__getattr__, "_missing_optional_names")["QOpenGLWidget"] = {
             "name": "PySide6.QtOpenGLWidgets",
             "missing_package": "pyopengl",
             "import_error": error,
         }
 
     # Map missing/renamed methods
-    QTextEdit.setTabStopWidth = (
-        lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
+    QTextEdit.setTabStopWidth = partialmethod(QTextEdit.setTabStopDistance)
+    QTextEdit.tabStopWidth = partialmethod(QTextEdit.tabStopDistance)
+    QPlainTextEdit.setTabStopWidth = partialmethod(
+        QPlainTextEdit.setTabStopDistance
     )
-    QTextEdit.tabStopWidth = (
-        lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
-    )
-    QPlainTextEdit.setTabStopWidth = (
-        lambda self, *args, **kwargs: self.setTabStopDistance(*args, **kwargs)
-    )
-    QPlainTextEdit.tabStopWidth = (
-        lambda self, *args, **kwargs: self.tabStopDistance(*args, **kwargs)
-    )
+    QPlainTextEdit.tabStopWidth = partialmethod(QPlainTextEdit.tabStopDistance)
     QLineEdit.getTextMargins = lambda self: (
         self.textMargins().left(),
         self.textMargins().top(),
@@ -146,16 +130,16 @@ elif PYSIDE6:
     )
 
     # Map DeprecationWarning methods
-    QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QApplication,
-        *args,
-        **kwargs,
+    QApplication.exec_ = partial(
+        lambda *args, _function, **kwargs: _function(
+            QApplication, *args, **kwargs
+        ),
+        _function=possibly_static_exec,
     )
-    QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QMenu,
-        *args,
-        **kwargs,
+    QDialog.exec_ = partialmethod(QDialog.exec)
+    QMenu.exec_ = partialmethod(
+        lambda *args, _function, **kwargs: _function(QMenu, *args, **kwargs),
+        _function=possibly_static_exec,
     )
 
     # Passing as default value 0 in the same way PySide6 < 6.3.2 does for the `QFileDialog.Options` definition.
@@ -215,3 +199,10 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.3"):
         add_action,
         old_add_action=QToolBar.addAction,
     )
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6
+del _qt_version
+del add_action, static_method_kwargs_wrapper, possibly_static_exec
+del parse
+del partial, partialmethod

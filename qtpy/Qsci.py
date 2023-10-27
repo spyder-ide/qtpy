@@ -34,3 +34,12 @@ elif PYQT6:
         ) from error
 elif PYSIDE2 or PYSIDE6:
     raise QtBindingMissingModuleError(name="Qsci")
+
+del (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingMissingModuleError,
+    QtModuleNotInstalledError,
+)

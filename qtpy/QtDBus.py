@@ -29,3 +29,14 @@ elif PYSIDE6:
         from PySide6.QtDBus import *
     else:
         raise QtModuleNotInOSError(name="QtDBus")
+
+# Clean up the namespace
+del (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingMissingModuleError,
+    QtModuleNotInOSError,
+)
+del sys

@@ -1,6 +1,10 @@
+# coding=utf-8
+import importlib
+from types import ModuleType
+
 import pytest
 
-from qtpy import PYQT6, PYSIDE2, PYSIDE6
+from qtpy import API_NAME, PYQT6, PYSIDE2, PYSIDE6
 
 
 @pytest.mark.skipif((PYSIDE6 or PYQT6), reason="not available with qt 6.0")
@@ -25,3 +29,27 @@ def test_qtxmlpatterns():
     assert QtXmlPatterns.QXmlSchema is not None
     assert QtXmlPatterns.QXmlSchemaValidator is not None
     assert QtXmlPatterns.QXmlSerializer is not None
+
+
+@pytest.mark.skipif((PYSIDE6 or PYQT6), reason="not available with qt 6.0")
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    from qtpy import QtXmlPatterns
+
+    qtpy_module: ModuleType = QtXmlPatterns
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace('qtpy', API_NAME)
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ]
+        )
+    )
+    assert not extra_members

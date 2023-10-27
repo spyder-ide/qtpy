@@ -68,3 +68,6 @@ elif PYSIDE6:
         QWebEngineSettings,
     )
     from PySide6.QtWebEngineWidgets import *
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError

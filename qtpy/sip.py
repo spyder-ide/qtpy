@@ -21,3 +21,6 @@ elif PYQT6:
     from PyQt6.sip import *
 elif PYSIDE2 or PYSIDE6:
     raise QtBindingMissingModuleError(name="sip")
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingMissingModuleError

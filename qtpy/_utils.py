@@ -44,30 +44,30 @@ def getattr_missing_optional_dep(name, module_name, optional_names):
 
 def possibly_static_exec(cls, *args, **kwargs):
     """Call `self.exec` when `self` is given or a static method otherwise."""
-    if not args and not kwargs:
-        # A special case (`cls.exec_()`) to avoid the function resolving error
-        return cls.exec()
-    if isinstance(args[0], cls):
+    if args and isinstance(args[0], cls):
         if len(args) == 1 and not kwargs:
             # A special case (`self.exec_()`) to avoid the function resolving error
             return args[0].exec()
         return args[0].exec(*args[1:], **kwargs)
-
-    return cls.exec(*args, **kwargs)
+    else:
+        if not args and not kwargs:
+            # A special case (`cls.exec_()`) to avoid the function resolving error
+            return cls.exec()
+        return cls.exec(*args, **kwargs)
 
 
 def possibly_static_exec_(cls, *args, **kwargs):
-    """Call `self.exec` when `self` is given or a static method otherwise."""
-    if not args and not kwargs:
-        # A special case (`cls.exec()`) to avoid the function resolving error
-        return cls.exec_()
-    if isinstance(args[0], cls):
+    """Call `self.exec_` when `self` is given or a static method otherwise."""
+    if args and isinstance(args[0], cls):
         if len(args) == 1 and not kwargs:
-            # A special case (`self.exec()`) to avoid the function resolving error
+            # A special case (`self.exec_()`) to avoid the function resolving error
             return args[0].exec_()
         return args[0].exec_(*args[1:], **kwargs)
-
-    return cls.exec_(*args, **kwargs)
+    else:
+        if not args and not kwargs:
+            # A special case (`cls.exec_()`) to avoid the function resolving error
+            return cls.exec_()
+        return cls.exec_(*args, **kwargs)
 
 
 def add_action(self, *args, old_add_action):
@@ -159,3 +159,15 @@ def static_method_kwargs_wrapper(func, from_kwarg_name, to_kwarg_name):
         return func(*args, **kwargs)
 
     return _from_kwarg_name_to_kwarg_name_
+
+
+def to_q_point_f(obj, get_point_method):
+    """
+    Get a `QPoint` from :param obj via its :param `get_point_method`
+    and convert it to a `QPointF`.
+    """
+
+    from qtpy.QtCore import QPointF
+
+    point = getattr(obj, get_point_method)()
+    return QPointF(point)

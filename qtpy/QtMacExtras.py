@@ -29,3 +29,6 @@ if sys.platform == "darwin":
         raise QtModuleNotInQtVersionError(name="QtMacExtras")
 else:
     raise QtModuleNotInOSError(name="QtMacExtras")
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6

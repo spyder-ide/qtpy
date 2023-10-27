@@ -1,4 +1,10 @@
+# coding=utf-8
+import importlib
+from types import ModuleType
+
 import pytest
+
+from qtpy import API_NAME
 
 
 def test_qt3dextras():
@@ -42,3 +48,84 @@ def test_qt3dextras():
     assert Qt3DExtras.QFirstPersonCameraController is not None
     assert Qt3DExtras.QMetalRoughMaterial is not None
     assert Qt3DExtras.QCylinderMesh is not None
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = pytest.importorskip("qtpy.Qt3DExtras")
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace('qtpy', API_NAME)
+    )
+
+    extra_members = (
+        frozenset(object.__dir__(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ]
+        )
+        - frozenset(
+            # These don't show up in `dir()` when on PySide2/6:
+            dir(object)
+            + [
+                "QAbstractCameraController",
+                "QAbstractSpriteSheet",
+                "QConeGeometry",
+                "QConeMesh",
+                "QCuboidGeometry",
+                "QCuboidMesh",
+                "QCylinderGeometry",
+                "QCylinderMesh",
+                "QDiffuseMapMaterial",
+                "QDiffuseSpecularMapMaterial",
+                "QDiffuseSpecularMaterial",
+                "QExtrudedTextGeometry",
+                "QExtrudedTextMesh",
+                "QFirstPersonCameraController",
+                "QForwardRenderer",
+                "QGoochMaterial",
+                "QMetalRoughMaterial",
+                "QMorphPhongMaterial",
+                "QNormalDiffuseMapMaterial",
+                "QNormalDiffuseSpecularMapMaterial",
+                "QOrbitCameraController",
+                "QPerVertexColorMaterial",
+                "QPhongAlphaMaterial",
+                "QPhongMaterial",
+                "QPlaneGeometry",
+                "QPlaneMesh",
+                "QSkyboxEntity",
+                "QSphereGeometry",
+                "QSphereMesh",
+                "QSpriteGrid",
+                "QSpriteSheet",
+                "QSpriteSheetItem",
+                "QText2DEntity",
+                "QTextureMaterial",
+                "QTorusGeometry",
+                "QTorusMesh",
+                "Qt3DWindow",
+                "__annotations__",
+                "__dict__",
+                "__module__",
+            ]
+        )
+        - frozenset(
+            # These don't show up in `dir()` when on PySide6:
+            dir(object)
+            + [
+                "QConeGeometryView",
+                "QCuboidGeometryView",
+                "QCylinderGeometryView",
+                "QNormalDiffuseMapAlphaMaterial",
+                "QPlaneGeometryView",
+                "QSphereGeometryView",
+                "QTorusGeometryView",
+                "setupWindowSurface",
+            ]
+        )
+    )
+    assert not extra_members

@@ -8,6 +8,7 @@
 
 """Provides QtCore classes and functions."""
 import contextlib
+from functools import partial, partialmethod
 from typing import TYPE_CHECKING
 
 from packaging.version import parse
@@ -55,13 +56,14 @@ elif PYQT6:
             from PyQt6.QtGui import Qt
 
     # Map missing methods
-    QCoreApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QCoreApplication,
-        *args,
-        **kwargs,
+    QCoreApplication.exec_ = partial(
+        lambda *args, _function, **kwargs: _function(
+            QCoreApplication, *args, **kwargs
+        ),
+        _function=possibly_static_exec,
     )
-    QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QEventLoop.exec_ = partialmethod(QEventLoop.exec)
+    QThread.exec_ = partialmethod(QThread.exec)
 
     # Those are imported from `import *`
     del (
@@ -77,7 +79,7 @@ elif PYQT6:
     from .enums_compat import promote_enums
 
     promote_enums(QtCore)
-    del QtCore
+    del QtCore, promote_enums
 
     # Alias deprecated ItemDataRole enum values removed in Qt6
     Qt.BackgroundColorRole = (
@@ -95,10 +97,8 @@ elif PYQT6:
     Qt.ItemFlags = lambda value=0: Qt.ItemFlag(value)
 
 elif PYSIDE2:
-    import PySide2.QtCore
     from PySide2.QtCore import *
-
-    __version__ = PySide2.QtCore.__version__
+    from PySide2.QtCore import __version__
 
     # Missing QtGui utility functions on Qt
     if getattr(Qt, "mightBeRichText", None) is None:
@@ -111,23 +111,19 @@ elif PYSIDE2:
             # Fails with PySide2 5.12.0
             pass
 
-    QCoreApplication.exec = lambda *args, **kwargs: possibly_static_exec_(
-        QCoreApplication,
-        *args,
-        **kwargs,
+    QCoreApplication.exec = partial(
+        lambda *args, _function, **kwargs: _function(
+            QCoreApplication, *args, **kwargs
+        ),
+        _function=possibly_static_exec_,
     )
-    QEventLoop.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
-    QThread.exec = lambda self, *args, **kwargs: self.exec_(*args, **kwargs)
-    QTextStreamManipulator.exec = lambda self, *args, **kwargs: self.exec_(
-        *args,
-        **kwargs,
-    )
+    QEventLoop.exec = partialmethod(QEventLoop.exec_)
+    QThread.exec = partialmethod(QThread.exec_)
+    QTextStreamManipulator.exec = partialmethod(QTextStreamManipulator.exec_)
 
 elif PYSIDE6:
-    import PySide6.QtCore
     from PySide6.QtCore import *
-
-    __version__ = PySide6.QtCore.__version__
+    from PySide6.QtCore import __version__
 
     # Missing QtGui utility functions on Qt
     if getattr(Qt, "mightBeRichText", None) is None:
@@ -144,17 +140,15 @@ elif PYSIDE6:
     Qt.MidButton = Qt.MiddleButton
 
     # Map DeprecationWarning methods
-    QCoreApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QCoreApplication,
-        *args,
-        **kwargs,
+    QCoreApplication.exec_ = partial(
+        lambda *args, _function, **kwargs: _function(
+            QCoreApplication, *args, **kwargs
+        ),
+        _function=possibly_static_exec,
     )
-    QEventLoop.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QThread.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QTextStreamManipulator.exec_ = lambda self, *args, **kwargs: self.exec(
-        *args,
-        **kwargs,
-    )
+    QEventLoop.exec_ = partialmethod(QEventLoop.exec)
+    QThread.exec_ = partialmethod(QThread.exec)
+    QTextStreamManipulator.exec_ = partialmethod(QTextStreamManipulator.exec)
 
     # Passing as default value 0 in the same way PySide6 6.3.2 does for the `Qt.ItemFlags` definition.
     if parse(_qt_version) > parse("6.3"):
@@ -162,31 +156,13 @@ elif PYSIDE6:
 
 # For issue #153 and updated for issue #305
 if PYQT5 or PYQT6:
-    QDate.toPython = lambda self, *args, **kwargs: self.toPyDate(
-        *args,
-        **kwargs,
-    )
-    QDateTime.toPython = lambda self, *args, **kwargs: self.toPyDateTime(
-        *args,
-        **kwargs,
-    )
-    QTime.toPython = lambda self, *args, **kwargs: self.toPyTime(
-        *args,
-        **kwargs,
-    )
+    QDate.toPython = partialmethod(QDate.toPyDate)
+    QDateTime.toPython = partialmethod(QDateTime.toPyDateTime)
+    QTime.toPython = partialmethod(QTime.toPyTime)
 if PYSIDE2 or PYSIDE6:
-    QDate.toPyDate = lambda self, *args, **kwargs: self.toPython(
-        *args,
-        **kwargs,
-    )
-    QDateTime.toPyDateTime = lambda self, *args, **kwargs: self.toPython(
-        *args,
-        **kwargs,
-    )
-    QTime.toPyTime = lambda self, *args, **kwargs: self.toPython(
-        *args,
-        **kwargs,
-    )
+    QDate.toPyDate = partialmethod(QDate.toPython)
+    QDateTime.toPyDateTime = partialmethod(QDateTime.toPython)
+    QTime.toPyTime = partialmethod(QTime.toPython)
 
 # Mirror https://github.com/spyder-ide/qtpy/pull/393
 if PYQT5 or PYSIDE2:
@@ -195,3 +171,18 @@ if PYQT5 or PYSIDE2:
 if PYQT6 or PYSIDE6:
     QLibraryInfo.location = QLibraryInfo.path
     QLibraryInfo.LibraryLocation = QLibraryInfo.LibraryPath
+
+# If something is imported, `__version__` ought to be defined.
+try:
+    __version__
+except NameError:
+    raise ImportError('No Qt binding loaded')
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6
+del TYPE_CHECKING
+del contextlib
+del partial, partialmethod
+del parse
+del _qt_version
+del possibly_static_exec, possibly_static_exec_

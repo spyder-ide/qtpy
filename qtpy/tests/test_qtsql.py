@@ -1,10 +1,13 @@
+# coding=utf-8
 """Test QtSql."""
-
+import importlib
 import sys
+from types import ModuleType
 
 import pytest
+from packaging.version import parse
 
-from qtpy import PYSIDE2, PYSIDE_VERSION, QtSql
+from qtpy import API_NAME, PYSIDE2, PYSIDE_VERSION, QT_VERSION, QtSql
 
 
 @pytest.fixture
@@ -85,3 +88,24 @@ def test_qtsql_members_aliases(database_connection):
     select_table_query.exec_()
     record = select_table_query.record()
     assert not record.isEmpty()
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtSql
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace('qtpy', API_NAME)
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ]
+        )
+    )
+    assert not extra_members

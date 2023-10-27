@@ -1,13 +1,17 @@
+# coding=utf-8
 """Test QtCore."""
 
 import enum
+import importlib
 import sys
 from datetime import date, datetime, time
+from types import ModuleType
 
 import pytest
 from packaging.version import parse
 
 from qtpy import (
+    API_NAME,
     PYQT5,
     PYQT6,
     PYQT_VERSION,
@@ -107,7 +111,7 @@ def test_QLibraryInfo_LibraryLocation_and_LibraryPath():
     assert QtCore.QLibraryInfo.LibraryPath is not None
 
 
-def test_QCoreApplication_exec_(qapp):
+def test_QCoreApplication_exec_():
     """Test `QtCore.QCoreApplication.exec_`"""
     assert QtCore.QCoreApplication.exec_ is not None
     app = QtCore.QCoreApplication.instance() or QtCore.QCoreApplication(
@@ -124,7 +128,7 @@ def test_QCoreApplication_exec_(qapp):
     app.exec_()
 
 
-def test_QCoreApplication_exec(qapp):
+def test_QCoreApplication_exec():
     """Test `QtCore.QCoreApplication.exec`"""
     assert QtCore.QCoreApplication.exec is not None
     app = QtCore.QCoreApplication.instance() or QtCore.QCoreApplication(
@@ -209,3 +213,35 @@ def test_itemflags_typedef():
     """
     assert QtCore.Qt.ItemFlags is not None
     assert QtCore.Qt.ItemFlags() == QtCore.Qt.ItemFlag(0)
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtCore
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace('qtpy', API_NAME)
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ]
+        )
+        - frozenset(
+            # These are for the compatibility b/w PySide and PyQt:
+            [
+                "Property",
+                "Signal",
+                "SignalInstance",
+                "Slot",
+                "QEnum",
+                "__version__",
+            ]
+        )
+    )
+    assert not extra_members

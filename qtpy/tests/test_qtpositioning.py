@@ -1,6 +1,10 @@
+# coding=utf-8
+import importlib
+from types import ModuleType
+
 import pytest
 
-from qtpy import QT6
+from qtpy import API_NAME, QT6
 from qtpy.tests.utils import using_conda
 
 
@@ -31,3 +35,30 @@ def test_qtpositioning():
     assert QtPositioning.QGeoSatelliteInfoSource is not None
     assert QtPositioning.QGeoShape is not None
     assert QtPositioning.QNmeaPositionInfoSource is not None
+
+
+@pytest.mark.skipif(
+    QT6 and using_conda(),
+    reason="QPositioning bindings not included in Conda qt-main >= 6.4.3.",
+)
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    from qtpy import QtPositioning
+
+    qtpy_module: ModuleType = QtPositioning
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace('qtpy', API_NAME)
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ]
+        )
+    )
+    assert not extra_members

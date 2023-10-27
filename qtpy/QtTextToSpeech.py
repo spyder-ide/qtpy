@@ -23,3 +23,6 @@ elif PYSIDE2:
     from PySide2.QtTextToSpeech import *
 elif PYSIDE6:
     raise QtBindingMissingModuleError(name="QtTextToSpeech")
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingMissingModuleError

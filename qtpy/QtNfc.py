@@ -23,3 +23,6 @@ elif PYSIDE2:
     raise QtBindingMissingModuleError(name="QtNfc")
 elif PYSIDE6:
     from PySide6.QtNfc import *
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6

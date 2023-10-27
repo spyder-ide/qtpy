@@ -29,3 +29,14 @@ if sys.platform == "linux":
         raise QtModuleNotInQtVersionError(name="QtX11Extras")
 else:
     raise QtModuleNotInOSError(name="QtX11Extras")
+
+# Clean up the namespace
+del (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtModuleNotInOSError,
+    QtModuleNotInQtVersionError,
+)
+del sys
