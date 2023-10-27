@@ -1,11 +1,10 @@
-# coding=utf-8
 """Test QtCore."""
 
 import enum
 import importlib
 import sys
 from datetime import date, datetime, time
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 import pytest
 from packaging.version import parse
@@ -19,6 +18,9 @@ from qtpy import (
     PYSIDE_VERSION,
     QtCore,
 )
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 _now = datetime.now()
 # Make integer milliseconds; `floor` here, don't `round`!
@@ -219,7 +221,7 @@ def test_namespace_not_polluted():
     """Test that no extra members are exported into the module namespace."""
     qtpy_module: ModuleType = QtCore
     original_module: ModuleType = importlib.import_module(
-        qtpy_module.__name__.replace('qtpy', API_NAME)
+        qtpy_module.__name__.replace("qtpy", API_NAME),
     )
 
     extra_members = (
@@ -230,7 +232,7 @@ def test_namespace_not_polluted():
             [
                 "__builtins__",
                 "__cached__",
-            ]
+            ],
         )
         - frozenset(
             # These are for the compatibility b/w PySide and PyQt:
@@ -241,7 +243,7 @@ def test_namespace_not_polluted():
                 "Slot",
                 "QEnum",
                 "__version__",
-            ]
+            ],
         )
     )
     assert not extra_members

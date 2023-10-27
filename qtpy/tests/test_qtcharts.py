@@ -1,10 +1,12 @@
-# coding=utf-8
 import importlib
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 import pytest
 
 from qtpy import API_NAME, PYSIDE2, PYSIDE6
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 @pytest.mark.skipif(
@@ -27,7 +29,7 @@ def test_namespace_not_polluted():
     """Test that no extra members are exported into the module namespace."""
     qtpy_module: ModuleType = pytest.importorskip("qtpy.QtCharts")
     original_module: ModuleType = importlib.import_module(
-        qtpy_module.__name__.replace('qtpy', API_NAME)
+        qtpy_module.__name__.replace("qtpy", API_NAME),
     )
 
     extra_members = (
@@ -38,74 +40,17 @@ def test_namespace_not_polluted():
             [
                 "__builtins__",
                 "__cached__",
-            ]
+            ],
         )
         - frozenset(
             # The module is imported from within itself.
             [
                 "QtCharts",
-            ]
+            ],
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide:
-            dir(object)
-            + [
-                "QAbstractAxis",
-                "QAbstractBarSeries",
-                "QAbstractSeries",
-                "QAreaLegendMarker",
-                "QAreaSeries",
-                "QBarCategoryAxis",
-                "QBarLegendMarker",
-                "QBarModelMapper",
-                "QBarSeries",
-                "QBarSet",
-                "QBoxPlotLegendMarker",
-                "QBoxPlotModelMapper",
-                "QBoxPlotSeries",
-                "QBoxSet",
-                "QCandlestickLegendMarker",
-                "QCandlestickModelMapper",
-                "QCandlestickSeries",
-                "QCandlestickSet",
-                "QCategoryAxis",
-                "QChart",
-                "QChartView",
-                "QDateTimeAxis",
-                "QHBarModelMapper",
-                "QHBoxPlotModelMapper",
-                "QHCandlestickModelMapper",
-                "QHPieModelMapper",
-                "QHXYModelMapper",
-                "QHorizontalBarSeries",
-                "QHorizontalPercentBarSeries",
-                "QHorizontalStackedBarSeries",
-                "QLegend",
-                "QLegendMarker",
-                "QLineSeries",
-                "QLogValueAxis",
-                "QPercentBarSeries",
-                "QPieLegendMarker",
-                "QPieModelMapper",
-                "QPieSeries",
-                "QPieSlice",
-                "QPolarChart",
-                "QScatterSeries",
-                "QSplineSeries",
-                "QStackedBarSeries",
-                "QVBarModelMapper",
-                "QVBoxPlotModelMapper",
-                "QVCandlestickModelMapper",
-                "QVPieModelMapper",
-                "QVXYModelMapper",
-                "QValueAxis",
-                "QXYLegendMarker",
-                "QXYModelMapper",
-                "QXYSeries",
-                "__annotations__",
-                "__dict__",
-                "__module__",
-            ]
+            [*dir(object), "QAbstractAxis", "QAbstractBarSeries", "QAbstractSeries", "QAreaLegendMarker", "QAreaSeries", "QBarCategoryAxis", "QBarLegendMarker", "QBarModelMapper", "QBarSeries", "QBarSet", "QBoxPlotLegendMarker", "QBoxPlotModelMapper", "QBoxPlotSeries", "QBoxSet", "QCandlestickLegendMarker", "QCandlestickModelMapper", "QCandlestickSeries", "QCandlestickSet", "QCategoryAxis", "QChart", "QChartView", "QDateTimeAxis", "QHBarModelMapper", "QHBoxPlotModelMapper", "QHCandlestickModelMapper", "QHPieModelMapper", "QHXYModelMapper", "QHorizontalBarSeries", "QHorizontalPercentBarSeries", "QHorizontalStackedBarSeries", "QLegend", "QLegendMarker", "QLineSeries", "QLogValueAxis", "QPercentBarSeries", "QPieLegendMarker", "QPieModelMapper", "QPieSeries", "QPieSlice", "QPolarChart", "QScatterSeries", "QSplineSeries", "QStackedBarSeries", "QVBarModelMapper", "QVBoxPlotModelMapper", "QVCandlestickModelMapper", "QVPieModelMapper", "QVXYModelMapper", "QValueAxis", "QXYLegendMarker", "QXYModelMapper", "QXYSeries", "__annotations__", "__dict__", "__module__"],
         )
     )
     assert not extra_members

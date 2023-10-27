@@ -1,10 +1,12 @@
-# coding=utf-8
 import importlib
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 import pytest
 
 from qtpy import API_NAME
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_qt3danimation():
@@ -32,7 +34,7 @@ def test_namespace_not_polluted():
     """Test that no extra members are exported into the module namespace."""
     qtpy_module: ModuleType = pytest.importorskip("qtpy.Qt3DAnimation")
     original_module: ModuleType = importlib.import_module(
-        qtpy_module.__name__.replace('qtpy', API_NAME)
+        qtpy_module.__name__.replace("qtpy", API_NAME),
     )
 
     extra_members = (
@@ -43,50 +45,15 @@ def test_namespace_not_polluted():
             [
                 "__builtins__",
                 "__cached__",
-            ]
+            ],
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide2/6:
-            dir(object)
-            + [
-                "QAbstractAnimation",
-                "QAbstractAnimationClip",
-                "QAbstractClipAnimator",
-                "QAbstractClipBlendNode",
-                "QAdditiveClipBlend",
-                "QAnimationAspect",
-                "QAnimationCallback",
-                "QAnimationClip",
-                "QAnimationClipLoader",
-                "QAnimationController",
-                "QAnimationGroup",
-                "QBlendedClipAnimator",
-                "QClipAnimator",
-                "QClock",
-                "QKeyFrame",
-                "QKeyframeAnimation",
-                "QLerpClipBlend",
-                "QMorphTarget",
-                "QMorphingAnimation",
-                "QSkeletonMapping",
-                "QVertexBlendAnimation",
-                "__annotations__",
-                "__dict__",
-                "__module__",
-            ]
+            [*dir(object), "QAbstractAnimation", "QAbstractAnimationClip", "QAbstractClipAnimator", "QAbstractClipBlendNode", "QAdditiveClipBlend", "QAnimationAspect", "QAnimationCallback", "QAnimationClip", "QAnimationClipLoader", "QAnimationController", "QAnimationGroup", "QBlendedClipAnimator", "QClipAnimator", "QClock", "QKeyFrame", "QKeyframeAnimation", "QLerpClipBlend", "QMorphTarget", "QMorphingAnimation", "QSkeletonMapping", "QVertexBlendAnimation", "__annotations__", "__dict__", "__module__"],
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide6:
-            dir(object)
-            + [
-                "QAbstractChannelMapping",
-                "QAnimationClipData",
-                "QChannel",
-                "QChannelComponent",
-                "QChannelMapper",
-                "QChannelMapping",
-                "QClipBlendValue",
-            ]
+            [*dir(object), "QAbstractChannelMapping", "QAnimationClipData", "QChannel", "QChannelComponent", "QChannelMapper", "QChannelMapping", "QClipBlendValue"],
         )
     )
     assert not extra_members

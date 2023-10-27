@@ -27,11 +27,11 @@ def __getattr__(name):
     raise getattr_missing_optional_dep(
         name,
         module_name=__name__,
-        optional_names=getattr(__getattr__, "_missing_optional_names"),
+        optional_names=__getattr__._missing_optional_names,
     )
 
 
-setattr(__getattr__, "_missing_optional_names", dict())
+__getattr__._missing_optional_names = {}
 
 
 if PYQT5:
@@ -53,7 +53,7 @@ elif PYQT6:
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError as error:
-        getattr(__getattr__, "_missing_optional_names")["QOpenGLWidget"] = {
+        __getattr__._missing_optional_names["QOpenGLWidget"] = {
             "name": "PyQt6.QtOpenGLWidgets",
             "missing_package": "pyopengl",
             "import_error": error,
@@ -64,13 +64,13 @@ elif PYQT6:
     QTextEdit.tabStopWidth = partialmethod(QTextEdit.tabStopDistance)
     QTextEdit.print_ = partialmethod(QTextEdit.print)
     QPlainTextEdit.setTabStopWidth = partialmethod(
-        QPlainTextEdit.setTabStopDistance
+        QPlainTextEdit.setTabStopDistance,
     )
     QPlainTextEdit.tabStopWidth = partialmethod(QPlainTextEdit.tabStopDistance)
     QPlainTextEdit.print_ = partialmethod(QPlainTextEdit.print)
     QApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QApplication, *args, **kwargs
+            QApplication, *args, **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -109,7 +109,7 @@ elif PYSIDE6:
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError as error:
-        getattr(__getattr__, "_missing_optional_names")["QOpenGLWidget"] = {
+        __getattr__._missing_optional_names["QOpenGLWidget"] = {
             "name": "PySide6.QtOpenGLWidgets",
             "missing_package": "pyopengl",
             "import_error": error,
@@ -119,7 +119,7 @@ elif PYSIDE6:
     QTextEdit.setTabStopWidth = partialmethod(QTextEdit.setTabStopDistance)
     QTextEdit.tabStopWidth = partialmethod(QTextEdit.tabStopDistance)
     QPlainTextEdit.setTabStopWidth = partialmethod(
-        QPlainTextEdit.setTabStopDistance
+        QPlainTextEdit.setTabStopDistance,
     )
     QPlainTextEdit.tabStopWidth = partialmethod(QPlainTextEdit.tabStopDistance)
     QLineEdit.getTextMargins = lambda self: (
@@ -132,7 +132,7 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QApplication, *args, **kwargs
+            QApplication, *args, **kwargs,
         ),
         _function=possibly_static_exec,
     )

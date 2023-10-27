@@ -12,7 +12,6 @@ from functools import partial, partialmethod
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 from ._utils import possibly_static_exec, to_q_point_f
 
-
 _QTOPENGL_NAMES = {
     "QOpenGLBuffer",
     "QOpenGLContext",
@@ -39,11 +38,11 @@ def __getattr__(name):
     raise getattr_missing_optional_dep(
         name,
         module_name=__name__,
-        optional_names=getattr(__getattr__, "_missing_optional_names", dict()),
+        optional_names=getattr(__getattr__, "_missing_optional_names", {}),
     )
 
 
-setattr(__getattr__, "_missing_optional_names", dict())
+__getattr__._missing_optional_names = {}
 
 
 if PYQT5:
@@ -69,7 +68,7 @@ elif PYQT6:
         from PyQt6.QtOpenGL import *
     except ImportError as error:
         for name in _QTOPENGL_NAMES:
-            getattr(__getattr__, "_missing_optional_names")[name] = {
+            __getattr__._missing_optional_names[name] = {
                 "name": "PyQt6.QtOpenGL",
                 "missing_package": "pyopengl",
                 "import_error": error,
@@ -88,7 +87,7 @@ elif PYQT6:
     QDrag.exec_ = partialmethod(QDrag.exec)
     QGuiApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QGuiApplication, *args, **kwargs
+            QGuiApplication, *args, **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -124,7 +123,7 @@ elif PYSIDE6:
         from PySide6.QtOpenGL import *
     except ImportError as error:
         for name in _QTOPENGL_NAMES:
-            getattr(__getattr__, "_missing_optional_names")[name] = {
+            __getattr__._missing_optional_names[name] = {
                 "name": "PySide6.QtOpenGL",
                 "missing_package": "pyopengl",
                 "import_error": error,
@@ -140,7 +139,7 @@ elif PYSIDE6:
     QDrag.exec_ = partialmethod(QDrag.exec)
     QGuiApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QGuiApplication, *args, **kwargs
+            QGuiApplication, *args, **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -191,11 +190,11 @@ if PYQT5 or PYSIDE2:
     QNativeGestureEvent.globalX = lambda self: self.globalPos().x()
     QNativeGestureEvent.globalY = lambda self: self.globalPos().y()
     QNativeGestureEvent.globalPosition = partialmethod(
-        to_q_point_f, get_point_method="globalPos"
+        to_q_point_f, get_point_method="globalPos",
     )
     QEnterEvent.position = lambda self: self.localPos()
     QEnterEvent.globalPosition = partialmethod(
-        to_q_point_f, get_point_method="globalPos"
+        to_q_point_f, get_point_method="globalPos",
     )
     QTabletEvent.position = lambda self: self.posF()
     QTabletEvent.globalPosition = lambda self: self.globalPosF()
@@ -206,7 +205,7 @@ if PYQT5 or PYSIDE2:
     # nor `QHoverEvent.globalY` in the Qt5 docs.
     QMouseEvent.position = lambda self: self.localPos()
     QMouseEvent.globalPosition = partialmethod(
-        to_q_point_f, get_point_method="globalPos"
+        to_q_point_f, get_point_method="globalPos",
     )
 
     # Follow similar approach for `QDropEvent` and child classes

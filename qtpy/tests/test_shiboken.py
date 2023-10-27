@@ -1,10 +1,12 @@
-# coding=utf-8
 import importlib
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 import pytest
 
 from qtpy import API_NAME
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_shiboken():
@@ -22,7 +24,7 @@ def test_namespace_not_polluted():
     """Test that no extra members are exported into the module namespace."""
     qtpy_module: ModuleType = pytest.importorskip("qtpy.shiboken")
     original_module: ModuleType = importlib.import_module(
-        f"shiboken{API_NAME[-1]}"
+        f"shiboken{API_NAME[-1]}",
     )
 
     extra_members = (
@@ -33,7 +35,7 @@ def test_namespace_not_polluted():
             [
                 "__builtins__",
                 "__cached__",
-            ]
+            ],
         )
     )
     assert not extra_members

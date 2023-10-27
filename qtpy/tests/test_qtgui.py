@@ -1,8 +1,7 @@
-# coding=utf-8
 """Test QtGui."""
 import importlib
 import sys
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -17,6 +16,9 @@ from qtpy import (
     QtWidgets,
 )
 from qtpy.tests.utils import not_using_conda
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_qfontmetrics_width(qtbot):
@@ -209,7 +211,7 @@ def test_namespace_not_polluted():
     """Test that no extra members are exported into the module namespace."""
     qtpy_module: ModuleType = QtGui
     original_module: ModuleType = importlib.import_module(
-        qtpy_module.__name__.replace('qtpy', API_NAME)
+        qtpy_module.__name__.replace("qtpy", API_NAME),
     )
 
     extra_members = (
@@ -221,7 +223,7 @@ def test_namespace_not_polluted():
                 "__builtins__",
                 "__cached__",
                 "__getattr__",
-            ]
+            ],
         )
         - frozenset(
             # These are for the compatibility b/w PySide and PyQt:
@@ -231,7 +233,7 @@ def test_namespace_not_polluted():
                 "QFileSystemModel",
                 "QShortcut",
                 "QUndoCommand",
-            ]
+            ],
         )
         - frozenset(
             # These are imported from `QtOpenGL`:
@@ -282,7 +284,7 @@ def test_namespace_not_polluted():
                 "QOpenGLTimeMonitor",
                 "QOpenGLTimerQuery",
                 "QOpenGLVersionFunctionsFactory",
-            ]
+            ],
         )
     )
     assert not extra_members

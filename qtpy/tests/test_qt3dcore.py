@@ -1,10 +1,12 @@
-# coding=utf-8
 import importlib
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 import pytest
 
 from qtpy import API_NAME, PYQT6, PYSIDE6
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 @pytest.mark.skipif(PYQT6, reason="Not complete in PyQt6")
@@ -55,7 +57,7 @@ def test_namespace_not_polluted():
     """Test that no extra members are exported into the module namespace."""
     qtpy_module: ModuleType = pytest.importorskip("qtpy.Qt3DCore")
     original_module: ModuleType = importlib.import_module(
-        qtpy_module.__name__.replace('qtpy', API_NAME)
+        qtpy_module.__name__.replace("qtpy", API_NAME),
     )
 
     extra_members = (
@@ -66,63 +68,11 @@ def test_namespace_not_polluted():
             [
                 "__builtins__",
                 "__cached__",
-            ]
+            ],
         )
         - frozenset(
             # These don't show up in `dir()` when on PySide:
-            dir(object)
-            + [
-                "AllChanges",
-                "CallbackTriggered",
-                "ChangeFlag",
-                "ChangeFlags",
-                "CommandRequested",
-                "ComponentAdded",
-                "ComponentRemoved",
-                "NodeCreated",
-                "NodeDeleted",
-                "PropertyUpdated",
-                "PropertyValueAdded",
-                "PropertyValueRemoved",
-                "QAbstractAspect",
-                "QAbstractSkeleton",
-                "QArmature",
-                "QAspectEngine",
-                "QAspectJob",
-                "QBackendNode",
-                "QComponent",
-                "QComponentAddedChange",
-                "QComponentRemovedChange",
-                "QDynamicPropertyUpdatedChange",
-                "QEntity",
-                "QJoint",
-                "QNode",
-                "QNodeCommand",
-                "QNodeCreatedChangeBase",
-                "QNodeDestroyedChange",
-                "QNodeId",
-                "QNodeIdTypePair",
-                "QPropertyNodeAddedChange",
-                "QPropertyNodeRemovedChange",
-                "QPropertyUpdatedChange",
-                "QPropertyUpdatedChangeBase",
-                "QPropertyValueAddedChange",
-                "QPropertyValueAddedChangeBase",
-                "QPropertyValueRemovedChange",
-                "QPropertyValueRemovedChangeBase",
-                "QSceneChange",
-                "QSkeleton",
-                "QSkeletonLoader",
-                "QStaticPropertyUpdatedChangeBase",
-                "QStaticPropertyValueAddedChangeBase",
-                "QStaticPropertyValueRemovedChangeBase",
-                "QTransform",
-                "__annotations__",
-                "__dict__",
-                "__module__",
-                "qHash",
-                "qIdForNode",
-            ]
+            [*dir(object), "AllChanges", "CallbackTriggered", "ChangeFlag", "ChangeFlags", "CommandRequested", "ComponentAdded", "ComponentRemoved", "NodeCreated", "NodeDeleted", "PropertyUpdated", "PropertyValueAdded", "PropertyValueRemoved", "QAbstractAspect", "QAbstractSkeleton", "QArmature", "QAspectEngine", "QAspectJob", "QBackendNode", "QComponent", "QComponentAddedChange", "QComponentRemovedChange", "QDynamicPropertyUpdatedChange", "QEntity", "QJoint", "QNode", "QNodeCommand", "QNodeCreatedChangeBase", "QNodeDestroyedChange", "QNodeId", "QNodeIdTypePair", "QPropertyNodeAddedChange", "QPropertyNodeRemovedChange", "QPropertyUpdatedChange", "QPropertyUpdatedChangeBase", "QPropertyValueAddedChange", "QPropertyValueAddedChangeBase", "QPropertyValueRemovedChange", "QPropertyValueRemovedChangeBase", "QSceneChange", "QSkeleton", "QSkeletonLoader", "QStaticPropertyUpdatedChangeBase", "QStaticPropertyValueAddedChangeBase", "QStaticPropertyValueRemovedChangeBase", "QTransform", "__annotations__", "__dict__", "__module__", "qHash", "qIdForNode"],
         )
     )
     assert not extra_members

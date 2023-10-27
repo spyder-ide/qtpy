@@ -58,7 +58,7 @@ elif PYQT6:
     # Map missing methods
     QCoreApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QCoreApplication, *args, **kwargs
+            QCoreApplication, *args, **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -113,7 +113,7 @@ elif PYSIDE2:
 
     QCoreApplication.exec = partial(
         lambda *args, _function, **kwargs: _function(
-            QCoreApplication, *args, **kwargs
+            QCoreApplication, *args, **kwargs,
         ),
         _function=possibly_static_exec_,
     )
@@ -142,7 +142,7 @@ elif PYSIDE6:
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = partial(
         lambda *args, _function, **kwargs: _function(
-            QCoreApplication, *args, **kwargs
+            QCoreApplication, *args, **kwargs,
         ),
         _function=possibly_static_exec,
     )
@@ -176,7 +176,7 @@ if PYQT6 or PYSIDE6:
 try:
     __version__
 except NameError:
-    raise ImportError('No Qt binding loaded')
+    raise ImportError("No Qt binding loaded")
 
 # Clean up the namespace
 del PYQT5, PYQT6, PYSIDE2, PYSIDE6

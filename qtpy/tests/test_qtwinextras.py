@@ -1,13 +1,15 @@
-# coding=utf-8
 """Test QtWinExtras."""
 import importlib
 import sys
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 import pytest
 
 from qtpy import API_NAME, PYQT6, PYSIDE2, PYSIDE6
 from qtpy.tests.utils import using_conda
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 @pytest.mark.skipif(
@@ -52,7 +54,7 @@ def test_namespace_not_polluted():
 
     qtpy_module: ModuleType = QtWinExtras
     original_module: ModuleType = importlib.import_module(
-        qtpy_module.__name__.replace('qtpy', API_NAME)
+        qtpy_module.__name__.replace("qtpy", API_NAME),
     )
 
     extra_members = (
@@ -63,7 +65,7 @@ def test_namespace_not_polluted():
             [
                 "__builtins__",
                 "__cached__",
-            ]
+            ],
         )
     )
     assert not extra_members
