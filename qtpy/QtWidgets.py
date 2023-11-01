@@ -11,27 +11,21 @@ from functools import partial, partialmethod
 
 from packaging.version import parse
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
-from . import QT_VERSION as _qt_version
-from ._utils import (
-    add_action,
-    possibly_static_exec,
-    static_method_kwargs_wrapper,
-)
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION, _utils
 
 
-def __getattr__(name):
+def __getattr__(attr):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
     from ._utils import getattr_missing_optional_dep
 
     raise getattr_missing_optional_dep(
-        name,
+        attr,
         module_name=__name__,
-        optional_names=__getattr__._missing_optional_names,
+        optional_names=__getattr__.missing_optional_names,
     )
 
 
-__getattr__._missing_optional_names = {}
+__getattr__.missing_optional_names = {}
 
 
 if PYQT5:
@@ -53,7 +47,7 @@ elif PYQT6:
     try:
         from PyQt6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError as error:
-        __getattr__._missing_optional_names["QOpenGLWidget"] = {
+        __getattr__.missing_optional_names["QOpenGLWidget"] = {
             "name": "PyQt6.QtOpenGLWidgets",
             "missing_package": "pyopengl",
             "import_error": error,
@@ -74,12 +68,12 @@ elif PYQT6:
             *args,
             **kwargs,
         ),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
     QDialog.exec_ = partialmethod(QDialog.exec)
     QMenu.exec_ = partialmethod(
         lambda *args, _function, **kwargs: _function(QMenu, *args, **kwargs),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
     QLineEdit.getTextMargins = lambda self: (
         self.textMargins().left(),
@@ -111,7 +105,7 @@ elif PYSIDE6:
     try:
         from PySide6.QtOpenGLWidgets import QOpenGLWidget
     except ImportError as error:
-        __getattr__._missing_optional_names["QOpenGLWidget"] = {
+        __getattr__.missing_optional_names["QOpenGLWidget"] = {
             "name": "PySide6.QtOpenGLWidgets",
             "missing_package": "pyopengl",
             "import_error": error,
@@ -138,75 +132,73 @@ elif PYSIDE6:
             *args,
             **kwargs,
         ),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
     QDialog.exec_ = partialmethod(QDialog.exec)
     QMenu.exec_ = partialmethod(
         lambda *args, _function, **kwargs: _function(QMenu, *args, **kwargs),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
 
     # Passing as default value 0 in the same way PySide6 < 6.3.2 does for the `QFileDialog.Options` definition.
-    if parse(_qt_version) > parse("6.3"):
+    if parse(QT_VERSION) > parse("6.3"):
         QFileDialog.Options = lambda value=0: QFileDialog.Option(value)
 
 
 if PYSIDE2 or PYSIDE6:
     # Make PySide2/6 `QFileDialog` static methods accept the `directory` kwarg as `dir`
-    QFileDialog.getExistingDirectory = static_method_kwargs_wrapper(
+    QFileDialog.getExistingDirectory = _utils.static_method_kwargs_wrapper(
         QFileDialog.getExistingDirectory,
         "directory",
         "dir",
     )
-    QFileDialog.getOpenFileName = static_method_kwargs_wrapper(
+    QFileDialog.getOpenFileName = _utils.static_method_kwargs_wrapper(
         QFileDialog.getOpenFileName,
         "directory",
         "dir",
     )
-    QFileDialog.getOpenFileNames = static_method_kwargs_wrapper(
+    QFileDialog.getOpenFileNames = _utils.static_method_kwargs_wrapper(
         QFileDialog.getOpenFileNames,
         "directory",
         "dir",
     )
-    QFileDialog.getSaveFileName = static_method_kwargs_wrapper(
+    QFileDialog.getSaveFileName = _utils.static_method_kwargs_wrapper(
         QFileDialog.getSaveFileName,
         "directory",
         "dir",
     )
 else:
     # Make PyQt5/6 `QFileDialog` static methods accept the `dir` kwarg as `directory`
-    QFileDialog.getExistingDirectory = static_method_kwargs_wrapper(
+    QFileDialog.getExistingDirectory = _utils.static_method_kwargs_wrapper(
         QFileDialog.getExistingDirectory,
         "dir",
         "directory",
     )
-    QFileDialog.getOpenFileName = static_method_kwargs_wrapper(
+    QFileDialog.getOpenFileName = _utils.static_method_kwargs_wrapper(
         QFileDialog.getOpenFileName,
         "dir",
         "directory",
     )
-    QFileDialog.getOpenFileNames = static_method_kwargs_wrapper(
+    QFileDialog.getOpenFileNames = _utils.static_method_kwargs_wrapper(
         QFileDialog.getOpenFileNames,
         "dir",
         "directory",
     )
-    QFileDialog.getSaveFileName = static_method_kwargs_wrapper(
+    QFileDialog.getSaveFileName = _utils.static_method_kwargs_wrapper(
         QFileDialog.getSaveFileName,
         "dir",
         "directory",
     )
 
 # Make `addAction` compatible with Qt6 >= 6.3
-if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.3"):
-    QMenu.addAction = partialmethod(add_action, old_add_action=QMenu.addAction)
+if PYQT5 or PYSIDE2 or parse(QT_VERSION) < parse("6.3"):
+    QMenu.addAction = partialmethod(_utils.add_action, old_add_action=QMenu.addAction)
     QToolBar.addAction = partialmethod(
-        add_action,
+        _utils.add_action,
         old_add_action=QToolBar.addAction,
     )
 
 # Clean up the namespace
-del PYQT5, PYQT6, PYSIDE2, PYSIDE6
-del _qt_version
-del add_action, static_method_kwargs_wrapper, possibly_static_exec
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION, _utils
 del parse
 del partial, partialmethod

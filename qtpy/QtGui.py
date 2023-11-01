@@ -9,8 +9,7 @@
 """Provides QtGui classes and functions."""
 from functools import partial, partialmethod
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
-from ._utils import possibly_static_exec, to_q_point_f
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, _utils
 
 _QTOPENGL_NAMES = {
     "QOpenGLBuffer",
@@ -31,18 +30,18 @@ _QTOPENGL_NAMES = {
 }
 
 
-def __getattr__(name):
+def __getattr__(attr):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
     from ._utils import getattr_missing_optional_dep
 
     raise getattr_missing_optional_dep(
-        name,
+        attr,
         module_name=__name__,
-        optional_names=getattr(__getattr__, "_missing_optional_names", {}),
+        optional_names=getattr(__getattr__, "missing_optional_names", {}),
     )
 
 
-__getattr__._missing_optional_names = {}
+__getattr__.missing_optional_names = {}
 
 
 if PYQT5:
@@ -68,7 +67,7 @@ elif PYQT6:
         from PyQt6.QtOpenGL import *
     except ImportError as error:
         for name in _QTOPENGL_NAMES:
-            __getattr__._missing_optional_names[name] = {
+            __getattr__.missing_optional_names[name] = {
                 "name": "PyQt6.QtOpenGL",
                 "missing_package": "pyopengl",
                 "import_error": error,
@@ -91,7 +90,7 @@ elif PYQT6:
             *args,
             **kwargs,
         ),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
     QTextDocument.print_ = partialmethod(QTextDocument.print)
 
@@ -125,7 +124,7 @@ elif PYSIDE6:
         from PySide6.QtOpenGL import *
     except ImportError as error:
         for name in _QTOPENGL_NAMES:
-            __getattr__._missing_optional_names[name] = {
+            __getattr__.missing_optional_names[name] = {
                 "name": "PySide6.QtOpenGL",
                 "missing_package": "pyopengl",
                 "import_error": error,
@@ -145,7 +144,7 @@ elif PYSIDE6:
             *args,
             **kwargs,
         ),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
 
 if PYSIDE2 or PYSIDE6:
@@ -194,12 +193,12 @@ if PYQT5 or PYSIDE2:
     QNativeGestureEvent.globalX = lambda self: self.globalPos().x()
     QNativeGestureEvent.globalY = lambda self: self.globalPos().y()
     QNativeGestureEvent.globalPosition = partialmethod(
-        to_q_point_f,
+        _utils.to_q_point_f,
         get_point_method="globalPos",
     )
     QEnterEvent.position = lambda self: self.localPos()
     QEnterEvent.globalPosition = partialmethod(
-        to_q_point_f,
+        _utils.to_q_point_f,
         get_point_method="globalPos",
     )
     QTabletEvent.position = lambda self: self.posF()
@@ -211,7 +210,7 @@ if PYQT5 or PYSIDE2:
     # nor `QHoverEvent.globalY` in the Qt5 docs.
     QMouseEvent.position = lambda self: self.localPos()
     QMouseEvent.globalPosition = partialmethod(
-        to_q_point_f,
+        _utils.to_q_point_f,
         get_point_method="globalPos",
     )
 
@@ -256,7 +255,6 @@ if PYQT6 or PYSIDE6:
     QDropEvent.posF = lambda self: self.position()
 
 # Clean up the namespace
-del PYQT5, PYQT6, PYSIDE2, PYSIDE6
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, _utils
 del partial, partialmethod
-del possibly_static_exec, to_q_point_f
 del _QTOPENGL_NAMES

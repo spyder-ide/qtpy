@@ -20,8 +20,8 @@ from . import (
     PYSIDE6,
     QT_VERSION,
     QtBindingsNotFoundError,
+    _utils,
 )
-from ._utils import possibly_static_exec, possibly_static_exec_
 
 if PYQT5:
     from PyQt5.QtCore import *
@@ -68,7 +68,7 @@ elif PYQT6:
             *args,
             **kwargs,
         ),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
     QEventLoop.exec_ = partialmethod(QEventLoop.exec)
     QThread.exec_ = partialmethod(QThread.exec)
@@ -125,7 +125,7 @@ elif PYSIDE2:
             *args,
             **kwargs,
         ),
-        _function=possibly_static_exec_,
+        _function=_utils.possibly_static_exec_,
     )
     QEventLoop.exec = partialmethod(QEventLoop.exec_)
     QThread.exec = partialmethod(QThread.exec_)
@@ -156,7 +156,7 @@ elif PYSIDE6:
             *args,
             **kwargs,
         ),
-        _function=possibly_static_exec,
+        _function=_utils.possibly_static_exec,
     )
     QEventLoop.exec_ = partialmethod(QEventLoop.exec)
     QThread.exec_ = partialmethod(QThread.exec)
@@ -198,9 +198,9 @@ del (
     PYSIDE6,
     QT_VERSION,
     QtBindingsNotFoundError,
+    _utils,
 )
 del TYPE_CHECKING
 del contextlib
 del partial, partialmethod
 del parse
-del possibly_static_exec, possibly_static_exec_
