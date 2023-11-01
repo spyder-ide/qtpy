@@ -193,7 +193,8 @@ else:
 # Make `addAction` compatible with Qt6 >= 6.3
 if PYQT5 or PYSIDE2 or parse(QT_VERSION) < parse("6.3"):
     QMenu.addAction = partialmethod(
-        _utils.add_action, old_add_action=QMenu.addAction,
+        _utils.add_action,
+        old_add_action=QMenu.addAction,
     )
     QToolBar.addAction = partialmethod(
         _utils.add_action,
