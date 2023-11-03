@@ -94,14 +94,7 @@ echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationW
 mamba list
 
 # Run tests
-mkdir -p temp_test_dir
-pushd temp_test_dir # Hack to work around non-src layout pulling in local instead of installed package for cov
-python -I -bb -X dev -W error -m pytest ../qtpy --cov-config ../.coveragerc --cov-append
-
-# Save QtPy base dir for coverage
-python -c "from pathlib import Path; import qtpy; print(Path(qtpy.__file__).parent.parent.resolve().as_posix())" > qtpy_basedir.txt
-cat qtpy_basedir.txt
-popd
+python -I -bb -X dev -W error -m pytest --cov qtpy --cov-config .coveragerc --cov-append
 
 # Check package and environment
 pipx run twine check --strict dist/*

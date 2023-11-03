@@ -160,11 +160,19 @@ jobs:
         if: always() && (! (matrix.skip-pyside6))
         run: ./.github/workflows/test.sh pyside6
       - name: Upload coverage data to coveralls.io
-        shell: bash -e {0}
-        env:
-          COVERALLS_FLAG_NAME: ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd temp_test_dir  # Switch to test working dir per non-src-layout hack
-          cat qtpy_basedir.txt
-          pipx run coveralls --service=github --rcfile="../.coveragerc" --basedir="$(cat qtpy_basedir.txt)"
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel: true
+          flag-name: ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          debug: true
+  finish:
+    name: Finish Coveralls
+    needs: test
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Mark Coveralls finished
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel-finished: true
