@@ -36,3 +36,13 @@ elif PYSIDE2:
     raise QtBindingMissingModuleError(name="QtNetworkAuth")
 elif PYSIDE6:
     from PySide6.QtNetworkAuth import *
+
+# Clean up the namespace
+del (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingMissingModuleError,
+    QtModuleNotInstalledError,
+)

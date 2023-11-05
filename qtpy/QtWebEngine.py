@@ -31,3 +31,6 @@ elif PYSIDE2:
     from PySide2.QtWebEngine import *
 elif PYSIDE6:
     raise QtModuleNotInQtVersionError(name="QtWebEngine")
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6

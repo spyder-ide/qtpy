@@ -7,11 +7,9 @@
 # -----------------------------------------------------------------------------
 
 """Provides QtGui classes and functions."""
+from functools import partial, partialmethod
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from ._utils import getattr_missing_optional_dep, possibly_static_exec
-
-_missing_optional_names = {}
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, _utils
 
 _QTOPENGL_NAMES = {
     "QOpenGLBuffer",
@@ -32,13 +30,18 @@ _QTOPENGL_NAMES = {
 }
 
 
-def __getattr__(name):
+def __getattr__(attr):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
+    from ._utils import getattr_missing_optional_dep
+
     raise getattr_missing_optional_dep(
-        name,
+        attr,
         module_name=__name__,
-        optional_names=_missing_optional_names,
+        optional_names=getattr(__getattr__, "missing_optional_names", {}),
     )
+
+
+__getattr__.missing_optional_names = {}
 
 
 if PYQT5:
@@ -64,7 +67,7 @@ elif PYQT6:
         from PyQt6.QtOpenGL import *
     except ImportError as error:
         for name in _QTOPENGL_NAMES:
-            _missing_optional_names[name] = {
+            __getattr__.missing_optional_names[name] = {
                 "name": "PyQt6.QtOpenGL",
                 "missing_package": "pyopengl",
                 "import_error": error,
@@ -80,22 +83,22 @@ elif PYQT6:
     )
 
     # Map missing/renamed methods
-    QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QGuiApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QGuiApplication,
-        *args,
-        **kwargs,
+    QDrag.exec_ = partialmethod(QDrag.exec)
+    QGuiApplication.exec_ = partial(
+        lambda *args, _function, **kwargs: _function(
+            QGuiApplication,
+            *args,
+            **kwargs,
+        ),
+        _function=_utils.possibly_static_exec,
     )
-    QTextDocument.print_ = lambda self, *args, **kwargs: self.print(
-        *args,
-        **kwargs,
-    )
+    QTextDocument.print_ = partialmethod(QTextDocument.print)
 
     # Allow unscoped access for enums inside the QtGui module
     from .enums_compat import promote_enums
 
     promote_enums(QtGui)
-    del QtGui
+    del QtGui, promote_enums
 elif PYSIDE2:
     from PySide2.QtGui import *
 
@@ -110,12 +113,7 @@ elif PYSIDE2:
 
     if hasattr(QFontMetrics, "horizontalAdvance"):
         # Needed to prevent raising a DeprecationWarning when using QFontMetrics.width
-        QFontMetrics.width = (
-            lambda self, *args, **kwargs: self.horizontalAdvance(
-                *args,
-                **kwargs,
-            )
-        )
+        QFontMetrics.width = partialmethod(QFontMetrics.horizontalAdvance)
 elif PYSIDE6:
     from PySide6.QtGui import *
 
@@ -126,7 +124,7 @@ elif PYSIDE6:
         from PySide6.QtOpenGL import *
     except ImportError as error:
         for name in _QTOPENGL_NAMES:
-            _missing_optional_names[name] = {
+            __getattr__.missing_optional_names[name] = {
                 "name": "PySide6.QtOpenGL",
                 "missing_package": "pyopengl",
                 "import_error": error,
@@ -135,21 +133,18 @@ elif PYSIDE6:
     # Backport `QFileSystemModel` moved to QtGui in Qt6
     from PySide6.QtWidgets import QFileSystemModel
 
-    QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(
-        *args,
-        **kwargs,
-    )
-    QFontMetricsF.width = lambda self, *args, **kwargs: self.horizontalAdvance(
-        *args,
-        **kwargs,
-    )
+    QFontMetrics.width = partialmethod(QFontMetrics.horizontalAdvance)
+    QFontMetricsF.width = partialmethod(QFontMetricsF.horizontalAdvance)
 
     # Map DeprecationWarning methods
-    QDrag.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
-    QGuiApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QGuiApplication,
-        *args,
-        **kwargs,
+    QDrag.exec_ = partialmethod(QDrag.exec)
+    QGuiApplication.exec_ = partial(
+        lambda *args, _function, **kwargs: _function(
+            QGuiApplication,
+            *args,
+            **kwargs,
+        ),
+        _function=_utils.possibly_static_exec,
     )
 
 if PYSIDE2 or PYSIDE6:
@@ -166,41 +161,45 @@ if PYSIDE2 or PYSIDE6:
     #   6.3.0; older version, down to PySide 1, are probably affected as well [1].
     #
     # * PySide2 5.15.0 and 5.15.2.1 silently ignore invalid keyword arguments,
-    #   i.e. passing the `mode` keyword argument has no effect and doesn`t
+    #   i.e. passing the `mode` keyword argument has no effect and doesn't
     #   raise an exception. Older versions, down to PySide 1, are probably
     #   affected as well [1]. At least PySide2 5.15.3 and PySide6 6.3.0 raise an
     #   exception when `mode` or any other invalid keyword argument is passed.
     #
     # [1] https://bugreports.qt.io/browse/PYSIDE-185
-    movePosition = QTextCursor.movePosition
 
     def movePositionPatched(
         self,
         operation: QTextCursor.MoveOperation,
         mode: QTextCursor.MoveMode = QTextCursor.MoveAnchor,
         n: int = 1,
+        *,
+        movePosition,
     ) -> bool:
         return movePosition(self, operation, mode, n)
 
-    QTextCursor.movePosition = movePositionPatched
+    QTextCursor.movePosition = partialmethod(
+        movePositionPatched,
+        movePosition=QTextCursor.movePosition,
+    )
+
+    del movePositionPatched
 
 if PYQT5 or PYSIDE2:
     # Part of the fix for https://github.com/spyder-ide/qtpy/issues/394
-    from qtpy.QtCore import QPointF as __QPointF
-
     QNativeGestureEvent.x = lambda self: self.localPos().toPoint().x()
     QNativeGestureEvent.y = lambda self: self.localPos().toPoint().y()
     QNativeGestureEvent.position = lambda self: self.localPos()
     QNativeGestureEvent.globalX = lambda self: self.globalPos().x()
     QNativeGestureEvent.globalY = lambda self: self.globalPos().y()
-    QNativeGestureEvent.globalPosition = lambda self: __QPointF(
-        float(self.globalPos().x()),
-        float(self.globalPos().y()),
+    QNativeGestureEvent.globalPosition = partialmethod(
+        _utils.to_q_point_f,
+        get_point_method="globalPos",
     )
     QEnterEvent.position = lambda self: self.localPos()
-    QEnterEvent.globalPosition = lambda self: __QPointF(
-        float(self.globalX()),
-        float(self.globalY()),
+    QEnterEvent.globalPosition = partialmethod(
+        _utils.to_q_point_f,
+        get_point_method="globalPos",
     )
     QTabletEvent.position = lambda self: self.posF()
     QTabletEvent.globalPosition = lambda self: self.globalPosF()
@@ -210,9 +209,9 @@ if PYQT5 or PYSIDE2:
     # No `QHoverEvent.globalPosition`, `QHoverEvent.globalX`,
     # nor `QHoverEvent.globalY` in the Qt5 docs.
     QMouseEvent.position = lambda self: self.localPos()
-    QMouseEvent.globalPosition = lambda self: __QPointF(
-        float(self.globalX()),
-        float(self.globalY()),
+    QMouseEvent.globalPosition = partialmethod(
+        _utils.to_q_point_f,
+        get_point_method="globalPos",
     )
 
     # Follow similar approach for `QDropEvent` and child classes
@@ -236,6 +235,8 @@ if PYQT6 or PYSIDE6:
         ):
             if hasattr(_class, _obsolete_function):
                 delattr(_class, _obsolete_function)
+    del _class, _obsolete_function
+
     QSinglePointEvent.pos = lambda self: self.position().toPoint()
     QSinglePointEvent.posF = lambda self: self.position()
     QSinglePointEvent.localPos = lambda self: self.position()
@@ -252,3 +253,8 @@ if PYQT6 or PYSIDE6:
     # Follow similar approach for `QDropEvent` and child classes
     QDropEvent.pos = lambda self: self.position().toPoint()
     QDropEvent.posF = lambda self: self.position()
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, _utils
+del partial, partialmethod
+del _QTOPENGL_NAMES

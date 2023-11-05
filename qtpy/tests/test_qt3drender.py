@@ -1,6 +1,12 @@
+import importlib
+from typing import TYPE_CHECKING
+
 import pytest
 
-from qtpy import PYQT6, PYSIDE6
+from qtpy import API_NAME, PYQT6, PYSIDE6
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 @pytest.mark.skipif(PYQT6, reason="Not complete in PyQt6")
@@ -118,3 +124,157 @@ def test_qt3drender():
     assert Qt3DRender.QShaderProgramBuilder is not None
     assert Qt3DRender.QTechnique is not None
     assert Qt3DRender.QShaderData is not None
+
+
+@pytest.mark.skipif(PYQT6, reason="Not complete in PyQt6")
+@pytest.mark.skipif(PYSIDE6, reason="Not complete in PySide6")
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = pytest.importorskip("qtpy.Qt3DRender")
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(object.__dir__(qtpy_module))
+        - frozenset(object.__dir__(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ],
+        )
+        - frozenset(
+            # These don't show up in `dir()` when on PySide2:
+            {
+                "API",
+                "QNoPicking",
+                "QRenderCapabilities",
+                "QShaderImage",
+            },
+        )
+        - frozenset(
+            # These don't show up in `dir()` when on PySide2/6:
+            {
+                "PropertyReaderInterface",
+                "QAbstractFunctor",
+                "QAbstractLight",
+                "QAbstractRayCaster",
+                "QAbstractTexture",
+                "QAbstractTextureImage",
+                "QAlphaCoverage",
+                "QAlphaTest",
+                "QAttribute",
+                "QBlendEquation",
+                "QBlendEquationArguments",
+                "QBlitFramebuffer",
+                "QBuffer",
+                "QBufferCapture",
+                "QBufferDataGenerator",
+                "QCamera",
+                "QCameraLens",
+                "QCameraSelector",
+                "QClearBuffers",
+                "QClipPlane",
+                "QColorMask",
+                "QComputeCommand",
+                "QCullFace",
+                "QDepthTest",
+                "QDirectionalLight",
+                "QDispatchCompute",
+                "QDithering",
+                "QEffect",
+                "QEnvironmentLight",
+                "QFilterKey",
+                "QFrameGraphNode",
+                "QFrameGraphNodeCreatedChangeBase",
+                "QFrontFace",
+                "QFrustumCulling",
+                "QGeometry",
+                "QGeometryFactory",
+                "QGeometryRenderer",
+                "QGraphicsApiFilter",
+                "QLayer",
+                "QLayerFilter",
+                "QLevelOfDetail",
+                "QLevelOfDetailBoundingSphere",
+                "QLevelOfDetailSwitch",
+                "QLineWidth",
+                "QMaterial",
+                "QMemoryBarrier",
+                "QMesh",
+                "QMultiSampleAntiAliasing",
+                "QNoDepthMask",
+                "QNoDraw",
+                "QObjectPicker",
+                "QPaintedTextureImage",
+                "QParameter",
+                "QPickEvent",
+                "QPickLineEvent",
+                "QPickPointEvent",
+                "QPickTriangleEvent",
+                "QPickingSettings",
+                "QPointLight",
+                "QPointSize",
+                "QPolygonOffset",
+                "QProximityFilter",
+                "QRayCaster",
+                "QRayCasterHit",
+                "QRenderAspect",
+                "QRenderCapture",
+                "QRenderCaptureReply",
+                "QRenderPass",
+                "QRenderPassFilter",
+                "QRenderSettings",
+                "QRenderState",
+                "QRenderStateSet",
+                "QRenderSurfaceSelector",
+                "QRenderTarget",
+                "QRenderTargetOutput",
+                "QRenderTargetSelector",
+                "QSceneLoader",
+                "QScissorTest",
+                "QScreenRayCaster",
+                "QSeamlessCubemap",
+                "QSetFence",
+                "QShaderData",
+                "QShaderProgram",
+                "QShaderProgramBuilder",
+                "QSharedGLTexture",
+                "QSortPolicy",
+                "QSpotLight",
+                "QStencilMask",
+                "QStencilOperation",
+                "QStencilOperationArguments",
+                "QStencilTest",
+                "QStencilTestArguments",
+                "QTechnique",
+                "QTechniqueFilter",
+                "QTexture1D",
+                "QTexture1DArray",
+                "QTexture2D",
+                "QTexture2DArray",
+                "QTexture2DMultisample",
+                "QTexture2DMultisampleArray",
+                "QTexture3D",
+                "QTextureBuffer",
+                "QTextureCubeMap",
+                "QTextureCubeMapArray",
+                "QTextureData",
+                "QTextureGenerator",
+                "QTextureImage",
+                "QTextureImageData",
+                "QTextureImageDataGenerator",
+                "QTextureLoader",
+                "QTextureRectangle",
+                "QTextureWrapMode",
+                "QViewport",
+                "QWaitFence",
+                "__annotations__",
+                "__dict__",
+                "__module__",
+            },
+        )
+    )
+    assert not extra_members

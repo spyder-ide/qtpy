@@ -1,10 +1,14 @@
-from qtpy import PYQT5, PYSIDE2
+import importlib
+from typing import TYPE_CHECKING
+
+from qtpy import API_NAME, PYQT5, PYSIDE2, QtQuick
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_qtquick():
     """Test the qtpy.QtQuick namespace"""
-    from qtpy import QtQuick
-
     if PYQT5:
         assert QtQuick.QQuickCloseEvent is not None
         assert QtQuick.QSGFlatColorMaterial is not None
@@ -46,3 +50,24 @@ def test_qtquick():
     assert QtQuick.QSGTexture is not None
     assert QtQuick.QSGTextureProvider is not None
     assert QtQuick.QSGTransformNode is not None
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtQuick
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ],
+        )
+    )
+    assert not extra_members

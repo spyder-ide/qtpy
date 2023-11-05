@@ -25,3 +25,6 @@ elif PYSIDE2:
 elif PYSIDE6:
     # Available with version >=6.4.0
     from PySide6.QtPdfWidgets import *
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingMissingModuleError

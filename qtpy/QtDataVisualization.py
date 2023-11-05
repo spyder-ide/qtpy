@@ -39,5 +39,9 @@ elif PYSIDE2:
 
     for __name in inspect.getmembers(__temp.QtDataVisualization):
         globals()[__name[0]] = __name[1]
+    del __name, __temp, inspect
 elif PYSIDE6:
     from PySide6.QtDataVisualization import *
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError

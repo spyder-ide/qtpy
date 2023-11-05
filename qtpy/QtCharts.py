@@ -42,6 +42,10 @@ elif PYSIDE2:
 
     for __name in inspect.getmembers(__temp.QtCharts):
         globals()[__name[0]] = __name[1]
+    del __name, __temp, inspect
 elif PYSIDE6:
     from PySide6 import QtCharts
     from PySide6.QtCharts import *
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError

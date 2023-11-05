@@ -1,22 +1,23 @@
 """Test QtWidgets."""
-import contextlib
+import importlib
 import sys
 from time import sleep
+from typing import TYPE_CHECKING
 
 import pytest
-from pytestqt.exceptions import TimeoutError
 
 from qtpy import (
+    API_NAME,
     PYQT5,
-    PYQT6,
     PYQT_VERSION,
     PYSIDE2,
-    PYSIDE6,
     QtCore,
     QtGui,
     QtWidgets,
 )
-from qtpy.tests.utils import not_using_conda, using_conda
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_qtextedit_functions(qtbot, pdf_writer):
@@ -289,3 +290,41 @@ def test_qfiledialog_flags_typedef():
     """
     assert QtWidgets.QFileDialog.Options is not None
     assert QtWidgets.QFileDialog.Options() == QtWidgets.QFileDialog.Option(0)
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtWidgets
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+                "__getattr__",
+            ],
+        )
+        - frozenset(
+            # These are for the compatibility b/w PySide and PyQt:
+            [
+                "QAction",
+                "QActionGroup",
+                "QFileSystemModel",
+                "QShortcut",
+                "QUndoCommand",
+            ],
+        )
+        - frozenset(
+            # These are imported from `QtOpenGL`:
+            [
+                "QOpenGLWidget",
+            ],
+        )
+    )
+    assert not extra_members

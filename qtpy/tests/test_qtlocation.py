@@ -1,6 +1,12 @@
+import importlib
+from typing import TYPE_CHECKING
+
 import pytest
 
-from qtpy import PYQT5, PYSIDE2
+from qtpy import API_NAME, PYQT5, PYSIDE2
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 @pytest.mark.skipif(
@@ -52,3 +58,30 @@ def test_qtlocation():
     assert QtLocation.QPlaceSearchSuggestionReply is not None
     assert QtLocation.QPlaceSupplier is not None
     assert QtLocation.QPlaceUser is not None
+
+
+@pytest.mark.skipif(
+    not (PYQT5 or PYSIDE2),
+    reason="Only available in Qt5 bindings",
+)
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    from qtpy import QtLocation
+
+    qtpy_module: ModuleType = QtLocation
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ],
+        )
+    )
+    assert not extra_members

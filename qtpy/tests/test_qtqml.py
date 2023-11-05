@@ -1,10 +1,14 @@
-from qtpy import PYSIDE2, PYSIDE6
+import importlib
+from typing import TYPE_CHECKING
+
+from qtpy import API_NAME, PYSIDE2, PYSIDE6, QtQml
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_qtqml():
     """Test the qtpy.QtQml namespace"""
-    from qtpy import QtQml
-
     assert QtQml.QJSEngine is not None
     assert QtQml.QJSValue is not None
     assert QtQml.QJSValueIterator is not None
@@ -30,3 +34,24 @@ def test_qtqml():
     assert QtQml.QQmlPropertyValueSource is not None
     assert QtQml.QQmlScriptString is not None
     assert QtQml.QQmlPropertyMap is not None
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtQml
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ],
+        )
+    )
+    assert not extra_members

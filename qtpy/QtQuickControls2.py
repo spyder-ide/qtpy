@@ -21,3 +21,6 @@ elif PYSIDE2:
     from PySide2.QtQuickControls2 import *
 elif PYSIDE6:
     from PySide6.QtQuickControls2 import *
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtBindingMissingModuleError

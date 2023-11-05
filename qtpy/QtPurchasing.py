@@ -26,3 +26,13 @@ if PYQT5:
         ) from error
 elif PYQT6 or PYSIDE2 or PYSIDE6:
     raise QtBindingMissingModuleError(name="QtPurchasing")
+
+# Clean up the namespace
+del (
+    PYQT5,
+    PYQT6,
+    PYSIDE2,
+    PYSIDE6,
+    QtBindingMissingModuleError,
+    QtModuleNotInstalledError,
+)

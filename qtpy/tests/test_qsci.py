@@ -1,9 +1,14 @@
 """Test Qsci."""
+import importlib
+from typing import TYPE_CHECKING
 
 import pytest
 
-from qtpy import PYSIDE2, PYSIDE6
+from qtpy import API_NAME, PYSIDE2, PYSIDE6
 from qtpy.tests.utils import using_conda
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 @pytest.mark.skipif(
@@ -66,3 +71,28 @@ def test_qsci():
     assert Qsci.QsciScintillaBase is not None
     assert Qsci.QsciStyle is not None
     assert Qsci.QsciStyledText is not None
+
+
+@pytest.mark.skipif(
+    PYSIDE2 or PYSIDE6 or using_conda(),
+    reason="Qsci bindings not available under PySide 2/6 and conda installations",
+)
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = pytest.importorskip("qtpy.Qsci")
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ],
+        )
+    )
+    assert not extra_members

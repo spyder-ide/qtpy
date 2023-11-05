@@ -39,6 +39,7 @@ elif PYSIDE2:
 
     for __name in inspect.getmembers(__temp.Qt3DCore):
         globals()[__name[0]] = __name[1]
+    del __name, __temp, inspect
 elif PYSIDE6:
     # https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1026
     import inspect
@@ -47,3 +48,7 @@ elif PYSIDE6:
 
     for __name in inspect.getmembers(__temp.Qt3DCore):
         globals()[__name[0]] = __name[1]
+    del __name, __temp, inspect
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError

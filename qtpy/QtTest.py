@@ -20,8 +20,11 @@ elif PYQT6:
     from .enums_compat import promote_enums
 
     promote_enums(QtTest)
-    del QtTest
+    del QtTest, promote_enums
 elif PYSIDE2:
     from PySide2.QtTest import *
 elif PYSIDE6:
     from PySide6.QtTest import *
+
+# Clean up the namespace
+del PYQT5, PYQT6, PYSIDE2, PYSIDE6

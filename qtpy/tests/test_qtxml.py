@@ -1,7 +1,14 @@
+import importlib
+from typing import TYPE_CHECKING
+
+from qtpy import API_NAME, QtXml
+
+if TYPE_CHECKING:
+    from types import ModuleType
+
+
 def test_qtxml():
     """Test the qtpy.QtXml namespace"""
-    from qtpy import QtXml
-
     assert QtXml.QDomAttr is not None
     assert QtXml.QDomCDATASection is not None
     assert QtXml.QDomCharacterData is not None
@@ -19,3 +26,24 @@ def test_qtxml():
     assert QtXml.QDomNotation is not None
     assert QtXml.QDomProcessingInstruction is not None
     assert QtXml.QDomText is not None
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtXml
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+            ],
+        )
+    )
+    assert not extra_members

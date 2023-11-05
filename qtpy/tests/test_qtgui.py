@@ -1,10 +1,12 @@
 """Test QtGui."""
-
+import importlib
 import sys
+from typing import TYPE_CHECKING
 
 import pytest
 
 from qtpy import (
+    API_NAME,
     PYQT5,
     PYQT_VERSION,
     PYSIDE2,
@@ -14,6 +16,9 @@ from qtpy import (
     QtWidgets,
 )
 from qtpy.tests.utils import not_using_conda
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_qfontmetrics_width(qtbot):
@@ -200,3 +205,86 @@ def test_opengl_imports():
     assert QtGui.QOpenGLVersionProfile is not None
     assert QtGui.QOpenGLVertexArrayObject is not None
     assert QtGui.QOpenGLWindow is not None
+
+
+def test_namespace_not_polluted():
+    """Test that no extra members are exported into the module namespace."""
+    qtpy_module: ModuleType = QtGui
+    original_module: ModuleType = importlib.import_module(
+        qtpy_module.__name__.replace("qtpy", API_NAME),
+    )
+
+    extra_members = (
+        frozenset(dir(qtpy_module))
+        - frozenset(dir(original_module))
+        - frozenset(
+            # These are unavoidable:
+            [
+                "__builtins__",
+                "__cached__",
+                "__getattr__",
+            ],
+        )
+        - frozenset(
+            # These are for the compatibility b/w PySide and PyQt:
+            [
+                "QAction",
+                "QActionGroup",
+                "QFileSystemModel",
+                "QShortcut",
+                "QUndoCommand",
+            ],
+        )
+        - frozenset(
+            # These are imported from `QtOpenGL`:
+            [
+                "QAbstractOpenGLFunctions",
+                "QOpenGLBuffer",
+                "QOpenGLContext",
+                "QOpenGLContextGroup",
+                "QOpenGLDebugLogger",
+                "QOpenGLDebugMessage",
+                "QOpenGLFramebufferObject",
+                "QOpenGLFramebufferObjectFormat",
+                "QOpenGLPixelTransferOptions",
+                "QOpenGLShader",
+                "QOpenGLShaderProgram",
+                "QOpenGLTexture",
+                "QOpenGLTextureBlitter",
+                "QOpenGLVersionProfile",
+                "QOpenGLVertexArrayObject",
+                "QOpenGLWindow",
+                "QOpenGLFunctions_1_0",
+                "QOpenGLFunctions_1_1",
+                "QOpenGLFunctions_1_2",
+                "QOpenGLFunctions_1_3",
+                "QOpenGLFunctions_1_4",
+                "QOpenGLFunctions_1_5",
+                "QOpenGLFunctions_2_0",
+                "QOpenGLFunctions_2_1",
+                "QOpenGLFunctions_3_0",
+                "QOpenGLFunctions_3_1",
+                "QOpenGLFunctions_3_2_Compatibility",
+                "QOpenGLFunctions_3_2_Core",
+                "QOpenGLFunctions_3_3_Compatibility",
+                "QOpenGLFunctions_3_3_Core",
+                "QOpenGLFunctions_4_0_Compatibility",
+                "QOpenGLFunctions_4_0_Core",
+                "QOpenGLFunctions_4_1_Compatibility",
+                "QOpenGLFunctions_4_1_Core",
+                "QOpenGLFunctions_4_2_Compatibility",
+                "QOpenGLFunctions_4_2_Core",
+                "QOpenGLFunctions_4_3_Compatibility",
+                "QOpenGLFunctions_4_3_Core",
+                "QOpenGLFunctions_4_4_Compatibility",
+                "QOpenGLFunctions_4_4_Core",
+                "QOpenGLFunctions_4_5_Compatibility",
+                "QOpenGLFunctions_4_5_Core",
+                "QOpenGLPaintDevice",
+                "QOpenGLTimeMonitor",
+                "QOpenGLTimerQuery",
+                "QOpenGLVersionFunctionsFactory",
+            ],
+        )
+    )
+    assert not extra_members
