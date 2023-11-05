@@ -79,68 +79,35 @@ def add_action(self, *args, old_add_action):
     icon: QIcon
     text: str
     shortcut: QKeySequence | QKeySequence.StandardKey | str | int
-    receiver: QObject
-    member: bytes
-    if all(
-        isinstance(arg, t)
-        for arg, t in zip(
-            args,
-            [
-                str,
-                (QKeySequence, QKeySequence.StandardKey, str, int),
-                QObject,
-                bytes,
-            ],
-        )
-    ):
-        if len(args) == 2:
-            text, shortcut = args
-            action = old_add_action(self, text)
-            action.setShortcut(shortcut)
-        elif len(args) == 3:
-            text, shortcut, receiver = args
-            action = old_add_action(self, text, receiver)
-            action.setShortcut(shortcut)
-        elif len(args) == 4:
-            text, shortcut, receiver, member = args
-            action = old_add_action(self, text, receiver, member, shortcut)
-        else:
-            return old_add_action(self, *args)
-        return action
-    if all(
-        isinstance(arg, t)
-        for arg, t in zip(
-            args,
-            [
-                QIcon,
-                str,
-                (QKeySequence, QKeySequence.StandardKey, str, int),
-                QObject,
-                bytes,
-            ],
-        )
-    ):
-        if len(args) == 3:
-            icon, text, shortcut = args
-            action = old_add_action(self, icon, text)
-            action.setShortcut(QKeySequence(shortcut))
-        elif len(args) == 4:
-            icon, text, shortcut, receiver = args
-            action = old_add_action(self, icon, text, receiver)
-            action.setShortcut(QKeySequence(shortcut))
-        elif len(args) == 5:
-            icon, text, shortcut, receiver, member = args
-            action = old_add_action(
-                self,
-                icon,
-                text,
-                receiver,
-                member,
-                QKeySequence(shortcut),
+
+    # if args and isinstance(args[0], QIcon):
+    if any(
+        isinstance(arg, QIcon) for arg in args[:1]
+    ):  # Better to use previous line instead of this
+        icon, *args = args
+    else:
+        icon = QIcon()
+
+    if (
+        all(
+            isinstance(arg, t)
+            for arg, t in zip(
+                args,
+                [
+                    str,
+                    (QKeySequence, QKeySequence.StandardKey, str, int),
+                    QObject,
+                    bytes,
+                ],
             )
-        else:
-            return old_add_action(self, *args)
+        )
+        and len(args) >= 2
+    ):
+        text, shortcut, *args = args
+        action = old_add_action(self, icon, text, *args)
+        action.setShortcut(shortcut)
         return action
+
     return old_add_action(self, *args)
 
 
