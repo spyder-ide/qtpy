@@ -3,12 +3,14 @@
 import sys
 
 import pytest
+from packaging.version import parse
 
 from qtpy import (
     PYQT5,
     PYQT_VERSION,
     PYSIDE2,
     PYSIDE6,
+    QT_VERSION,
     QtCore,
     QtGui,
     QtWidgets,
@@ -175,6 +177,40 @@ def test_qtextcursor_moveposition():
         3,
     )
     assert cursor.selectedText() == "foo bar baz"
+
+
+@pytest.mark.skipif(
+    sys.platform == "darwin" and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7",
+)
+def test_QAction_functions(qtbot):
+    """Test `QtGui.QAction.setShortcut` compatibility with Qt6 types."""
+    action = QtGui.QAction("QtPy", None)
+    action.setShortcut(QtGui.QKeySequence.UnknownKey)
+    action.setShortcuts([QtGui.QKeySequence.UnknownKey])
+    action.setShortcuts(QtGui.QKeySequence.UnknownKey)
+    action.setShortcut(QtCore.Qt.Key_F1)
+    action.setShortcuts([QtCore.Qt.Key_F1])
+    # The following line fails even for Qt6 == 6.6.
+    # Don't test the function with a single `QtCore.Qt.Key` argument.
+    # See the following test.
+    # action.setShortcuts(QtCore.Qt.Key_F1)
+
+
+@pytest.mark.skipif(
+    parse(QT_VERSION) < parse("6.5.0"),
+    reason="Qt6 >= 6.5 specific test",
+)
+@pytest.mark.skipif(
+    sys.platform == "darwin" and sys.version_info[:2] == (3, 7),
+    reason="Stalls on macOS CI with Python 3.7",
+)
+@pytest.mark.xfail(strict=True)
+def test_QAction_functions_fail(qtbot):
+    """Test `QtGui.QAction.setShortcuts` compatibility with `QtCore.Qt.Key` type."""
+    action = QtGui.QAction("QtPy", None)
+    # The following line is wrong even for Qt6 == 6.6.
+    action.setShortcuts(QtCore.Qt.Key_F1)
 
 
 def test_opengl_imports():

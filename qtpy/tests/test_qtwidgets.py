@@ -117,10 +117,10 @@ def test_QMenu_functions(qtbot):
     window = QtWidgets.QMainWindow()
     menu = QtWidgets.QMenu(window)
     menu.addAction("QtPy")
-    menu.addAction("QtPy with a shortcut", QtGui.QKeySequence.UnknownKey)
+    menu.addAction("QtPy with a Qt.Key shortcut", QtCore.Qt.Key_F1)
     menu.addAction(
         QtGui.QIcon(),
-        "QtPy with an icon and a shortcut",
+        "QtPy with an icon and a QKeySequence shortcut",
         QtGui.QKeySequence.UnknownKey,
     )
     window.show()
@@ -148,7 +148,7 @@ def test_QMenu_functions(qtbot):
 def test_QToolBar_functions(qtbot):
     """Test `QtWidgets.QToolBar.addAction` compatibility with Qt6 arguments' order."""
     toolbar = QtWidgets.QToolBar()
-    toolbar.addAction("QtPy with a shortcut", QtGui.QKeySequence.UnknownKey)
+    toolbar.addAction("QtPy with a shortcut", QtCore.Qt.Key_F1)
     toolbar.addAction(
         QtGui.QIcon(),
         "QtPy with an icon and a shortcut",
