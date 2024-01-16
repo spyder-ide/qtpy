@@ -79,11 +79,7 @@ elif PYQT6:
         *args,
         **kwargs,
     )
-    QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QApplication,
-        *args,
-        **kwargs,
-    )
+    QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(
         QMenu,
@@ -149,11 +145,7 @@ elif PYSIDE6:
     )
 
     # Map DeprecationWarning methods
-    QApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
-        QApplication,
-        *args,
-        **kwargs,
-    )
+    QApplication.exec_ = QApplication.exec
     QDialog.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
     QMenu.exec_ = lambda *args, **kwargs: possibly_static_exec(
         QMenu,
