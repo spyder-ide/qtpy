@@ -140,9 +140,13 @@ class QtModuleNotInstalledError(QtModuleNotFoundError):
 # Qt API environment variable name
 QT_API = "QT_API"
 
+# Qt VERSION environment variable name
+QT_VERSION_ENV = "QT_VERSION"
+
 # Names of the expected PyQt5 api
 PYQT5_API = ["pyqt5"]
 
+# Names of the expected PyQt6 api
 PYQT6_API = ["pyqt6"]
 
 # Names of the expected PySide2 api
@@ -150,6 +154,12 @@ PYSIDE2_API = ["pyside2"]
 
 # Names of the expected PySide6 api
 PYSIDE6_API = ["pyside6"]
+
+# Names of the expected Qt5 version name
+QT5_VERSIONS = ["qt5"]
+
+# Names of the expected Qt6 version name
+QT6_VERSIONS = ["qt6"]
 
 # Minimum supported versions of Qt and the bindings
 QT5_VERSION_MIN = PYQT5_VERSION_MIN = "5.9.0"
@@ -160,8 +170,9 @@ QT_VERSION_MIN = QT5_VERSION_MIN
 PYQT_VERSION_MIN = PYQT5_VERSION_MIN
 PYSIDE_VERSION_MIN = PYSIDE2_VERSION_MIN
 
-# Detecting if a binding was specified by the user
+# Detecting if a binding or version was specified by the user
 binding_specified = QT_API in os.environ
+version_specified = QT_VERSION_ENV in os.environ
 
 API_NAMES = {
     "pyqt5": "PyQt5",
@@ -173,9 +184,41 @@ API = os.environ.get(QT_API, "pyqt5").lower()
 initial_api = API
 if API not in API_NAMES:
     raise PythonQtValueError(
-        f"Specified QT_API={QT_API.lower()!r} is not in valid options: "
+        f"Specified QT_API={API.lower()!r} is not in valid options: "
         f"{API_NAMES}",
     )
+
+VERSION_NAMES = {
+    "qt5": ("PyQt5", "PySide2"),
+    "qt6": ("PyQt6", "PySide6"),
+}
+requested_version = os.environ.get(QT_VERSION_ENV, "qt5").lower()
+if requested_version not in VERSION_NAMES:
+    raise PythonQtValueError(
+        f"Specified QT_VERSION={requested_version.lower()!r} is not in valid options: "
+        f"{VERSION_NAMES}",
+    )
+
+# If only QT_VERSION is given select API based on VERSION
+if version_specified and not binding_specified:
+    if requested_version in QT5_VERSIONS:
+        API = PYQT5_API[0]
+    if requested_version in QT6_VERSIONS:
+        API = PYQT6_API[0]
+
+
+# Warn if the QT_API and the QT_VERSION environment variables are incompatible
+if (
+    API_NAMES[initial_api] not in VERSION_NAMES[requested_version]
+    and version_specified
+    and binding_specified
+):
+    warnings.warn(
+        f"Specified QT_API={initial_api!r} and specified QT_Version={requested_version!r} are incompatible, QT_API will take precedence.",
+        PythonQtWarning,
+        stacklevel=2,
+    )
+
 
 is_old_pyqt = is_pyqt46 = False
 QT5 = PYQT5 = True
@@ -294,6 +337,19 @@ if API in PYSIDE6_API:
 if initial_api != API and binding_specified:
     warnings.warn(
         f"Selected binding {initial_api!r} could not be found; "
+        f"falling back to {API!r}",
+        PythonQtWarning,
+        stacklevel=2,
+    )
+
+# Warn if the requested QT_VERSION could not be satisfied
+if (
+    API_NAMES[API] not in VERSION_NAMES[requested_version]
+    and version_specified
+    and not binding_specified
+):
+    warnings.warn(
+        f"No binding was found for the selected version {requested_version!r}; "
         f"falling back to {API!r}",
         PythonQtWarning,
         stacklevel=2,
