@@ -214,7 +214,7 @@ if (
     and binding_specified
 ):
     warnings.warn(
-        f"Specified QT_API={initial_api!r} and specified QT_Version={requested_version!r} are incompatible, QT_API will take precedence.",
+        f"Specified QT_API={initial_api!r} and specified QT_VERSION={requested_version!r} are incompatible, QT_API will take precedence.",
         PythonQtWarning,
         stacklevel=2,
     )
