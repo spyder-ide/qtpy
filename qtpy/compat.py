@@ -5,8 +5,8 @@
 """
 Compatibility functions
 """
-import sys
 import enum
+import sys
 
 from . import (
     PYQT5,
