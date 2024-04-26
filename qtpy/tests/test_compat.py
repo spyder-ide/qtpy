@@ -5,7 +5,6 @@ import sys
 import pytest
 
 from qtpy import QtWidgets, compat
-
 from qtpy.QtCore import QRectF, QSize, Qt
 from qtpy.QtGui import QBrush, QImage, QPainter
 from qtpy.tests.utils import not_using_conda
