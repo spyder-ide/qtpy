@@ -33,5 +33,5 @@ def test_getimagebytes(qtbot):
     painter = QPainter(image)
     painter.setBrush(QBrush(Qt.black))
     painter.fillRect(QRectF(0, 0, 100, 100), Qt.black)
-    bytes = compat.getimagebytes(image)
-    assert len(bytes) == 100 * 100 * 4
+    _bytes = compat.getimagebytes(image)
+    assert len(_bytes) == 100 * 100 * 4
