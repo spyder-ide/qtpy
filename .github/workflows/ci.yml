@@ -43,7 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-13]
         python-version: ['3.7', '3.11']
         use-conda: ['Yes', 'No']
         qt5-version-default: ['5.12']
@@ -86,7 +86,7 @@ jobs:
           python-version: '3.11'
           use-conda: 'Yes'
           pyside6-version: 6.5  # Test upper bound
-        - os: macos-latest
+        - os: macos-13
           python-version: '3.11'
           use-conda: 'No'
           pyqt6-version: 6.5  # Test upper bound
