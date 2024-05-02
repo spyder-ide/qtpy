@@ -1,9 +1,11 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_qt3danimation():
     """Test the qtpy.Qt3DAnimation namespace"""
-    Qt3DAnimation = pytest.importorskip("qtpy.Qt3DAnimation")
+    Qt3DAnimation = pytest_importorskip("qtpy.Qt3DAnimation")
 
     assert Qt3DAnimation.QAnimationController is not None
     assert Qt3DAnimation.QAdditiveClipBlend is not None

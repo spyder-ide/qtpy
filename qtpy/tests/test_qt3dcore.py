@@ -1,13 +1,14 @@
 import pytest
 
 from qtpy import PYQT6, PYSIDE6
+from qtpy.tests.utils import pytest_importorskip
 
 
 @pytest.mark.skipif(PYQT6, reason="Not complete in PyQt6")
 @pytest.mark.skipif(PYSIDE6, reason="Not complete in PySide6")
 def test_qt3dcore():
     """Test the qtpy.Qt3DCore namespace"""
-    Qt3DCore = pytest.importorskip("qtpy.Qt3DCore")
+    Qt3DCore = pytest_importorskip("qtpy.Qt3DCore")
 
     assert Qt3DCore.QPropertyValueAddedChange is not None
     assert Qt3DCore.QSkeletonLoader is not None

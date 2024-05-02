@@ -1,6 +1,7 @@
 import pytest
 
 from qtpy import PYSIDE2, PYSIDE6
+from qtpy.tests.utils import pytest_importorskip
 
 
 @pytest.mark.skipif(
@@ -9,7 +10,7 @@ from qtpy import PYSIDE2, PYSIDE6
 )
 def test_qtcharts():
     """Test the qtpy.QtCharts namespace"""
-    QtCharts = pytest.importorskip("qtpy.QtCharts")
+    QtCharts = pytest_importorskip("qtpy.QtCharts")
 
     assert QtCharts.QChart is not None
     assert QtCharts.QtCharts.QChart is not None

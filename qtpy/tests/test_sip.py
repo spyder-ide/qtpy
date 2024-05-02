@@ -1,9 +1,11 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_sip():
     """Test the qtpy.sip namespace"""
-    sip = pytest.importorskip("qtpy.sip")
+    sip = pytest_importorskip("qtpy.sip")
 
     assert sip.assign is not None
     assert sip.cast is not None

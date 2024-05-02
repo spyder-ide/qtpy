@@ -1,12 +1,13 @@
 import pytest
 
 from qtpy import PYSIDE2
+from qtpy.tests.utils import pytest_importorskip
 
 
 @pytest.mark.skipif(PYSIDE2, reason="QtDesigner is not available in PySide2")
 def test_qtdesigner():
     """Test the qtpy.QtDesigner namespace."""
-    QtDesigner = pytest.importorskip("qtpy.QtDesigner")
+    QtDesigner = pytest_importorskip("qtpy.QtDesigner")
 
     assert QtDesigner.QAbstractExtensionFactory is not None
     assert QtDesigner.QAbstractExtensionManager is not None

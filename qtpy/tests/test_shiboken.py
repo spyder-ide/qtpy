@@ -1,9 +1,11 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_shiboken():
     """Test the qtpy.shiboken namespace"""
-    shiboken = pytest.importorskip("qtpy.shiboken")
+    shiboken = pytest_importorskip("qtpy.shiboken")
 
     assert shiboken.isValid is not None
     assert shiboken.wrapInstance is not None
