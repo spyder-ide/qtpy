@@ -2,6 +2,7 @@ import pytest
 from packaging import version
 
 from qtpy import PYQT5, PYQT6, PYQT_VERSION, PYSIDE2, PYSIDE6, PYSIDE_VERSION
+from qtpy.tests.utils import pytest_importorskip
 
 
 @pytest.mark.skipif(
@@ -16,7 +17,7 @@ from qtpy import PYQT5, PYQT6, PYQT_VERSION, PYSIDE2, PYSIDE6, PYSIDE_VERSION
 def test_qtwebenginewidgets():
     """Test the qtpy.QtWebEngineWidget namespace"""
 
-    QtWebEngineWidgets = pytest.importorskip("qtpy.QtWebEngineWidgets")
+    QtWebEngineWidgets = pytest_importorskip("qtpy.QtWebEngineWidgets")
 
     assert QtWebEngineWidgets.QWebEnginePage is not None
     assert QtWebEngineWidgets.QWebEngineView is not None

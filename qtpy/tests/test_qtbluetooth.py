@@ -1,9 +1,11 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_qtbluetooth():
     """Test the qtpy.QtBluetooth namespace"""
-    QtBluetooth = pytest.importorskip("qtpy.QtBluetooth")
+    QtBluetooth = pytest_importorskip("qtpy.QtBluetooth")
 
     assert QtBluetooth.QBluetooth is not None
     assert QtBluetooth.QBluetoothDeviceInfo is not None

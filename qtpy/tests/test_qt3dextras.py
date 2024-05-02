@@ -1,9 +1,11 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_qt3dextras():
     """Test the qtpy.Qt3DExtras namespace"""
-    Qt3DExtras = pytest.importorskip("qtpy.Qt3DExtras")
+    Qt3DExtras = pytest_importorskip("qtpy.Qt3DExtras")
 
     assert Qt3DExtras.QTextureMaterial is not None
     assert Qt3DExtras.QPhongAlphaMaterial is not None
