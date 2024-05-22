@@ -1,4 +1,5 @@
 """Test the compat module."""
+
 import sys
 
 import pytest
@@ -22,3 +23,15 @@ def test_isalive(qtbot):
     with qtbot.waitSignal(test_widget.destroyed):
         test_widget.deleteLater()
     assert compat.isalive(test_widget) is False
+
+
+def test_getenumasint():
+    """Test compat.getenumasint"""
+    assert compat.getenumasint(QtWidgets.QSizePolicy.Policy.Maximum) == 4
+    assert compat.getenumasint(5) == 5
+
+
+def test_getenumfromint():
+    """Test compat.getenumfromint"""
+    enum_value = compat.getenumfromint(QtWidgets.QSizePolicy.Policy, 7)
+    assert enum_value == QtWidgets.QSizePolicy.Policy.Expanding
