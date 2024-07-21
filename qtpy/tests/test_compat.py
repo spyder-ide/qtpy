@@ -3,10 +3,9 @@
 import sys
 
 import pytest
-
 from packaging import version
 
-from qtpy import QtWidgets, compat, PYQT5, PYQT_VERSION
+from qtpy import PYQT5, PYQT_VERSION, QtWidgets, compat
 from qtpy.tests.utils import not_using_conda
 
 
