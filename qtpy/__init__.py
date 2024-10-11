@@ -278,6 +278,11 @@ if API in PYQT6_API:
 if API in PYSIDE6_API:
     try:
         from PySide6 import __version__ as PYSIDE_VERSION  # analysis:ignore
+        if PYSIDE_VERSION == "6.8.0":
+            print(
+                "A known critical bug in PySide6 6.8.0 will cause your application to crash "
+                "see https://github.com/spyder-ide/qtpy/issues/494"
+            )
         from PySide6.QtCore import __version__ as QT_VERSION  # analysis:ignore
 
         QT5 = PYQT5 = False
