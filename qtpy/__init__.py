@@ -281,8 +281,8 @@ if API in PYSIDE6_API:
 
         if PYSIDE_VERSION == "6.8.0":
             print(
-                "A known critical bug in PySide6 6.8.0 will cause your application to crash "
-                "see https://github.com/spyder-ide/qtpy/issues/494",
+                "A known critical bug in PySide6 6.8.0 will cause your application to crash. "
+                "See https://github.com/spyder-ide/qtpy/issues/494",
             )
         from PySide6.QtCore import __version__ as QT_VERSION  # analysis:ignore
 
