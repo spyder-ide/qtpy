@@ -1,13 +1,14 @@
 import pytest
 
 from qtpy import PYQT6, PYSIDE6
+from qtpy.tests.utils import pytest_importorskip
 
 
 @pytest.mark.skipif(PYQT6, reason="Not complete in PyQt6")
 @pytest.mark.skipif(PYSIDE6, reason="Not complete in PySide6")
 def test_qt3drender():
     """Test the qtpy.Qt3DRender namespace"""
-    Qt3DRender = pytest.importorskip("qtpy.Qt3DRender")
+    Qt3DRender = pytest_importorskip("qtpy.Qt3DRender")
 
     assert Qt3DRender.QPointSize is not None
     assert Qt3DRender.QFrustumCulling is not None

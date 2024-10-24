@@ -8,10 +8,10 @@ from packaging.version import parse
 
 from qtpy import PYSIDE2, PYSIDE6, PYSIDE_VERSION, QtWidgets
 from qtpy.QtWidgets import QComboBox
-from qtpy.tests.utils import using_conda
+from qtpy.tests.utils import pytest_importorskip, using_conda
 
 if PYSIDE2:
-    pytest.importorskip("pyside2uic", reason="pyside2uic not installed")
+    pytest_importorskip("pyside2uic", reason="pyside2uic not installed")
 
 from qtpy import uic
 

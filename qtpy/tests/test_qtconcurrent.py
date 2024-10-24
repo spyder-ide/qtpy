@@ -2,11 +2,12 @@ import pytest
 from packaging.version import parse
 
 from qtpy import PYSIDE2, PYSIDE_VERSION
+from qtpy.tests.utils import pytest_importorskip
 
 
 def test_qtconcurrent():
     """Test the qtpy.QtConcurrent namespace"""
-    QtConcurrent = pytest.importorskip("qtpy.QtConcurrent")
+    QtConcurrent = pytest_importorskip("qtpy.QtConcurrent")
 
     assert QtConcurrent.QtConcurrent is not None
 

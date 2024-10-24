@@ -1,12 +1,13 @@
 import pytest
 
 from qtpy import PYQT5, PYQT6, PYSIDE2
+from qtpy.tests.utils import pytest_importorskip
 
 
 @pytest.mark.skipif(PYSIDE2, reason="Not available for PySide2")
 def test_qtnetworkauth():
     """Test the qtpy.QtNetworkAuth namespace"""
-    QtNetworkAuth = pytest.importorskip("qtpy.QtNetworkAuth")
+    QtNetworkAuth = pytest_importorskip("qtpy.QtNetworkAuth")
 
     assert QtNetworkAuth.QAbstractOAuth is not None
     assert QtNetworkAuth.QAbstractOAuth2 is not None

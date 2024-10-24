@@ -3,7 +3,7 @@ import sys
 import pytest
 
 from qtpy import PYQT6, PYSIDE6
-from qtpy.tests.utils import using_conda
+from qtpy.tests.utils import pytest_importorskip, using_conda
 
 
 @pytest.mark.skipif(
@@ -16,7 +16,7 @@ from qtpy.tests.utils import using_conda
 )
 def test_qtmacextras():
     """Test the qtpy.QtMacExtras namespace"""
-    QtMacExtras = pytest.importorskip("qtpy.QtMacExtras")
+    QtMacExtras = pytest_importorskip("qtpy.QtMacExtras")
 
     assert QtMacExtras.QMacPasteboardMime is not None
     assert QtMacExtras.QMacToolBar is not None

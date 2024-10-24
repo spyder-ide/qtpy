@@ -1,5 +1,7 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_qtdatavisualization():
     """Test the qtpy.QtDataVisualization namespace"""
@@ -8,7 +10,7 @@ def test_qtdatavisualization():
     # For example in the case of `PyQt5` you need `PyQtDataVisualization`
 
     # QtDataVisualization
-    QtDataVisualization = pytest.importorskip("qtpy.QtDataVisualization")
+    QtDataVisualization = pytest_importorskip("qtpy.QtDataVisualization")
     assert QtDataVisualization.QScatter3DSeries is not None
     assert QtDataVisualization.QSurfaceDataItem is not None
     assert QtDataVisualization.QSurface3DSeries is not None
@@ -47,7 +49,7 @@ def test_qtdatavisualization():
 
     # QtDatavisualization
     # import qtpy to get alias for `QtDataVisualization` with lower `v`
-    qtpy = pytest.importorskip("qtpy")
+    qtpy = pytest_importorskip("qtpy")
 
     assert qtpy.QtDatavisualization.QScatter3DSeries is not None
     assert qtpy.QtDatavisualization.QSurfaceDataItem is not None

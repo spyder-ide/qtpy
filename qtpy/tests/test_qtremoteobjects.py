@@ -1,9 +1,11 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_qtremoteobjects():
     """Test the qtpy.QtRemoteObjects namespace"""
-    QtRemoteObjects = pytest.importorskip("qtpy.QtRemoteObjects")
+    QtRemoteObjects = pytest_importorskip("qtpy.QtRemoteObjects")
 
     assert QtRemoteObjects.QRemoteObjectAbstractPersistedStore is not None
     assert QtRemoteObjects.QRemoteObjectDynamicReplica is not None

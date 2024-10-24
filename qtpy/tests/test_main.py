@@ -6,6 +6,7 @@ import sys
 import pytest
 
 from qtpy import API_NAMES, QtCore, QtGui, QtWidgets
+from qtpy.tests.utils import pytest_importorskip
 
 with contextlib.suppress(Exception):
     # removed in qt 6.0
@@ -112,7 +113,7 @@ def test_qt_api_environ(api):
     If no QT_API is specified but some Qt is imported, ensure QT_API is set properly.
     """
     mod = f"{api}.QtCore"
-    pytest.importorskip(mod, reason=f"Requires {api}")
+    pytest_importorskip(mod, reason=f"Requires {api}")
     # clean env
     env = os.environ.copy()
     for key in ("QT_API", "USE_QT_API"):

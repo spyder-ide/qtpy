@@ -1,9 +1,11 @@
 import pytest
 
+from qtpy.tests.utils import pytest_importorskip
+
 
 def test_qt3dinput():
     """Test the qtpy.Qt3DInput namespace"""
-    Qt3DInput = pytest.importorskip("qtpy.Qt3DInput")
+    Qt3DInput = pytest_importorskip("qtpy.Qt3DInput")
 
     assert Qt3DInput.QAxisAccumulator is not None
     assert Qt3DInput.QInputSettings is not None
