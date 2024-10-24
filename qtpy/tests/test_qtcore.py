@@ -188,6 +188,9 @@ def test_enum_access():
     )
     assert QtCore.Qt.TextColorRole == QtCore.Qt.ItemDataRole.TextColorRole
     assert QtCore.Qt.MidButton == QtCore.Qt.MouseButton.MiddleButton
+    assert (
+        QtCore.Qt.MouseButton.MidButton == QtCore.Qt.MouseButton.MiddleButton
+    )
 
 
 @pytest.mark.skipif(
