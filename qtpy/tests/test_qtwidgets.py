@@ -30,6 +30,9 @@ def test_qtextedit_functions(qtbot, pdf_writer):
     print_device, output_path = pdf_writer
     textedit_widget.print_(print_device)
     assert output_path.exists()
+    # https://github.com/jupyter/qtconsole/issues/624
+    assert QtWidgets.QTextEdit.setExtraSelections
+    textedit_widget.setExtraSelections([])
 
 
 def test_qlineedit_functions():

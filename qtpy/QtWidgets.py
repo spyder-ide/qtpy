@@ -165,6 +165,14 @@ elif PYSIDE6:
     if parse(_qt_version) > parse("6.3"):
         QFileDialog.Options = lambda value=0: QFileDialog.Option(value)
 
+    # https://github.com/jupyter/qtconsole/issues/624
+    if parse(_qt_version) >= parse("6.8.0"):
+
+        def setExtraSelections(self, selections):
+            self.selections = selections
+
+        QTextEdit.setExtraSelections = setExtraSelections
+
 
 if PYSIDE2 or PYSIDE6:
     # Make PySide2/6 `QFileDialog` static methods accept the `directory` kwarg as `dir`
