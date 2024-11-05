@@ -12,6 +12,7 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
+    QtBindingsNotFoundError,
 )
 from .QtWidgets import QFileDialog
 
@@ -200,3 +201,14 @@ def isalive(obj):
 
         return shiboken.isValid(obj)
     return None
+
+
+# =============================================================================
+def getimagebytes(qimage):
+    if PYQT5:
+        return qimage.bits().asstring(qimage.byteCount())
+    if PYQT6:
+        return qimage.bits().asstring(qimage.sizeInBytes())
+    if PYSIDE2 or PYSIDE6:
+        return qimage.bits().tobytes()
+    raise QtBindingsNotFoundError
