@@ -305,9 +305,16 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
 
 # Make `QIcon.ThemeIcon` enum for Qt < 6.7
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.7"):
-    import enum as _enum
+    # Make an `StrEnum` for Python < 3.11
+    try:
+        from enum import StrEnum
+    except ImportError:
+        from enum import Enum
 
-    class _ThemeIcon(_enum.StrEnum):
+        class StrEnum(str, Enum):
+            pass
+
+    class _ThemeIcon(StrEnum):
         AddressBookNew = "address-book-new"
         ApplicationExit = "application-exit"
         AppointmentNew = "appointment-new"
