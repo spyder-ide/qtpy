@@ -141,6 +141,14 @@ def test_QMenu_functions(qtbot):
         QtWidgets.QMenu.exec_(menu.actions(), QtCore.QPoint(1, 1))
 
 
+def test_QMenu_submenu_instance(qtbot):
+    """Test `QtWidgets.QMenu` submenus are `QtWidgets.QMenu` instances."""
+    menu = QtWidgets.QMenu()
+    menu.addMenu('test')
+    submenu = menu.children()[1]
+    assert isinstance(submenu, QtWidgets.QMenu)
+
+
 @pytest.mark.skipif(
     sys.platform == "darwin" and sys.version_info[:2] == (3, 7),
     reason="Stalls on macOS CI with Python 3.7",
