@@ -164,6 +164,13 @@ def test_QToolBar_functions(qtbot):
     )
 
 
+def test_QToolBar_submenu_instance(qtbot):
+    """Test `QtWidgets.QToolBar` passes `isinstance` checks."""
+    window = QtWidgets.QMainWindow()
+    new_toolbar = window.addToolBar("Toolbar title")
+    assert isinstance(new_toolbar, QtWidgets.QToolBar)
+
+
 @pytest.mark.skipif(
     PYQT5 and PYQT_VERSION.startswith("5.9"),
     reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
