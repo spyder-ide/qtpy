@@ -219,21 +219,8 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
     )
     QMenu.addAction = _menu_add_action
 
-    class _QToolBar(QToolBar):
-        old_add_action = QToolBar.addAction
-
-        def addAction(self, *args):
-            return add_action(
-                self,
-                *args,
-                old_add_action=_QToolBar.old_add_action,
-            )
-
     _toolbar_add_action = partialmethod(
         add_action,
         old_add_action=QToolBar.addAction,
     )
     QToolBar.addAction = _toolbar_add_action
-    # Despite the previous line!
-    if QToolBar.addAction is not _toolbar_add_action:
-        QToolBar = _QToolBar
