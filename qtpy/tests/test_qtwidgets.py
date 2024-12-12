@@ -144,7 +144,7 @@ def test_QMenu_functions(qtbot):
 def test_QMenu_submenu_instance(qtbot):
     """Test `QtWidgets.QMenu` submenus are `QtWidgets.QMenu` instances."""
     menu = QtWidgets.QMenu()
-    menu.addMenu('test')
+    menu.addMenu("test")
     submenu = menu.children()[1]
     assert isinstance(submenu, QtWidgets.QMenu)
 
