@@ -44,8 +44,6 @@ elif PYQT6:
     )
     from PyQt6.QtWidgets import *
 
-    from qtpy.QtGui import QAction  # See spyder-ide/qtpy#461
-
     # Attempt to import QOpenGLWidget, but if that fails,
     # don't raise an exception until the name is explicitly accessed.
     # See https://github.com/spyder-ide/qtpy/pull/387/
@@ -211,8 +209,8 @@ else:
         "directory",
     )
 
-# Make `addAction` compatible with Qt6 >= 6.4
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
+    # Make `addAction` compatible with Qt6 >= 6.4
     _menu_add_action = partialmethod(
         add_action,
         old_add_action=QMenu.addAction,

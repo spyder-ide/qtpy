@@ -141,7 +141,7 @@ def test_QMenu_functions(qtbot):
         QtWidgets.QMenu.exec_(menu.actions(), QtCore.QPoint(1, 1))
 
 
-def test_QMenu_submenu_instance(qtbot):
+def test_QMenu_instance(qtbot):
     """Test `QtWidgets.QMenu` submenus are `QtWidgets.QMenu` instances."""
     menu = QtWidgets.QMenu()
     menu.addMenu("test")
@@ -164,7 +164,7 @@ def test_QToolBar_functions(qtbot):
     )
 
 
-def test_QToolBar_submenu_instance(qtbot):
+def test_QToolBar_instance(qtbot):
     """Test `QtWidgets.QToolBar` passes `isinstance` checks."""
     window = QtWidgets.QMainWindow()
     new_toolbar = window.addToolBar("Toolbar title")

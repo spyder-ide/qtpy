@@ -227,6 +227,7 @@ if PYQT5 or PYSIDE2:
 
     # Follow similar approach for `QDropEvent` and child classes
     QDropEvent.position = lambda self: self.posF()
+
 if PYQT6 or PYSIDE6:
     # Part of the fix for https://github.com/spyder-ide/qtpy/issues/394
     for _class in (
@@ -264,27 +265,8 @@ if PYQT6 or PYSIDE6:
     QDropEvent.posF = lambda self: self.position()
 
 
-# Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
 if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
-
-    class _QAction(QAction):
-        old_set_shortcut = QAction.setShortcut
-        old_set_shortcuts = QAction.setShortcuts
-
-        def setShortcut(self, shortcut):
-            return set_shortcut(
-                self,
-                shortcut,
-                old_set_shortcut=_QAction.old_set_shortcut,
-            )
-
-        def setShortcuts(self, shortcuts):
-            return set_shortcuts(
-                self,
-                shortcuts,
-                old_set_shortcuts=_QAction.old_set_shortcuts,
-            )
-
+    # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
     _action_set_shortcut = partialmethod(
         set_shortcut,
         old_set_shortcut=QAction.setShortcut,
@@ -295,9 +277,3 @@ if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
     )
     QAction.setShortcut = _action_set_shortcut
     QAction.setShortcuts = _action_set_shortcuts
-    # Despite the two previous lines!
-    if (
-        QAction.setShortcut is not _action_set_shortcut
-        or QAction.setShortcuts is not _action_set_shortcuts
-    ):
-        QAction = _QAction
