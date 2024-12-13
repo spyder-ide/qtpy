@@ -37,11 +37,20 @@ if PYQT5:
 elif PYQT6:
     from PyQt6 import QtWidgets
     from PyQt6.QtGui import (
+        QAction,
         QActionGroup,
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
     )
+
+    if parse(_qt_version) < parse("6.4"):
+        # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
+        # See spyder-ide/qtpy#461
+        from qtpy.QtGui import QAction
+    else:
+        from PyQt6.QtGui import QAction
+
     from PyQt6.QtWidgets import *
 
     # Attempt to import QOpenGLWidget, but if that fails,
@@ -110,9 +119,15 @@ elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
     from PySide6.QtGui import QActionGroup, QShortcut, QUndoCommand
-    from PySide6.QtWidgets import *
 
-    from qtpy.QtGui import QAction  # See spyder-ide/qtpy#461
+    if parse(_qt_version) < parse("6.4"):
+        # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
+        # See spyder-ide/qtpy#461
+        from qtpy.QtGui import QAction
+    else:
+        from PySide6.QtGui import QAction
+
+    from PySide6.QtWidgets import *
 
     # Attempt to import QOpenGLWidget, but if that fails,
     # don't raise an exception until the name is explicitly accessed.
