@@ -200,7 +200,12 @@ def _parse_int(value):
 
 def _parse_version(version):
     """Parse a version string into a tuple of ints"""
-    return tuple(_parse_int(x) for x in version.split("."))
+    try:
+        from packaging.version import parse as _packaging_version_parse
+    except ImportError:
+        return tuple(_parse_int(x) for x in version.split("."))
+    else:
+        return _packaging_version_parse(version)
 
 
 # Unless `FORCE_QT_API` is set, use previously imported Qt Python bindings
