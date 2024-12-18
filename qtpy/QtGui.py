@@ -10,9 +10,7 @@
 
 from functools import partialmethod
 
-from packaging.version import parse
-
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, _parse_version
 from . import QT_VERSION as _qt_version
 from ._utils import (
     getattr_missing_optional_dep,
@@ -265,7 +263,7 @@ if PYQT6 or PYSIDE6:
     QDropEvent.posF = lambda self: self.position()
 
 
-if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
+if PYQT5 or PYSIDE2 or _parse_version(_qt_version) < _parse_version("6.4"):
     # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
     _action_set_shortcut = partialmethod(
         set_shortcut,
