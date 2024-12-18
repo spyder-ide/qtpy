@@ -199,13 +199,18 @@ def _parse_int(value):
 
 
 def _parse_version(version):
-    """Parse a version string into a tuple of ints"""
+    """Parse a version into a comparable object"""
     try:
         from packaging.version import parse as _packaging_version_parse
     except ImportError:
-        return tuple(_parse_int(x) for x in version.split("."))
+        return _parse_version_internal(version)
     else:
         return _packaging_version_parse(version)
+
+
+def _parse_version_internal(version):
+    """Parse a version string into a tuple of ints"""
+    return tuple(_parse_int(x) for x in version.split("."))
 
 
 # Unless `FORCE_QT_API` is set, use previously imported Qt Python bindings
