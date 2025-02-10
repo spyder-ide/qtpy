@@ -133,15 +133,15 @@ jobs:
           sudo apt install libpulse-dev libegl1-mesa libopengl0 gstreamer1.0-gl
       - uses: tlambert03/setup-qt-libs@v1
       - name: Install Conda
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
            activate-environment: ''
            auto-activate-base: true
            auto-update-conda: true
            channels: conda-forge
            channel-priority: strict
-           miniforge-variant: Mambaforge
-           use-mamba: true
+           miniforge-version: latest
+           mamba-version: "*"
       - name: Print Conda info
         shell: bash -l {0}
         run: |
