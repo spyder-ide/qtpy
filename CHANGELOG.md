@@ -1,5 +1,28 @@
 # History of changes
 
+## Version 2.4.3 (2025-02-11)
+
+### Issues Closed
+
+* [Issue 509](https://github.com/spyder-ide/qtpy/issues/509) - Release 2.4.3
+* [Issue 505](https://github.com/spyder-ide/qtpy/issues/505) - Breaking change related to QMenu in 2.4.2 ([PR 507](https://github.com/spyder-ide/qtpy/pull/507) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 502](https://github.com/spyder-ide/qtpy/issues/502) - Hijacked PyQt types are not returned from native Qt APIs ([PR 507](https://github.com/spyder-ide/qtpy/pull/507) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 501](https://github.com/spyder-ide/qtpy/issues/501) - Check/fix several CI warnings ([PR 511](https://github.com/spyder-ide/qtpy/pull/511) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 4 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 511](https://github.com/spyder-ide/qtpy/pull/511) - PR: Remove `Mambaforge` usage and update Linux setup (CI), by [@dalthviz](https://github.com/dalthviz) ([501](https://github.com/spyder-ide/qtpy/issues/501))
+* [PR 507](https://github.com/spyder-ide/qtpy/pull/507) - PR: Ensure `QMenu` and `QToolBar` `isinstance` checks succeed and remove unneeded wrapper classes , by [@dalthviz](https://github.com/dalthviz) ([505](https://github.com/spyder-ide/qtpy/issues/505), [502](https://github.com/spyder-ide/qtpy/issues/502))
+* [PR 506](https://github.com/spyder-ide/qtpy/pull/506) - PR: Ignore PySide6 `QSqlDatabase.exec` `DeprecationWarning`, by [@juliangilbey](https://github.com/juliangilbey)
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
 ## Version 2.4.2 (2024-11-04)
 
 ### Issues Closed

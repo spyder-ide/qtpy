@@ -63,7 +63,7 @@ import warnings
 from packaging.version import parse
 
 # Version of QtPy
-__version__ = "2.5.0.dev0"
+__version__ = "2.4.3"
 
 
 class PythonQtError(RuntimeError):
