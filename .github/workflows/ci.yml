@@ -143,7 +143,7 @@ jobs:
            miniforge-version: latest
            mamba-version: "*"
       - name: Print Conda info
-        shell: bash -l {0}
+        shell: bash -el {0}
         run: |
           mamba info
           mamba list
