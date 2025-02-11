@@ -2,7 +2,7 @@
 
 eval "$(conda shell.bash hook)"
 
-# Create and activate mamba environment for this test
+# Create and activate conda environment for this test
 BINDING=$(echo "$1" | tr '[:lower:]' '[:upper:]')
 QT_VERSION_VAR=${BINDING}_QT_VERSION
 
@@ -27,7 +27,7 @@ if [ "$USE_CONDA" = "Yes" ]; then
 
 fi
 
-mamba create -y -n test-env-${BINDING} python=${PYTHON_VERSION} pytest${PYTEST_VERSION:->=6,!=7.0.0,!=7.0.1} pytest-cov>=3.0.0 pytest-qt${PYTESTQT_VERSION:-} ${QT_SPECS:-}
+conda create -y -n test-env-${BINDING} python=${PYTHON_VERSION} pytest${PYTEST_VERSION:->=6,!=7.0.0,!=7.0.1} pytest-cov>=3.0.0 pytest-qt${PYTESTQT_VERSION:-} ${QT_SPECS:-}
 
 conda activate test-env-${BINDING}
 
@@ -91,7 +91,7 @@ python -bb -X dev -W error -m build
 echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationWarning:pip._internal.locations._distutils" -W "ignore::DeprecationWarning:distutils.command.install" -W "ignore::DeprecationWarning:pip._internal.metadata.importlib._envs" -m pip install --upgrade %
 
 # Print environment information
-mamba list
+conda list
 
 # Run tests
 python -I -bb -X dev -W error -m pytest --cov qtpy --cov-config .coveragerc --cov-append

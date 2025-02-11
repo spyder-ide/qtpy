@@ -130,7 +130,7 @@ jobs:
         shell: bash
         run: |
           sudo apt update
-          sudo apt install libpulse-dev libegl1-mesa libopengl0 gstreamer1.0-gl
+          sudo apt install libpulse-dev libegl1-mesa-dev libopengl0 gstreamer1.0-gl
       - uses: tlambert03/setup-qt-libs@v1
       - name: Install Conda
         uses: conda-incubator/setup-miniconda@v3
@@ -141,12 +141,11 @@ jobs:
            channels: conda-forge
            channel-priority: strict
            miniforge-version: latest
-           mamba-version: "*"
       - name: Print Conda info
         shell: bash -el {0}
         run: |
-          mamba info
-          mamba list
+          conda info
+          conda list
       - name: Test PyQt5
         if: (! matrix.skip-pyqt5)
         run: ./.github/workflows/test.sh pyqt5
