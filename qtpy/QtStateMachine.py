@@ -15,7 +15,33 @@ from . import (
     QtBindingMissingModuleError,
 )
 
-if PYQT5 or PYQT6 or PYSIDE2:
-    raise QtBindingMissingModuleError(name="QtStateMachine")
+if PYQT5:
+    from PyQt5.QtCore import (
+        QAbstractState,
+        QAbstractTransition,
+        QEventTransition,
+        QFinalState,
+        QHistoryState,
+        QKeyEventTransition,
+        QMouseEventTransition,
+        QSignalTransition,
+        QState,
+        QStateMachine,
+    )
+elif PYSIDE2:
+    from PySide2.QtCore import (
+        QAbstractState,
+        QAbstractTransition,
+        QEventTransition,
+        QFinalState,
+        QHistoryState,
+        QKeyEventTransition,
+        QMouseEventTransition,
+        QSignalTransition,
+        QState,
+        QStateMachine,
+    )
+elif PYQT6:
+    from PyQt6.QtStateMachine import *
 elif PYSIDE6:
     from PySide6.QtStateMachine import *
