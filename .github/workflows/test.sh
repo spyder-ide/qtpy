@@ -6,6 +6,11 @@ eval "$(conda shell.bash hook)"
 BINDING=$(echo "$1" | tr '[:lower:]' '[:upper:]')
 QT_VERSION_VAR=${BINDING}_QT_VERSION
 
+# pytest-qt >=4.5.0 doesn't support PySide2
+if [ "${1}" = "pyside2" ]; then
+    PYTESTQT_VERSION="<4.5.0"
+fi
+
 # pytest-qt >=4 doesn't support Qt <=5.9
 if [ "${!QT_VERSION_VAR:0:3}" = "5.9" ]; then
     PYTESTQT_VERSION="=3.3.0"
