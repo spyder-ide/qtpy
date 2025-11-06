@@ -5,6 +5,7 @@
 """
 Compatibility functions
 """
+import enum
 import sys
 
 from . import (
@@ -200,3 +201,26 @@ def isalive(obj):
 
         return shiboken.isValid(obj)
     return None
+
+
+# =============================================================================
+def getenumasint(enum_value):
+    """Get the integer value of a Qt enum
+    For example:
+        Qt.AlignmentFlag.AlignBaseline -> 256
+        Qt.WidgetAttribute.WA_AcceptDrops -> 78
+    If an integer is passed in, simply return it.
+    PySide2's enums are themselves classes, not enum values per se, so if
+    we get an integer or a class, return the class.
+    """
+    if isinstance(enum_value, enum.Enum):
+        if PYSIDE2 or PYQT5:
+            return int(enum_value)
+        return enum_value.value
+    return enum_value
+
+
+# =============================================================================
+def getenumfromint(enum_class, i):
+    """Get the Qt enum value from an integer"""
+    return enum_class(i)
