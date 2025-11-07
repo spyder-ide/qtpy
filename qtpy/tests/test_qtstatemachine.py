@@ -1,14 +1,20 @@
 import pytest
 
-from qtpy import QtBindingInNewerVersionError
+from qtpy import PYQT6, PYQT_VERSION, PYSIDE6
+from qtpy.tests.utils import using_conda
 
 
+@pytest.mark.skipif(
+    PYQT6 and int(PYQT_VERSION.split(".")[1]) < 9,
+    reason="QtStateMachine has been added to PyQt6 in version 6.9",
+)
+@pytest.mark.skipif(
+    PYSIDE6 and using_conda(),
+    reason="Not available on PySide6 with conda",
+)
 def test_qtstatemachine():
     """Test the qtpy.QtStateMachine namespace"""
-    try:
-        from qtpy import QtStateMachine
-    except QtBindingInNewerVersionError:
-        pytest.skip("QtStateMachine not available in this binding version")
+    from qtpy import QtStateMachine
 
     assert QtStateMachine.QAbstractState is not None
     assert QtStateMachine.QAbstractTransition is not None
