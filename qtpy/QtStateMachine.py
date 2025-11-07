@@ -45,6 +45,13 @@ elif PYSIDE2:
         QMouseEventTransition,
     )
 elif PYQT6:
-    from PyQt6.QtStateMachine import *
+    from PyQt6.QtCore import PYQT_VERSION_STR
+
+    if int(PYQT_VERSION_STR.split(".")[1]) >= 9:
+        from PyQt6.QtStateMachine import *
+    else:
+        from . import QtBindingInNewerVersionError
+
+        raise QtBindingInNewerVersionError(name="QtStateMachine")
 elif PYSIDE6:
     from PySide6.QtStateMachine import *

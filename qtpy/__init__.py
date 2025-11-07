@@ -125,6 +125,12 @@ class QtBindingMissingModuleError(QtModuleNotFoundError):
     _msg_extra = "It is not currently implemented in {binding}."
 
 
+class QtBindingInNewerVersionError(QtModuleNotFoundError):
+    """Raised when a module is only supported in newer versions of a binding."""
+
+    _msg_extra = "It is only available in newer versions of {binding}."
+
+
 class QtModuleNotInstalledError(QtModuleNotFoundError):
     """Raise when a module is supported by the binding, but not installed."""
 
