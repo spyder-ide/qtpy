@@ -5,7 +5,7 @@ from qtpy.tests.utils import pytest_importorskip
 
 def test_qtstatemachine():
     """Test the qtpy.QtStateMachine namespace"""
-    QtStateMachine = pytest_importorskip("qtpy.QtStateMachine")
+    from qtpy import QtStateMachine
 
     assert QtStateMachine.QAbstractState is not None
     assert QtStateMachine.QAbstractTransition is not None
