@@ -21,11 +21,13 @@ if PYQT5:
         QEventTransition,
         QFinalState,
         QHistoryState,
-        QKeyEventTransition,
-        QMouseEventTransition,
         QSignalTransition,
         QState,
         QStateMachine,
+    )
+    from PyQt5.QtWidgets import (
+        QKeyEventTransition,
+        QMouseEventTransition,
     )
 elif PYSIDE2:
     from PySide2.QtCore import (
@@ -34,11 +36,13 @@ elif PYSIDE2:
         QEventTransition,
         QFinalState,
         QHistoryState,
-        QKeyEventTransition,
-        QMouseEventTransition,
         QSignalTransition,
         QState,
         QStateMachine,
+    )
+    from PySide2.QtWidgets import (
+        QKeyEventTransition,
+        QMouseEventTransition,
     )
 elif PYQT6:
     from PyQt6.QtStateMachine import *
