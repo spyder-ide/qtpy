@@ -9,9 +9,7 @@
 """Provides widget classes and functions."""
 from functools import partialmethod
 
-from packaging.version import parse
-
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, _parse_version
 from . import QT_VERSION as _qt_version
 from ._utils import (
     add_action,
@@ -44,7 +42,7 @@ elif PYQT6:
         QUndoCommand,
     )
 
-    if parse(_qt_version) < parse("6.4"):
+    if _parse_version(_qt_version) < _parse_version("6.4"):
         # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
         # See spyder-ide/qtpy#461
         from qtpy.QtGui import QAction
@@ -120,7 +118,7 @@ elif PYSIDE2:
 elif PYSIDE6:
     from PySide6.QtGui import QActionGroup, QShortcut, QUndoCommand
 
-    if parse(_qt_version) < parse("6.4"):
+    if _parse_version(_qt_version) < _parse_version("6.4"):
         # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
         # See spyder-ide/qtpy#461
         from qtpy.QtGui import QAction
@@ -175,7 +173,7 @@ elif PYSIDE6:
     )
 
     # Passing as default value 0 in the same way PySide6 < 6.3.2 does for the `QFileDialog.Options` definition.
-    if parse(_qt_version) > parse("6.3"):
+    if _parse_version(_qt_version) > _parse_version("6.3"):
         QFileDialog.Options = lambda value=0: QFileDialog.Option(value)
 
 
@@ -224,7 +222,7 @@ else:
         "directory",
     )
 
-if PYQT5 or PYSIDE2 or parse(_qt_version) < parse("6.4"):
+if PYQT5 or PYSIDE2 or _parse_version(_qt_version) < _parse_version("6.4"):
     # Make `addAction` compatible with Qt6 >= 6.4
     _menu_add_action = partialmethod(
         add_action,
