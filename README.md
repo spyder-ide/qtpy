@@ -57,6 +57,10 @@ default unless you set the `QT_API` environment variable.
 * `pyqt6` (to use PyQt6).
 * `pyside6` (to use PySide6).
 
+Alternatively the `QT_VERSION` environment variable can be used with the following values:
+
+* `qt5` (to use PyQt5 or PySide2).
+* `qt6` (to use PyQt6 or PySide6).
 
 ### Module aliases and constants
 

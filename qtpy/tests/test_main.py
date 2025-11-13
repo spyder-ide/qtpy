@@ -67,6 +67,34 @@ def assert_pyqt6():
     assert os.environ["QT_API"] == "pyqt6"
 
 
+def assert_qt5():
+    try:
+        import PyQt5
+    except ImportError:
+        try:
+            import PySide2
+        except ImportError:
+            pytest.fail("No Qt5 API available.")
+        else:
+            assert_pyside2()
+    else:
+        assert_pyqt5()
+
+
+def assert_qt6():
+    try:
+        import PyQt6
+    except ImportError:
+        try:
+            import PySide6
+        except ImportError:
+            pytest.fail("No Qt6 API available.")
+        else:
+            assert_pyside6()
+    else:
+        assert_pyqt6()
+
+
 def test_qt_api():
     """
     If QT_API is specified, we check that the correct Qt wrapper was used
@@ -141,3 +169,16 @@ else:
     raise AssertionError('QtPy imported despite bad QT_API')
 """
     subprocess.check_call([sys.executable, "-Oc", cmd], env=env)
+
+
+def test_qt_version():
+    """
+    If QT_VERSION is specified, check that one of the correct Qt wrappers was used
+    """
+
+    QT_VERSION = os.environ.get("QT_VERSION", "").lower()
+
+    if QT_VERSION == "qt5":
+        assert_qt5()
+    elif QT_VERSION == "qt6":
+        assert_qt6()
