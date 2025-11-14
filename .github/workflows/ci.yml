@@ -43,8 +43,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
-        python-version: ['3.7', '3.11']
+        os: [ubuntu-latest, windows-latest, macos-15-intel]
+        python-version: ['3.7', '3.11', '3.13']
         use-conda: ['Yes', 'No']
         qt5-version-default: ['5.12']
         qt6-version-default: ['6.5']
@@ -53,6 +53,10 @@ jobs:
         include:
         - os: ubuntu-latest
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
+        - python-version: '3.13'
+          pyqt5-version: '5.15'
+          pyside2-version: '5.15'
+          pyside6-version: '6.8'
         - python-version: '3.11'
           pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
           pyside2-version: '5.15'  # Python 3.11 needs 5.15+
@@ -86,7 +90,7 @@ jobs:
           python-version: '3.11'
           use-conda: 'Yes'
           pyside6-version: 6.8  # Test upper bound
-        - os: macos-13
+        - os: macos-15-intel
           python-version: '3.11'
           use-conda: 'No'
           pyqt6-version: 6.8  # Test upper bound
