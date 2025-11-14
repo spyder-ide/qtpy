@@ -47,7 +47,7 @@ jobs:
         python-version: ['3.7', '3.11']
         use-conda: ['Yes', 'No']
         qt5-version-default: ['5.12']
-        qt6-version-default: ['6.3']
+        qt6-version-default: ['6.5']
         qscintilla-version-default: ['2.13']
         pyqt-extras-default: ['No']
         include:
@@ -56,7 +56,7 @@ jobs:
         - python-version: '3.11'
           pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
           pyside2-version: '5.15'  # Python 3.11 needs 5.15+
-          pyside6-version: '6.5'  # Python 3.11 needs 6.4+. Test upper bound
+          pyside6-version: '6.8'  # Python 3.11 needs 6.4+. Test upper bound
         - use-conda: 'Yes'
           skip-pyqt6: true  # No PyQt6 conda packages yet
         - use-conda: 'No'
@@ -70,8 +70,8 @@ jobs:
           use-conda: 'No'
           pyqt-extras: 'Yes'  # Check PyQt extras
           skip-pyside2: true  # Pyside2 wheels don't support Python 3.11+
-          pyqt6-version: '6.5'  # Test upper bound
-          pyside6-version: '6.5'  # Test upper bound
+          pyqt6-version: '6.8'  # Test upper bound
+          pyside6-version: '6.8'  # Test upper bound
         - os: windows-latest
           python-version: '3.7'
           use-conda: 'Yes'
@@ -85,11 +85,11 @@ jobs:
         - os: windows-latest
           python-version: '3.11'
           use-conda: 'Yes'
-          pyside6-version: 6.5  # Test upper bound
+          pyside6-version: 6.8  # Test upper bound
         - os: macos-13
           python-version: '3.11'
           use-conda: 'No'
-          pyqt6-version: 6.5  # Test upper bound
+          pyqt6-version: 6.8  # Test upper bound
           pyside2-version: 5.15  # Test upper bound
     steps:
       - name: Check job values
