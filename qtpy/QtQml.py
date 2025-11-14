@@ -12,7 +12,14 @@ from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 if PYQT5:
     from PyQt5.QtQml import *
 elif PYQT6:
+    from PyQt6 import QtQml
     from PyQt6.QtQml import *
+
+    # Allow unscoped access for enums
+    from .enums_compat import promote_enums
+
+    promote_enums(QtQml)
+    del QtQml
 elif PYSIDE6:
     from PySide6.QtQml import *
 elif PYSIDE2:

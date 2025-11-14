@@ -12,6 +12,7 @@ from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
 if PYQT5:
     from PyQt5.QtPrintSupport import *
 elif PYQT6:
+    from PyQt6 import QtPrintSupport
     from PyQt6.QtPrintSupport import *
 
     QPageSetupDialog.exec_ = lambda self, *args, **kwargs: self.exec(
@@ -26,6 +27,12 @@ elif PYQT6:
         *args,
         **kwargs,
     )
+
+    # Allow unscoped access for enums
+    from .enums_compat import promote_enums
+
+    promote_enums(QtPrintSupport)
+    del QtPrintSupport
 elif PYSIDE6:
     from PySide6.QtPrintSupport import *
 

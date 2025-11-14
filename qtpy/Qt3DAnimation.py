@@ -25,7 +25,14 @@ if PYQT5:
         ) from error
 elif PYQT6:
     try:
+        from PyQt6 import Qt3DAnimation
         from PyQt6.Qt3DAnimation import *
+
+        # Allow unscoped access for enums
+        from .enums_compat import promote_enums
+
+        promote_enums(Qt3DAnimation)
+        del Qt3DAnimation
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
             name="Qt3DAnimation",

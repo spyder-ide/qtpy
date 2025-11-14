@@ -25,7 +25,14 @@ if PYQT5:
         ) from error
 elif PYQT6:
     try:
+        from PyQt6 import QtWebEngineCore
         from PyQt6.QtWebEngineCore import *
+
+        # Allow unscoped access for enums
+        from .enums_compat import promote_enums
+
+        promote_enums(QtWebEngineCore)
+        del QtWebEngineCore
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
             name="QtWebEngineCore",
