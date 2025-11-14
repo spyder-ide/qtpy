@@ -36,8 +36,15 @@ if PYQT5:
         from PyQt5.QtGui import QOpenGLTimeMonitor, QOpenGLTimerQuery
 
 elif PYQT6:
+    from PyQt6 import QtOpenGL
     from PyQt6.QtGui import QOpenGLContext, QOpenGLContextGroup
     from PyQt6.QtOpenGL import *
+
+    # Allow unscoped access for enums
+    from .enums_compat import promote_enums
+
+    promote_enums(QtOpenGL)
+    del QtOpenGL
 elif PYSIDE6:
     from PySide6.QtGui import QOpenGLContext, QOpenGLContextGroup
     from PySide6.QtOpenGL import *
