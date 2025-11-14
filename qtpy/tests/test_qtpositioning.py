@@ -1,6 +1,6 @@
 import pytest
 
-from qtpy import QT6
+from qtpy import PYQT5, PYQT_VERSION, QT6
 from qtpy.tests.utils import using_conda
 
 
@@ -31,3 +31,24 @@ def test_qtpositioning():
     assert QtPositioning.QGeoSatelliteInfoSource is not None
     assert QtPositioning.QGeoShape is not None
     assert QtPositioning.QNmeaPositionInfoSource is not None
+
+
+@pytest.mark.skipif(
+    QT6 and using_conda(),
+    reason="QPositioning bindings not included in Conda qt-main >= 6.4.3.",
+)
+@pytest.mark.skipif(
+    PYQT5 and PYQT_VERSION.startswith("5.9"),
+    reason=(
+        "A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.* "
+        "to work with scoped enum access"
+    ),
+)
+def test_enum_access():
+    """Test scoped and unscoped enum access."""
+    from qtpy import QtPositioning
+
+    assert (
+        QtPositioning.QGeoShape.PolygonType
+        == QtPositioning.QGeoShape.ShapeType.PolygonType
+    )
