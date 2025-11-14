@@ -1,4 +1,6 @@
-from qtpy import PYQT6, PYSIDE2, PYSIDE6, QtNetwork
+import pytest
+
+from qtpy import PYQT5, PYQT6, PYQT_VERSION, PYSIDE2, PYSIDE6, QtNetwork
 
 
 def test_qtnetwork():
@@ -38,3 +40,18 @@ def test_qtnetwork():
     assert QtNetwork.QSslError is not None
     assert QtNetwork.QSslKey is not None
     assert QtNetwork.QSslSocket is not None
+
+
+@pytest.mark.skipif(
+    PYQT5 and PYQT_VERSION.startswith("5.9"),
+    reason=(
+        "A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.* "
+        "to work with scoped enum access"
+    ),
+)
+def test_enum_access():
+    """Test scoped and unscoped enum access."""
+    assert (
+        QtNetwork.QAbstractSocket.ShareAddress
+        == QtNetwork.QAbstractSocket.BindFlag.ShareAddress
+    )
