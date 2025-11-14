@@ -26,6 +26,9 @@ if [ "$USE_CONDA" = "Yes" ]; then
         QT_SPECS="qt=${PYSIDE2_QT_VERSION} pyside2=${PYSIDE2_VERSION}"
     elif [ "${1}" = "pyside6" ]; then
         QT_SPECS="qt6-main=${PYSIDE6_QT_VERSION} pyside6=${PYSIDE6_VERSION}"
+        if [ "${!QT_VERSION_VAR:0:3}" = "6.8" ]; then
+            QT_SPECS+=" qt6-multimedia=${PYSIDE6_QT_VERSION}"
+        fi
     else
         exit 1
     fi

@@ -58,7 +58,7 @@ jobs:
           pyside2-version: '5.15'  # Python 3.11 needs 5.15+
           pyside6-version: '6.8'  # Python 3.11 needs 6.4+. Test upper bound
         - use-conda: 'Yes'
-          skip-pyqt6: true  # No PyQt6 conda packages yet
+          skip-pyqt6: true  # PyQt6 conda packages only available from anaconda channel
         - use-conda: 'No'
           pyqt5-version: '5.15'  # Test with latest optional packages
         - python-version: '3.7'
