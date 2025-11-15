@@ -48,7 +48,14 @@ elif PYQT6:
     from PyQt6.QtCore import PYQT_VERSION_STR
 
     if int(PYQT_VERSION_STR.split(".")[1]) >= 9:
+        from PyQt6 import QtStateMachine
         from PyQt6.QtStateMachine import *
+
+        # Allow unscoped access for enums
+        from .enums_compat import promote_enums
+
+        promote_enums(QtStateMachine)
+        del QtStateMachine
     else:
         from . import QtBindingInNewerVersionError
 
