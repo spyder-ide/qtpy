@@ -96,9 +96,15 @@ jobs:
           use-conda: 'No'
           pyqt6-version: 6.8  # Test upper bound
           pyside2-version: 5.15  # Test upper bound
+        - os: macos-15-intel
+          python-version: '3.7'
+          use-conda: 'No'
+          pyqt6-version: 6.2  # Test lower bound
+          pyside6-version: 6.2  # Test lower bound
         exclude:
         - os: macos-15-intel
           python-version: '3.11'
+          use-conda: 'Yes'
     steps:
       - name: Check job values
         run: |
