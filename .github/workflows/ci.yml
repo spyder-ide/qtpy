@@ -55,7 +55,7 @@ jobs:
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
         - python-version: '3.13'
           pyqt5-version: '5.15'
-          skip-pyside2: true
+          skip-pyside2: true  # Unavailable for Python 3.13+
           pyqt6-version: '6.8'
           pyside6-version: '6.8'
         - python-version: '3.11'
