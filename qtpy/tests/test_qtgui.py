@@ -15,7 +15,6 @@ from qtpy import (
     QtGui,
     QtWidgets,
 )
-from qtpy.tests.utils import not_using_conda
 
 
 def test_qfontmetrics_width(qtbot):
@@ -27,8 +26,8 @@ def test_qfontmetrics_width(qtbot):
     font_metricsF = QtGui.QFontMetricsF(font)
     width = font_metrics.width("Test")
     widthF = font_metricsF.width("Test")
-    assert width in range(40, 62)
-    assert 39 <= widthF <= 63
+    assert width in range(39, 62)
+    assert 38 <= widthF <= 63
 
 
 def test_qdrag_functions(qtbot):

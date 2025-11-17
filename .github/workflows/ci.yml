@@ -43,54 +43,67 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
-        python-version: ['3.7', '3.11']
+        os: [ubuntu-latest, windows-latest, macos-15-intel]
+        python-version: ['3.9', '3.11', '3.13']
         use-conda: ['Yes', 'No']
         qt5-version-default: ['5.12']
-        qt6-version-default: ['6.3']
+        qt6-version-default: ['6.5']
         qscintilla-version-default: ['2.13']
         pyqt-extras-default: ['No']
         include:
         - os: ubuntu-latest
           special-invocation: 'xvfb-run --auto-servernum '  # Needed for GUI tests to work
+        - python-version: '3.13'
+          pyqt5-version: '5.15'
+          skip-pyside2: true  # Unavailable for Python 3.13+
+          pyqt6-version: '6.8'
+          pyside6-version: '6.8'
         - python-version: '3.11'
           pyqt5-version: '5.15'  # Python 3.11 needs 5.15+
           pyside2-version: '5.15'  # Python 3.11 needs 5.15+
-          pyside6-version: '6.5'  # Python 3.11 needs 6.4+. Test upper bound
+          pyside6-version: '6.8'  # Python 3.11 needs 6.4+. Test upper bound
         - use-conda: 'Yes'
-          skip-pyqt6: true  # No PyQt6 conda packages yet
+          skip-pyqt6: true  # PyQt6 conda packages only available from anaconda channel
         - use-conda: 'No'
           pyqt5-version: '5.15'  # Test with latest optional packages
-        - python-version: '3.7'
+        - python-version: '3.9'
           use-conda: 'Yes'
           pyside2-version: '5.13'  # Conda needs 5.13+ to work reliably
           pyside2-qt-version: '5.12'  # Conda only has 5.12 and 5.15, not 5.13
-          pyside6-version: '6.4'  # Conda only has 6.4 for Python <3.8
         - python-version: '3.11'
           use-conda: 'No'
           pyqt-extras: 'Yes'  # Check PyQt extras
           skip-pyside2: true  # Pyside2 wheels don't support Python 3.11+
-          pyqt6-version: '6.5'  # Test upper bound
-          pyside6-version: '6.5'  # Test upper bound
+          pyqt6-version: '6.8'  # Test upper bound
+          pyside6-version: '6.8'  # Test upper bound
         - os: windows-latest
-          python-version: '3.7'
-          use-conda: 'Yes'
-          pyqt5-version: '5.9'  # Test lower bound
-          skip-pyside6: true  # Test hangs with 6.4. 6.5 is not available for Python 3.7
-        - os: windows-latest
-          python-version: '3.7'
+          python-version: '3.9'
           use-conda: 'No'
           pyqt6-version: 6.2  # Test lower bound
           pyside6-version: 6.2  # Test lower bound
+          pyside2-version: 5.15 # Version 5.12 not available
         - os: windows-latest
           python-version: '3.11'
           use-conda: 'Yes'
-          pyside6-version: 6.5  # Test upper bound
-        - os: macos-13
+          pyside6-version: 6.8  # Test upper bound
+        - os: macos-15-intel
           python-version: '3.11'
           use-conda: 'No'
-          pyqt6-version: 6.5  # Test upper bound
+          pyqt6-version: 6.8  # Test upper bound
           pyside2-version: 5.15  # Test upper bound
+        - os: macos-15-intel
+          python-version: '3.9'
+          use-conda: 'No'
+          pyqt6-version: 6.2  # Test lower bound
+          pyside6-version: 6.2  # Test lower bound
+        - os: macos-15-intel
+          python-version: '3.9'
+          use-conda: 'Yes'
+          pyside6-version: 6.8  # Test upper bound. Gets stuck with 6.5
+        exclude:
+        - os: macos-15-intel
+          python-version: '3.11'
+          use-conda: 'Yes'
     steps:
       - name: Check job values
         run: |

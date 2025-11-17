@@ -78,6 +78,11 @@ def test_load_ui_type(qtbot):
             category=DeprecationWarning,
             message=".*mode.*",
         )
+        warnings.filterwarnings(
+            "ignore",
+            category=ResourceWarning,
+            message=".*mode.*",
+        )  # Needed for PySide2 5.13
         ui_type, ui_base_type = uic.loadUiType(
             os.path.join(os.path.dirname(__file__), "test.ui"),
         )
