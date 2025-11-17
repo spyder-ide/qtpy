@@ -78,13 +78,10 @@ jobs:
           pyside6-version: '6.8'  # Test upper bound
         - os: windows-latest
           python-version: '3.9'
-          use-conda: 'Yes'
-          pyqt5-version: '5.9'  # Test lower bound
-        - os: windows-latest
-          python-version: '3.9'
           use-conda: 'No'
           pyqt6-version: 6.2  # Test lower bound
           pyside6-version: 6.2  # Test lower bound
+          pyside2-version: 5.15 # Version 5.12 not available
         - os: windows-latest
           python-version: '3.11'
           use-conda: 'Yes'
@@ -99,6 +96,10 @@ jobs:
           use-conda: 'No'
           pyqt6-version: 6.2  # Test lower bound
           pyside6-version: 6.2  # Test lower bound
+        - os: macos-15-intel
+          python-version: '3.9'
+          use-conda: 'Yes'
+          pyside6-version: 6.8  # Test upper bound. Gets stuck with 6.5
         exclude:
         - os: macos-15-intel
           python-version: '3.11'
