@@ -47,7 +47,8 @@ This project is released under the [MIT license](LICENSE.txt).
 ### Requirements
 
 You need PyQt5, PySide2, PyQt6 or PySide6 installed in your system to make use
-of QtPy. If several of these packages are found, PyQt5 is used by
+of QtPy (QtPy doesn't install any binding by itself).
+If several of these packages are found, PyQt5 is used by
 default unless you set the `QT_API` environment variable.
 
 `QT_API` can take the following values:
