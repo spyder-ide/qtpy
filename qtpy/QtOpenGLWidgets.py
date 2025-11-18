@@ -18,7 +18,14 @@ from . import (
 if PYQT5:
     raise QtBindingMissingModuleError(name="QtOpenGLWidgets")
 elif PYQT6:
+    from PyQt6 import QtOpenGLWidgets
     from PyQt6.QtOpenGLWidgets import *
+
+    # Allow unscoped access for enums
+    from .enums_compat import promote_enums
+
+    promote_enums(QtOpenGLWidgets)
+    del QtOpenGLWidgets
 elif PYSIDE2:
     raise QtBindingMissingModuleError(name="QtOpenGLWidgets")
 elif PYSIDE6:

@@ -1,10 +1,10 @@
-from qtpy import PYQT5, PYSIDE2
+import pytest
+
+from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, QtQuick
 
 
 def test_qtquick():
     """Test the qtpy.QtQuick namespace"""
-    from qtpy import QtQuick
-
     if PYQT5:
         assert QtQuick.QQuickCloseEvent is not None
         assert QtQuick.QSGFlatColorMaterial is not None
@@ -46,3 +46,18 @@ def test_qtquick():
     assert QtQuick.QSGTexture is not None
     assert QtQuick.QSGTextureProvider is not None
     assert QtQuick.QSGTransformNode is not None
+
+
+@pytest.mark.skipif(
+    PYQT5 and PYQT_VERSION.startswith("5.9"),
+    reason=(
+        "A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.* "
+        "to work with scoped enum access"
+    ),
+)
+def test_enum_access():
+    """Test scoped and unscoped enum access."""
+    assert (
+        QtQuick.QQuickItem.TopLeft
+        == QtQuick.QQuickItem.TransformOrigin.TopLeft
+    )

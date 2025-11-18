@@ -20,7 +20,14 @@ if PYQT5:
     raise QtBindingMissingModuleError(name="QtWebEngineQuick")
 elif PYQT6:
     try:
+        from PyQt6 import QtWebEngineQuick
         from PyQt6.QtWebEngineQuick import *
+
+        # Allow unscoped access for enums
+        from .enums_compat import promote_enums
+
+        promote_enums(QtWebEngineQuick)
+        del QtWebEngineQuick
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
             name="QtWebEngineQuick",

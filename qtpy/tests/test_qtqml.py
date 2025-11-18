@@ -1,10 +1,10 @@
-from qtpy import PYSIDE2, PYSIDE6
+import pytest
+
+from qtpy import PYQT5, PYQT_VERSION, PYSIDE2, PYSIDE6, QtQml
 
 
 def test_qtqml():
     """Test the qtpy.QtQml namespace"""
-    from qtpy import QtQml
-
     assert QtQml.QJSEngine is not None
     assert QtQml.QJSValue is not None
     assert QtQml.QJSValueIterator is not None
@@ -30,3 +30,18 @@ def test_qtqml():
     assert QtQml.QQmlPropertyValueSource is not None
     assert QtQml.QQmlScriptString is not None
     assert QtQml.QQmlPropertyMap is not None
+
+
+@pytest.mark.skipif(
+    PYQT5 and PYQT_VERSION.startswith("5.9"),
+    reason=(
+        "A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.* "
+        "to work with scoped enum access"
+    ),
+)
+def test_enum_access():
+    """Test scoped and unscoped enum access."""
+    assert (
+        QtQml.QQmlAbstractUrlInterceptor.QmlFile
+        == QtQml.QQmlAbstractUrlInterceptor.DataType.QmlFile
+    )

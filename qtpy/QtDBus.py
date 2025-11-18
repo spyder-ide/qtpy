@@ -21,7 +21,14 @@ from . import (
 if PYQT5:
     from PyQt5.QtDBus import *
 elif PYQT6:
+    from PyQt6 import QtDBus
     from PyQt6.QtDBus import *
+
+    # Allow unscoped access for enums
+    from .enums_compat import promote_enums
+
+    promote_enums(QtDBus)
+    del QtDBus
 elif PYSIDE2:
     raise QtBindingMissingModuleError(name="QtDBus")
 elif PYSIDE6:

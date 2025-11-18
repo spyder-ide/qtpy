@@ -9,3 +9,14 @@ def test_qtopenglwidgets():
     from qtpy import QtOpenGLWidgets
 
     assert QtOpenGLWidgets.QOpenGLWidget is not None
+
+
+@pytest.mark.skipif(PYSIDE2 or PYQT5, reason="Not available in PySide2/PyQt5")
+def test_enum_access():
+    """Test scoped and unscoped enum access."""
+    from qtpy import QtOpenGLWidgets
+
+    assert (
+        QtOpenGLWidgets.QOpenGLWidget.NoPartialUpdate
+        == QtOpenGLWidgets.QOpenGLWidget.UpdateBehavior.NoPartialUpdate
+    )

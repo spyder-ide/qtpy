@@ -25,7 +25,14 @@ if PYQT5:
         ) from error
 elif PYQT6:
     try:
+        from PyQt6 import Qt3DRender
         from PyQt6.Qt3DRender import *
+
+        # Allow unscoped access for enums
+        from .enums_compat import promote_enums
+
+        promote_enums(Qt3DRender)
+        del Qt3DRender
     except ModuleNotFoundError as error:
         raise QtModuleNotInstalledError(
             name="Qt3DRender",
