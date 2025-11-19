@@ -9,17 +9,17 @@
 from functools import wraps
 from typing import TYPE_CHECKING
 
-import qtpy
+from . import QtModuleNotInstalledError
 
 if TYPE_CHECKING:
-    from qtpy.QtWidgets import QAction
+    from .QtWidgets import QAction
 
 
 def _wrap_missing_optional_dep_error(
     attr_error,
     *,
     import_error,
-    wrapper=qtpy.QtModuleNotInstalledError,
+    wrapper=QtModuleNotInstalledError,
     **wrapper_kwargs,
 ):
     """Create a __cause__-chained wrapper error for a missing optional dep."""
@@ -72,8 +72,8 @@ def possibly_static_exec_(cls, *args, **kwargs):
 
 def set_shortcut(self, shortcut, old_set_shortcut):
     """Ensure that the type of `shortcut` is compatible to `QAction.setShortcut`."""
-    from qtpy.QtCore import Qt
-    from qtpy.QtGui import QKeySequence
+    from .QtCore import Qt
+    from .QtGui import QKeySequence
 
     if isinstance(shortcut, (QKeySequence.StandardKey, Qt.Key, int)):
         shortcut = QKeySequence(shortcut)
@@ -82,8 +82,8 @@ def set_shortcut(self, shortcut, old_set_shortcut):
 
 def set_shortcuts(self, shortcuts, old_set_shortcuts):
     """Ensure that the type of `shortcuts` is compatible to `QAction.setShortcuts`."""
-    from qtpy.QtCore import Qt
-    from qtpy.QtGui import QKeySequence
+    from .QtCore import Qt
+    from .QtGui import QKeySequence
 
     if isinstance(
         shortcuts,
@@ -104,8 +104,8 @@ def set_shortcuts(self, shortcuts, old_set_shortcuts):
 
 def add_action(self, *args, old_add_action):
     """Re-order arguments of `addAction` to backport compatibility with Qt>=6.3."""
-    from qtpy.QtCore import QObject, Qt
-    from qtpy.QtGui import QIcon, QKeySequence
+    from .QtCore import QObject, Qt
+    from .QtGui import QIcon, QKeySequence
 
     action: QAction
     icon: QIcon

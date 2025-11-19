@@ -5,7 +5,14 @@ import sys
 
 import pytest
 
-from qtpy import API_NAMES, QtCore, QtGui, QtWidgets
+from qtpy import (
+    API_NAMES,
+    QtCore,
+    QtGui,
+    QtWidgets,
+    _parse_version,
+    _parse_version_internal,
+)
 from qtpy.tests.utils import pytest_importorskip
 
 with contextlib.suppress(Exception):
@@ -141,3 +148,21 @@ else:
     raise AssertionError('QtPy imported despite bad QT_API')
 """
     subprocess.check_call([sys.executable, "-Oc", cmd], env=env)
+
+
+@pytest.mark.parametrize(
+    "first,second",
+    [("1.2.3", "1.2.3.1"), ("1.2.3", "1.10.0")],
+)
+def test_parse_version(first, second):
+    """Verify the behavior of _parse_version()"""
+    assert _parse_version(first) < _parse_version(second)
+
+
+@pytest.mark.parametrize(
+    "value,expect",
+    [("1.2.3", (1, 2, 3)), ("1.x.3", (1, 0, 3))],
+)
+def test_parse_version_internal(value, expect):
+    """Verify the behavior of _parse_version_internal()"""
+    assert _parse_version_internal(value) == expect

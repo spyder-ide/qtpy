@@ -5,7 +5,6 @@ import sys
 from datetime import date, datetime, time
 
 import pytest
-from packaging.version import parse
 
 from qtpy import (
     PYQT5,
@@ -14,6 +13,7 @@ from qtpy import (
     PYSIDE2,
     PYSIDE_VERSION,
     QtCore,
+    _parse_version,
 )
 
 _now = datetime.now()
@@ -71,7 +71,7 @@ def test_qthread_exec():
 
 
 @pytest.mark.skipif(
-    PYSIDE2 and parse(PYSIDE_VERSION) < parse("5.15"),
+    PYSIDE2 and _parse_version(PYSIDE_VERSION) < _parse_version("5.15"),
     reason="QEnum macro doesn't seem to be present on PySide2 <5.15",
 )
 def test_qenum():

@@ -60,8 +60,6 @@ import platform
 import sys
 import warnings
 
-from packaging.version import parse
-
 # Version of QtPy
 __version__ = "2.5.0.dev0"
 
@@ -191,6 +189,30 @@ PYQT_VERSION = None
 PYSIDE_VERSION = None
 QT_VERSION = None
 
+
+def _parse_int(value):
+    """Convert a value into an integer"""
+    try:
+        return int(value)
+    except ValueError:
+        return 0
+
+
+def _parse_version(version):
+    """Parse a version into a comparable object"""
+    try:
+        from packaging.version import parse as _packaging_version_parse
+    except ImportError:
+        return _parse_version_internal(version)
+    else:
+        return _packaging_version_parse(version)
+
+
+def _parse_version_internal(version):
+    """Parse a version string into a tuple of ints"""
+    return tuple(_parse_int(x) for x in version.split("."))
+
+
 # Unless `FORCE_QT_API` is set, use previously imported Qt Python bindings
 if not os.environ.get("FORCE_QT_API"):
     if "PyQt5" in sys.modules:
@@ -214,16 +236,20 @@ if API in PYQT5_API:
         QT5 = PYQT5 = True
 
         if sys.platform == "darwin":
-            macos_version = parse(platform.mac_ver()[0])
-            qt_ver = parse(QT_VERSION)
-            if macos_version < parse("10.10") and qt_ver >= parse("5.9"):
+            macos_version = _parse_version(platform.mac_ver()[0])
+            qt_ver = _parse_version(QT_VERSION)
+            if macos_version < _parse_version(
+                "10.10",
+            ) and qt_ver >= _parse_version("5.9"):
                 raise PythonQtError(
                     "Qt 5.9 or higher only works in "
                     "macOS 10.10 or higher. Your "
                     "program will fail in this "
                     "system.",
                 )
-            elif macos_version < parse("10.11") and qt_ver >= parse("5.11"):
+            elif macos_version < _parse_version(
+                "10.11",
+            ) and qt_ver >= _parse_version("5.11"):
                 raise PythonQtError(
                     "Qt 5.11 or higher only works in "
                     "macOS 10.11 or higher. Your "
@@ -247,9 +273,11 @@ if API in PYSIDE2_API:
         QT5 = PYSIDE2 = True
 
         if sys.platform == "darwin":
-            macos_version = parse(platform.mac_ver()[0])
-            qt_ver = parse(QT_VERSION)
-            if macos_version < parse("10.11") and qt_ver >= parse("5.11"):
+            macos_version = _parse_version(platform.mac_ver()[0])
+            qt_ver = _parse_version(QT_VERSION)
+            if macos_version < _parse_version(
+                "10.11",
+            ) and qt_ver >= _parse_version("5.11"):
                 raise PythonQtError(
                     "Qt 5.11 or higher only works in "
                     "macOS 10.11 or higher. Your "
@@ -333,18 +361,28 @@ def _warn_old_minor_version(name, old_version, min_version):
 
 # Warn if using an End of Life or unsupported Qt API/binding minor version
 if QT_VERSION:
-    if QT5 and (parse(QT_VERSION) < parse(QT5_VERSION_MIN)):
+    if QT5 and (_parse_version(QT_VERSION) < _parse_version(QT5_VERSION_MIN)):
         _warn_old_minor_version("Qt5", QT_VERSION, QT5_VERSION_MIN)
-    elif QT6 and (parse(QT_VERSION) < parse(QT6_VERSION_MIN)):
+    elif QT6 and (
+        _parse_version(QT_VERSION) < _parse_version(QT6_VERSION_MIN)
+    ):
         _warn_old_minor_version("Qt6", QT_VERSION, QT6_VERSION_MIN)
 
 if PYQT_VERSION:
-    if PYQT5 and (parse(PYQT_VERSION) < parse(PYQT5_VERSION_MIN)):
+    if PYQT5 and (
+        _parse_version(PYQT_VERSION) < _parse_version(PYQT5_VERSION_MIN)
+    ):
         _warn_old_minor_version("PyQt5", PYQT_VERSION, PYQT5_VERSION_MIN)
-    elif PYQT6 and (parse(PYQT_VERSION) < parse(PYQT6_VERSION_MIN)):
+    elif PYQT6 and (
+        _parse_version(PYQT_VERSION) < _parse_version(PYQT6_VERSION_MIN)
+    ):
         _warn_old_minor_version("PyQt6", PYQT_VERSION, PYQT6_VERSION_MIN)
 elif PYSIDE_VERSION:
-    if PYSIDE2 and (parse(PYSIDE_VERSION) < parse(PYSIDE2_VERSION_MIN)):
+    if PYSIDE2 and (
+        _parse_version(PYSIDE_VERSION) < _parse_version(PYSIDE2_VERSION_MIN)
+    ):
         _warn_old_minor_version("PySide2", PYSIDE_VERSION, PYSIDE2_VERSION_MIN)
-    elif PYSIDE6 and (parse(PYSIDE_VERSION) < parse(PYSIDE6_VERSION_MIN)):
+    elif PYSIDE6 and (
+        _parse_version(PYSIDE_VERSION) < _parse_version(PYSIDE6_VERSION_MIN)
+    ):
         _warn_old_minor_version("PySide6", PYSIDE_VERSION, PYSIDE6_VERSION_MIN)

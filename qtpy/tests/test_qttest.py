@@ -1,7 +1,6 @@
 import pytest
-from packaging import version
 
-from qtpy import PYQT5, PYQT6, PYQT_VERSION, PYSIDE6, QtTest
+from qtpy import PYQT5, PYQT6, PYQT_VERSION, PYSIDE6, QtTest, _parse_version
 
 
 def test_qttest():
@@ -12,7 +11,7 @@ def test_qttest():
         assert QtTest.QSignalSpy is not None
 
         if (
-            (PYQT5 and version.parse(PYQT_VERSION) >= version.parse("5.11"))
+            (PYQT5 and _parse_version(PYQT_VERSION) >= _parse_version("5.11"))
             or PYQT6
             or PYSIDE6
         ):

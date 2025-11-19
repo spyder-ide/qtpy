@@ -3,7 +3,6 @@
 import sys
 
 import pytest
-from packaging.version import parse
 
 from qtpy import (
     PYQT5,
@@ -14,6 +13,7 @@ from qtpy import (
     QtCore,
     QtGui,
     QtWidgets,
+    _parse_version,
 )
 
 
@@ -197,7 +197,7 @@ def test_QAction_functions(qtbot):
 
 
 @pytest.mark.skipif(
-    parse(QT_VERSION) < parse("6.5.0"),
+    _parse_version(QT_VERSION) < _parse_version("6.5.0"),
     reason="Qt6 >= 6.5 specific test",
 )
 @pytest.mark.skipif(
