@@ -5,6 +5,7 @@
 """
 Compatibility functions
 """
+
 import enum
 import sys
 
@@ -13,6 +14,7 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
+    QtBindingsNotFoundError,
 )
 from .QtWidgets import QFileDialog
 
@@ -224,3 +226,14 @@ def getenumasint(enum_value):
 def getenumfromint(enum_class, i):
     """Get the Qt enum value from an integer"""
     return enum_class(i)
+
+
+# =============================================================================
+def getimagebytes(qimage):
+    if PYQT5:
+        return qimage.bits().asstring(qimage.byteCount())
+    if PYQT6:
+        return qimage.bits().asstring(qimage.sizeInBytes())
+    if PYSIDE2 or PYSIDE6:
+        return qimage.bits().tobytes()
+    raise QtBindingsNotFoundError

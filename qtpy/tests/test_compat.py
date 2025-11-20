@@ -6,6 +6,8 @@ import pytest
 from packaging import version
 
 from qtpy import PYQT5, PYQT_VERSION, QtWidgets, compat
+from qtpy.QtCore import QSize
+from qtpy.QtGui import QImage
 from qtpy.tests.utils import not_using_conda
 
 
@@ -42,3 +44,10 @@ def test_getenumfromint():
         assert enum_value == QtWidgets.QSizePolicy.Expanding
     else:
         assert enum_value == QtWidgets.QSizePolicy.Policy.Expanding
+
+
+def test_getimagebytes(qtbot):
+    """Test compat.getimagebytes"""
+    image = QImage(QSize(100, 100), QImage.Format_RGB32)
+    _bytes = compat.getimagebytes(image)
+    assert len(_bytes) == 100 * 100 * 4
