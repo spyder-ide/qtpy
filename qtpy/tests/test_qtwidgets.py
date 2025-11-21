@@ -44,6 +44,7 @@ def test_what_moved_to_qtgui_in_qt6():
     assert QtWidgets.QFileSystemModel is not None
     assert QtWidgets.QShortcut is not None
     assert QtWidgets.QUndoCommand is not None
+    assert QtWidgets.QUndoStack is not None
 
 
 def test_qplaintextedit_functions(qtbot, pdf_writer):
