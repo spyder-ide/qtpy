@@ -235,3 +235,13 @@ def test_opengl_imports():
     assert QtGui.QOpenGLVersionProfile is not None
     assert QtGui.QOpenGLVertexArrayObject is not None
     assert QtGui.QOpenGLWindow is not None
+
+
+@pytest.mark.skipif(
+    PYQT5 and PYQT_VERSION.startswith("5.9"),
+    reason="A specific setup with at least sip 4.9.9 is needed for PyQt5 5.9.*"
+    "to work with scoped enum access",
+)
+def test_theme_icon_enum():
+    """Test `QIcon.ThemeIcon` presence and work."""
+    QtGui.QIcon.fromTheme(QtGui.QIcon.ThemeIcon.AddressBookNew)
