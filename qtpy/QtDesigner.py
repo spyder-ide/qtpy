@@ -2,7 +2,7 @@
 # Copyright © 2014-2015 Colin Duquesnoy
 #
 # Licensed under the terms of the MIT License
-# (see LICENSE.txt for details)
+# (see LICENSE for details)
 # -----------------------------------------------------------------------------
 
 """Provides QtDesigner classes and functions."""
