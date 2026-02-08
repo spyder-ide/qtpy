@@ -1,5 +1,3 @@
-import pytest
-
 from qtpy import PYSIDE2, PYSIDE_VERSION, _parse_version
 from tests.utils import pytest_importorskip
 

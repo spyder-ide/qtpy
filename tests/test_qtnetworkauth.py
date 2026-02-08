@@ -1,6 +1,6 @@
 import pytest
 
-from qtpy import PYQT5, PYQT6, PYSIDE2
+from qtpy import PYSIDE2
 from tests.utils import pytest_importorskip
 
 

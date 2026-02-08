@@ -1,22 +1,18 @@
 """Test QtWidgets."""
-import contextlib
+
 import sys
 from time import sleep
 
 import pytest
-from pytestqt.exceptions import TimeoutError
 
 from qtpy import (
     PYQT5,
-    PYQT6,
     PYQT_VERSION,
     PYSIDE2,
-    PYSIDE6,
     QtCore,
     QtGui,
     QtWidgets,
 )
-from tests.utils import not_using_conda, using_conda
 
 
 def test_qtextedit_functions(qtbot, pdf_writer):
