@@ -41,7 +41,7 @@ to a particular project or namespace.
 
 ### License
 
-This project is released under the [MIT license](LICENSE.txt).
+This project is released under the [MIT license](LICENSE).
 
 
 ### Requirements
