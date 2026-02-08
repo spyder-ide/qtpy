@@ -1,4 +1,4 @@
 include CHANGELOG.md
 include SECURITY.md
 include pytest.ini
-recursive-include qtpy/tests *.py *.ui
+recursive-include tests *.py *.ui
