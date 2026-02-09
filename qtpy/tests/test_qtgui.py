@@ -61,6 +61,7 @@ def test_what_moved_to_qtgui_in_qt6():
     assert QtGui.QFileSystemModel is not None
     assert QtGui.QShortcut is not None
     assert QtGui.QUndoCommand is not None
+    assert QtGui.QUndoStack is not None
 
 
 def test_qtextdocument_functions(pdf_writer):
