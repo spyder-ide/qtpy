@@ -3,7 +3,7 @@
 # Copyright © 2009- The Spyder Development Team
 #
 # Licensed under the terms of the MIT License
-# (see LICENSE.txt for details)
+# (see LICENSE for details)
 # -----------------------------------------------------------------------------
 
 """Provides QtNetwork classes and functions."""

@@ -2,7 +2,7 @@
 # Copyright © 2019- The Spyder Development Team
 #
 # Licensed under the terms of the MIT License
-# (see LICENSE.txt for details)
+# (see LICENSE for details)
 # -----------------------------------------------------------------------------
 
 """Provides QtChart classes and functions."""
