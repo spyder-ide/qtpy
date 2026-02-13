@@ -26,11 +26,6 @@ repos:
       exclude: .*\.md
     - id: debug-statements
     - id: mixed-line-ending
--   repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v2.5.0
-    hooks:
-    - id: setup-cfg-fmt
-      args: ["--include-version-classifiers", "--max-py-version", "3.13", "--min-py-version", "3.9"]
 
 ci:
     autoupdate_schedule: monthly
