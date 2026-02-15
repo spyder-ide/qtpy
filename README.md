@@ -69,17 +69,25 @@ To set a specific binding, set the `QT_API` environment variable to on of the fo
 
 QtPy provides aliases following the Qt5 module layout:
 
-| PyQt5/6                 | Alias             |
-|-------------------------|-------------------|
-| `QtCore.pyqtSignal`     | `QtCore.Signal`   |
-| `QtCore.pyqtSlot`       | `QtCore.Slot`     |
-| ``QtCore.pyqtProperty`` | `QtCore.Property` |'
+| PyQt5/6               | Alias             |
+|-----------------------|-------------------|
+| `QtCore.pyqtSignal`   | `QtCore.Signal`   |
+| `QtCore.pyqtSlot`     | `QtCore.Slot`     |
+| `QtCore.pyqtProperty` | `QtCore.Property` |
 
 * For PyQt6 enums, unscoped enum access was added by promoting the enums of the
   `QtCore`, `QtGui`, `QtTest` and `QtWidgets` modules.
 
 * Compatibility is added between the `QtGui` and `QtOpenGL` modules for
   the `QOpenGL*` classes.
+
+For example:
+```python
+from qtpy import QtCore, QtWidgets
+
+class Widget(QtWidgets.QWidget):
+    value_changed = QtCore.Signal(int)
+```
 
 ### Module Constants
 
