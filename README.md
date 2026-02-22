@@ -174,13 +174,12 @@ in `pyproject.toml`. Refer to the
 for reference. In order to set this configuration, QtPy offers the `pyright-config`
 command for guidance.
 
-To add necessary configs in your project files run:
-
+To print the necessary configs for your project files run:
 ```bash
 qtpy pyright-config
 ```
 
-If you don't have them, it is recommended to create the latter. For example,
+If you don't have any, it is recommended to create the them. For example,
 in an environment where PyQt5 is installed and selected (or the default fallback,
 if no binding can be found in the environment), this would output the following files:
 
