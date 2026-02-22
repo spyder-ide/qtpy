@@ -50,13 +50,9 @@ To set a specific binding, see [Bindings](#Bindings).
 ## Features
 
 * Supports multiple Qt bindings (PyQt5/6, PySide2/6) without requiring conditional imports or logic branching.
-
 * Detects and loads the available Qt binding automatically based on what is installed or already imported.
-
 * Normalizes the module structure to follow the modern Qt5 layout (`QtGui` / `QtWidgets`).
-
 * Simplifies the process of porting applications between Qt5 and Qt6 by handling API incompatibilities internally.
-
 * Enables incremental updates to project modules rather than requiring a full-scale rewrite when changing Qt providers.
 
 ### Bindings
@@ -254,6 +250,14 @@ also includes contributions adapted from
 
 Unlike `pyqode.qt` this is not a namespace package, so it is not tied
 to a particular project or namespace.
+
+## Success Stories
+
+You can check out examples of how QtPy adds support for multiple bindings and allows to incrementally update 
+packages here:
+
+* [git-cola](https://github.com/git-cola/git-cola/issues/232)
+* [spyder](https://github.com/spyder-ide/spyder)
 
 ## License
 
