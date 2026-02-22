@@ -42,16 +42,10 @@ conda install qtpy
 
 ### Requirements
 
-The installation requires one of the supported packages (PySide2, PySide6, PyQt5, PyQt6) as QtPy does not install any
+The installation requires one of the supported packages (PyQt5, PyQt6, PySide2, PySide6) as QtPy does not install any
 binding by itself.
 If several of these packages are found, PyQt5 is used by default.
-
-To set a specific binding, set the `QT_API` environment variable to on of the following values:
-
-* `pyside2` (to use PySide2).
-* `pyside6` (to use PySide6).
-* `pyqt5` (to use PyQt5).
-* `pyqt6` (to use PyQt6).
+To set a specific binding, see [Bindings](#Bindings).
 
 ## Features
 
@@ -64,6 +58,25 @@ To set a specific binding, set the `QT_API` environment variable to on of the fo
 * Simplifies the process of porting applications between Qt5 and Qt6 by handling API incompatibilities internally.
 
 * Enables incremental updates to project modules rather than requiring a full-scale rewrite when changing Qt providers.
+
+### Bindings
+
+To set a specific binding, set the `QT_API` environment variable to one of the following values:
+
+| Value     | Binding |
+|-----------|---------|
+| `pyside6` | PySide6 |
+| `pyside2` | PySide2 |
+| `pyqt6`   | PyQt6   |
+| `pyqt5`   | PyQt5   |
+
+For example, to use PyQt6:
+```python
+import os
+os.environ['QT_API'] = 'pyqt6'
+from qtpy import QtGui, QtWidgets, QtCore
+print(QtWidgets.QWidget)
+```
 
 ### Module Aliases
 
