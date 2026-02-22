@@ -3,7 +3,7 @@
 # Copyright © 2009- The Spyder development Team
 #
 # Licensed under the terms of the MIT License
-# (see LICENSE for details)
+# (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
 """Provides QtWebEngineWidgets classes and functions."""

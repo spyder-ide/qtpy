@@ -2,7 +2,7 @@
 # Copyright 2020 Antonio Valentino
 #
 # Licensed under the terms of the MIT License
-# (see LICENSE for details)
+# (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
 """Provides QtPositioning classes and functions."""

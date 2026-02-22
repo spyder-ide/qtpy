@@ -2,7 +2,7 @@
 # Copyright © 2009- The Spyder Development Team
 #
 # Licensed under the terms of the MIT License
-# (see LICENSE for details)
+# (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
 """Provides QtQuickControls2 classes and functions."""

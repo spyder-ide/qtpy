@@ -3,7 +3,7 @@
 # Copyright © 2014-2015 Colin Duquesnoy
 #
 # Licensed under the terms of the MIT License
-# (see LICENSE for details)
+# (see LICENSE.txt for details)
 
 """
 **QtPy** is a shim over the various Python Qt bindings. It is used to write

@@ -2,7 +2,7 @@
 # Copyright © 2023- The Spyder Development Team
 #
 # Released under the terms of the MIT License
-# (see LICENSE for details)
+# (see LICENSE.txt for details)
 # -----------------------------------------------------------------------------
 
 """Provides utility functions for use by QtPy itself."""
