@@ -121,7 +121,12 @@ def test_QMenu_functions(qtbot):
     func = lambda: print('Action')
     icon = QtGui.QIcon()
     text = "QtPy"
-    shortcuts = (QtGui.QKeySequence.StandardKey.HelpContents, QtCore.Qt.Key_F1, 'F1', 1)
+    shortcuts = (
+        QtGui.QKeySequence.StandardKey.HelpContents,
+        QtCore.Qt.Key_F1,
+        'F1',
+        1,
+    )
     receiver = Receiver(parent=window)
     member = 'triggered'
     connection_type = QtCore.Qt.ConnectionType.DirectConnection
@@ -150,7 +155,9 @@ def test_QMenu_functions(qtbot):
         menu.addAction(text, shortcut)
         menu.addAction(text, shortcut, receiver, member, type=connection_type)
         menu.addAction(icon, text, shortcut)
-        menu.addAction(icon, text, shortcut, receiver, member, type=connection_type)
+        menu.addAction(
+            icon, text, shortcut, receiver, member, type=connection_type
+        )
 
     window.show()
 
