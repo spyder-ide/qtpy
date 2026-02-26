@@ -177,7 +177,7 @@ qtpy pyright-config
 
 If you don't have any, it is recommended to create the them. For example,
 in an environment where PyQt5 is installed and selected (or the default fallback,
-if no binding can be found in the environment), this would output the following files:
+if no binding can be found in the environment), this would output the following:
 
 `pyrightconfig.json`
 

@@ -195,7 +195,7 @@ Once you've made your changes (or ideally, before), you'll want to run the full 
 own, if you haven't already done so.
 
 This package uses the [Pytest](https://pytest.org) framework for its unit and integration tests, which are located
-inside the package alongside the tested code, in the ``tests/`` subdirectory.
+inside the ``tests/`` directory.
 We **strongly** suggest you run the full test suite before every commit (it should only take a few seconds to run on
 most machines).
 
