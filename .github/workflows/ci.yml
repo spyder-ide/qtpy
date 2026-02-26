@@ -179,6 +179,7 @@ jobs:
           flag-name: ${{ matrix.os }} Python ${{ matrix.python-version }} conda=${{ matrix.use-conda }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           debug: true
+          fail-on-error: false
   finish:
     name: Finish Coveralls
     needs: test
@@ -189,3 +190,4 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         parallel-finished: true
+        fail-on-error: false
