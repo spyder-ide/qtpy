@@ -12,6 +12,7 @@
 
 *Copyright © 2009– The Spyder Development Team*
 
+
 ## Description
 
 **QtPy** provides a uniform interface to support PyQt5, PySide2, PyQt6, and PySide6 through a single codebase.
@@ -28,6 +29,7 @@ widget.show()
 app.exec()
 ```
 
+
 ## Installation
 
 ```bash
@@ -40,12 +42,13 @@ or
 conda install qtpy
 ```
 
+
 ### Requirements
 
-The installation requires one of the supported packages (PyQt5, PyQt6, PySide2, PySide6) as QtPy does not install any
-binding by itself.
+The installation requires one of the supported packages (PyQt5, PyQt6, PySide2, PySide6) as QtPy does not install any binding by itself.
 If several of these packages are found, PyQt5 is used by default.
 To set a specific binding, see [Bindings](#Bindings).
+
 
 ## Features
 
@@ -54,6 +57,7 @@ To set a specific binding, see [Bindings](#Bindings).
 * Normalizes the module structure to follow the modern Qt5 layout (`QtGui` / `QtWidgets`).
 * Simplifies the process of porting applications between Qt5 and Qt6 by handling API incompatibilities internally.
 * Enables incremental updates to project modules rather than requiring a full-scale rewrite when changing Qt providers.
+
 
 ### Bindings
 
@@ -74,6 +78,7 @@ from qtpy import QtGui, QtWidgets, QtCore
 print(QtWidgets.QWidget)
 ```
 
+
 ### Module Aliases
 
 QtPy provides aliases following the Qt5 module layout:
@@ -84,11 +89,9 @@ QtPy provides aliases following the Qt5 module layout:
 | `QtCore.pyqtSlot`     | `QtCore.Slot`     |
 | `QtCore.pyqtProperty` | `QtCore.Property` |
 
-* For PyQt6 enums, unscoped enum access was added by promoting the enums of the
-  `QtCore`, `QtGui`, `QtTest` and `QtWidgets` modules.
+* For PyQt6 enums, unscoped enum access was added by promoting the enums of the `QtCore`, `QtGui`, `QtTest` and `QtWidgets` modules.
 
-* Compatibility is added between the `QtGui` and `QtOpenGL` modules for
-  the `QOpenGL*` classes.
+* Compatibility is added between the `QtGui` and `QtOpenGL` modules for the `QOpenGL*` classes.
 
 For example:
 ```python
@@ -97,6 +100,7 @@ from qtpy import QtCore, QtWidgets
 class Widget(QtWidgets.QWidget):
     value_changed = QtCore.Signal(int)
 ```
+
 
 ### Module Constants
 
@@ -114,6 +118,7 @@ class Widget(QtWidgets.QWidget):
 | `qtpy.QT5`            | `True`/`False` if Qt5 is currently used.                    |
 | `qtpy.QT6`            | `True`/`False` if Qt6 is currently used.                    |
 
+
 ### Compat Module
 
 The `qtpy.compat` module provides wrappers for `QFileDialog` static methods and SIP/Shiboken functions.
@@ -126,30 +131,25 @@ The `qtpy.compat` module provides wrappers for `QFileDialog` static methods and 
 | `QFileDialog.getSaveFileName`        | `qtpy.compat.getsavefilename`      |
 | `sip.isdeleted` / `shiboken.isValid` | `qtpy.compat.isalive`              |
 
+
 ### Type Checker Integration
 
-Type checkers have no knowledge of installed packages, so these tools require
-additional configuration.
+Type checkers have no knowledge of installed packages, so these tools require additional configuration.
 
-A Command Line Interface (CLI) is offered to help with usage of QtPy (to get MyPy
-and Pyright/Pylance args/configurations).
+A Command Line Interface (CLI) is offered to help with usage of QtPy (to get MyPy and Pyright/Pylance args/configurations).
+
 
 #### Mypy
 
-The `mypy-args` command helps you to generate command line arguments for Mypy
-that will enable it to process the QtPy source files with the same API
-as QtPy itself would have selected.
+The `mypy-args` command helps you to generate command line arguments for Mypy that will enable it to process the QtPy source files with the same API as QtPy itself would have selected.
 
-To output a string of Mypy CLI args that will reflect the currently selected
-Qt API run:
+To output a string of Mypy CLI args that will reflect the currently selected Qt API run:
 
 ```bash
 qtpy mypy-args
 ```
 
-For example, in an environment where PyQt5 is installed and selected
-(or the default fallback, if no binding can be found in the environment),
-this would output the following:
+For example, in an environment where PyQt5 is installed and selected (or the default fallback, if no binding can be found in the environment), this would output the following:
 
 ```text
 --always-true=PYQT5 --always-false=PYSIDE2 --always-false=PYQT6 --always-false=PYSIDE6
@@ -161,23 +161,20 @@ Using Bash or a similar shell, this can be injected into the Mypy command line i
 mypy --package mypackage $(qtpy mypy-args)
 ```
 
+
 #### Pyright/Pylance
 
-In the case of Pyright, instead of runtime arguments, it is required to create a
-config file for the project, called `pyrightconfig.json` or a `pyright` section
-in `pyproject.toml`. Refer to the
-[Pyright Configuration](https://github.com/microsoft/pyright/blob/main/docs/configuration.md)
-for reference. In order to set this configuration, QtPy offers the `pyright-config`
-command for guidance.
+In the case of Pyright, instead of runtime arguments, it is required to create a config file for the project, called `pyrightconfig.json` or a `pyright` section in `pyproject.toml`. 
+Refer to the [Pyright Configuration](https://github.com/microsoft/pyright/blob/main/docs/configuration.md) for reference.
+In order to set this configuration, QtPy offers the `pyright-config` command for guidance.
 
 To print the necessary configs for your project files run:
 ```bash
 qtpy pyright-config
 ```
 
-If you don't have any, it is recommended to create the them. For example,
-in an environment where PyQt5 is installed and selected (or the default fallback,
-if no binding can be found in the environment), this would output the following:
+If you don't have any, it is recommended to create them.
+For example, in an environment where PyQt5 is installed and selected (or the default fallback, if no binding can be found in the environment), this would output the following:
 
 `pyrightconfig.json`
 
@@ -202,14 +199,13 @@ PYQT6 = false
 PYSIDE6 = false
 ```
 
-**Note**: These configurations are necessary for the correct usage of the default VSCode's type
-checking feature while using QtPy in your source code.
+**Note**: These configurations are necessary for the correct usage of the default VSCode's type checking feature while using QtPy in your source code.
+
 
 ## Testing Matrix
 
-Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using
-Python 3.9, 3.11 and 3.13, and installing those bindings with `conda` and `pip`. For the
-PyQt bindings, the installation of extra packages is also checked via `pip`.
+Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using Python 3.9, 3.11 and 3.13, and installing those bindings with `conda` and `pip`.
+For the PyQt bindings, the installation of extra packages is also checked via `pip`.
 
 Following this, the current test matrix looks something like this:
 
@@ -239,41 +235,34 @@ Following this, the current test matrix looks something like this:
 * `PyQtWebEngine` and `PyQt6-WebEngine`
 * `QScintilla` and `PyQt6-QScintilla`
 
+
 ## Attribution and Acknowledgments
 
-This project is based on the [pyqode.qt](https://github.com/pyQode/pyqode.qt)
-project and the [spyderlib.qt](https://github.com/spyder-ide/spyder/tree/2.3/spyderlib/qt)
-module from the [Spyder](https://github.com/spyder-ide/spyder) project, and
-also includes contributions adapted from
-[qt-helpers](https://github.com/glue-viz/qt-helpers), developed as part of the
-[glue](http://glueviz.org) project.
+This project is based on the [pyqode.qt](https://github.com/pyQode/pyqode.qt) project and the [spyderlib.qt](https://github.com/spyder-ide/spyder/tree/2.3/spyderlib/qt) module from the [Spyder](https://github.com/spyder-ide/spyder) project, and also includes contributions adapted from [qt-helpers (https://github.com/glue-viz/qt-helpers), developed as part of the [glue](http://glueviz.org) project.
 
-Unlike `pyqode.qt` this is not a namespace package, so it is not tied
-to a particular project or namespace.
+Unlike `pyqode.qt` this is not a namespace package, so it is not tied to a particular project or namespace.
+
 
 ## Success Stories
 
-You can check out examples of how QtPy adds support for multiple bindings and allows to incrementally update 
-packages here:
+You can check out examples of how QtPy adds support for multiple bindings and allows to incrementally update packages here:
 
 * [git-cola](https://github.com/git-cola/git-cola/issues/232)
 * [spyder](https://github.com/spyder-ide/spyder)
+
 
 ## License
 
 This project is released under the [MIT license](LICENSE.txt).
 
+
 ## Contributing
 
 Everyone is welcome to contribute! See our [Contributing guide](CONTRIBUTING.md) for more details.
 
+
 ## Sponsors
 
-QtPy is funded thanks to the generous support of
-
-[![Chan Zuckerberg Initiative](https://raw.githubusercontent.com/spyder-ide/spyder/master/img_src/czi.png)](https://chanzuckerberg.com/)[![Numfocus](https://i2.wp.com/numfocus.org/wp-content/uploads/2017/07/NumFocus_LRG.png?fit=320%2C148&ssl=1)](https://numfocus.org/)
-
-and the donations we have received from our users around the world
-through [Open Collective](https://opencollective.com/spyder/):
+QtPy is funded thanks to the generous support of [![Chan Zuckerberg Initiative](https://raw.githubusercontent.com/spyder-ide/spyder/master/img_src/czi.png)](https://chanzuckerberg.com/)[![Numfocus](https://i2.wp.com/numfocus.org/wp-content/uploads/2017/07/NumFocus_LRG.png?fit=320%2C148&ssl=1)](https://numfocus.org/) and the donations we have received from our users around the world through [Open Collective](https://opencollective.com/spyder/):
 
 [![Sponsors](https://opencollective.com/spyder/sponsors.svg)](https://opencollective.com/spyder#support)
