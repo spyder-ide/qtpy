@@ -46,7 +46,7 @@ conda install qtpy
 ### Requirements
 
 The installation requires one of the supported packages (PyQt5, PyQt6, PySide2, PySide6) as QtPy does not install any binding by itself.
-If several of these packages are found, PyQt5 is used by default.
+If multiple of these libraries are found, PyQt5 is used by default.
 To set a specific binding, see [Bindings](#Bindings).
 
 
