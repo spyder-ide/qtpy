@@ -38,7 +38,7 @@ pip install qtpy
 
 or
 
-```bash
+```shell
 conda install qtpy
 ```
 
