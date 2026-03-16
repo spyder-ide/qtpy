@@ -21,7 +21,7 @@ It abstracts the differences between bindings and versions, allowing software to
 Import from `qtpy` instead of PySide/PyQt:
 
 ```python
-from qtpy import QtWidgets, QtCore
+from qtpy import QtCore, QtWidgets
 
 app = QtWidgets.QApplication()
 widget = QtWidgets.QWidget()
