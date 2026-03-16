@@ -258,7 +258,8 @@ This project is released under the [MIT license](LICENSE.txt).
 
 ## Contributing
 
-Everyone is welcome to contribute! See our [Contributing guide](CONTRIBUTING.md) for more details.
+Everyone is welcome to contribute!
+See our [Contributing guide](CONTRIBUTING.md) for more details.
 
 
 ## Sponsors
