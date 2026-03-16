@@ -32,7 +32,7 @@ app.exec()
 
 ## Installation
 
-```bash
+```shell
 pip install qtpy
 ```
 
