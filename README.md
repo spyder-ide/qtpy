@@ -207,7 +207,7 @@ PYSIDE6 = false
 Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using Python 3.9, 3.11 and 3.13, and installing those bindings with `conda` and `pip`.
 For the PyQt bindings, the installation of extra packages is also checked via `pip`.
 
-Following this, the current test matrix looks something like this:
+The current test matrix looks something like this:
 
 |         | Python            | 3.9                |      | 3.11               |                            | 3.13               |                            |
 |---------|-------------------|--------------------|------|--------------------|----------------------------|--------------------|----------------------------|
