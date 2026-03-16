@@ -245,7 +245,7 @@ Unlike `pyqode.qt` this is not a namespace package, so it is not tied to a parti
 
 ## Success Stories
 
-You can check out examples of how QtPy adds support for multiple bindings and allows to incrementally update packages here:
+You can check out examples of how QtPy adds support for multiple bindings and allows for incremental updates to new binding versions here:
 
 * [git-cola](https://github.com/git-cola/git-cola/issues/232)
 * [spyder](https://github.com/spyder-ide/spyder)
