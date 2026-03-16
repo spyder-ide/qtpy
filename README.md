@@ -263,6 +263,6 @@ Everyone is welcome to contribute! See our [Contributing guide](CONTRIBUTING.md)
 
 ## Sponsors
 
-QtPy is funded thanks to the generous support of [![Chan Zuckerberg Initiative](https://raw.githubusercontent.com/spyder-ide/spyder/master/img_src/czi.png)](https://chanzuckerberg.com/)[![Numfocus](https://i2.wp.com/numfocus.org/wp-content/uploads/2017/07/NumFocus_LRG.png?fit=320%2C148&ssl=1)](https://numfocus.org/) and the donations we have received from our users around the world through [Open Collective](https://opencollective.com/spyder/):
+QtPy is funded thanks to the generous support of our users from around the world through [Open Collective](https://opencollective.com/spyder/) and [NumFOCUS](https://numfocus.org/project/spyder):
 
 [![Sponsors](https://opencollective.com/spyder/sponsors.svg)](https://opencollective.com/spyder#support)
