@@ -74,7 +74,7 @@ For example, to use PyQt6:
 ```python
 import os
 os.environ['QT_API'] = 'pyqt6'
-from qtpy import QtGui, QtWidgets, QtCore
+from qtpy import QtCore, QtGui, QtWidgets
 print(QtWidgets.QWidget)
 ```
 
@@ -141,11 +141,10 @@ A Command Line Interface (CLI) is offered to help with usage of QtPy (to get MyP
 
 #### Mypy
 
-The `mypy-args` command helps you to generate command line arguments for Mypy that will enable it to process the QtPy source files with the same API as QtPy itself would have selected.
+The `mypy-args` command generates command line arguments for Mypy that will enable it to process the QtPy source files with the same API as QtPy itself would have selected.
 
 To output a string of Mypy CLI args that will reflect the currently selected Qt API run:
 
-```bash
 qtpy mypy-args
 ```
 
@@ -164,17 +163,18 @@ mypy --package mypackage $(qtpy mypy-args)
 
 #### Pyright/Pylance
 
-In the case of Pyright, instead of runtime arguments, it is required to create a config file for the project, called `pyrightconfig.json` or a `pyright` section in `pyproject.toml`. 
-Refer to the [Pyright Configuration](https://github.com/microsoft/pyright/blob/main/docs/configuration.md) for reference.
+In the case of Pyright, instead of runtime arguments you need to create a `pyrightconfig.json` config file for the project or a `pyright` section in `pyproject.toml`. 
+Refer to the [Pyright Configuration](https://github.com/microsoft/pyright/blob/main/docs/configuration.md) for a full reference.
 In order to set this configuration, QtPy offers the `pyright-config` command for guidance.
 
-To print the necessary configs for your project files run:
+To print the necessary configuration for your `pyrightconfig.json` or `pyproject.toml`, run:
 ```bash
 qtpy pyright-config
 ```
 
-If you don't have any, it is recommended to create them.
-For example, in an environment where PyQt5 is installed and selected (or the default fallback, if no binding can be found in the environment), this would output the following:
+If you don't have either of these, you should create them.
+
+For example, in an environment where PyQt5 is installed and selected (or the default fallback, if no binding can be found in the environment), `qtpy pyright-config` would output the following:
 
 `pyrightconfig.json`
 
@@ -199,12 +199,12 @@ PYQT6 = false
 PYSIDE6 = false
 ```
 
-**Note**: These configurations are necessary for the correct usage of the default VSCode's type checking feature while using QtPy in your source code.
+**Note**: This configuration is necessary for the correct usage of the default VSCode type checking feature when using QtPy in your source code.
 
 
 ## Testing Matrix
 
-Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using Python 3.9, 3.11 and 3.13, and installing those bindings with `conda` and `pip`.
+Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using Python 3.9, 3.11 and 3.13, and installed via `conda` and `pip`.
 For the PyQt bindings, the installation of extra packages is also checked via `pip`.
 
 The current test matrix looks something like this:
