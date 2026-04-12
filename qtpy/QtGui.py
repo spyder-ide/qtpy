@@ -59,6 +59,7 @@ if PYQT5:
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
+        QUndoStack,
     )
 
 elif PYQT6:
@@ -114,6 +115,7 @@ elif PYSIDE2:
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
+        QUndoStack,
     )
 
     if hasattr(QFontMetrics, "horizontalAdvance"):

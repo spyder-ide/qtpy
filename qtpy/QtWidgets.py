@@ -40,6 +40,7 @@ elif PYQT6:
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
+        QUndoStack,
     )
 
     if _parse_version(_qt_version) < _parse_version("6.4"):
@@ -116,7 +117,7 @@ elif PYQT6:
 elif PYSIDE2:
     from PySide2.QtWidgets import *
 elif PYSIDE6:
-    from PySide6.QtGui import QActionGroup, QShortcut, QUndoCommand
+    from PySide6.QtGui import QActionGroup, QShortcut, QUndoCommand, QUndoStack
 
     if _parse_version(_qt_version) < _parse_version("6.4"):
         # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
