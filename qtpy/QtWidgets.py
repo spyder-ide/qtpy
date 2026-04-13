@@ -223,8 +223,8 @@ else:
         "directory",
     )
 
-if PYQT5 or PYSIDE2 or _parse_version(_qt_version) < _parse_version("6.4"):
-    # Make `addAction` compatible with Qt6 >= 6.4
+if PYQT5 or PYSIDE2 or _parse_version(_qt_version) < _parse_version("6.3"):
+    # Make `addAction` compatible with Qt6 >= 6.3
     _menu_add_action = partialmethod(
         add_action,
         old_add_action=QMenu.addAction,
