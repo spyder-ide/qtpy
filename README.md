@@ -9,6 +9,7 @@
 [![PyPI status](https://img.shields.io/pypi/status/qtpy.svg)](https://github.com/spyder-ide/qtpy)
 [![Github build status](https://github.com/spyder-ide/qtpy/workflows/Tests/badge.svg)](https://github.com/spyder-ide/qtpy/actions)
 [![Coverage Status](https://coveralls.io/repos/github/spyder-ide/qtpy/badge.svg?branch=master)](https://coveralls.io/github/spyder-ide/qtpy?branch=master)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/spyder-ide/qtpy/badge)](https://scorecard.dev/viewer/?uri=github.com/spyder-ide/qtpy)
 
 *Copyright © 2009– The Spyder Development Team*
 
