@@ -200,6 +200,9 @@ if PYSIDE2 or PYSIDE6:
         "directory",
         "dir",
     )
+
+    # Add missing constant in PySide2/6
+    QWIDGETSIZE_MAX = 16777215
 else:
     # Make PyQt5/6 `QFileDialog` static methods accept the `dir` kwarg as `directory`
     QFileDialog.getExistingDirectory = static_method_kwargs_wrapper(
