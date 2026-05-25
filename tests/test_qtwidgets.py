@@ -301,3 +301,10 @@ def test_qfiledialog_flags_typedef():
     """
     assert QtWidgets.QFileDialog.Options is not None
     assert QtWidgets.QFileDialog.Options() == QtWidgets.QFileDialog.Option(0)
+
+
+def test_widgetsize_max():
+    """
+    Test existence of `QWIDGETSIZE_MAX` that is not present in PySide2/6
+    """
+    assert QtWidgets.QWIDGETSIZE_MAX
