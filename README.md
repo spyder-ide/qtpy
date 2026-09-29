@@ -121,7 +121,7 @@ class Widget(QtWidgets.QWidget):
 
 ### Compat Module
 
-The `qtpy.compat` module provides wrappers for `QFileDialog` static methods and SIP/Shiboken functions.
+The `qtpy.compat` module provides wrappers for `QFileDialog` and `QFontDialog` static methods and SIP/Shiboken functions.
 
 | Source                               | Wrappers                           |
 |--------------------------------------|------------------------------------|
@@ -129,7 +129,12 @@ The `qtpy.compat` module provides wrappers for `QFileDialog` static methods and 
 | `QFileDialog.getOpenFileName`        | `qtpy.compat.getopenfilename`      |
 | `QFileDialog.getOpenFileNames`       | `qtpy.compat.getopenfilenames`     |
 | `QFileDialog.getSaveFileName`        | `qtpy.compat.getsavefilename`      |
+| `QFontDialog.getFont`               | `qtpy.compat.getfont`              |
 | `sip.isdeleted` / `shiboken.isValid` | `qtpy.compat.isalive`              |
+
+`qtpy.compat.getfont` always returns `(font, accepted)`, matching PyQt's order,
+including when the dialog is cancelled. Pass the dialog title positionally,
+since PyQt calls this argument `caption` while PySide calls it `title`.
 
 
 ### Type Checker Integration

@@ -6,8 +6,8 @@ import pytest
 from packaging import version
 
 from qtpy import PYQT5, PYQT_VERSION, QtWidgets, compat
-from qtpy.QtCore import QSize
-from qtpy.QtGui import QImage
+from qtpy.QtCore import QSize, QTimer
+from qtpy.QtGui import QFont, QImage
 from tests.utils import not_using_conda
 
 
@@ -51,3 +51,29 @@ def test_getimagebytes(qtbot):
     image = QImage(QSize(100, 100), QImage.Format_RGB32)
     _bytes = compat.getimagebytes(image)
     assert len(_bytes) == 100 * 100 * 4
+
+
+@pytest.mark.parametrize("accepted", [False, True])
+def test_getfont(qtbot, accepted):
+    """Return (font, accepted) for a real dialog on every binding."""
+    getfont = compat.getfont
+    initial = QFont("Arial", 12)
+
+    def finish_dialog():
+        dialog = QtWidgets.QApplication.activeModalWidget()
+        assert isinstance(dialog, QtWidgets.QFontDialog)
+        assert dialog.windowTitle() == "Choose font"
+        if accepted:
+            dialog.accept()
+        else:
+            dialog.reject()
+
+    QTimer.singleShot(0, finish_dialog)
+    font, ok = getfont(
+        initial,
+        None,
+        "Choose font",
+        QtWidgets.QFontDialog.DontUseNativeDialog,
+    )
+    assert isinstance(font, QFont)
+    assert ok is accepted
