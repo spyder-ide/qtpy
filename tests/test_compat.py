@@ -62,7 +62,7 @@ def test_getexistingdirectory_accept_label(tmp_path, qtbot):
         app = QtWidgets.QApplication.instance()
         for dlg in app.topLevelWidgets():
             if isinstance(dlg, QtWidgets.QFileDialog) and dlg.isVisible():
-                seen["accept_label"] = dlg.labetText(
+                seen["accept_label"] = dlg.labelText(
                     QtWidgets.QFileDialog.Accept,
                 )
                 seen["accept_mode"] = dlg.acceptMode()
