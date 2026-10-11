@@ -66,21 +66,37 @@ def getexistingdirectory(
     caption="",
     basedir="",
     options=QFileDialog.ShowDirsOnly,
+    accept_label=None,
 ):
     """Wrapper around QtGui.QFileDialog.getExistingDirectory static method
-    Compatible with PyQt >=v4.4 (API #1 and #2) and PySide >=v1.0"""
+    Compatible with PyQt >=v4.4 (API #1 and #2) and PySide >=v1.0
+
+    If `accept_label` is given, a QFileDialog instance is used instead of the static
+    method, since the latter does not allow setting the accept button text.
+    The label is also applied to native dialogs."""
     # Calling QFileDialog static method
     if sys.platform == "win32":
         # On Windows platforms: redirect standard outputs
         _temp1, _temp2 = sys.stdout, sys.stderr
         sys.stdout, sys.stderr = None, None
     try:
-        result = QFileDialog.getExistingDirectory(
-            parent,
-            caption,
-            basedir,
-            options,
-        )
+        if accept_label is None:
+            result = QFileDialog.getExistingDirectory(
+                parent,
+                caption,
+                basedir,
+                options,
+            )
+        else:
+            dialog = QFileDialog(parent, caption, basedir)
+            dialog.setFileMode(QFileDialog.Directory)
+            dialog.setOptions(options)
+            dialog.setLabelText(QFileDialog.Accept, accept_label)
+            result = ""
+            if dialog.exec_():
+                selected = dialog.selectedFiles()
+                if selected:
+                    result = selected[0]
     finally:
         if sys.platform == "win32":
             # On Windows platforms: restore standard outputs
