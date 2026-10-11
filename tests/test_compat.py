@@ -57,8 +57,12 @@ def test_getimagebytes(qtbot):
 def test_getexistingdirectory_accept_label(tmp_path, qtbot):
     """Test compat.getexistingdirectory with a custom accept button label"""
     seen = {}
+    done = False
 
     def accept_dialog():
+        # Don't touch dialogs from other test if this one already finished
+        if done:
+            return
         app = QtWidgets.QApplication.instance()
         for dlg in app.topLevelWidgets():
             if isinstance(dlg, QtWidgets.QFileDialog) and dlg.isVisible():
@@ -70,14 +74,24 @@ def test_getexistingdirectory_accept_label(tmp_path, qtbot):
                 return
         QtCore.QTimer.singleShot(50, accept_dialog)
 
+    # Combining options with `|` emits a DeprecationWarning on PySide2, so
+    # only pass `DontUseNativeDialog` (needed to interact with the dialog).
+    try:
+        opt = QtWidgets.QFileDialog.Option.DontUseNativeDialog
+    except AttributeError:
+        # old qt5 bindings
+        opt = QtWidgets.QFileDialog.DontUseNativeDialog
+
     QtCore.QTimer.singleShot(50, accept_dialog)
-    result = compat.getexistingdirectory(
-        caption="Select a directory",
-        basedir=str(tmp_path),
-        options=QtWidgets.QFileDialog.ShowDirsOnly
-        | QtWidgets.QFileDialog.DontUseNativeDialog,
-        accept_label="Select",
-    )
+    try:
+        result = compat.getexistingdirectory(
+            caption="Select a directory",
+            basedir=str(tmp_path),
+            options=opt,
+            accept_label="Select",
+        )
+    finally:
+        done = True
     assert seen["accept_label"] == "Select"
     assert seen["accept_mode"] == QtWidgets.QFileDialog.AcceptOpen
     assert os.path.samefile(result, tmp_path)
