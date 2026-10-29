@@ -16,7 +16,7 @@ from . import (
     PYSIDE6,
     QtBindingsNotFoundError,
 )
-from .QtWidgets import QFileDialog
+from .QtWidgets import QFileDialog, QFontDialog
 
 TEXT_TYPES = (str,)
 
@@ -188,6 +188,20 @@ def getsavefilename(
         selectedfilter=selectedfilter,
         options=options,
     )
+
+
+# =============================================================================
+def getfont(*args, **kwargs):
+    """Wrap QFontDialog.getFont and always return (font, accepted).
+
+    Arguments are passed directly to QFontDialog.getFont. Use positional
+    arguments for the dialog title, named caption in PyQt and title in PySide.
+    """
+    result = QFontDialog.getFont(*args, **kwargs)
+    if PYSIDE2 or PYSIDE6:
+        accepted, font = result
+        return font, accepted
+    return result
 
 
 # =============================================================================
