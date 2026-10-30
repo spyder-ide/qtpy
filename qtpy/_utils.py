@@ -102,85 +102,55 @@ def set_shortcuts(self, shortcuts, old_set_shortcuts):
     old_set_shortcuts(self, shortcuts)
 
 
-def add_action(self, *args, old_add_action):
-    """Re-order arguments of `addAction` to backport compatibility with Qt>=6.3."""
-    from .QtCore import QObject, Qt
+def add_action(self, *args, old_add_action, **kwargs):
+    """
+    Re-order arguments when calling the `addAction` function with the signature
+    introduced in Qt 6.3.
+    """
+    import warnings
+    from collections.abc import Callable
+    from .QtCore import Qt
     from .QtGui import QIcon, QKeySequence
 
-    action: QAction
-    icon: QIcon
-    text: str
-    shortcut: QKeySequence | QKeySequence.StandardKey | Qt.Key | str | int
-    receiver: QObject
-    member: bytes
-
-    if all(
-        isinstance(arg, t)
-        for arg, t in zip(
-            args,
-            [
-                str,
-                (QKeySequence, QKeySequence.StandardKey, Qt.Key, str, int),
-                QObject,
-                bytes,
-            ],
-        )
-    ):
-        if len(args) == 2:
-            text, shortcut = args
-            action = old_add_action(self, text)
-            action.setShortcut(shortcut)
-        elif len(args) == 3:
-            text, shortcut, receiver = args
-            action = old_add_action(self, text, receiver)
-            action.setShortcut(shortcut)
-        elif len(args) == 4:
-            text, shortcut, receiver, member = args
-            action = old_add_action(self, text, receiver, member, shortcut)
-        else:
-            action = old_add_action(self, *args)
-    elif all(
-        isinstance(arg, t)
-        for arg, t in zip(
-            args,
-            [
-                QIcon,
-                str,
-                (QKeySequence, QKeySequence.StandardKey, Qt.Key, str, int),
-                QObject,
-                bytes,
-            ],
-        )
-    ):
-        if len(args) == 3:
-            icon, text, shortcut = args
-            action = old_add_action(self, icon, text)
-            action.setShortcut(shortcut)
-        elif len(args) == 4:
-            icon, text, shortcut, receiver = args
-            action = old_add_action(self, icon, text, receiver)
-            action.setShortcut(shortcut)
-        elif len(args) == 5:
-            icon, text, shortcut, receiver, member = args
-            action = old_add_action(
-                self,
-                icon,
-                text,
-                receiver,
-                member,
-                shortcut,
-            )
-        else:
-            action = old_add_action(self, *args)
+    new_args = list(args)
+    if new_args and isinstance(new_args[0], QIcon):
+        icon = new_args.pop(0)
     else:
-        action = old_add_action(self, *args)
+        icon = None
+    shortcut = kwargs.pop("shortcut", None)
+    connection_type = kwargs.pop("type", None)
+    if connection_type:
+        warnings.warn("type argument is not supported in Qt<6.3")
+
+    shortcut_types = (QKeySequence, QKeySequence.StandardKey, Qt.Key, str, int)
+    if len(new_args) > 1 and isinstance(new_args[1], shortcut_types):
+        # Qt6.3 signature (text, shortcut, receiver, member)
+        shortcut = new_args.pop(1)
+    elif (
+        len(new_args) > 2
+        and isinstance(new_args[1], Callable)
+        and isinstance(new_args[2], shortcut_types)
+    ):
+        # Qt5 signature (arg__1, arg__2, arg__3)
+        shortcut = new_args.pop(2)
+    elif len(new_args) > 3 and isinstance(new_args[3], shortcut_types):
+        # Qt5 signature (text, receiver, member, shortcut)
+        shortcut = new_args.pop(3)
+
+    if icon is not None:
+        new_args.insert(0, icon)
+    action = old_add_action(self, *new_args, **kwargs)
+
+    if shortcut is not None:
+        action.setShortcut(shortcut)
 
     return action
 
 
 def static_method_kwargs_wrapper(func, from_kwarg_name, to_kwarg_name):
     """
-    Helper function to manage `from_kwarg_name` to `to_kwarg_name` kwargs name changes in static methods.
+    Helper function to manage `from_kwarg_name` to `to_kwarg_name` kwargs name changes
+    in static methods.
 
     Makes static methods accept the `from_kwarg_name` kwarg as `to_kwarg_name`.
     """
