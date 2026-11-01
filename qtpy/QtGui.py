@@ -9,6 +9,8 @@
 """Provides QtGui classes and functions."""
 
 from functools import partialmethod
+from importlib import import_module as _import_module
+from typing import TYPE_CHECKING
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, _parse_version
 from . import QT_VERSION as _qt_version
@@ -20,6 +22,11 @@ from ._utils import (
 )
 
 _missing_optional_names = {}
+
+# Names backported from another Qt module that are imported lazily on first
+# access, so that importing QtGui does not pull in the whole source module
+# (e.g. QtWidgets). Maps the name to the module it must be imported from.
+_lazy_names = {}
 
 _QTOPENGL_NAMES = {
     "QOpenGLBuffer",
@@ -41,12 +48,35 @@ _QTOPENGL_NAMES = {
 
 
 def __getattr__(name):
-    """Custom getattr to chain and wrap errors due to missing optional deps."""
+    """Custom getattr to lazily import backported names and wrap errors.
+
+    Lazily imports names registered in `_lazy_names` on first access and
+    caches them in the module globals. If the source module is not
+    available, chain and wrap the error as for any missing optional dep.
+    """
+    if name in _lazy_names:
+        source_module_name = _lazy_names[name]
+        try:
+            source_module = _import_module(source_module_name)
+        except ImportError as error:
+            _missing_optional_names[name] = {
+                "name": source_module_name,
+                "import_error": error,
+            }
+        else:
+            value = getattr(source_module, name)
+            globals()[name] = value
+            return value
     raise getattr_missing_optional_dep(
         name,
         module_name=__name__,
         optional_names=_missing_optional_names,
     )
+
+
+def __dir__():
+    """Include lazily imported names in `dir()` output."""
+    return sorted(set(globals()) | set(_lazy_names))
 
 
 if PYQT5:
@@ -142,8 +172,18 @@ elif PYSIDE6:
                 "import_error": error,
             }
 
-    # Backport `QFileSystemModel` moved to QtGui in Qt6
-    from PySide6.QtWidgets import QFileSystemModel
+    # Backport `QFileSystemModel` moved to QtGui in Qt6.
+    # PySide6 still only exposes it from QtWidgets (see PYSIDE-1914), so
+    # import it from there lazily on first access to avoid loading QtWidgets
+    # just by importing QtGui (e.g. in a QML-only deployment that does not
+    # bundle QtWidgets). If a future PySide release exposes it from QtGui,
+    # the star import above already provides it and nothing else is needed.
+    # See https://github.com/spyder-ide/qtpy/issues/536
+    if TYPE_CHECKING:
+        # Let static analyzers see the real class without a runtime import
+        from PySide6.QtWidgets import QFileSystemModel
+    elif "QFileSystemModel" not in globals():
+        _lazy_names["QFileSystemModel"] = "PySide6.QtWidgets"
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(
         *args,
@@ -444,3 +484,14 @@ if PYQT5 or PYSIDE2 or _parse_version(_qt_version) < _parse_version("6.7"):
         WeatherStorm = "weather-storm"
 
     QIcon.ThemeIcon = _ThemeIcon
+
+
+if not TYPE_CHECKING:
+    # Make `from qtpy.QtGui import *` also export lazily imported names, since
+    # a star import only consults the module `__getattr__` through `__all__`.
+    # Hidden from static analyzers: they cannot evaluate a dynamic `__all__`
+    # and already see every public name (including the `TYPE_CHECKING`
+    # imports above) without it.
+    __all__ = [name for name in globals() if not name.startswith("_")] + [
+        name for name in _lazy_names if name not in globals()
+    ]
