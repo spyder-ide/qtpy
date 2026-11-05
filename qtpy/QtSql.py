@@ -8,7 +8,7 @@
 """Provides QtSql classes and functions."""
 from functools import partialmethod
 
-from packaging.version import parse
+from packaging.version import Version
 
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION
 
@@ -17,7 +17,7 @@ if PYQT5:
 elif PYQT6:
     from PyQt6.QtSql import *
 
-    if parse(QT_VERSION) >= parse("6.6"):
+    if QT_VERSION and Version(QT_VERSION) >= Version("6.6"):
         # `QSqlDatabase.exec` is deprecated since 6.6
 
         def database_exec(db, query):
@@ -28,13 +28,16 @@ elif PYQT6:
         QSqlDatabase.exec = partialmethod(database_exec)
         del database_exec
 
-    QSqlDatabase.exec_ = partialmethod(QSqlDatabase.exec)
-    QSqlQuery.exec_ = partialmethod(QSqlQuery.exec)
-    QSqlResult.exec_ = partialmethod(QSqlResult.exec)
+    QSqlDatabase.exec_ = lambda self, *args, **kwargs: self.exec(
+        *args,
+        **kwargs,
+    )
+    QSqlQuery.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QSqlResult.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 elif PYSIDE6:
     from PySide6.QtSql import *
 
-    if parse(QT_VERSION) >= parse("6.6"):
+    if QT_VERSION and Version(QT_VERSION) >= Version("6.6"):
         # `QSqlDatabase.exec` is deprecated since 6.6
 
         def database_exec(db, query):
@@ -46,12 +49,15 @@ elif PYSIDE6:
         del database_exec
 
     # Map DeprecationWarning methods
-    QSqlDatabase.exec_ = partialmethod(QSqlDatabase.exec)
-    QSqlQuery.exec_ = partialmethod(QSqlQuery.exec)
-    QSqlResult.exec_ = partialmethod(QSqlResult.exec)
+    QSqlDatabase.exec_ = lambda self, *args, **kwargs: self.exec(
+        *args,
+        **kwargs,
+    )
+    QSqlQuery.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
+    QSqlResult.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 elif PYSIDE2:
     from PySide2.QtSql import *
 
 del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION
-del parse
+del Version
 del partialmethod
