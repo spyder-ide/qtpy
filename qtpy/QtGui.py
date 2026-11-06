@@ -8,8 +8,16 @@
 
 """Provides QtGui classes and functions."""
 
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QtModuleNotInstalledError
-from ._utils import getattr_missing_optional_dep, possibly_static_exec
+from functools import partialmethod
+
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, _parse_version
+from . import QT_VERSION as _qt_version
+from ._utils import (
+    getattr_missing_optional_dep,
+    possibly_static_exec,
+    set_shortcut,
+    set_shortcuts,
+)
 
 _missing_optional_names = {}
 
@@ -51,6 +59,7 @@ if PYQT5:
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
+        QUndoStack,
     )
 
 elif PYQT6:
@@ -106,6 +115,7 @@ elif PYSIDE2:
         QFileSystemModel,
         QShortcut,
         QUndoCommand,
+        QUndoStack,
     )
 
     if hasattr(QFontMetrics, "horizontalAdvance"):
@@ -217,6 +227,7 @@ if PYQT5 or PYSIDE2:
 
     # Follow similar approach for `QDropEvent` and child classes
     QDropEvent.position = lambda self: self.posF()
+
 if PYQT6 or PYSIDE6:
     # Part of the fix for https://github.com/spyder-ide/qtpy/issues/394
     for _class in (
@@ -252,3 +263,184 @@ if PYQT6 or PYSIDE6:
     # Follow similar approach for `QDropEvent` and child classes
     QDropEvent.pos = lambda self: self.position().toPoint()
     QDropEvent.posF = lambda self: self.position()
+
+
+if PYQT5 or PYSIDE2 or _parse_version(_qt_version) < _parse_version("6.4"):
+    # Make `QAction.setShortcut` and `QAction.setShortcuts` compatible with Qt>=6.4
+    _action_set_shortcut = partialmethod(
+        set_shortcut,
+        old_set_shortcut=QAction.setShortcut,
+    )
+    _action_set_shortcuts = partialmethod(
+        set_shortcuts,
+        old_set_shortcuts=QAction.setShortcuts,
+    )
+    QAction.setShortcut = _action_set_shortcut
+    QAction.setShortcuts = _action_set_shortcuts
+
+
+if PYQT5 or PYSIDE2 or _parse_version(_qt_version) < _parse_version("6.7"):
+    # Make `QIcon.ThemeIcon` enum for Qt < 6.7
+
+    # Make an `StrEnum` for Python < 3.11
+    try:
+        from enum import StrEnum as _StrEnum
+    except ImportError:
+        from enum import Enum as _Enum
+
+        class _StrEnum(str, _Enum):
+            pass
+
+    class _ThemeIcon(_StrEnum):
+        AddressBookNew = "address-book-new"
+        ApplicationExit = "application-exit"
+        AppointmentNew = "appointment-new"
+        CallStart = "call-start"
+        CallStop = "call-stop"
+        ContactNew = "contact-new"
+        DocumentNew = "document-new"
+        DocumentOpen = "document-open"
+        DocumentOpenRecent = "document-open-recent"
+        DocumentPageSetup = "document-page-setup"
+        DocumentPrint = "document-print"
+        DocumentPrintPreview = "document-print-preview"
+        DocumentProperties = "document-properties"
+        DocumentRevert = "document-revert"
+        DocumentSave = "document-save"
+        DocumentSaveAs = "document-save-as"
+        DocumentSend = "document-send"
+        EditClear = "edit-clear"
+        EditCopy = "edit-copy"
+        EditCut = "edit-cut"
+        EditDelete = "edit-delete"
+        EditFind = "edit-find"
+        EditPaste = "edit-paste"
+        EditRedo = "edit-redo"
+        EditSelectAll = "edit-select-all"
+        EditUndo = "edit-undo"
+        FolderNew = "folder-new"
+        FormatIndentLess = "format-indent-less"
+        FormatIndentMore = "format-indent-more"
+        FormatJustifyCenter = "format-justify-center"
+        FormatJustifyFill = "format-justify-fill"
+        FormatJustifyLeft = "format-justify-left"
+        FormatJustifyRight = "format-justify-right"
+        FormatTextDirectionLtr = "format-text-direction-ltr"
+        FormatTextDirectionRtl = "format-text-direction-rtl"
+        FormatTextBold = "format-text-bold"
+        FormatTextItalic = "format-text-italic"
+        FormatTextUnderline = "format-text-underline"
+        FormatTextStrikethrough = "format-text-strikethrough"
+        GoDown = "go-down"
+        GoHome = "go-home"
+        GoNext = "go-next"
+        GoPrevious = "go-previous"
+        GoUp = "go-up"
+        HelpAbout = "help-about"
+        HelpFaq = "help-faq"
+        InsertImage = "insert-image"
+        InsertLink = "insert-link"
+        InsertText = "insert-text"
+        ListAdd = "list-add"
+        ListRemove = "list-remove"
+        MailForward = "mail-forward"
+        MailMarkImportant = "mail-mark-important"
+        MailMarkRead = "mail-mark-read"
+        MailMarkUnread = "mail-mark-unread"
+        MailMessageNew = "mail-message-new"
+        MailReplyAll = "mail-reply-all"
+        MailReplySender = "mail-reply-sender"
+        MailSend = "mail-send"
+        MediaEject = "media-eject"
+        MediaPlaybackPause = "media-playback-pause"
+        MediaPlaybackStart = "media-playback-start"
+        MediaPlaybackStop = "media-playback-stop"
+        MediaRecord = "media-record"
+        MediaSeekBackward = "media-seek-backward"
+        MediaSeekForward = "media-seek-forward"
+        MediaSkipBackward = "media-skip-backward"
+        MediaSkipForward = "media-skip-forward"
+        ObjectRotateLeft = "object-rotate-left"
+        ObjectRotateRight = "object-rotate-right"
+        ProcessStop = "process-stop"
+        SystemLockScreen = "system-lock-screen"
+        SystemLogOut = "system-log-out"
+        SystemSearch = "system-search"
+        SystemReboot = "system-reboot"
+        SystemShutdown = "system-shutdown"
+        ToolsCheckSpelling = "tools-check-spelling"
+        ViewFullscreen = "view-fullscreen"
+        ViewRefresh = "view-refresh"
+        ViewRestore = "view-restore"
+        WindowClose = "window-close"
+        WindowNew = "window-new"
+        ZoomFitBest = "zoom-fit-best"
+        ZoomIn = "zoom-in"
+        ZoomOut = "zoom-out"
+        AudioCard = "audio-card"
+        AudioInputMicrophone = "audio-input-microphone"
+        Battery = "battery"
+        CameraPhoto = "camera-photo"
+        CameraVideo = "camera-video"
+        CameraWeb = "camera-web"
+        Computer = "computer"
+        DriveHarddisk = "drive-harddisk"
+        DriveOptical = "drive-optical"
+        InputGaming = "input-gaming"
+        InputKeyboard = "input-keyboard"
+        InputMouse = "input-mouse"
+        InputTablet = "input-tablet"
+        MediaFlash = "media-flash"
+        MediaOptical = "media-optical"
+        MediaTape = "media-tape"
+        MultimediaPlayer = "multimedia-player"
+        NetworkWired = "network-wired"
+        NetworkWireless = "network-wireless"
+        Phone = "phone"
+        Printer = "printer"
+        Scanner = "scanner"
+        VideoDisplay = "video-display"
+        AppointmentMissed = "appointment-missed"
+        AppointmentSoon = "appointment-soon"
+        AudioVolumeHigh = "audio-volume-high"
+        AudioVolumeLow = "audio-volume-low"
+        AudioVolumeMedium = "audio-volume-medium"
+        AudioVolumeMuted = "audio-volume-muted"
+        BatteryCaution = "battery-caution"
+        BatteryLow = "battery-low"
+        DialogError = "dialog-error"
+        DialogInformation = "dialog-information"
+        DialogPassword = "dialog-password"
+        DialogQuestion = "dialog-question"
+        DialogWarning = "dialog-warning"
+        FolderDragAccept = "folder-drag-accept"
+        FolderOpen = "folder-open"
+        FolderVisiting = "folder-visiting"
+        ImageLoading = "image-loading"
+        ImageMissing = "image-missing"
+        MailAttachment = "mail-attachment"
+        MailUnread = "mail-unread"
+        MailRead = "mail-read"
+        MailReplied = "mail-replied"
+        MediaPlaylistRepeat = "media-playlist-repeat"
+        MediaPlaylistShuffle = "media-playlist-shuffle"
+        NetworkOffline = "network-offline"
+        PrinterPrinting = "printer-printing"
+        SecurityHigh = "security-high"
+        SecurityLow = "security-low"
+        SoftwareUpdateAvailable = "software-update-available"
+        SoftwareUpdateUrgent = "software-update-urgent"
+        SyncError = "sync-error"
+        SyncSynchronizing = "sync-synchronizing"
+        UserAvailable = "user-available"
+        UserOffline = "user-offline"
+        WeatherClear = "weather-clear"
+        WeatherClearNight = "weather-clear-night"
+        WeatherFewClouds = "weather-few-clouds"
+        WeatherFewCloudsNight = "weather-few-clouds-night"
+        WeatherFog = "weather-fog"
+        WeatherShowers = "weather-showers"
+        WeatherSnow = "weather-snow"
+        WeatherStorm = "weather-storm"
+
+    QIcon.ThemeIcon = _ThemeIcon

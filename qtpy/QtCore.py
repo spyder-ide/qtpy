@@ -10,9 +10,7 @@
 import contextlib
 from typing import TYPE_CHECKING
 
-from packaging.version import parse
-
-from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6
+from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, _parse_version
 from . import QT_VERSION as _qt_version
 from ._utils import possibly_static_exec, possibly_static_exec_
 
@@ -87,6 +85,7 @@ elif PYQT6:
 
     # Alias for MiddleButton removed in PyQt6 but available in PyQt5, PySide2 and PySide6
     Qt.MidButton = Qt.MiddleButton
+    Qt.MouseButton.MidButton = Qt.MiddleButton
 
     # Add removed definition for `Qt.ItemFlags` as an alias of `Qt.ItemFlag`
     # passing as default value 0 in the same way PySide6 6.5+ does.
@@ -142,6 +141,7 @@ elif PYSIDE6:
     ) = Qt.BackgroundRole
     Qt.TextColorRole = Qt.ItemDataRole.TextColorRole = Qt.ForegroundRole
     Qt.MidButton = Qt.MiddleButton
+    Qt.MouseButton.MidButton = Qt.MiddleButton
 
     # Map DeprecationWarning methods
     QCoreApplication.exec_ = lambda *args, **kwargs: possibly_static_exec(
@@ -157,7 +157,7 @@ elif PYSIDE6:
     )
 
     # Passing as default value 0 in the same way PySide6 6.3.2 does for the `Qt.ItemFlags` definition.
-    if parse(_qt_version) > parse("6.3"):
+    if _parse_version(_qt_version) > _parse_version("6.3"):
         Qt.ItemFlags = lambda value=0: Qt.ItemFlag(value)
 
 # For issue #153 and updated for issue #305

@@ -2,9 +2,14 @@
 
 eval "$(conda shell.bash hook)"
 
-# Create and activate mamba environment for this test
+# Create and activate conda environment for this test
 BINDING=$(echo "$1" | tr '[:lower:]' '[:upper:]')
 QT_VERSION_VAR=${BINDING}_QT_VERSION
+
+# pytest-qt >=4.5.0 doesn't support PySide2
+if [ "${1}" = "pyside2" ]; then
+    PYTESTQT_VERSION="<4.5.0"
+fi
 
 # pytest-qt >=4 doesn't support Qt <=5.9
 if [ "${!QT_VERSION_VAR:0:3}" = "5.9" ]; then
@@ -21,13 +26,16 @@ if [ "$USE_CONDA" = "Yes" ]; then
         QT_SPECS="qt=${PYSIDE2_QT_VERSION} pyside2=${PYSIDE2_VERSION}"
     elif [ "${1}" = "pyside6" ]; then
         QT_SPECS="qt6-main=${PYSIDE6_QT_VERSION} pyside6=${PYSIDE6_VERSION}"
+        if [ "${!QT_VERSION_VAR:0:3}" = "6.8" ]; then
+            QT_SPECS+=" qt6-multimedia=${PYSIDE6_QT_VERSION}"
+        fi
     else
         exit 1
     fi
 
 fi
 
-mamba create -y -n test-env-${BINDING} python=${PYTHON_VERSION} pytest${PYTEST_VERSION:->=6,!=7.0.0,!=7.0.1} pytest-cov>=3.0.0 pytest-qt${PYTESTQT_VERSION:-} ${QT_SPECS:-}
+conda create -y -n test-env-${BINDING} python=${PYTHON_VERSION} pytest${PYTEST_VERSION:->=6,!=7.0.0,!=7.0.1} pytest-cov>=3.0.0 pytest-qt${PYTESTQT_VERSION:-} ${QT_SPECS:-}
 
 conda activate test-env-${BINDING}
 
@@ -91,17 +99,10 @@ python -bb -X dev -W error -m build
 echo dist/*.whl | xargs -I % python -bb -X dev -W error -W "ignore::DeprecationWarning:pip._internal.locations._distutils" -W "ignore::DeprecationWarning:distutils.command.install" -W "ignore::DeprecationWarning:pip._internal.metadata.importlib._envs" -m pip install --upgrade %
 
 # Print environment information
-mamba list
+conda list
 
 # Run tests
-mkdir -p temp_test_dir
-pushd temp_test_dir # Hack to work around non-src layout pulling in local instead of installed package for cov
-python -I -bb -X dev -W error -m pytest ../qtpy --cov-config ../.coveragerc --cov-append
-
-# Save QtPy base dir for coverage
-python -c "from pathlib import Path; import qtpy; print(Path(qtpy.__file__).parent.parent.resolve().as_posix())" > qtpy_basedir.txt
-cat qtpy_basedir.txt
-popd
+python -I -bb -X dev -W error -m pytest --cov qtpy --cov-config .coveragerc --cov-append
 
 # Check package and environment
 pipx run twine check --strict dist/*

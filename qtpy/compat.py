@@ -5,6 +5,8 @@
 """
 Compatibility functions
 """
+
+import enum
 import sys
 
 from . import (
@@ -12,8 +14,9 @@ from . import (
     PYQT6,
     PYSIDE2,
     PYSIDE6,
+    QtBindingsNotFoundError,
 )
-from .QtWidgets import QFileDialog
+from .QtWidgets import QFileDialog, QFontDialog
 
 TEXT_TYPES = (str,)
 
@@ -188,6 +191,20 @@ def getsavefilename(
 
 
 # =============================================================================
+def getfont(*args, **kwargs):
+    """Wrap QFontDialog.getFont and always return (font, accepted).
+
+    Arguments are passed directly to QFontDialog.getFont. Use positional
+    arguments for the dialog title, named caption in PyQt and title in PySide.
+    """
+    result = QFontDialog.getFont(*args, **kwargs)
+    if PYSIDE2 or PYSIDE6:
+        accepted, font = result
+        return font, accepted
+    return result
+
+
+# =============================================================================
 def isalive(obj):
     """Wrapper around sip.isdeleted and shiboken.isValid which tests whether
     an object is currently alive."""
@@ -200,3 +217,37 @@ def isalive(obj):
 
         return shiboken.isValid(obj)
     return None
+
+
+# =============================================================================
+def getenumasint(enum_value):
+    """Get the integer value of a Qt enum
+    For example:
+        Qt.AlignmentFlag.AlignBaseline -> 256
+        Qt.WidgetAttribute.WA_AcceptDrops -> 78
+    If an integer is passed in, simply return it.
+    PySide2's enums are themselves classes, not enum values per se, so if
+    we get an integer or a class, return the class.
+    """
+    if isinstance(enum_value, enum.Enum):
+        if PYSIDE2 or PYQT5:
+            return int(enum_value)
+        return enum_value.value
+    return enum_value
+
+
+# =============================================================================
+def getenumfromint(enum_class, i):
+    """Get the Qt enum value from an integer"""
+    return enum_class(i)
+
+
+# =============================================================================
+def getimagebytes(qimage):
+    if PYQT5:
+        return qimage.bits().asstring(qimage.byteCount())
+    if PYQT6:
+        return qimage.bits().asstring(qimage.sizeInBytes())
+    if PYSIDE2 or PYSIDE6:
+        return qimage.bits().tobytes()
+    raise QtBindingsNotFoundError

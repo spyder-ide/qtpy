@@ -1,6 +1,6 @@
 # Contributing Guide
 
-QtPy is part of the Spyder IDE Github org, and is developed with standard Github flow.
+QtPy is part of the Spyder IDE GitHub org, and is developed with standard GitHub flow.
 
 If you're not comfortable with at least the basics of ``git`` and GitHub, we recommend reading beginner tutorials such as [GitHub's Git Guide](https://github.com/git-guides/), its [introduction to basic Git commands](https://guides.github.com/introduction/git-handbook/#basic-git) and its [guide to the fork workflow](https://guides.github.com/activities/forking/), or (if you prefer) their [video equivalents](https://www.youtube.com/githubguides).
 However, this contributing guide should fill you in on most of the basics you need to know.
@@ -17,14 +17,14 @@ Make sure to describe the bug or feature in detail, with reproducible examples a
 While we can't promise we'll fix everything you might find, we'll certainly take it into consideration, and typically welcome pull requests to resolve accepted issues.
 
 
-
 ## Setting Up a Development Environment
 
 **Note**: You may need to substitute ``python3`` for ``python`` in the commands below on some Linux distros where ``python`` isn't mapped to ``python3`` (yet).
 
+
 ### Fork and clone the repo
 
-First, navigate to the [project repository](https://github.com/spyder-ide/qtpy) in your web browser and press the ``Fork`` button to make a personal copy of the repository on your own Github account.
+First, navigate to the [project repository](https://github.com/spyder-ide/qtpy) in your web browser and press the ``Fork`` button to make a personal copy of the repository on your own GitHub account.
 Then, click the ``Clone or Download`` button on your repository, copy the link and run the following on the command line to clone the repo:
 
 ```bash
@@ -105,6 +105,7 @@ python -m pip install -e .[test]
 You can then import and use QtPy as normal.
 When you make changes in your local copy of the git repository, they will be reflected in your installed copy as soon as you re-run Python.
 
+
 ### Pre-commit hooks
 
 We use [pre-commit](https://pre-commit.com/) to run some checks before each commit. To install it in local environment, run:
@@ -136,16 +137,15 @@ If you do not want to run the hooks locally the `pre-commit.ci` workflow will ru
 
 ## Deciding Which Branch to Use
 
-When you start to work on a new pull request (PR), you need to be sure that your work is done on top of the correct branch, and that you base your PR on Github against it.
+When you start to work on a new pull request (PR), you need to be sure that your work is done on top of the correct branch, and that you base your PR on GitHub against it.
 
-To guide you, issues on Github are marked with a milestone that indicates the correct branch to use.
+To guide you, issues on GitHub are marked with a milestone that indicates the correct branch to use.
 If not, follow these guidelines:
 
 * Use the latest release branch (e.g. ``1.x``) to fix security issues and critical bugs only (if in any doubt, ask first)
 * Use ``master`` branch for anything else, particularly introducing new features or breaking compatibility with previous versions
 
 Of course, if a bug is only present in ``master``, please base bugfixes on that branch.
-
 
 
 ## Making Your Changes
@@ -158,7 +158,7 @@ git pull upstream <BASE-BRANCH>
 git checkout -b <FEATURE-BRANCH>
 ```
 
-Once you've made and tested your changes, commit them with a descriptive, unique message of 74 characters or less written in the imperative tense, with a capitalized first letter and no period at the end.
+Once you've made and tested your changes, commit them with a descriptive, unique message of 74 characters or fewer written in the imperative tense, with a capitalized first letter and no period at the end.
 Try to make your commit message understandable on its own, giving the reader a high-level idea of what your changes accomplished without having to dig into the diffs.
 For example:
 
@@ -166,18 +166,17 @@ For example:
 git commit -am "Fix bug reading env variable when importing package on Windows"
 ```
 
-If your changes are complex (more than a few dozen lines) and can be broken into discrete steps/parts, its often a good idea to make multiple commits as you work.
-On the other hand, if your changes are fairly small (less than a dozen lines), its usually better to make them as a single commit, and then use the ``git -a --amend`` (followed by ``git push -f``, if you've already pushed your work) if you spot a bug or a reviewer requests a change.
+If your changes are complex (more than a few dozen lines) and can be broken into discrete steps/parts, it's often a good idea to make multiple commits as you work.
+On the other hand, if your changes are fairly small (less than a dozen lines), it's usually better to make them as a single commit, and then use the ``git -a --amend`` (followed by ``git push -f``, if you've already pushed your work) if you spot a bug or a reviewer requests a change.
 
 These aren't hard and fast rules, so just use your best judgment, and if there does happen to be a significant issue we'll be happy to help.
-
 
 
 ## Running the Tests
 
 Once you've made your changes (or ideally, before), you'll want to run the full test suite and write new tests of your own, if you haven't already done so.
 
-This package uses the [Pytest](https://pytest.org) framework for its unit and integration tests, which are located inside the package alongside the tested code, in the ``tests/`` subdirectory.
+This package uses the [Pytest](https://pytest.org) framework for its unit and integration tests, which are located inside the ``tests/`` directory.
 We **strongly** suggest you run the full test suite before every commit (it should only take a few seconds to run on most machines).
 
 In general, any new major functionality should come with tests, and we welcome contributing to expand our coverage, increase reliability, and ensure we don't experience any regressions.
@@ -199,7 +198,6 @@ cd ..
 ```
 
 
-
 ## Pushing your Changes
 
 Now that your changes are ready to go, you'll need to push them to the appropriate remote.
@@ -213,10 +211,9 @@ git push -u origin <FEATURE-BRANCH>
 Where ``<FEATURE-BRANCH>`` is the name of your feature branch, e.g. ``fix-startup-bug``.
 
 
-
 ## Submitting a Pull Request
 
-Finally, create a pull request to the [spyder-ide/qtpy repository](https://github.com/spyder-ide/qtpy/) on Github.
+Finally, create a pull request to the [spyder-ide/qtpy repository](https://github.com/spyder-ide/qtpy/) on GitHub.
 Make sure to set the target branch to the one you based your PR off of (``master`` or ``X.x``).
 
 We'll then review your changes, and after they're ready to go, your work will become an official part of QtPy.

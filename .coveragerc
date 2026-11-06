@@ -1,8 +1,7 @@
 [run]
 omit =
     # Omit tests
-    */tests/*
+    *tests/*
     # Omit other files
     */__init__.py
     */compat.py
-    */_version.py

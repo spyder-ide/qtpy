@@ -1,5 +1,6 @@
 # Authors
 
+
 ## Original Authors
 
 * [pyqode.qt](https://github.com/pyQode/pyqode.qt): Colin Duquesnoy ([@ColinDuquesnoy](https://github.com/ColinDuquesnoy))

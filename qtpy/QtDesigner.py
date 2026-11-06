@@ -18,7 +18,14 @@ from . import (
 if PYQT5:
     from PyQt5.QtDesigner import *
 elif PYQT6:
+    from PyQt6 import QtDesigner
     from PyQt6.QtDesigner import *
+
+    # Allow unscoped access for enums
+    from .enums_compat import promote_enums
+
+    promote_enums(QtDesigner)
+    del QtDesigner
 elif PYSIDE2:
     raise QtBindingMissingModuleError(name="QtDesigner")
 elif PYSIDE6:
