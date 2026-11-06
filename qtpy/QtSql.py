@@ -9,8 +9,6 @@
 
 from functools import partialmethod
 
-from packaging.version import Version
-
 from . import PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION, _parse_version
 
 if PYQT5:
