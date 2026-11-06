@@ -66,7 +66,3 @@ elif PYSIDE6:
     QSqlResult.exec_ = lambda self, *args, **kwargs: self.exec(*args, **kwargs)
 elif PYSIDE2:
     from PySide2.QtSql import *
-
-del PYQT5, PYQT6, PYSIDE2, PYSIDE6, QT_VERSION
-del Version
-del partialmethod
