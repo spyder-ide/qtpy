@@ -98,7 +98,7 @@ else:
             UIParser._readResources = UIParser.readResources
             UIParser.readResources = readResources
         except ImportError:
-            pass
+            compileUi = None
 
     class UiLoader(QUiLoader):
         """
@@ -167,7 +167,7 @@ else:
                 try:
                     widget = self.customWidgets[class_name](parent)
                 except KeyError as error:
-                    raise NoCustomWidget(
+                    raise RuntimeError(
                         f"No custom widget {class_name} "
                         "found in customWidgets",
                     ) from error
@@ -257,6 +257,11 @@ else:
 
             Credit: https://stackoverflow.com/a/14195313/15954282
             """
+
+            if compileUi is None:
+                raise ImportError(
+                    "pyside2uic is required to use loadUiType with PySide2",
+                )
 
             import sys
             from io import StringIO

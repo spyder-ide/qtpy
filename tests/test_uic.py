@@ -1,18 +1,21 @@
 import contextlib
+import importlib.util
 import os
 import sys
 import warnings
 
 import pytest
 
-from qtpy import PYSIDE2, PYSIDE6, PYSIDE_VERSION, QtWidgets, _parse_version
+from qtpy import (
+    PYSIDE2,
+    PYSIDE6,
+    PYSIDE_VERSION,
+    QtWidgets,
+    _parse_version,
+    uic,
+)
 from qtpy.QtWidgets import QComboBox
 from tests.utils import pytest_importorskip, using_conda
-
-if PYSIDE2:
-    pytest_importorskip("pyside2uic", reason="pyside2uic not installed")
-
-from qtpy import uic
 
 QCOMBOBOX_SUBCLASS = """
 from qtpy.QtWidgets import QComboBox
@@ -71,6 +74,9 @@ def test_load_ui_type(qtbot):
     Make sure that the patched loadUiType function behaves as expected with a
     simple .ui file.
     """
+    if PYSIDE2:
+        pytest_importorskip("pyside2uic", reason="pyside2uic not installed")
+
     with warnings.catch_warnings():
         warnings.filterwarnings(
             "ignore",
@@ -136,3 +142,23 @@ def test_load_full_uic():
             "widgetPluginPath",
         ]
         assert all(hasattr(uic, o) for o in objects)
+
+
+@pytest.mark.skipif(not (PYSIDE2 or PYSIDE6), reason="PySide UiLoader only")
+def test_missing_custom_widget(qtbot):
+    loader = uic.UiLoader(None)
+    with pytest.raises(RuntimeError, match="No custom widget MissingWidget"):
+        loader.createWidget("MissingWidget")
+
+
+@pytest.mark.skipif(not PYSIDE2, reason="PySide2 compiler fallback only")
+def test_load_ui_type_without_compiler(monkeypatch):
+    monkeypatch.setitem(sys.modules, "pyside2uic", None)
+    spec = importlib.util.spec_from_file_location(
+        "qtpy._uic_without_compiler",
+        uic.__file__,
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    with pytest.raises(ImportError, match="pyside2uic"):
+        module.loadUiType(os.path.join(os.path.dirname(__file__), "test.ui"))
