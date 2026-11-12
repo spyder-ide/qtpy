@@ -1,6 +1,9 @@
 """Test QtGui."""
 
+import os
+import subprocess
 import sys
+import textwrap
 
 import pytest
 
@@ -62,6 +65,95 @@ def test_what_moved_to_qtgui_in_qt6():
     assert QtGui.QShortcut is not None
     assert QtGui.QUndoCommand is not None
     assert QtGui.QUndoStack is not None
+
+
+def _run_in_fresh_interpreter(code):
+    """Run `code` in a fresh interpreter so module import state is clean."""
+    env = dict(os.environ, QT_API="pyside6")
+    subprocess.run(
+        [sys.executable, "-c", textwrap.dedent(code)],
+        check=True,
+        env=env,
+    )
+
+
+@pytest.mark.skipif(not PYSIDE6, reason="Targeted to PySide6")
+def test_qtgui_import_does_not_load_qtwidgets():
+    """Test importing QtGui does not import QtWidgets as a side effect.
+
+    `QFileSystemModel` is backported from QtWidgets and must only be
+    imported from there when it is actually accessed.
+    See https://github.com/spyder-ide/qtpy/issues/536
+    """
+    _run_in_fresh_interpreter(
+        """
+        import sys
+
+        from qtpy import QtGui
+
+        assert "PySide6.QtWidgets" not in sys.modules
+        assert "qtpy.QtWidgets" not in sys.modules
+
+        # The backported name is still discoverable
+        assert "QFileSystemModel" in dir(QtGui)
+        assert "QFileSystemModel" in QtGui.__all__
+
+        # ...and importing QtWidgets is deferred until it is accessed
+        from qtpy.QtGui import QFileSystemModel
+
+        assert "PySide6.QtWidgets" in sys.modules
+        from PySide6.QtWidgets import QFileSystemModel as expected
+
+        assert QFileSystemModel is expected
+        assert QtGui.QFileSystemModel is expected
+        """,
+    )
+
+
+@pytest.mark.skipif(not PYSIDE6, reason="Targeted to PySide6")
+def test_qtgui_star_import_includes_lazy_names():
+    """Test `from qtpy.QtGui import *` still provides lazily imported names."""
+    _run_in_fresh_interpreter(
+        """
+        from qtpy.QtGui import *
+
+        from PySide6.QtWidgets import QFileSystemModel as expected
+
+        assert QFileSystemModel is expected
+        """,
+    )
+
+
+@pytest.mark.skipif(not PYSIDE6, reason="Targeted to PySide6")
+def test_qtgui_import_without_qtwidgets():
+    """Test importing QtGui works even when QtWidgets is unavailable.
+
+    See https://github.com/spyder-ide/qtpy/issues/536
+    """
+    _run_in_fresh_interpreter(
+        """
+        import sys
+
+        # Emulate a deployment (e.g. a QML-only Android app) that does not
+        # bundle QtWidgets by making the module unimportable.
+        sys.modules["PySide6.QtWidgets"] = None
+
+        from qtpy import QtGui, QtModuleNotInstalledError
+
+        # Other names are still available
+        assert QtGui.QAction is not None
+        assert QtGui.QFontMetrics is not None
+
+        # Only accessing the backported name raises a helpful error
+        try:
+            QtGui.QFileSystemModel
+        except QtModuleNotInstalledError as error:
+            assert "PySide6.QtWidgets" in str(error)
+            assert isinstance(error.__cause__, ImportError)
+        else:
+            raise AssertionError("QtModuleNotInstalledError not raised")
+        """,
+    )
 
 
 def test_qtextdocument_functions(pdf_writer):
