@@ -39,6 +39,8 @@ _QTOPENGL_NAMES = {
     "QOpenGLWindow",
 }
 
+_QTWIDGETS_NAMES = {"QFileSystemModel"}
+
 
 def __getattr__(name):
     """Custom getattr to chain and wrap errors due to missing optional deps."""
@@ -142,8 +144,18 @@ elif PYSIDE6:
                 "import_error": error,
             }
 
-    # Backport `QFileSystemModel` moved to QtGui in Qt6
-    from PySide6.QtWidgets import QFileSystemModel
+    # Backport `QFileSystemModel` moved to QtGui in Qt6 but not for PySide6
+    # If that fails don't raise an exception until the name is explicitly accessed.
+    # See https://github.com/spyder-ide/qtpy/issues/536
+    try:
+        from PySide6.QtWidgets import QFileSystemModel
+    except ImportError as error:
+        for name in _QTWIDGETS_NAMES:
+            _missing_optional_names[name] = {
+                "name": "PySide6.QtWidgets",
+                "missing_package": "QtWidgets",
+                "import_error": error,
+            }
 
     QFontMetrics.width = lambda self, *args, **kwargs: self.horizontalAdvance(
         *args,
