@@ -113,13 +113,53 @@ def test_QMenu_functions(qtbot):
     # A window is required for static calls
     window = QtWidgets.QMainWindow()
     menu = QtWidgets.QMenu(window)
-    menu.addAction("QtPy")
-    menu.addAction("QtPy with a Qt.Key shortcut", QtCore.Qt.Key_F1)
-    menu.addAction(
-        QtGui.QIcon(),
-        "QtPy with an icon and a QKeySequence shortcut",
-        QtGui.QKeySequence.UnknownKey,
+
+    # Actions
+
+    class Receiver(QtCore.QObject):
+        triggered = QtCore.Signal
+
+    func = lambda: print('Action')
+    icon = QtGui.QIcon()
+    text = "QtPy"
+    shortcuts = (
+        QtGui.QKeySequence.StandardKey.HelpContents,
+        QtCore.Qt.Key_F1,
+        'F1',
+        1,
     )
+    receiver = Receiver(parent=window)
+    member = 'triggered'
+    connection_type = QtCore.Qt.ConnectionType.DirectConnection
+    action = QtWidgets.QAction()
+
+    menu.addAction(text)
+    menu.addAction(text, func)
+    menu.addAction(icon, text)
+    menu.addAction(icon, text, func)
+
+    menu.addAction(action)
+
+    for shortcut in shortcuts:
+        menu.addAction(text, func, shortcut)
+        menu.addAction(text, func, shortcut=shortcut)
+        menu.addAction(text, receiver, member, shortcut)
+        menu.addAction(icon, text, func, shortcut)
+        menu.addAction(icon, text, func, shortcut=shortcut)
+        menu.addAction(icon, text, receiver, member, shortcut)
+
+        # Qt 5
+        menu.addAction(text, receiver, member, shortcut=shortcut)
+        menu.addAction(icon, text, receiver, member, shortcut=shortcut)
+
+        # Qt>=6.3 signature
+        menu.addAction(text, shortcut)
+        menu.addAction(text, shortcut, receiver, member, type=connection_type)
+        menu.addAction(icon, text, shortcut)
+        menu.addAction(
+            icon, text, shortcut, receiver, member, type=connection_type
+        )
+
     window.show()
 
     with qtbot.waitExposed(window):
