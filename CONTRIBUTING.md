@@ -46,7 +46,7 @@ Of course, you're free to use any environment management tool of your choice (co
 To do so with Conda (recommended), simply execute the following:
 
 ```bash
-conda create -c conda-forge -n qtpy-env python=3.9
+conda create -c conda-forge -n qtpy-env python=3.11
 ```
 
 And activate it with

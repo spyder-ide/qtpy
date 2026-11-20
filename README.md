@@ -209,26 +209,26 @@ PYSIDE6 = false
 
 ## Testing Matrix
 
-Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using Python 3.9, 3.11 and 3.13, and installed via `conda` and `pip`.
+Currently, QtPy runs tests for different bindings on Linux, Windows and macOS, using Python 3.11 and 3.13, and installed via `conda` and `pip`.
 For the PyQt bindings, the installation of extra packages is also checked via `pip`.
 
 The current test matrix looks something like this:
 
-|         | Python            | 3.9                |      | 3.11               |                            | 3.13               |                            |
-|---------|-------------------|--------------------|------|--------------------|----------------------------|--------------------|----------------------------|
-| OS      | Binding / manager | conda              | pip  | conda              | pip                        | conda              | pip                        |
-| Linux   | PyQt5             | 5.12               | 5.15 | 5.15               | 5.15 (with extras)         | 5.15               | 5.15                       |
-|         | PyQt6             | skip (unavailable) | 6.5  | skip (unavailable) | 6.8 (with extras)          | skip (unavailable) | 6.8                        |
-|         | PySide2           | 5.13               | 5.12 | 5.15               | skip (no wheels available) | skip (unavailable) | skip (no wheels available) |
-|         | PySide6           | 6.5                | 6.5  | 6.8                | 6.8                        | 6.8                | 6.8                        |
-| Windows | PyQt5             | 5.12               | 5.15 | 5.15               | 5.15 (with extras)         | 5.15               | 5.15                       |
-|         | PyQt6             | skip (unavailable) | 6.2  | skip (unavailable) | 6.8 (with extras)          | skip (unavailable) | 6.8                        |
-|         | PySide2           | 5.13               | 5.15 | 5.15               | skip (no wheels available) | skip (unavailable) | skip (no wheels available) |
-|         | PySide6           | 6.5                | 6.2  | 6.8                | 6.8                        | 6.8                | 6.8                        |
-| MacOS   | PyQt5             | 5.12               | 5.15 | skip               | 5.15 (with extras)         | 5.15               | 5.15                       |
-|         | PyQt6             | skip (unavailable) | 6.2  | skip               | 6.8 (with extras)          | skip (unavailable) | 6.8                        |
-|         | PySide2           | 5.13               | 5.12 | skip               | skip (no wheels available) | skip (unavailable) | skip (no wheels available) |
-|         | PySide6           | 6.8                | 6.2  | skip               | 6.8                        | 6.8                | 6.8                        |
+|         | Python            | 3.11               |                            | 3.13               |                            |
+|---------|-------------------|--------------------|----------------------------|--------------------|----------------------------|
+| OS      | Binding / manager | conda              | pip                        | conda              | pip                        |
+| Linux   | PyQt5             | 5.15               | 5.15 (with extras)         | 5.15               | 5.15                       |
+|         | PyQt6             | skip (unavailable) | 6.8 (with extras)          | skip (unavailable) | 6.8                        |
+|         | PySide2           | 5.15               | skip (no wheels available) | skip (unavailable) | skip (no wheels available) |
+|         | PySide6           | 6.8                | 6.8                        | 6.8                | 6.8                        |
+| Windows | PyQt5             | 5.15               | 5.15 (with extras)         | 5.15               | 5.15                       |
+|         | PyQt6             | skip (unavailable) | 6.8 (with extras)          | skip (unavailable) | 6.8                        |
+|         | PySide2           | 5.15               | skip (no wheels available) | skip (unavailable) | skip (no wheels available) |
+|         | PySide6           | 6.8                | 6.8                        | 6.8                | 6.8                        |
+| MacOS   | PyQt5             | skip               | 5.15 (with extras)         | 5.15               | 5.15                       |
+|         | PyQt6             | skip               | 6.8 (with extras)          | skip (unavailable) | 6.8                        |
+|         | PySide2           | skip               | skip (no wheels available) | skip (unavailable) | skip (no wheels available) |
+|         | PySide6           | skip               | 6.8                        | 6.8                | 6.8                        |
 
 **Note**: The mentioned extra packages for the PyQt bindings are the following:
 
